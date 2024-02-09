@@ -111,9 +111,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Game\Clear\ClearCar.cpp" />
-    <ClCompile Include="Game\Car\Front_right_tire\Front_right_tire.cpp" />
-    <ClCompile Include="Game\Car\Front_left_tire\Front_left_tire.cpp" />
-    <ClCompile Include="Game\Floor\Floor.cpp" />
     <ClCompile Include="Game\Car\Car.cpp" />
     <ClCompile Include="Engine\Audio\Audio.cpp" />
     <ClCompile Include="Engine\Adapter\Engine.cpp" />
@@ -151,23 +148,11 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Interface\PSOProperty.cpp" />
     <ClCompile Include="Engine\Interface\PSOParticle.cpp" />
     <ClCompile Include="Engine\3d\Particle.cpp" />
-    <ClCompile Include="Game\Skydome\Skydome.cpp" />
     <ClCompile Include="Game\Effect\SceneEffect.cpp" />
-    <ClCompile Include="Game\Scene\Slect.cpp" />
-    <ClCompile Include="Game\Scene\SlectScene.cpp" />
-    <ClCompile Include="Game\Scene\Stage1.cpp" />
-    <ClCompile Include="Game\Scene\Stage2.cpp" />
-    <ClCompile Include="Game\Scene\Stage3.cpp" />
-    <ClCompile Include="Game\Car\Rear_left_tire\Rear_left_tire.cpp" />
-    <ClCompile Include="Game\Car\Rear_right_tire\Rear_right_tire.cpp" />
-    <ClCompile Include="Game\Tree\Tree.cpp" />
     <ClCompile Include="Game\Title\TitleCar.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game\Clear\ClearCar.h" />
-    <ClInclude Include="Game\Car\Front_right_tire\Front_right_tire.h" />
-    <ClInclude Include="Game\Car\Front_left_tire\Front_left_tire.h" />
-    <ClInclude Include="Game\Floor\Floor.h" />
     <ClInclude Include="Game\Car\Car.h" />
     <ClInclude Include="Engine\Audio\Audio.h" />
     <ClInclude Include="Engine\3d\DirectionLight.h" />
@@ -218,16 +203,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Interface\PSOProperty.h" />
     <ClInclude Include="Engine\Interface\PSOParticle.h" />
     <ClInclude Include="Engine\3d\Particle.h" />
-    <ClInclude Include="Game\Skydome\Skydome.h" />
     <ClInclude Include="Game\Effect\SceneEffect.h" />
-    <ClInclude Include="Game\Scene\Slect.h" />
-    <ClInclude Include="Game\Scene\SlectScene.h" />
-    <ClInclude Include="Game\Scene\Stage1.h" />
-    <ClInclude Include="Game\Scene\Stage2.h" />
-    <ClInclude Include="Game\Scene\Stage3.h" />
-    <ClInclude Include="Game\Car\Rear_left_tire\Rear_left_tire.h" />
-    <ClInclude Include="Game\Car\Rear_right_tire\Rear_right_tire.h" />
-    <ClInclude Include="Game\Tree\Tree.h" />
     <ClInclude Include="Game\Title\TitleCar.h" />
   </ItemGroup>
   <ItemGroup>

@@ -7,7 +7,6 @@
 #include "Model.h"
 #include "TextureManager.h"
 #include "../Car/Car.h"
-#include "../Floor/Floor.h"
 #include "Particle.h"
 #include "Audio.h"
 #define STAGE_MAX 10
@@ -27,7 +26,6 @@ private:
 	Input* input_ = nullptr;
 	Camera* camera_ = nullptr;
 	Car* car_ = nullptr;
-	Floor* floor_ = nullptr;
 	Sprite* PushSprite_ = nullptr;
 	Sprite* SlectSprite_ = nullptr;
 	Model* Pushmodel_ = {};

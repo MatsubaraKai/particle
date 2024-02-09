@@ -41,9 +41,6 @@
     <Filter Include="Game\scene">
       <UniqueIdentifier>{c8002e49-f151-4c72-9639-fc2bef54b2bb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\Item">
-      <UniqueIdentifier>{2b159ae9-f4bc-4210-bd99-7a642188329c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Lib">
       <UniqueIdentifier>{4195a8e2-b241-47f6-804f-024982cc95cd}</UniqueIdentifier>
     </Filter>
@@ -87,15 +84,6 @@
     </ClCompile>
     <ClCompile Include="Engine\Adapter\Engine.cpp">
       <Filter>Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Floor\Floor.cpp">
-      <Filter>Game\Item</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Car\Front_left_tire\Front_left_tire.cpp">
-      <Filter>Game\car</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Car\Front_right_tire\Front_right_tire.cpp">
-      <Filter>Game\car</Filter>
     </ClCompile>
     <ClCompile Include="Game\Scene\GameManager.cpp">
       <Filter>Game\scene</Filter>
@@ -157,38 +145,14 @@
     <ClCompile Include="Engine\Interface\PSOSprite.cpp">
       <Filter>Interface</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Car\Rear_left_tire\Rear_left_tire.cpp">
-      <Filter>Game\car</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Car\Rear_right_tire\Rear_right_tire.cpp">
-      <Filter>Game\car</Filter>
-    </ClCompile>
     <ClCompile Include="Game\Effect\SceneEffect.cpp">
       <Filter>Game\Effect</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Skydome\Skydome.cpp">
-      <Filter>Game\Item</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Scene\Slect.cpp">
-      <Filter>Game\scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Scene\SlectScene.cpp">
-      <Filter>Game\scene</Filter>
     </ClCompile>
     <ClCompile Include="Engine\2d\Sprite.cpp">
       <Filter>Engine\2d</Filter>
     </ClCompile>
     <ClCompile Include="Engine\3d\Sphere.cpp">
       <Filter>Engine\3d</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Scene\Stage1.cpp">
-      <Filter>Game\scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Scene\Stage2.cpp">
-      <Filter>Game\scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Scene\Stage3.cpp">
-      <Filter>Game\scene</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Interface\TextureManager.cpp">
       <Filter>Interface</Filter>
@@ -198,9 +162,6 @@
     </ClCompile>
     <ClCompile Include="Game\Title\TitleCar.cpp">
       <Filter>Game\car</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Tree\Tree.cpp">
-      <Filter>Game\Item</Filter>
     </ClCompile>
     <ClCompile Include="Engine\3d\Triangle.cpp">
       <Filter>Engine\3d</Filter>
@@ -257,15 +218,6 @@
     </ClInclude>
     <ClInclude Include="Engine\Adapter\Engine.h">
       <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Floor\Floor.h">
-      <Filter>Game\Item</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Car\Front_left_tire\Front_left_tire.h">
-      <Filter>Game\car</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Car\Front_right_tire\Front_right_tire.h">
-      <Filter>Game\car</Filter>
     </ClInclude>
     <ClInclude Include="Game\Scene\ClearScene.h">
       <Filter>Game\scene</Filter>
@@ -345,21 +297,6 @@
     <ClInclude Include="Game\Effect\SceneEffect.h">
       <Filter>Game\Effect</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Skydome\Skydome.h">
-      <Filter>Game\Item</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Scene\Slect.h">
-      <Filter>Game\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Scene\SlectScene.h">
-      <Filter>Game\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Car\Rear_left_tire\Rear_left_tire.h">
-      <Filter>Game\car</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Car\Rear_right_tire\Rear_right_tire.h">
-      <Filter>Game\car</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\3d\ResourceObject.h">
       <Filter>Math</Filter>
     </ClInclude>
@@ -369,23 +306,11 @@
     <ClInclude Include="Engine\3d\Sphere.h">
       <Filter>Engine\3d</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Scene\Stage1.h">
-      <Filter>Game\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Scene\Stage2.h">
-      <Filter>Game\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Scene\Stage3.h">
-      <Filter>Game\scene</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Interface\TextureManager.h">
       <Filter>Interface</Filter>
     </ClInclude>
     <ClInclude Include="Game\Scene\TitleScene.h">
       <Filter>Game\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Tree\Tree.h">
-      <Filter>Game\Item</Filter>
     </ClInclude>
     <ClInclude Include="Lib\math\TransformationMatrix.h">
       <Filter>Math</Filter>

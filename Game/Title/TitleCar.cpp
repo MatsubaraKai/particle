@@ -67,14 +67,6 @@ void TitleCar::Update() {
 
 	}
 
-	//worldTransform_.translation_.z += Speed;
-	/*if (input->PushKey(DIK_LSHIFT)) {
-		Speed = ShiftSpeed;
-	}*/
-	/*else
-	{
-		Speed = NormalSpeed;
-	}*/
 	if (worldTransform_.translation_.x >= 100.0f) {
 		worldTransform_.translation_.x = 100.0f;
 	}
@@ -104,15 +96,6 @@ void TitleCar::Update() {
 	}
 
 	worldTransform_.UpdateMatrix();
-
-	ImGui::Begin("Demo_Car");
-	ImGui::DragFloat3("translation_", (float*)&worldTransform_.translation_, 0.01f, -100.0f, 100.0f);
-	ImGui::DragFloat3("rotation_", (float*)&worldTransform_.rotation_, 0.01f, -100.0f, 100.0f);
-	ImGui::DragFloat3("scale_", (float*)&worldTransform_.scale_, 0.01f, -100.0f, 100.0f);
-	ImGui::DragFloat4("color", &color.x, 0.01f);
-	ImGui::Text("%f", theta);
-	ImGui::Text("%f", rotate_);
-	ImGui::End();
 	//Audio::SoundLoopWave(Audio::GetIXAudio().Get(), soundData);
 }
 

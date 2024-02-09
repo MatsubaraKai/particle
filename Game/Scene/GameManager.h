@@ -5,9 +5,7 @@
 #include "TitleScene.h"
 #include "ClearScene.h"
 #include "Input.h"
-#include "Slect.h"
-#include"Stage1.h"
-#include"Stage2.h"
+
 //#include "Input.h"
 class GameManager
 {

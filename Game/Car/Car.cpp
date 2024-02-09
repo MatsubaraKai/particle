@@ -105,15 +105,6 @@ void Car::Update() {
 
 	worldTransform_.UpdateMatrix();
 
-	ImGui::Begin("Demo_Car");
-	ImGui::DragFloat3("translation_", (float*)&worldTransform_.translation_, 0.01f, -100.0f, 100.0f);
-	ImGui::DragFloat3("rotation_", (float*)&worldTransform_.rotation_, 0.01f, -100.0f, 100.0f);
-	ImGui::DragFloat3("scale_", (float*)&worldTransform_.scale_, 0.01f, -100.0f, 100.0f);
-	ImGui::DragFloat4("color", &color.x, 0.01f);
-	ImGui::Text("%f", theta);
-	ImGui::Text("%f", rotate_);
-	ImGui::End();
-	//Audio::SoundLoopWave(Audio::GetIXAudio().Get(), soundData);
 }
 
 void Car::Draw(Camera* camera) {

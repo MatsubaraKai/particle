@@ -1,14 +1,11 @@
 #include "TitleScene.h"
 #include "ImGuiCommon.h"
 
-
 void TitleScene::Init()
 {
 	camera = new Camera;
 	camera->Initialize();
 	input = Input::GetInstance();
-
-	
 	sprite = new Sprite();
 	sprite->Initialize({1.0f,1.0f,1.0f,1.0f});
 	textureHandle = TextureManager::StoreTexture("Resources/Title.png");
@@ -16,11 +13,8 @@ void TitleScene::Init()
 
 void TitleScene::Update()
 {
-	
-	sceneTime++;
 	if (input->TriggerKey(DIK_SPACE)) {
 		sceneNo = CLEAR;
-		sceneTime = 0;
 	}
 	////カメラの更新
 	camera->Update();
@@ -34,7 +28,6 @@ void TitleScene::Draw()
 }
 
 void TitleScene::Release() {
-	delete car_;
 }
 
 // ゲームを終了

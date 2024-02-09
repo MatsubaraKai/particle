@@ -66,12 +66,7 @@ void ClearScene::Init()
 void ClearScene::Update()
 {
 	XINPUT_STATE joyState{};
-	ImGui::Begin("Demo");
-	ImGui::DragFloat3("CameraTranslate", &cameraPos.x,0.1f);
-	ImGui::Text("Push A D ModelMoveX");
-	ImGui::Text("GamePad ThumbLY ModelMoveY");
-	ImGui::Text("Trigger L Sound");
-	
+	ImGui::Begin("MOVE:AD");
 	ImGui::End();
 	worldTransform_.scale_ = { 1.0f,1.0f,1.0f };
 	worldTransform_.UpdateMatrix();

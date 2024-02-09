@@ -15,13 +15,11 @@ public:
 	void Draw()override;
 	void Release()override;
 	int GameClose()override;
-	
 
 private:
 	int sceneTime = 0;
 	Camera* camera = nullptr;
 	Input* input = nullptr;
-	TitleCar* car_ = nullptr;
 	Sprite* sprite = nullptr;
 	uint32_t textureHandle;
 };

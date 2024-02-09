@@ -28,7 +28,6 @@ GameManager::GameManager() {
 	// 各シーンの排列
 	sceneArr_[TITLE] = std::make_unique<TitleScene>();
 	sceneArr_[STSGE1] = std::make_unique<GameScene>();
-	sceneArr_[STAGE2] = std::make_unique<Stage2>();
 	sceneArr_[CLEAR] = std::make_unique<ClearScene>();
 
 	// 初期シーンの設定
@@ -38,7 +37,7 @@ GameManager::GameManager() {
 
 GameManager::~GameManager() {}
 
-const char kWindowTitle[] = "LE2B_05_オイカワユウマ";
+const char kWindowTitle[] = "particle";
 
 int GameManager::Run() {
 	//DirectXCommon::D3DResourceLeakChecker leakCheck;
@@ -79,12 +78,6 @@ int GameManager::Run() {
 		// ゲームの処理の開始
 		sDirctX->BeginFrame();
 		sInput->Update();
-
-		ImGui::Begin("StatePattern");
-		ImGui::Text("%d", IScene::GetSceneNo());
-		ImGui::Text("Trriger SPACE SceneChange");
-		ImGui::End();
-
 		// シーンのチェック
 		prevSceneNo_ = currentSceneNo_;
 		currentSceneNo_ = sceneArr_[currentSceneNo_]->GetSceneNo();
