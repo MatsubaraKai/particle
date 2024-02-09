@@ -25,21 +25,17 @@ private:
 	Input* input_ = nullptr;
 	Camera* camera_ = nullptr;
 	Car* car_ = nullptr;
-	Sprite* PushSprite_ = nullptr;
 	Sprite* sprite_ = nullptr;
-	Model* Pushmodel_ = {};
 	Model* model2_ = {};
 	Model* model_ = nullptr;
 	Vector4 color = { 1,1,1,1 };
 
 	uint32_t texture_ = 1;
 	uint32_t texture2_ = 1;
-	uint32_t PushTexture_ = 1;
 
 	WorldTransform modelWorldTransform_ = {};
 	WorldTransform modelWorldTransform2_ = {};
 	WorldTransform worldTransform_ = {};
-	WorldTransform PushTransform_ = {};
 
 	Particle* particle = nullptr;
 

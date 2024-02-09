@@ -2,7 +2,6 @@
 #include "ImGuiCommon.h"
 void ClearScene::Init()
 {
-	
 	int Width = 0;
 	int Height = 0;
 
@@ -10,18 +9,14 @@ void ClearScene::Init()
 	camera_ = new Camera;
 	camera_->Initialize();
 	texture_ = TextureManager::GetInstance()->StoreTexture("Resources/uvChecker.png");
-	PushTexture_ = TextureManager::GetInstance()->StoreTexture("Resources/BLUE.png");
 	model2_ = new Model();
 	model2_->Initialize("Resources/box", "box.obj", color);
 	sprite_ = new Sprite;
 	sprite_->Initialize(color);
 
 	SelectNumber = 0;
-
-	PushTransform_.Initialize();
 	model_ = new Model();
 	model_->Initialize("Resources/box", "box.obj", color);
-
 
 	lightEmitter_.count = 16;
 	lightEmitter_.frequency = 0.001f;
@@ -77,7 +72,6 @@ void ClearScene::Update()
 	}
 	if (Input::GetInstance()->PushKey(DIK_RIGHTARROW)) {
 		modelWorldTransform2_.translation_.x += 0.1f;
-
 	}
 
 	if (Input::GetInstance()->TriggerKey(DIK_SPACE)) {
@@ -86,7 +80,6 @@ void ClearScene::Update()
 	}
 	modelWorldTransform_.UpdateMatrix();
 	modelWorldTransform2_.UpdateMatrix();
-	PushTransform_.UpdateMatrix();
 	
 	Vector2 size = {600.0f, 400.0f};
 	Vector2 pos = { 0.0f,0.0f };
@@ -96,7 +89,6 @@ void ClearScene::Update()
 	
 	camera_->SetCameraPosition(cameraPos);
 	camera_->Update();
-
 }
 void ClearScene::Draw()
 {
@@ -104,7 +96,6 @@ void ClearScene::Draw()
 	model_->Draw(modelWorldTransform_, texture_, camera_, color);
 	particle->Draw(lightEmitter_, { worldTransform_.translation_.x ,worldTransform_.translation_.y ,worldTransform_.translation_.z  }, texture_, camera_, rear, true);
 	sprite_->Draw(texture_, color);
-
 }
 
 void ClearScene::Release() {
