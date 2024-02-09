@@ -157,9 +157,6 @@ void Particle::Initialize(Emitter emitter) {
 	emitter_.frequency = 0.02f;// 0.5秒ごとに発生
 	emitter_.frequencyTime = 0.0f;// 発生頻度用の時刻、0で初期化
 };
-//void Sprite::Update() {
-//
-//};
 
 void Particle::Draw(Emitter emitter,const Vector3& worldTransform, uint32_t texture,  Camera* camera, const RandRangePro& randRange,bool scaleAddFlag) {
 	pso_ = PSOParticle::GatInstance();
@@ -207,7 +204,7 @@ void Particle::Draw(Emitter emitter,const Vector3& worldTransform, uint32_t text
 		}
 		(*particleIterator).currentTime += kDeltaTime;
 		// (*particleIterator).color = { 1.0f,1.0f,1.0f,1.0f };
-		float alpha = 0.5f - ((*particleIterator).currentTime / (*particleIterator).lifeTime);
+		float alpha = 5.0f - ((*particleIterator).currentTime / (*particleIterator).lifeTime);
 		//transforms_[index].rotate.x += 0.1f;
 		Matrix4x4 worldMatrix = Multiply(MakeScaleMatrix((*particleIterator).transform.scale), Multiply(billboardMatrix, MakeTranslateMatrix((*particleIterator).transform.translate)));
 		//Matrix4x4 worldViewProjectionMatrixSprite = Multiply(worldMatrixSprite, Multiply(viewMatrixSprite, projectionMatrixSprite));
@@ -251,7 +248,7 @@ Particle::ParticlePro Particle::MakeNewParticle(std::mt19937& randomEngine, cons
 	std::uniform_real_distribution<float> distriposX(ran.rangeX.x, ran.rangeX.y);//distriposX(-0.7f, -0.3
 	std::uniform_real_distribution<float> distriposY(ran.rangeY.x,ran.rangeY.y );//  distriposY(0.2f, 0.5f)
 	std::uniform_real_distribution<float> distriposZ(ran.rangeZ.x, ran.rangeZ.y);// distriposZ(-0.5f, 0.3f
-	//std::uniform_real_distribution<float> distColor(0.0f, 1.0f);
+	std::uniform_real_distribution<float> distColor(0.0f, 1.0f);
 	std::uniform_real_distribution<float> distTime(0.0f, 1.5f);
 
 	Particle::ParticlePro particle;
