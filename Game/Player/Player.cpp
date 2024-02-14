@@ -14,9 +14,6 @@ void Player::Init() {
 	input = Input::GetInstance();
 	worldTransform_.Initialize();
 	texture_ = TextureManager::StoreTexture("Resources/circle.png");
-	texture2_ = TextureManager::StoreTexture("Resources/monsterBall.png");
-	soundData = Audio::SoundLoadWave("Resources/fanfare.wav");
-	soundData2 = Audio::SoundLoadWave("Resources/fanfare.wav");
 	model_ = new Model();
 	model_->Initialize("Resources/demo_car","demo_cube.obj",color);
 	//particle = new Particle();
@@ -26,9 +23,6 @@ void Player::Init() {
 }
 
 void Player::Update() {
-	
-
-
 
 	if (input->PushKey(DIK_W)) {
 		worldTransform_.translation_.z+= 0.5f;
@@ -60,5 +54,4 @@ void Player::Draw(Camera *camera) {
 
 void Player::Release()
 {
-	Audio::SoundUnload(soundData2);
 }

@@ -29,10 +29,6 @@ GameManager::GameManager() {
 	sceneArr_[TITLE] = std::make_unique<TitleScene>();
 	sceneArr_[STSGE1] = std::make_unique<GameScene>();
 	sceneArr_[CLEAR] = std::make_unique<ClearScene>();
-
-	// 初期シーンの設定
-	//sceneNo_ = TITLE; //GameManagerのクラスにISceneを継承させて触れるようにしているため正しいかは怪しい
-	//input_ = Input::GetInstance();
 }
 
 GameManager::~GameManager() {}
@@ -121,10 +117,6 @@ int GameManager::Run() {
 	//出力ウィンドウへの文字出力
 	OutputDebugStringA("Hello,DirectX!\n");
 
-
-	/*------------------------------------------------------------
-
-	-------------------------------------------------------------*/
 	sWinAPI->Finalize();
 	//delete sWinAPI;
 	sDirctX->Release();

@@ -35,9 +35,6 @@
     <Filter Include="Game">
       <UniqueIdentifier>{395d3d09-747e-423a-82a5-22ceb1d6f686}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\car">
-      <UniqueIdentifier>{4055fba8-844e-4c19-bf36-44981e55b6e6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\scene">
       <UniqueIdentifier>{c8002e49-f151-4c72-9639-fc2bef54b2bb}</UniqueIdentifier>
     </Filter>
@@ -46,9 +43,6 @@
     </Filter>
     <Filter Include="Game\player">
       <UniqueIdentifier>{8cb40425-3aa5-4bfb-8b12-f5abcb46b70e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Effect">
-      <UniqueIdentifier>{f6e5c232-4658-48d8-a7a6-59a96437dbe7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -72,12 +66,6 @@
     </ClCompile>
     <ClCompile Include="Engine\3d\Camera.cpp">
       <Filter>Engine\3d</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Car\Car.cpp">
-      <Filter>Game\car</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Clear\ClearCar.cpp">
-      <Filter>Game\car</Filter>
     </ClCompile>
     <ClCompile Include="Game\Scene\ClearScene.cpp">
       <Filter>Game\scene</Filter>
@@ -145,9 +133,6 @@
     <ClCompile Include="Engine\Interface\PSOSprite.cpp">
       <Filter>Interface</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Effect\SceneEffect.cpp">
-      <Filter>Game\Effect</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\2d\Sprite.cpp">
       <Filter>Engine\2d</Filter>
     </ClCompile>
@@ -159,9 +144,6 @@
     </ClCompile>
     <ClCompile Include="Game\Scene\TitleScene.cpp">
       <Filter>Game\scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Title\TitleCar.cpp">
-      <Filter>Game\car</Filter>
     </ClCompile>
     <ClCompile Include="Engine\3d\Triangle.cpp">
       <Filter>Engine\3d</Filter>
@@ -203,12 +185,6 @@
     </ClInclude>
     <ClInclude Include="Engine\Audio\Audio.h">
       <Filter>Interface</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Car\Car.h">
-      <Filter>Game\car</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Clear\ClearCar.h">
-      <Filter>Game\car</Filter>
     </ClInclude>
     <ClInclude Include="Engine\3d\DirectionLight.h">
       <Filter>Math</Filter>
@@ -294,9 +270,6 @@
     <ClInclude Include="Engine\Interface\PSOSprite.h">
       <Filter>Interface</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Effect\SceneEffect.h">
-      <Filter>Game\Effect</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\3d\ResourceObject.h">
       <Filter>Math</Filter>
     </ClInclude>
@@ -326,9 +299,6 @@
     </ClInclude>
     <ClInclude Include="Lib\math\VertexData.h">
       <Filter>Math</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Title\TitleCar.h">
-      <Filter>Game\car</Filter>
     </ClInclude>
     <ClInclude Include="Engine\2d\ImGuiCommon.h">
       <Filter>Engine\2d</Filter>
