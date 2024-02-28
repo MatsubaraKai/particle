@@ -36,7 +36,6 @@ void Sprite::Initialize(const Vector4& color) {
 	vertexDataSprite_[1].texcorrd = { 0.0f,0.0f };
 	vertexDataSprite_[2].position = { 1.0f,1.0f,0.0f,1.0f }; // 右下
 	vertexDataSprite_[2].texcorrd = { 1.0f,1.0f };
-
 	vertexDataSprite_[3].position = { 1.0f,0.0f,0.0f,1.0f }; // 右上
 	vertexDataSprite_[3].texcorrd = { 1.0f,0.0f };
 
@@ -87,9 +86,6 @@ void Sprite::Initialize(const Vector4& color) {
 		{0.0f,0.0f,0.0f},
 		{0.0f,0.0f,0.0f}
 	};
-
-	
-
 };
 void Sprite::Update() {
 	transform_.translate = { position_.x,position_.y ,0.0f };
@@ -124,9 +120,6 @@ void Sprite::Draw(uint32_t texture, const Vector4& color) {
 	sDirectXCommon->GetCommandList()->DrawIndexedInstanced(6, 1, 0, 0, 0);
 }
 
-
-
-
 D3D12_VERTEX_BUFFER_VIEW Sprite::CreateBufferView() {
 	D3D12_VERTEX_BUFFER_VIEW view{};
 
@@ -136,7 +129,6 @@ D3D12_VERTEX_BUFFER_VIEW Sprite::CreateBufferView() {
 	view.SizeInBytes = sizeof(VertexData) * 6;
 	// 1頂点あたりのサイズ
 	view.StrideInBytes = sizeof(VertexData);
-
 
 	return view;
 };

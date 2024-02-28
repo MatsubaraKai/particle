@@ -66,7 +66,6 @@ private:
 	TransformationMatrix* transformationMatrixDataSprite = nullptr;
 
 	//Transform transform_;
-	
 	//D3D12_DESCRIPTOR_RANGE descriptorRange_[1] = {};
 
 	// RootParmeter作成。複数でっていできるので配列。今回は結果１つだけなので長さ1の配列
@@ -75,7 +74,6 @@ private:
 	uint32_t* indexDataSprite;
 	Microsoft::WRL::ComPtr < ID3D12Resource> indexResourceSprite;
 	D3D12_INDEX_BUFFER_VIEW indexBufferViewSprite{};
-
 
 	// 実際に頂点リソースを作る
 	Microsoft::WRL::ComPtr <ID3D12Resource> materialResource;
@@ -90,6 +88,5 @@ private:
 	// データを書き込む
 	DirectionalLight* directionalLightData;
 	Transform transformUv;
-
 };
 
