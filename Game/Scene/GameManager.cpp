@@ -33,13 +33,13 @@ GameManager::GameManager() {
 
 GameManager::~GameManager() {}
 
-const char kWindowTitle[] = "particle";
+const char kWindowTitle[] = "Scene";
 
 int GameManager::Run() {
 	//DirectXCommon::D3DResourceLeakChecker leakCheck;
 
 	WinAPI* sWinAPI = WinAPI::GetInstance();
-	sWinAPI->Initialize(L"particle");
+	sWinAPI->Initialize(L"Scene");
 
 	DirectXCommon* sDirctX = DirectXCommon::GetInstance();
 	sDirctX->Initialize();
