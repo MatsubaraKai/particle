@@ -1,5 +1,6 @@
 #include "ClearScene.h"
 #include "ImGuiCommon.h"
+
 void ClearScene::Init()
 {
 	int Width = 0;
