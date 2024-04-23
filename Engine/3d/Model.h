@@ -26,6 +26,10 @@
 #include <sstream>
 #include <cassert>
 
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
+
 #pragma comment(lib,"d3d12.lib")
 #pragma comment(lib,"dxgi.lib")
 #pragma comment(lib,"dxcompiler.lib")
@@ -51,6 +55,7 @@ public:
 		textureManager_ = textureManager;
 	}
 	ModelData LoadObjFile(const std::string& directoryPath, const std::string& filename);
+	Animation LoadAnimationFile(const std::string& directoryPath, const std::string& filename);
 	MaterialData LoadMaterialTemplateFile(const std::string& directoryPath,const std::string& filename);
 private:
 	HRESULT hr;
@@ -65,6 +70,10 @@ private:
 	D3D12_VERTEX_BUFFER_VIEW vertexBufferView_{};
 
 	VertexData* vertexData_;
+
+	bool isKeyframeAnim_ = false;//KeyframeAnimationかどうか
+	float animationTime_ = 0.0f;
+	Animation animation_;
 
 	/*色用*/
 //頂点リソースの設定
