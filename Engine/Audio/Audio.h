@@ -1,15 +1,14 @@
 #pragma once
 #include <xaudio2.h>
-#pragma comment(lib,"xaudio2.lib")
 #include <fstream>
 #include <wrl.h>
 #include <set>
 #include <convertString.h>
-
 #include <mfapi.h>
 #include <mfidl.h>
 #include <mfreadwrite.h>
 
+#pragma comment(lib,"xaudio2.lib")
 #pragma comment(lib, "Mf.lib")
 #pragma comment(lib, "mfplat.lib")
 #pragma comment(lib, "Mfreadwrite.lib")

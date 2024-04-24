@@ -13,11 +13,13 @@ void TitleScene::Init()
 	audio_ = Audio::GetInstance();
 	soundData1_ = audio_->SoundLoad("Resources/mp3test.mp3");
 	//音声再生
-	audio_->SoundPlayWave(soundData1_, 0.1f, true);
+	audio_->SoundPlayWave(soundData1_, 0.1f, false);
+
 }
 
 void TitleScene::Update()
 {
+
 	if (input->TriggerKey(DIK_SPACE)) {
 		sceneNo = CLEAR;
 	}
@@ -27,14 +29,7 @@ void TitleScene::Update()
 	sprite->SetSize({ 1280.0f,720.0f });
 	sprite->Update();
 
-	if (input->PushKey(DIK_A)) {
-		OutputDebugStringA("Press A\n");
-		audio_->SoundStopWave(&soundData1_);
-	}
-	if (input->TriggerKey(DIK_D)) {
-		OutputDebugStringA("Trigger D\n");
-		audio_->SoundPlayWave(soundData1_, 0.1f, false);
-	}
+	
 
 }
 void TitleScene::Draw()
@@ -43,7 +38,6 @@ void TitleScene::Draw()
 }
 
 void TitleScene::Release() {
-	audio_->SoundUnload(&soundData1_);
 }
 
 // ゲームを終了

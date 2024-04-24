@@ -1,4 +1,4 @@
-﻿#include "ConvertString.h"
+﻿#include "convertString.h"
 
 std::wstring ConvertString(const std::string& str) {
 	if (str.empty()) {
