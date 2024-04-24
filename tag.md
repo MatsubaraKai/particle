@@ -1,7 +1,7 @@
 # tag作成
 
 # アノテーション付きでタグ作成
-$ git tag -a v1.0.0 -m "CG4_02_"
+$ git tag -a v1.0.0 -m "CG4_02"
 
 # tagをpush
 
