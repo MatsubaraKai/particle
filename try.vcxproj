@@ -250,6 +250,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </None>
     <None Include="Sprite.hlsli" />
+    <None Include="tag.md" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Engine\Externals\DirectXTex\DirectXTex_Desktop_2022_Win10.vcxproj">

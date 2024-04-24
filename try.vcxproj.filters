@@ -339,6 +339,7 @@
     <None Include="Sprite.hlsli">
       <Filter>Resource\Shader</Filter>
     </None>
+    <None Include="tag.md" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="imgui\LICENSE.txt" />
