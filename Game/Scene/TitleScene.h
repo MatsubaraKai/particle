@@ -16,9 +16,9 @@ public:
 	void Draw()override;
 	void Release()override;
 	int GameClose()override;
-	uint32_t GetAudio() { return Audiohandle_; };
 private:
-	uint32_t Audiohandle_ = 0;
+	Audio* audio_;
+	SoundData soundData1_;
 	int sceneTime = 0;
 	Camera* camera = nullptr;
 	Input* input = nullptr;

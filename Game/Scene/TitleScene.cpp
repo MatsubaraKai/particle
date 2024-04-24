@@ -9,8 +9,11 @@ void TitleScene::Init()
 	sprite = new Sprite();
 	sprite->Initialize({1.0f,1.0f,1.0f,1.0f});
 	textureHandle = TextureManager::StoreTexture("Resources/Title.png");
-	Audiohandle_ = Audio::SoundLoadWave("Resources/mp3test.mp3");
-	Audio::SoundPlayWave(Audio::GetInstance()->GetIXAudio().Get(), Audiohandle_, true);
+	//Audio
+	audio_ = Audio::GetInstance();
+	soundData1_ = audio_->SoundLoad("Resources/mp3test.mp3");
+	//音声再生
+	audio_->SoundPlayWave(soundData1_, 0.1f, true);
 }
 
 void TitleScene::Update()
@@ -24,6 +27,15 @@ void TitleScene::Update()
 	sprite->SetSize({ 1280.0f,720.0f });
 	sprite->Update();
 
+	if (input->PushKey(DIK_A)) {
+		OutputDebugStringA("Press A\n");
+		audio_->SoundStopWave(&soundData1_);
+	}
+	if (input->TriggerKey(DIK_D)) {
+		OutputDebugStringA("Trigger D\n");
+		audio_->SoundPlayWave(soundData1_, 0.1f, false);
+	}
+
 }
 void TitleScene::Draw()
 {
@@ -31,8 +43,7 @@ void TitleScene::Draw()
 }
 
 void TitleScene::Release() {
-	Audio::SoundStopWave(Audio::GetInstance()->GetIXAudio().Get(), Audiohandle_);
-	Audio::SoundUnload(Audiohandle_);
+	audio_->SoundUnload(&soundData1_);
 }
 
 // ゲームを終了

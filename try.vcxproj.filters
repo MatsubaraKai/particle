@@ -154,6 +154,7 @@
     <ClCompile Include="Engine\2d\ImGuiCommon.cpp">
       <Filter>Engine\2d</Filter>
     </ClCompile>
+    <ClCompile Include="Lib\Utility\convertString.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Lib\utility\function.h">
@@ -303,6 +304,7 @@
     <ClInclude Include="Engine\2d\ImGuiCommon.h">
       <Filter>Engine\2d</Filter>
     </ClInclude>
+    <ClInclude Include="Lib\Utility\convertString.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Object3d.PS.hlsl">

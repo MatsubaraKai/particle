@@ -1,77 +1,64 @@
 #pragma once
 #include <xaudio2.h>
+#pragma comment(lib,"xaudio2.lib")
 #include <fstream>
 #include <wrl.h>
+#include <set>
+#include <convertString.h>
 
-#pragma comment(lib,"xaudio2.lib")
-// 音声データ
+#include <mfapi.h>
+#include <mfidl.h>
+#include <mfreadwrite.h>
+
+#pragma comment(lib, "Mf.lib")
+#pragma comment(lib, "mfplat.lib")
+#pragma comment(lib, "Mfreadwrite.lib")
+#pragma comment(lib, "mfuuid.lib")
+
 struct SoundData {
-	// 波形フォーマット
-	WAVEFORMATEX wfek;
-	// バッファの先頭アドレス
+	//波形フォーマット
+	WAVEFORMATEX wfex;
+	//バッファの先頭アドレス
 	BYTE* pBuffer;
-	// バッファのサイズ
+	//バッファのサイズ
 	unsigned int bufferSize;
-
 };
-class Audio
-{
+
+//再生中の音声データ
+struct PlaySoundData {
+	SoundData* soundData = {};
+	IXAudio2SourceVoice* sourceVoice = nullptr;
+};
+
+class Audio {
 public:
 	static Audio* GetInstance();
 
-	Audio() = default;
-	~Audio() = default;
-	const Audio& operator=(const Audio&) = delete;
-
 	void Initialize();
-	void Update();
-	void Release();
 
-	// チャンクヘッダ
-	struct ChunkHeader {
-		char id[4]; // チャンク毎のID
-		int32_t size; // チャンクサイズ
-	};
+	//音声データの読み込み
+	SoundData SoundLoad(const char* filename);
 
-	// RIFFヘッダチャンク
-	struct RiffHeader {
-		ChunkHeader chunk; // "RIFF"
-		char type[4]; // "WAVE"
-	};
+	//音声データ解放
+	void SoundUnload(SoundData* soundData);
 
-	// FMTチャンク
-	struct FormatChunk
-	{
-		ChunkHeader chunk; // "fmt"
-		WAVEFORMATEX fmt; // 波形フォーマット
-	};
+	//音声再生
+	void SoundPlayWave(const SoundData& soundData, float AudioVolume, bool isLoop);
 
-	
+	//音声停止
+	void SoundStopWave(SoundData* soundData);
 
-	static uint32_t SoundLoadWave(const char* filename);
+	void Finalize();
 
-	static void SoundUnload(uint32_t audioHandle);
-
-	// 音声再生
-	static void SoundPlayWave(IXAudio2* xAudio2, uint32_t audioHandle, bool loopFlag);
-
-	// 音声再生
-	static void SoundStopWave(IXAudio2* xAudio2, uint32_t audioHandle);
-	static void SoundLoopWave(IXAudio2* xAudio2, const SoundData& soundData);
-
-	static Microsoft::WRL::ComPtr<IXAudio2> GetIXAudio() { return xAudio2_; };
+	Audio(const Audio& obj) = delete;
+	Audio& operator=(const Audio& obj) = delete;
 
 private:
-	static uint32_t soundHandle;
+	Audio() = default;
+	~Audio() = default;
 
-	const static uint32_t soundDataMaxSize = 100;
-	// namespace省略
-	template <class T>using ComPtr = Microsoft::WRL::ComPtr<T>;
-	static ComPtr<IXAudio2> xAudio2_;
+	Microsoft::WRL::ComPtr<IXAudio2> xAudio2_;
 	IXAudio2MasteringVoice* masterVoice_;
 
-	static IXAudio2SourceVoice* pSourceVoice[soundDataMaxSize];
-	static SoundData soundData[soundDataMaxSize];
-
+	std::set<PlaySoundData*> voices_;
 };
-

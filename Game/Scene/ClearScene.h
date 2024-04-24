@@ -47,5 +47,4 @@ private:
 
 	Vector3 cameraPos;
 };
-;
 
