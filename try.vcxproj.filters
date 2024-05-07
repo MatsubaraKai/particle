@@ -324,6 +324,8 @@
       <Filter>Resource\Shader</Filter>
     </FxCompile>
     <FxCompile Include="Grayscale.PS.hlsl" />
+    <FxCompile Include="CopyImage.PS.hlsl" />
+    <FxCompile Include="CopyImage.VS.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui\imgui.ini">
@@ -338,6 +340,7 @@
     <None Include="Sprite.hlsli">
       <Filter>Resource\Shader</Filter>
     </None>
+    <None Include="CopyImage.hlsli" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="imgui\LICENSE.txt" />
