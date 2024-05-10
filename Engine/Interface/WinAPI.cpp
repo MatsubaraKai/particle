@@ -59,7 +59,7 @@ void WinAPI::Initialize(const wchar_t* label) {
 		debugController_->EnableDebugLayer();
 		// さらにGPU側でもチェックを行うようにする
 		debugController_->SetEnableGPUBasedValidation(TRUE);
-}
+	}
 #endif
 
 	// ウィンドウを表示する
@@ -68,7 +68,7 @@ void WinAPI::Initialize(const wchar_t* label) {
 
 // 解放処理
 void WinAPI::Finalize() {
-	
+
 #ifdef _DEBUG
 	debugController_->Release();
 #endif

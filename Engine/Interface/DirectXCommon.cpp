@@ -1,9 +1,7 @@
 ﻿#include "DirectXCommon.h"
+
+#include <thread>
 #include "ImGuiCommon.h"
-#include "../../imgui/imgui.h"
-#include "../../imgui/imgui_impl_win32.h"
-#include "../../imgui/imgui_impl_dx12.h"
-#include "thread"
 
 /*----------------------------------------------------------
    このクラスはシングルトンパターンのを元に設計する
@@ -30,7 +28,7 @@ void DirectXCommon::Initialize() {
 	sWinAPI_ = WinAPI::GetInstance();
 	//deviceの生成
 	CreateDevice();
-	
+
 #ifdef _DEBUG
 	Microsoft::WRL::ComPtr<ID3D12InfoQueue> infoQueue = nullptr;
 	if (SUCCEEDED(device_->QueryInterface(IID_PPV_ARGS(&infoQueue)))) {
@@ -57,7 +55,7 @@ void DirectXCommon::Initialize() {
 
 		// 解放
 		infoQueue->Release();
-		}
+	}
 #endif
 
 	// Command関連の初期化
@@ -68,7 +66,7 @@ void DirectXCommon::Initialize() {
 
 	// ディスクリプタヒープの生成
 	CreateDescriptorHeap();
-	
+
 	// RTVの初期化
 	RTVInit();
 
@@ -86,9 +84,6 @@ void DirectXCommon::Initialize() {
 
 	// dxCompilerを初期化
 	CreateDXCCompilier();
-
-	imGuiCommon_= new ImGuiCommon;
-	imGuiCommon_->Initialize();
 };
 
 void DirectXCommon::BeginFrame() {
@@ -114,7 +109,8 @@ void DirectXCommon::BeginFrame() {
 	commandList_->ResourceBarrier(1, &barrier_);
 
 	//指定した色で画面全体をクリアする
-	float clearColor[] = { 0.1f,0.25f,0.5f,1.0f }; //青っぽい色。 RGBAの淳  0.1/0.25/0.5/1.0f
+	//float clearColor[] = { 0.1f,0.25f,0.5f,1.0f }; //青っぽい色。 RGBAの淳  0.1/0.25/0.5/1.0f
+	float clearColor[] = { 0.2f,0.5f,0.25f,1.0f }; //青っぽい色。 RGBAの淳  0.1/0.25/0.5/1.0f
 	commandList_->ClearRenderTargetView(rtvHandles_[backBufferIndex], clearColor, 0, nullptr);
 	dsvHandle = dsvDescriptorHeap_->GetCPUDescriptorHandleForHeapStart();
 	commandList_->OMSetRenderTargets(1, &rtvHandles_[backBufferIndex], false, &dsvHandle);
@@ -123,9 +119,9 @@ void DirectXCommon::BeginFrame() {
 	commandList_->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 
 	// ImGui
-	imGuiCommon_->UICreate();
+	ImGuiCommon::GetInstance()->UICreate();
 	//ImGuiの更新
-	imGuiCommon_->Update();
+	ImGuiCommon::GetInstance()->Update();
 	commandList_->RSSetViewports(1, &viewport);  //viewportを設定
 	commandList_->RSSetScissorRects(1, &scissorRect);    //Scirssorを設定:
 }
@@ -135,7 +131,7 @@ void DirectXCommon::BeginFrame() {
 void DirectXCommon::ViewChange() {
 	HRESULT hr;
 	//ImGuiの描画
-	imGuiCommon_->Draw();
+	ImGuiCommon::GetInstance()->Draw();
 	// これから書き込むバックバッファのインデックスを取得
 	UINT backBufferIndex = swapChain_->GetCurrentBackBufferIndex();
 	//ImGui_ImplDX12_RenderDrawData(ImGui::GetDrawData(), commandList);
@@ -151,7 +147,7 @@ void DirectXCommon::ViewChange() {
 	assert(SUCCEEDED(hr));
 
 	// GPUにコマンドリストの実行を行わせる
-	ID3D12CommandList* commandLists[] = { commandList_.Get()};
+	ID3D12CommandList* commandLists[] = { commandList_.Get() };
 	commandQueue_->ExecuteCommandLists(1, commandLists);
 
 	// GPUとOSに画面の交換を行うよう通知する
@@ -185,7 +181,7 @@ void DirectXCommon::ViewChange() {
 
 
 void DirectXCommon::Release() {
-	imGuiCommon_->Release();
+	ImGuiCommon::GetInstance()->Release();
 	CloseHandle(fenceEvent_);
 	CloseWindow(sWinAPI_->GetHwnd());
 }
@@ -291,7 +287,7 @@ void DirectXCommon::CreateDepth() {
 	// DepthStencilTextureをウィンドウのサイズで作成
 	depthStencilResource_ = CreateDepthStencilTextureResource(device_.Get(), sWinAPI_->GetKClientWidth(), sWinAPI_->GetKClientHeight());
 
-	
+
 	// DSVの設定
 	D3D12_DEPTH_STENCIL_VIEW_DESC dsvDesc{};
 	dsvDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT; // Format。基本的にはResourceに合わせる
@@ -310,16 +306,11 @@ void DirectXCommon::CreateDepth() {
 
 void DirectXCommon::CreateDescriptorHeap() {
 	HRESULT hr;
-	// ディスクリプタサイズの設定
-	rtvDescriptorSize_ = 2;
-	srvDescriptorSize_ = 128;
-	dsvDescriptorSize_ = 1;
+
 
 	// ディスクリプタヒープの生成
 	//RTV用のヒープでディスクリプタの数は2。RTVはSHADER内で触るものではないのでShaderVisibleはfalse
 	rtvDescriptorHeap_ = CreateDescriptorHeap(D3D12_DESCRIPTOR_HEAP_TYPE_RTV, rtvDescriptorSize_, false);
-	//SRV用のヒープでディスクリプタの数は128。SRVはShader内で触るものなので、ShaderVisibleはtrue
-	srvDescriptorHeap_ = CreateDescriptorHeap(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, srvDescriptorSize_, true);
 	// DSVようのヒープでディスクリプタの数は1。DSVはShader内で触るものではないので、ShaderVisibleはfalse
 	dsvDescriptorHeap_ = CreateDescriptorHeap(D3D12_DESCRIPTOR_HEAP_TYPE_DSV, dsvDescriptorSize_, false);
 
@@ -372,7 +363,7 @@ void DirectXCommon::ViewportInit() {
 	viewport.MaxDepth = 1.0f;
 
 
-	
+
 }
 
 void DirectXCommon::ScissorRectInit() {
@@ -486,6 +477,5 @@ DirectXCommon* DirectXCommon::GetInstance() {
 	static DirectXCommon instance;
 	return &instance;
 }
-
 
 

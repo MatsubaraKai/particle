@@ -1,7 +1,7 @@
 ﻿#include "ImGuiCommon.h"
 #include"WinAPI.h"
 #include"DirectXCommon.h"
-
+#include "SRVManager.h"
 #include "../../imgui/imgui.h"
 #include "../../imgui/imgui_impl_win32.h"
 #include "../../imgui/imgui_impl_dx12.h"
@@ -19,9 +19,9 @@ void ImGuiCommon::Initialize() {
 	ImGui_ImplDX12_Init(sDirectXCommon_->GetDevice().Get(),
 		sDirectXCommon_->GetSwapChainDesc().BufferCount,
 		sDirectXCommon_->GetrtvDesc().Format,
-		sDirectXCommon_->GetSrvDescriptorHeap().Get(),
-		sDirectXCommon_->GetSrvDescriptorHeap()->GetCPUDescriptorHandleForHeapStart(),
-		sDirectXCommon_->GetSrvDescriptorHeap()->GetGPUDescriptorHandleForHeapStart());
+		SRVManager::GetInstance()->GetDescriptorHeap().Get(),
+		SRVManager::GetInstance()->GetDescriptorHeap()->GetCPUDescriptorHandleForHeapStart(),
+		SRVManager::GetInstance()->GetDescriptorHeap()->GetGPUDescriptorHandleForHeapStart());
 
 }
 
@@ -43,11 +43,15 @@ void ImGuiCommon::Draw() {
 	ImGui_ImplDX12_RenderDrawData(ImGui::GetDrawData(), sDirectXCommon_->GetCommandList().Get());
 }
 
+ImGuiCommon* ImGuiCommon::GetInstance() {
+	static ImGuiCommon instance;
+	return &instance;
+}
 
 void ImGuiCommon::UICreate() {
 	//ImGui::Render();
 	//描画用のDescriptorの設定
-	ID3D12DescriptorHeap* descriptorHeaps[] = { sDirectXCommon_->GetSrvDescriptorHeap().Get()};
+	ID3D12DescriptorHeap* descriptorHeaps[] = { SRVManager::GetInstance()->GetDescriptorHeap().Get() };
 	sDirectXCommon_->GetCommandList()->SetDescriptorHeaps(1, descriptorHeaps);
 }
 

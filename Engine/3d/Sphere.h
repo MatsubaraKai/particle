@@ -1,6 +1,9 @@
 #pragma once
 #include<Windows.h>
 #include<d3d12.h>
+#pragma once
+#include<Windows.h>
+#include<d3d12.h>
 #include<dxgi1_6.h>
 #include<cassert>
 #include <dxcapi.h>
@@ -16,7 +19,7 @@
 #include "TransformationMatrix.h"
 #include "DirectionLight.h"
 #include "Mesh.h"
-#include "PSO.h"
+#include "PSOModel.h"
 
 #pragma comment(lib,"d3d12.lib")
 #pragma comment(lib,"dxgi.lib")
@@ -28,7 +31,7 @@ class TextureManager;
 class Camera;
 class Sphere
 {
-public :
+public:
 	Sphere();
 	~Sphere();
 	void Initialize(Camera* camera);
@@ -46,7 +49,7 @@ private:
 	PSO* pso_ = nullptr;
 	WinAPI* sWinAPI = nullptr;
 	DirectXCommon* sDirectXCommon_ = nullptr;
-	
+
 	TextureManager* textureManager_ = nullptr;
 
 	/*頂点用*/
@@ -69,7 +72,7 @@ private:
 
 	// 平行光源用
 	Microsoft::WRL::ComPtr < ID3D12Resource> directionalLightResource;
-	
+
 
 	/*移動用*/
 	// WVP用のリソースを作る。Matrix4x4 1つ分のサイズを用意する
@@ -86,15 +89,8 @@ private:
 	// シザー矩形
 	D3D12_RECT scissorRect{};
 
-
-
-
 	Camera* camera_ = nullptr;
-
-
-
-	
-
-
 };
+
+
 

@@ -3,7 +3,7 @@
 #include "DirectXCommon.h"
 #include "mathFunction.h"
 #include "Camera.h"
-
+#include "SRVManager.h"
 Sphere::Sphere() {
 
 }
@@ -13,11 +13,11 @@ Sphere::~Sphere() {
 }
 
 void Sphere::Initialize(Camera* camera) {
-sWinAPI = WinAPI::GetInstance();
+	sWinAPI = WinAPI::GetInstance();
 	sDirectXCommon_ = DirectXCommon::GetInstance();
 	camera_ = camera;
 
-	
+
 
 
 	//バッファリソース
@@ -49,13 +49,13 @@ sWinAPI = WinAPI::GetInstance();
 			const float latD = pi / kSubdivision;
 			const float lonD = 2 * pi / kSubdivision;
 			//左下
-			vertexData_[start].position = 
+			vertexData_[start].position =
 			{
 						(cos(lat) * cos(lon)),
 						(sin(lat)) ,
 						(cos(lat) * sin(lon)),
-			1.0f};
-			vertexData_[start].normal = { 
+			1.0f };
+			vertexData_[start].normal = {
 				vertexData_[start].position.x,
 				vertexData_[start].position.y,
 				vertexData_[start].position.z,
@@ -63,43 +63,43 @@ sWinAPI = WinAPI::GetInstance();
 			vertexData_[start].texcorrd = {
 				float(lonIndex) / float(kSubdivision),
 				1.0f - float(latIndex) / float(kSubdivision)
-			
+
 			};
 
-			vertexData_[start+1].position = {
+			vertexData_[start + 1].position = {
 				(cos(lat + latD) * cos(lon)) ,
 				(sin(lat + latD)) ,
 				(cos(lat + latD) * sin(lon)),
 			1.0f };
-			vertexData_[start+1].normal = {
+			vertexData_[start + 1].normal = {
 				vertexData_[start + 1].position.x,
 				vertexData_[start + 1].position.y,
 				vertexData_[start + 1].position.z,
 			};
-			vertexData_[start+1].texcorrd = {
+			vertexData_[start + 1].texcorrd = {
 				float(lonIndex) / float(kSubdivision),
-				1.0f - float(latIndex +1) / float(kSubdivision)
+				1.0f - float(latIndex + 1) / float(kSubdivision)
 
 			};
 
-			vertexData_[start +2].position = {
+			vertexData_[start + 2].position = {
 				(cos(lat) * cos(lon + lonD)),
 				(sin(lat)) ,
 				(cos(lat) * sin(lon + lonD)) ,
 			1.0f };
 
 			vertexData_[start + 2].normal = {
-				vertexData_[start +2].position.x,
-				vertexData_[start +2].position.y,
-				vertexData_[start +2].position.z,
+				vertexData_[start + 2].position.x,
+				vertexData_[start + 2].position.y,
+				vertexData_[start + 2].position.z,
 			};
-			vertexData_[start+2].texcorrd = {
-				float(lonIndex +1 ) / float(kSubdivision),
+			vertexData_[start + 2].texcorrd = {
+				float(lonIndex + 1) / float(kSubdivision),
 				1.0f - float(latIndex) / float(kSubdivision)
 
 			};
 
-			vertexData_[start+3].position = {
+			vertexData_[start + 3].position = {
 				(cos(lat + latD) * cos(lon)) ,
 				(sin(lat + latD)) ,
 				(cos(lat + latD) * sin(lon)),
@@ -110,30 +110,30 @@ sWinAPI = WinAPI::GetInstance();
 				vertexData_[start + 3].position.y,
 				vertexData_[start + 3].position.z,
 			};
-			vertexData_[start+3].texcorrd = {
+			vertexData_[start + 3].texcorrd = {
 				float(lonIndex) / float(kSubdivision),
-				1.0f - float(latIndex +1) / float(kSubdivision)
+				1.0f - float(latIndex + 1) / float(kSubdivision)
 
 			};
 
-			vertexData_[start+4].position = {
+			vertexData_[start + 4].position = {
 				(cos(lat + latD) * cos(lon + lonD)),
 				(sin(lat + latD)) ,
 				(cos(lat + latD) * sin(lon + lonD)) ,
 			1.0f };
 
-			vertexData_[start +4].normal = {
+			vertexData_[start + 4].normal = {
 				vertexData_[start + 4].position.x,
 				vertexData_[start + 4].position.y,
 				vertexData_[start + 4].position.z,
 			};
-			vertexData_[start+4].texcorrd = {
+			vertexData_[start + 4].texcorrd = {
 				float(lonIndex + 1) / float(kSubdivision),
 				1.0f - float(latIndex + 1) / float(kSubdivision)
 
 			};
 
-			vertexData_[start+5].position = {
+			vertexData_[start + 5].position = {
 				(cos(lat) * cos(lon + lonD)),
 				(sin(lat)) ,
 				(cos(lat) * sin(lon + lonD)) ,
@@ -144,7 +144,7 @@ sWinAPI = WinAPI::GetInstance();
 				vertexData_[start + 5].position.y,
 				vertexData_[start + 5].position.z,
 			};
-			vertexData_[start+5].texcorrd = {
+			vertexData_[start + 5].texcorrd = {
 				float(lonIndex + 1) / float(kSubdivision),
 				1.0f - float(latIndex) / float(kSubdivision)
 
@@ -154,8 +154,8 @@ sWinAPI = WinAPI::GetInstance();
 
 		}
 	}
-	
-	
+
+
 	// 実際に頂点リソースを作る
 	materialResource = Mesh::CreateBufferResource(sDirectXCommon_->GetDevice(), sizeof(Material));
 
@@ -165,7 +165,7 @@ sWinAPI = WinAPI::GetInstance();
 	// 書き込むためのアドレスを取得
 	materialResource->Map(0, nullptr, reinterpret_cast<void**>(&materialData));
 	// 色のデータを変数から読み込み
-	materialData->color = {1.0f,1.0f,1.0f,1.0f};
+	materialData->color = { 1.0f,1.0f,1.0f,1.0f };
 	materialData->enableLighting = true;
 	materialData->uvTransform = MakeIdentity4x4();
 
@@ -180,11 +180,11 @@ sWinAPI = WinAPI::GetInstance();
 	uvTransformMatrix = Multiply(uvTransformMatrix, MakeTranslateMatrix(transformUv.translate));
 	materialData->uvTransform = uvTransformMatrix;
 
-\
+	\
 
-	//バッファリソース
-	// データを書き込む
-	wvpData = nullptr;
+		//バッファリソース
+		// データを書き込む
+		wvpData = nullptr;
 	// WVP用のリソースを作る。Matrix4x4 1つ分のサイズを用意する
 	wvpResource = Mesh::CreateBufferResource(sDirectXCommon_->GetDevice().Get(), sizeof(TransformationMatrix));
 	// 書き込むためのアドレスを取得
@@ -233,11 +233,11 @@ sWinAPI = WinAPI::GetInstance();
 
 }
 
-void Sphere::Update(){
-	
+void Sphere::Update() {
+
 }
 
-void Sphere::Draw(Transform transform,uint32_t texture ) {
+void Sphere::Draw(Transform transform, uint32_t texture) {
 	pso_ = PSO::GatInstance();
 	Matrix4x4 uvTransformMatrix = MakeScaleMatrix(transformUv.scale);
 	uvTransformMatrix = Multiply(uvTransformMatrix, MakeRotateZMatrix(transformUv.rotate.z));
@@ -245,7 +245,7 @@ void Sphere::Draw(Transform transform,uint32_t texture ) {
 	materialData->uvTransform = uvTransformMatrix;
 	//// 色のデータを変数から読み込み
 	Matrix4x4 worldMatrix = MakeAffineMatrix(transform.scale, transform.rotate, transform.translate);
-	Matrix4x4 worldViewProjectionMatrix = Multiply(worldMatrix, Multiply(camera_->viewMatrix_, camera_->projectionMatrix_));
+	Matrix4x4 worldViewProjectionMatrix = Multiply(worldMatrix, camera_->GetViewprojectionMatrix());
 	wvpData->WVP = worldViewProjectionMatrix;
 	sDirectXCommon_->GetCommandList()->RSSetViewports(1, &viewport);  //viewportを設定
 	sDirectXCommon_->GetCommandList()->RSSetScissorRects(1, &scissorRect);    //Scirssorを設定:
@@ -260,7 +260,7 @@ void Sphere::Draw(Transform transform,uint32_t texture ) {
 	sDirectXCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(0, materialResource->GetGPUVirtualAddress());
 	sDirectXCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(1, wvpResource->GetGPUVirtualAddress());
 	// SRV のDescriptorTableの先頭を設定。2はrootParameter[2]である。
-	sDirectXCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(2, textureManager_->textureSrvHandleGPU_[texture]);
+	sDirectXCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(2, SRVManager::GetGPUDescriptorHandle(texture));
 	sDirectXCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(3, directionalLightResource->GetGPUVirtualAddress());
 	// 描画！（DrawCall/ドローコール）・3頂点で1つのインスタンス。インスタンスについては今後
 	sDirectXCommon_->GetCommandList()->DrawInstanced(1536, 1, 0, 0);
@@ -296,7 +296,7 @@ void Sphere::DrawSphere(const Sphere& sphere, const Matrix4x4& viewProjectionMat
 		for (uint32_t lonIndex = 0; lonIndex < kSubdivision; ++lonIndex) {
 			uint32_t start = (latIndex * kSubdivision + lonIndex) * 6;
 			float lon = lonIndex * kLonEvery;// 現在の緯度
-			
+
 			const float latD = pi / kSubdivision;
 			const float lonD = 2 * pi / kSubdivision;
 			Vector3 a = {
@@ -307,20 +307,21 @@ void Sphere::DrawSphere(const Sphere& sphere, const Matrix4x4& viewProjectionMat
 			Vector3 b = {
 				(cos(lat + latD) * cos(lon)) ,
 				(sin(lat + latD)) ,
-				(cos(lat + latD) * sin(lon))};
+				(cos(lat + latD) * sin(lon)) };
 
 			Vector3 c = {
-				(cos(lat) * cos(lon + lonD) ),
+				(cos(lat) * cos(lon + lonD)),
 				(sin(lat)) ,
-				(cos(lat) * sin(lon + lonD))  };
+				(cos(lat) * sin(lon + lonD)) };
 
 			Vector3 d = {
-				(cos(lat+latD) * cos(lon + lonD)),
+				(cos(lat + latD) * cos(lon + lonD)),
 				(sin(lat + latD)) ,
 				(cos(lat + latD) * sin(lon + lonD)) };
 
 
-			
+
 		}
 	}
 }
+

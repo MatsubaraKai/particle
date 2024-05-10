@@ -8,7 +8,7 @@
 #include "WinAPI.h"
 #include "DirectXCommon.h"
 #include "Mesh.h"
-#include "PSO.h"
+#include "PSOModel.h"
 #include "VertexData.h"
 #include "Vector4.h"
 #include "Vector3.h"
@@ -79,7 +79,7 @@ public:
 
 	DirectXCommon* sDirectXCommon_ = nullptr;
 	TextureManager* textureManager_ = nullptr;
-	Camera *camera_ = nullptr;
+	Camera* camera_ = nullptr;
 
 	//ビューポート
 	D3D12_VIEWPORT viewport{};

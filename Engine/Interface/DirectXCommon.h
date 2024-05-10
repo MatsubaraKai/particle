@@ -3,7 +3,7 @@
 #include <d3d12.h>
 #include <dxgi1_6.h>
 #include <cassert>
-#include <function.h>
+#include "function.h"
 #include <string>
 #include <format>
 #include <wrl.h>
@@ -24,7 +24,7 @@
 class ImGuiCommon;
 class TextureManager;
 
-class DirectXCommon final{
+class DirectXCommon final {
 public:
 	static DirectXCommon* GetInstance();
 
@@ -103,8 +103,18 @@ public:
 	/// </summary>
 	void CreateDXCCompilier();
 
+public: //Getter
+
+	/// <summary>
+	/// ディスクリプターハンドルの取得
+	/// </summary>
+	/// <param name="descriptorHeap"></param>
+	/// <param name="descriptorSize"></param>
+	/// <param name="index"></param>
+	/// <returns></returns>
 	D3D12_CPU_DESCRIPTOR_HANDLE GetCPUDescriptorHandle(ID3D12DescriptorHeap* descriptorHeap, uint32_t descriptorSize, uint32_t index);
 	D3D12_GPU_DESCRIPTOR_HANDLE GetGPUDescriptorHandle(ID3D12DescriptorHeap* descriptorHeap, uint32_t descriptorSize, uint32_t index);
+
 	/// <summary>
 	/// デバイスの取得
 	/// </summary>
@@ -116,6 +126,20 @@ public:
 	/// </summary>
 	/// <returns>描画コマンドリスト</returns>
 	Microsoft::WRL::ComPtr <ID3D12GraphicsCommandList> GetCommandList() { return commandList_.Get(); };
+
+	// Accessor
+	IDxcUtils* GetDxcUtils() { return dxcUtils_; };
+	IDxcCompiler3* GetDxcCompiler() { return dxcCompiler_; };
+	IDxcIncludeHandler* GetIncludeHandler() { return includeHandler_; };
+
+	DXGI_SWAP_CHAIN_DESC1 GetSwapChainDesc() { return swapChainDesc_; };
+	D3D12_RENDER_TARGET_VIEW_DESC GetrtvDesc() { return rtvDesc_; };
+	D3D12_DEPTH_STENCIL_DESC GetDepthStencilDesc() { return depthStencilDesc_; };
+
+
+
+public: // 関数
+
 
 	//ReleaseCheck
 	struct D3DResourceLeakChecker {
@@ -132,18 +156,8 @@ public:
 	};
 
 
-	Microsoft::WRL::ComPtr <ID3D12DescriptorHeap> CreateDescriptorHeap(D3D12_DESCRIPTOR_HEAP_TYPE heapType, UINT numDescriptors,bool shaderVisible);
+	Microsoft::WRL::ComPtr <ID3D12DescriptorHeap> CreateDescriptorHeap(D3D12_DESCRIPTOR_HEAP_TYPE heapType, UINT numDescriptors, bool shaderVisible);
 	Microsoft::WRL::ComPtr < ID3D12Resource> CreateDepthStencilTextureResource(Microsoft::WRL::ComPtr < ID3D12Device> device, int32_t width, int32_t height);
-	// Accessor
-	IDxcUtils* GetDxcUtils() { return dxcUtils_; };
-	IDxcCompiler3* GetDxcCompiler() { return dxcCompiler_; };
-	IDxcIncludeHandler* GetIncludeHandler() { return includeHandler_; };
-	
-	DXGI_SWAP_CHAIN_DESC1 GetSwapChainDesc() { return swapChainDesc_; };
-	Microsoft::WRL::ComPtr <ID3D12DescriptorHeap> GetSrvDescriptorHeap() { return srvDescriptorHeap_.Get(); };
-	D3D12_RENDER_TARGET_VIEW_DESC GetrtvDesc() { return rtvDesc_; };
-	D3D12_DEPTH_STENCIL_DESC GetDepthStencilDesc() { return depthStencilDesc_; };
-
 	/*D3D12_CPU_DESCRIPTOR_HANDLE GetCPUDescriptorHandle(ID3D12DescriptorHeap* descriptorHeap, uint32_t descriptorSize, uint32_t index) {
 		D3D12_CPU_DESCRIPTOR_HANDLE handleCPU = descriptorHeap->GetCPUDescriptorHandleForHeapStart();
 		handleCPU.ptr += (descriptorSize * index);
@@ -173,8 +187,8 @@ private:
 
 	// HRESULTはWindows系のエラーコードであり、
 	// 関数が成功したかどうかをSUCCEEDEDマクロで判定できる
-	
-	
+
+
 	// 使用するアダプタ用の変数
 	Microsoft::WRL::ComPtr < IDXGIAdapter4> useAdapter_;
 	Microsoft::WRL::ComPtr < ID3D12Device> device_;
@@ -190,13 +204,9 @@ private:
 
 	// ディスクリプタヒープの生成
 	Microsoft::WRL::ComPtr < ID3D12DescriptorHeap> rtvDescriptorHeap_ = nullptr;
-	Microsoft::WRL::ComPtr < ID3D12DescriptorHeap> srvDescriptorHeap_ = nullptr;
 	Microsoft::WRL::ComPtr < ID3D12DescriptorHeap> dsvDescriptorHeap_ = nullptr; // DSVようのヒープでディスクリプタの数は1。DSVはShader内で触るものではないので、ShaderVisibleはfalse
-	
-	// ディスクリプターヒープのサイズをあらかじめ設定
-	uint32_t rtvDescriptorSize_;
-	uint32_t srvDescriptorSize_;
-	uint32_t dsvDescriptorSize_;
+
+
 
 	//RTVの設定
 	D3D12_RENDER_TARGET_VIEW_DESC rtvDesc_{};
@@ -226,13 +236,12 @@ private:
 
 	WinAPI* sWinAPI_ = nullptr;
 	TextureManager* textureManager_ = nullptr;
-	ImGuiCommon* imGuiCommon_ = nullptr;
 
 
 	// DepthStencilTextureをウィンドウのサイズで作成
 	Microsoft::WRL::ComPtr < ID3D12Resource> depthStencilResource_;
 
-	
+
 	// DepthStencilStateの設定
 	D3D12_DEPTH_STENCIL_DESC depthStencilDesc_{};
 
@@ -243,5 +252,9 @@ private:
 	D3D12_VIEWPORT viewport{};
 	// シザー矩形
 	D3D12_RECT scissorRect{};
-};
 
+public: // 共通変数　以下の変数は変更しない
+	// ディスクリプターヒープのサイズをあらかじめ設定
+	const static uint32_t rtvDescriptorSize_ = 2;
+	const static uint32_t dsvDescriptorSize_ = 1;
+};
