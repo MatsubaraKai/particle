@@ -1,9 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Func">
-      <UniqueIdentifier>{d1679630-12a0-47b8-a94a-95de94447f28}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Resource">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
@@ -51,9 +48,6 @@
     </ClCompile>
     <ClCompile Include="Engine\Interface\WinAPI.cpp">
       <Filter>Interface</Filter>
-    </ClCompile>
-    <ClCompile Include="Lib\math\mathFunction.cpp">
-      <Filter>Func</Filter>
     </ClCompile>
     <ClCompile Include="Engine\3d\Mesh.cpp">
       <Filter>Interface</Filter>
@@ -151,7 +145,6 @@
     <ClCompile Include="Engine\2d\ImGuiCommon.cpp">
       <Filter>Engine\2d</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Utility\function.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Interface\DirectXCommon.h">
@@ -159,9 +152,6 @@
     </ClInclude>
     <ClInclude Include="Engine\Interface\WinAPI.h">
       <Filter>Interface</Filter>
-    </ClInclude>
-    <ClInclude Include="Lib\math\mathFunction.h">
-      <Filter>Func</Filter>
     </ClInclude>
     <ClInclude Include="Lib\math\Vector4.h">
       <Filter>Math</Filter>
@@ -298,7 +288,6 @@
     <ClInclude Include="Engine\2d\ImGuiCommon.h">
       <Filter>Engine\2d</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Utility\function.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Object3d.PS.hlsl">

@@ -145,7 +145,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Engine\3d\Mesh.cpp" />
     <ClCompile Include="Engine\Interface\WinAPI.cpp" />
-    <ClCompile Include="Lib\math\mathFunction.cpp" />
     <ClCompile Include="Engine\Interface\TextureManager.cpp" />
     <ClCompile Include="Engine\3d\WorldTransform.cpp" />
     <ClCompile Include="Game\Player\Player.cpp" />
@@ -185,7 +184,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\3d\Triangle.h" />
     <ClInclude Include="Game\Scene\TitleScene.h" />
     <ClInclude Include="Engine\2d\ImGuiCommon.h" />
-    <ClInclude Include="Lib\math\mathFunction.h" />
     <ClInclude Include="Lib\math\Matrix4x4.h" />
     <ClInclude Include="Engine\3d\Mesh.h" />
     <ClInclude Include="Lib\math\Transform.h" />
