@@ -5,7 +5,7 @@
 
 // Windowsアプリでのエントリーポイント（main関数）
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
-	GameManager* gameManager = new GameManager();
+	std::unique_ptr<GameManager> gameManager = std::make_unique<GameManager>();
 	gameManager->Run();
 	return 0;
 }

@@ -47,10 +47,14 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ExternalIncludePath>$(ExternalIncludePath)</ExternalIncludePath>
     <IncludePath>$(ProjectDir)\Engine\Externals\DirectXTex;$(SolutionDir)\imgui;$(IncludePath)</IncludePath>
+    <OutDir>$(SolutionDir)..\generated\outputs\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)..\generated\obj\$(CG2_main)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ExternalIncludePath>$(ExternalIncludePath)</ExternalIncludePath>
     <IncludePath>$(ProjectDir)\Engine\Externals\DirectXTex;$(SolutionDir)\imgui;$(IncludePath)</IncludePath>
+    <OutDir>$(SolutionDir)..\generated\outputs\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)..\generated\obj\$(CG2_main)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -61,7 +65,7 @@
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <AdditionalIncludeDirectories>$(ProjectDir)Engine\Audio;$(ProjectDir)Engine\Math;$(ProjectDir)Engine\2d;$(ProjectDir)Engine\3d;$(ProjectDir)Engine\Input;$(ProjectDir)Engine\Interface;$(ProjectDir)Engine\Adapter;$(ProjectDir)Engine\Include;$(ProjectDir)Lib\math;$(ProjectDir)Lib\utility;$(ProjectDir)\Game\Player;$(ProjectDir)Game\Scene;$(ProjectDir)\Game\Title;$(ProjectDir)\Game\Clear;$(ProjectDir)\Game\SceneEffect;$(ProjectDir)Resources\shaders;$(ProjectDir)Engine\Externals\assimp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Engine\Audio;$(ProjectDir)Engine\Math;$(ProjectDir)Engine\2d;$(ProjectDir)Engine\3d;$(ProjectDir)Engine\Interface\Input;$(ProjectDir)Engine\Interface;$(ProjectDir)Engine\Adapter;$(ProjectDir)Engine\Include;$(ProjectDir)Engine\math;$(ProjectDir)\Game\Player;$(ProjectDir)Game\Scene;$(ProjectDir)\Game\Title;$(ProjectDir)\Game\Clear;$(ProjectDir)\Game\SceneEffect;$(ProjectDir)Resources\shaders;$(ProjectDir)Engine\Externals\assimp\include;$(ProjectDir)Engine\Interface\PSO;$(ProjectDir)Engine\Utility;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -91,7 +95,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <AdditionalIncludeDirectories>$(ProjectDir)Engine\Audio;$(ProjectDir)Engine\Math;$(ProjectDir)Engine\2d;$(ProjectDir)Engine\3d;$(ProjectDir)Engine\Input;$(ProjectDir)Engine\Interface;$(ProjectDir)Engine\Adapter;$(ProjectDir)Engine\Include;$(ProjectDir)Lib\math;$(ProjectDir)Lib\utility;$(ProjectDir)\Game\Player;$(ProjectDir)Game\Scene;$(ProjectDir)\Game\Title;$(ProjectDir)\Game\Clear;$(ProjectDir)\Game\SceneEffect;$(ProjectDir)Resources\shaders;$(ProjectDir)Engine\Externals\assimp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Engine\Audio;$(ProjectDir)Engine\Math;$(ProjectDir)Engine\2d;$(ProjectDir)Engine\3d;$(ProjectDir)Engine\Interface\Input;$(ProjectDir)Engine\Interface;$(ProjectDir)Engine\Adapter;$(ProjectDir)Engine\Include;$(ProjectDir)Engine\math;$(ProjectDir)\Game\Player;$(ProjectDir)Game\Scene;$(ProjectDir)\Game\Title;$(ProjectDir)\Game\Clear;$(ProjectDir)\Game\SceneEffect;$(ProjectDir)Resources\shaders;$(ProjectDir)Engine\Externals\assimp\include;$(ProjectDir)Engine\Interface\PSO;$(ProjectDir)Engine\Utility;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <Optimization>MinSpace</Optimization>
     </ClCompile>
@@ -114,14 +118,14 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Engine\Audio\Audio.cpp" />
-    <ClCompile Include="Engine\Adapter\Engine.cpp" />
+    <ClCompile Include="Engine\Interface\Audio.cpp" />
+    <ClCompile Include="Engine\Engine.cpp" />
     <ClCompile Include="Game\Scene\GameScene.cpp" />
     <ClCompile Include="Game\Scene\ClearScene.cpp" />
     <ClCompile Include="Game\Scene\GameManager.cpp" />
-    <ClCompile Include="Engine\Input\Input.cpp" />
+    <ClCompile Include="Engine\Interface\Input\Input.cpp" />
     <ClCompile Include="Engine\3d\Model.cpp" />
-    <ClCompile Include="Engine\Interface\PSO.cpp" />
+    <ClCompile Include="Engine\Interface\PSO\PSO.cpp" />
     <ClCompile Include="Game\Scene\IScene.cpp" />
     <ClCompile Include="Engine\3d\Sphere.cpp" />
     <ClCompile Include="Engine\2d\Sprite.cpp" />
@@ -129,7 +133,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Interface\DirectXCommon.cpp" />
     <ClCompile Include="Engine\3d\Triangle.cpp" />
     <ClCompile Include="Game\Scene\TitleScene.cpp" />
-    <ClCompile Include="Engine\Input\InputManager.cpp" />
+    <ClCompile Include="Engine\Interface\Input\InputManager.cpp" />
     <ClCompile Include="imgui\imgui.cpp" />
     <ClCompile Include="imgui\imgui_demo.cpp" />
     <ClCompile Include="imgui\imgui_draw.cpp" />
@@ -137,7 +141,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="imgui\imgui_impl_win32.cpp" />
     <ClCompile Include="imgui\imgui_tables.cpp" />
     <ClCompile Include="imgui\imgui_widgets.cpp" />
-    <ClCompile Include="Lib\utility\function.cpp" />
     <ClCompile Include="Engine\2d\ImGuiCommon.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Engine\3d\Mesh.cpp" />
@@ -146,21 +149,21 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Interface\TextureManager.cpp" />
     <ClCompile Include="Engine\3d\WorldTransform.cpp" />
     <ClCompile Include="Game\Player\Player.cpp" />
-    <ClCompile Include="Engine\Interface\PSOSprite.cpp" />
-    <ClCompile Include="Engine\Interface\PSOProperty.cpp" />
-    <ClCompile Include="Engine\Interface\PSOParticle.cpp" />
+    <ClCompile Include="Engine\Interface\PSO\PSOSprite.cpp" />
+    <ClCompile Include="Engine\Interface\PSO\PSOProperty.cpp" />
+    <ClCompile Include="Engine\Interface\PSO\PSOParticle.cpp" />
     <ClCompile Include="Engine\3d\Particle.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Engine\Audio\Audio.h" />
+    <ClInclude Include="Engine\Interface\Audio.h" />
     <ClInclude Include="Engine\3d\DirectionLight.h" />
-    <ClInclude Include="Engine\Adapter\Engine.h" />
+    <ClInclude Include="Engine\Engine.h" />
     <ClInclude Include="Game\Scene\GameScene.h" />
     <ClInclude Include="Game\Scene\ClearScene.h" />
     <ClInclude Include="Game\Scene\GameManager.h" />
-    <ClInclude Include="Engine\Input\Input.h" />
+    <ClInclude Include="Engine\Interface\Input\Input.h" />
     <ClInclude Include="Game\Scene\IScene.h" />
-    <ClInclude Include="Engine\Input\InputManager.h" />
+    <ClInclude Include="Engine\Interface\Input\InputManager.h" />
     <ClInclude Include="imgui\imconfig.h" />
     <ClInclude Include="imgui\imgui.h" />
     <ClInclude Include="imgui\imgui_impl_dx12.h" />
@@ -174,14 +177,13 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Lib\math\Matrix3x3.h" />
     <ClInclude Include="Engine\3d\ResourceObject.h" />
     <ClInclude Include="Engine\3d\Model.h" />
-    <ClInclude Include="Engine\Interface\PSO.h" />
+    <ClInclude Include="Engine\Interface\PSO\PSO.h" />
     <ClInclude Include="Engine\3d\Sphere.h" />
     <ClInclude Include="Engine\2d\Sprite.h" />
     <ClInclude Include="Engine\3d\Camera.h" />
     <ClInclude Include="Engine\Interface\DirectXCommon.h" />
     <ClInclude Include="Engine\3d\Triangle.h" />
     <ClInclude Include="Game\Scene\TitleScene.h" />
-    <ClInclude Include="Lib\utility\function.h" />
     <ClInclude Include="Engine\2d\ImGuiCommon.h" />
     <ClInclude Include="Lib\math\mathFunction.h" />
     <ClInclude Include="Lib\math\Matrix4x4.h" />
@@ -197,9 +199,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Lib\math\TransformationMatrix.h" />
     <ClInclude Include="Engine\3d\WorldTransform.h" />
     <ClInclude Include="Game\Player\Player.h" />
-    <ClInclude Include="Engine\Interface\PSOSprite.h" />
-    <ClInclude Include="Engine\Interface\PSOProperty.h" />
-    <ClInclude Include="Engine\Interface\PSOParticle.h" />
+    <ClInclude Include="Engine\Interface\PSO\PSOSprite.h" />
+    <ClInclude Include="Engine\Interface\PSO\PSOProperty.h" />
+    <ClInclude Include="Engine\Interface\PSO\PSOParticle.h" />
     <ClInclude Include="Engine\3d\Particle.h" />
   </ItemGroup>
   <ItemGroup>

@@ -46,9 +46,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Lib\utility\function.cpp">
-      <Filter>Func</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Interface\DirectXCommon.cpp">
       <Filter>Interface</Filter>
     </ClCompile>
@@ -61,7 +58,7 @@
     <ClCompile Include="Engine\3d\Mesh.cpp">
       <Filter>Interface</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Audio\Audio.cpp">
+    <ClCompile Include="Engine\Interface\Audio.cpp">
       <Filter>Interface</Filter>
     </ClCompile>
     <ClCompile Include="Engine\3d\Camera.cpp">
@@ -70,7 +67,7 @@
     <ClCompile Include="Game\Scene\ClearScene.cpp">
       <Filter>Game\scene</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Adapter\Engine.cpp">
+    <ClCompile Include="Engine\Engine.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
     <ClCompile Include="Game\Scene\GameManager.cpp">
@@ -100,10 +97,10 @@
     <ClCompile Include="imgui\imgui_widgets.cpp">
       <Filter>Lib</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Input\Input.cpp">
+    <ClCompile Include="Engine\Interface\Input\Input.cpp">
       <Filter>Interface</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Input\InputManager.cpp">
+    <ClCompile Include="Engine\Interface\Input\InputManager.cpp">
       <Filter>Interface</Filter>
     </ClCompile>
     <ClCompile Include="Game\Scene\IScene.cpp">
@@ -118,19 +115,19 @@
     <ClCompile Include="Game\Player\Player.cpp">
       <Filter>Game\player</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Interface\PSO.cpp">
+    <ClCompile Include="Engine\Interface\PSO\PSO.cpp">
       <Filter>Interface</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Interface\PSOParticle.cpp">
+    <ClCompile Include="Engine\Interface\PSO\PSOParticle.cpp">
       <Filter>Interface</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Interface\PSOProperty.cpp">
+    <ClCompile Include="Engine\Interface\PSO\PSOProperty.cpp">
       <Filter>Interface</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Interface</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Interface\PSOSprite.cpp">
+    <ClCompile Include="Engine\Interface\PSO\PSOSprite.cpp">
       <Filter>Interface</Filter>
     </ClCompile>
     <ClCompile Include="Engine\2d\Sprite.cpp">
@@ -154,11 +151,9 @@
     <ClCompile Include="Engine\2d\ImGuiCommon.cpp">
       <Filter>Engine\2d</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Utility\function.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Lib\utility\function.h">
-      <Filter>Func</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Interface\DirectXCommon.h">
       <Filter>Interface</Filter>
     </ClInclude>
@@ -183,7 +178,7 @@
     <ClInclude Include="Engine\3d\Mesh.h">
       <Filter>Interface</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Audio\Audio.h">
+    <ClInclude Include="Engine\Interface\Audio.h">
       <Filter>Interface</Filter>
     </ClInclude>
     <ClInclude Include="Engine\3d\DirectionLight.h">
@@ -192,7 +187,7 @@
     <ClInclude Include="Engine\3d\Camera.h">
       <Filter>Engine\3d</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Adapter\Engine.h">
+    <ClInclude Include="Engine\Engine.h">
       <Filter>Engine</Filter>
     </ClInclude>
     <ClInclude Include="Game\Scene\ClearScene.h">
@@ -228,10 +223,10 @@
     <ClInclude Include="imgui\imstb_truetype.h">
       <Filter>Lib</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Input\Input.h">
+    <ClInclude Include="Engine\Interface\Input\Input.h">
       <Filter>Interface</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Input\InputManager.h">
+    <ClInclude Include="Engine\Interface\Input\InputManager.h">
       <Filter>Interface</Filter>
     </ClInclude>
     <ClInclude Include="Game\Scene\IScene.h">
@@ -258,16 +253,16 @@
     <ClInclude Include="Game\Player\Player.h">
       <Filter>Game\player</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Interface\PSO.h">
+    <ClInclude Include="Engine\Interface\PSO\PSO.h">
       <Filter>Interface</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Interface\PSOParticle.h">
+    <ClInclude Include="Engine\Interface\PSO\PSOParticle.h">
       <Filter>Interface</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Interface\PSOProperty.h">
+    <ClInclude Include="Engine\Interface\PSO\PSOProperty.h">
       <Filter>Interface</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Interface\PSOSprite.h">
+    <ClInclude Include="Engine\Interface\PSO\PSOSprite.h">
       <Filter>Interface</Filter>
     </ClInclude>
     <ClInclude Include="Engine\3d\ResourceObject.h">
@@ -303,6 +298,7 @@
     <ClInclude Include="Engine\2d\ImGuiCommon.h">
       <Filter>Engine\2d</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Utility\function.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Object3d.PS.hlsl">

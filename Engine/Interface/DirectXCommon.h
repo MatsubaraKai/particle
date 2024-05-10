@@ -3,7 +3,7 @@
 #include <d3d12.h>
 #include <dxgi1_6.h>
 #include <cassert>
-#include "function.h"
+#include <function.h>
 #include <string>
 #include <format>
 #include <wrl.h>
