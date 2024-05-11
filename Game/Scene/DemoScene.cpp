@@ -52,6 +52,18 @@ void DemoScene::Init()
 
 void DemoScene::Update()
 {
+	if (input->PushKey(DIK_W)) {
+		worldTransform.translation_.y += 0.1f;
+	}
+	if (input->PushKey(DIK_A)) {
+		worldTransform.translation_.x -= 0.1f;
+	}
+	if (input->PushKey(DIK_S)) {
+		worldTransform.translation_.y -= 0.1f;
+	}
+	if (input->PushKey(DIK_D)) {
+		worldTransform.translation_.x += 0.1f;
+	}
 	sceneTime++;
 	////カメラの更新
 	camera->Update();

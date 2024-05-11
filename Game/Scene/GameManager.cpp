@@ -42,7 +42,7 @@ GameManager::GameManager() {
 
 GameManager::~GameManager() {}
 
-const char kWindowTitle[] = "LE2B_05_オイカワユウマ";
+const char kWindowTitle[] = "LE3A_18_matsubara_kai";
 
 int GameManager::Run() {
 	//DirectXCommon::D3DResourceLeakChecker leakCheck;
@@ -96,7 +96,7 @@ int GameManager::Run() {
 		sDirctX->BeginFrame();
 		sInput->Update();
 
-		ImGui::Begin("kakunin");
+		ImGui::Begin("Scene");
 		ImGui::Text("%d", IScene::GetSceneNo());
 		ImGui::End();
 
