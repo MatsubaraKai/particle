@@ -154,6 +154,9 @@
     <ClCompile Include="Engine\2d\ImGuiCommon.cpp">
       <Filter>Engine\2d</Filter>
     </ClCompile>
+    <ClCompile Include="Grayscale.cpp">
+      <Filter>Interface</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Lib\utility\function.h">
@@ -302,6 +305,9 @@
     </ClInclude>
     <ClInclude Include="Engine\2d\ImGuiCommon.h">
       <Filter>Engine\2d</Filter>
+    </ClInclude>
+    <ClInclude Include="Grayscale.h">
+      <Filter>Interface</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

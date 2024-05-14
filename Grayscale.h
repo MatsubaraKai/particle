@@ -1,18 +1,18 @@
-#pragma once
+﻿#pragma once
 #include <d3d12.h>
 #include "DirectXCommon.h"
 #include "PSOProperty.h"
 
 
 
-class PSOSprite : public PSOProperty
+class Grayscale : public PSOProperty
 {
 public:
-	static PSOSprite* GatInstance();
+	static Grayscale* GatInstance();
 
-	PSOSprite() = default;
-	~PSOSprite() = default;
-	const PSOSprite& operator=(const PSOSprite&) = delete;
+	Grayscale() = default;
+	~Grayscale() = default;
+	const Grayscale& operator=(const Grayscale&) = delete;
 
 
 	/// <summary>
