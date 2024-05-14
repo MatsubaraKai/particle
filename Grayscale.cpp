@@ -1,20 +1,20 @@
-#include "PSOSprite.h"
+﻿#include "Grayscale.h"
 
-void PSOSprite::CreatePipelineStateObject() {
+void Grayscale::CreatePipelineStateObject() {
 	// DirectXCommonのインスタンスを取得
 	DirectXCommon* sDirectXCommon = DirectXCommon::GetInstance();
 
-	PSOSprite::CreateRootSignature();
-	PSOSprite::SetInputLayout();
-	PSOSprite::SetBlendState();
-	PSOSprite::SetRasterrizerState();
-	PSOSprite::CreateDepth();
+	Grayscale::CreateRootSignature();
+	Grayscale::SetInputLayout();
+	Grayscale::SetBlendState();
+	Grayscale::SetRasterrizerState();
+	Grayscale::CreateDepth();
 	// Shaderをコンパイルする
-	property.vertexShaderBlob = CompileShader(L"Sprite.VS.hlsl",
+	property.vertexShaderBlob = CompileShader(L"CopyImage.VS.hlsl",
 		L"vs_6_0", sDirectXCommon->GetDxcUtils(), sDirectXCommon->GetDxcCompiler(), sDirectXCommon->GetIncludeHandler());
 	assert(property.vertexShaderBlob != nullptr);
 
-	property.pixelShaderBlob = CompileShader(L"Sprite.PS.hlsl",
+	property.pixelShaderBlob = CompileShader(L"Grayscale.PS.hlsl",
 		L"ps_6_0", sDirectXCommon->GetDxcUtils(), sDirectXCommon->GetDxcCompiler(), sDirectXCommon->GetIncludeHandler());
 	assert(property.pixelShaderBlob != nullptr);
 
@@ -47,7 +47,7 @@ void PSOSprite::CreatePipelineStateObject() {
 	assert(SUCCEEDED(hr_));
 }
 
-void PSOSprite::CreateRootSignature() {
+void Grayscale::CreateRootSignature() {
 	// DirectXCommonのインスタンスを取得
 	DirectXCommon* sDirectXCommon = DirectXCommon::GetInstance();
 
@@ -104,7 +104,7 @@ void PSOSprite::CreateRootSignature() {
 	assert(SUCCEEDED(hr_));
 }
 
-void PSOSprite::SetInputLayout() {
+void Grayscale::SetInputLayout() {
 	inputElementDescs[0].SemanticName = "POSITION";
 	inputElementDescs[0].SemanticIndex = 0;
 	inputElementDescs[0].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
@@ -117,7 +117,7 @@ void PSOSprite::SetInputLayout() {
 	inputLayoutDesc.NumElements = _countof(inputElementDescs);
 }
 
-void PSOSprite::SetBlendState() {
+void Grayscale::SetBlendState() {
 	// blendStateの設定
 	//すべての色要素を書き込む
 	blendDesc.RenderTarget[0].RenderTargetWriteMask =
@@ -132,14 +132,14 @@ void PSOSprite::SetBlendState() {
 	blendDesc.RenderTarget[0].DestBlendAlpha = D3D12_BLEND_ZERO;
 }
 
-void PSOSprite::SetRasterrizerState() {
+void Grayscale::SetRasterrizerState() {
 	//裏面（時計回り）を表示しない
 	rasterizerDesc.CullMode = D3D12_CULL_MODE_BACK;
 	// 三角形の中を塗りつぶす
 	rasterizerDesc.FillMode = D3D12_FILL_MODE_SOLID;
 }
 
-void PSOSprite::CreateDepth()
+void Grayscale::CreateDepth()
 {
 	// Depthの機能を有効化する
 	depthStencilDesc_.DepthEnable = true;
@@ -150,7 +150,7 @@ void PSOSprite::CreateDepth()
 }
 
 
-PSOSprite* PSOSprite::GatInstance() {
-	static PSOSprite instance;
+Grayscale* Grayscale::GatInstance() {
+	static Grayscale instance;
 	return &instance;
 }
