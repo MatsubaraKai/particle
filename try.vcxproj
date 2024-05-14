@@ -65,7 +65,7 @@
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <AdditionalIncludeDirectories>$(ProjectDir)Engine\Audio;$(ProjectDir)Engine\Math;$(ProjectDir)Engine\2d;$(ProjectDir)Engine\3d;$(ProjectDir)Engine\3d\Model;$(ProjectDir)Engine\3d\Object3d;$(ProjectDir)Engine\3d\Particle;$(ProjectDir)Engine\Input;$(ProjectDir)Engine\Interface;$(ProjectDir)Engine\Interface\PSO;$(ProjectDir)Engine\Interface\Heap;$(ProjectDir)Engine\Adapter;$(ProjectDir)Engine\Include;$(ProjectDir)Lib\math;$(ProjectDir)Lib\utility;$(ProjectDir)\Game\Player;$(ProjectDir)\Game\Enemy;$(ProjectDir)Game\Scene;$(ProjectDir)Game\Collision;$(ProjectDir)\Game\Utilty;$(ProjectDir)Engine\Externals\assimp\include;$(ProjectDir)Resources\shaders;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Engine\Audio;$(ProjectDir)Engine\Math;$(ProjectDir)Engine\2d;$(ProjectDir)Engine\3d;$(ProjectDir)Engine\3d\Model;$(ProjectDir)Engine\3d\Object3d;$(ProjectDir)Engine\3d\Particle;$(ProjectDir)Engine\Input;$(ProjectDir)Engine\Interface;$(ProjectDir)Engine\Interface\PSO;$(ProjectDir)Engine\Interface\Heap;$(ProjectDir)Engine\Adapter;$(ProjectDir)Engine\Include;$(ProjectDir)Lib\math;$(ProjectDir)Lib\utility;$(ProjectDir)\Game\Player;$(ProjectDir)\Game\Enemy;$(ProjectDir)Game\Scene;$(ProjectDir)Game\Collision;$(ProjectDir)\Game\Utilty;$(ProjectDir)Engine\Externals\assimp\include;$(ProjectDir)Resources\shaders;$(ProjectDir)Engine\3d\Animation;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -95,7 +95,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <AdditionalIncludeDirectories>$(ProjectDir)Engine\Audio;$(ProjectDir)Engine\Math;$(ProjectDir)Engine\2d;$(ProjectDir)Engine\3d;$(ProjectDir)Engine\3d\Model;$(ProjectDir)Engine\3d\Object3d;$(ProjectDir)Engine\3d\Particle;$(ProjectDir)Engine\Input;$(ProjectDir)Engine\Interface;$(ProjectDir)Engine\Interface\PSO;$(ProjectDir)Engine\Interface\Heap;$(ProjectDir)Engine\Adapter;$(ProjectDir)Engine\Include;$(ProjectDir)Lib\math;$(ProjectDir)Lib\utility;$(ProjectDir)\Game\Player;$(ProjectDir)\Game\Enemy;$(ProjectDir)Game\Scene;$(ProjectDir)Game\Collision;$(ProjectDir)\Game\Utilty;$(ProjectDir)Engine\Externals\assimp\include;$(ProjectDir)Resources\shaders;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Engine\Audio;$(ProjectDir)Engine\Math;$(ProjectDir)Engine\2d;$(ProjectDir)Engine\3d;$(ProjectDir)Engine\3d\Model;$(ProjectDir)Engine\3d\Object3d;$(ProjectDir)Engine\3d\Particle;$(ProjectDir)Engine\Input;$(ProjectDir)Engine\Interface;$(ProjectDir)Engine\Interface\PSO;$(ProjectDir)Engine\Interface\Heap;$(ProjectDir)Engine\Adapter;$(ProjectDir)Engine\Include;$(ProjectDir)Lib\math;$(ProjectDir)Lib\utility;$(ProjectDir)\Game\Player;$(ProjectDir)\Game\Enemy;$(ProjectDir)Game\Scene;$(ProjectDir)Game\Collision;$(ProjectDir)\Game\Utilty;$(ProjectDir)Engine\Externals\assimp\include;$(ProjectDir)Resources\shaders;$(ProjectDir)Engine\3d\Animation;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <Optimization>MinSpace</Optimization>
     </ClCompile>
@@ -118,6 +118,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\3d\Animation\Animation.cpp" />
     <ClCompile Include="Engine\3d\Model\Model.cpp" />
     <ClCompile Include="Engine\3d\Model\ModelManager.cpp" />
     <ClCompile Include="Engine\3d\Object3d\Object3d.cpp" />
@@ -164,6 +165,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Lib\math\mathFunction.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Engine\3d\Animation\Animation.h" />
     <ClInclude Include="Engine\3d\Model\Model.h" />
     <ClInclude Include="Engine\3d\Model\ModelManager.h" />
     <ClInclude Include="Engine\3d\Object3d\Object3d.h" />
@@ -194,7 +196,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="imgui\imstb_rectpack.h" />
     <ClInclude Include="imgui\imstb_textedit.h" />
     <ClInclude Include="imgui\imstb_truetype.h" />
-    <ClInclude Include="Lib\math\MaterialData.h" />
+    <ClInclude Include="Engine\3d\Model\MaterialData.h" />
     <ClInclude Include="Engine\3d\Material.h" />
     <ClInclude Include="Lib\math\Matrix3x3.h" />
     <ClInclude Include="Engine\3d\ResourceObject.h" />
@@ -207,6 +209,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Game\Scene\TitleScene.h" />
     <ClInclude Include="Engine\2d\ImGuiCommon.h" />
     <ClInclude Include="Lib\math\Matrix4x4.h" />
+    <ClInclude Include="Lib\math\Quaternion.h" />
     <ClInclude Include="Lib\math\Transform.h" />
     <ClInclude Include="Lib\math\Vector3.h" />
     <ClInclude Include="Lib\math\Vector4.h" />
@@ -214,7 +217,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Interface\TextureManager.h" />
     <ClInclude Include="Lib\math\Vector2.h" />
     <ClInclude Include="Lib\math\VertexData.h" />
-    <ClInclude Include="Lib\math\ModelData.h" />
+    <ClInclude Include="Engine\3d\Model\ModelData.h" />
     <ClInclude Include="Lib\math\TransformationMatrix.h" />
     <ClInclude Include="Engine\3d\WorldTransform.h" />
     <ClInclude Include="Engine\Interface\PSO\PSOSprite.h" />

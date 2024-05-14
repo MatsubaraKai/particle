@@ -51,8 +51,8 @@ void Object3d::Draw(uint32_t texture, Camera* camera)
 	directXCommon->GetCommandList()->SetGraphicsRootConstantBufferView(4, cameraForGPUResource_->GetGPUVirtualAddress());
 	// 3Dモデルが割り当てられていれば描画する
 	if (model_) {
-		wvpData->WVP = Multiply(model_->GetModelData().rootNode.localMatrix, worldViewProjectionMatrix);
-		wvpData->World = Multiply(model_->GetModelData().rootNode.localMatrix, worldTransform_.matWorld_);
+		wvpData->WVP = Multiply(model_->GetAniMatrix(), worldViewProjectionMatrix);
+		wvpData->World = Multiply(model_->GetAniMatrix(), worldTransform_.matWorld_);
 		model_->Draw(texture, { { 1.0f,1.0f,1.0f,1.0f },true
 			}, { { 1.0f,1.0,1.0,1.0f } ,{ 0.0f,-1.0f,0.0f },0.5f });
 	}

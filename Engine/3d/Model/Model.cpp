@@ -158,6 +158,45 @@ MaterialData Model::LoadMaterialTemplateFile(const std::string& directoryPath, c
 
 	return materialData;
 }
+AnimationData Model::LoadAnimationFile(const std::string& directoryPath, const std::string& filePath)
+{
+	AnimationData animation;// 今回作るアニメーション
+	Assimp::Importer importer;
+	std::string filePathA = directoryPath + "/" + filePath;
+	const aiScene* scene = importer.ReadFile(filePathA.c_str(), 0);
+	assert(scene->mNumAnimations != 0);// アニメーションがない
+	aiAnimation* animationAssimp = scene->mAnimations[0]; // 最初のアニメーションだけ採用。もちろん複数対応するに越したことはない
+	animation.duration = float(animationAssimp->mDuration / animationAssimp->mTicksPerSecond); // 時間の単位を秒に変換
+	AnimationCurve<NodeAnimation> keyframes;
+	// assimpでは個々のNodeのAnimationをchannelと読んでいるのでchannelを回してNodeAnimationの情報をとってくる
+	for (uint32_t channelIndex = 0; channelIndex < animationAssimp->mNumChannels; ++channelIndex) {
+		aiNodeAnim* nodeAnimationAssimp = animationAssimp->mChannels[channelIndex];
+		NodeAnimation& nodeAnimation = animation.nodeAnimations[nodeAnimationAssimp->mNodeName.C_Str()];
+		for (uint32_t keyIndex = 0; keyIndex < nodeAnimationAssimp->mNumPositionKeys; ++keyIndex) {
+			aiVectorKey& keyAssimp = nodeAnimationAssimp->mPositionKeys[keyIndex];
+			KeyFrameVector3 keyframe;
+			keyframe.time = float(keyAssimp.mTime / animationAssimp->mTicksPerSecond); // ここも秒に変換
+			keyframe.value = { -keyAssimp.mValue.x, keyAssimp.mValue.y, keyAssimp.mValue.z };
+			nodeAnimation.translate.keyframes.push_back(keyframe);
+		}
+		for (uint32_t keyIndex = 0; keyIndex < nodeAnimationAssimp->mNumRotationKeys; ++keyIndex) {
+			aiQuatKey& keyAssimp = nodeAnimationAssimp->mRotationKeys[keyIndex];
+			KeyFrameQuaternion keyframe;
+			keyframe.time = float(keyAssimp.mTime / animationAssimp->mTicksPerSecond); // ここも秒に変換
+			keyframe.value = { keyAssimp.mValue.x, -keyAssimp.mValue.y, -keyAssimp.mValue.z, keyAssimp.mValue.w };
+			nodeAnimation.rotate.keyframes.push_back(keyframe);
+		}
+		for (uint32_t keyIndex = 0; keyIndex < nodeAnimationAssimp->mNumScalingKeys; ++keyIndex) {
+			aiVectorKey& keyAssimp = nodeAnimationAssimp->mScalingKeys[keyIndex];
+			KeyFrameVector3 keyframe;
+			keyframe.time = float(keyAssimp.mTime / animationAssimp->mTicksPerSecond); // ここも秒に変換
+			keyframe.value = { keyAssimp.mValue.x, keyAssimp.mValue.y, keyAssimp.mValue.z };
+			nodeAnimation.scale.keyframes.push_back(keyframe);
+		}
+
+	}
+	return animation;
+}
 Node Model::ReadNode(aiNode* node)
 {
 	Node result;
@@ -188,8 +227,7 @@ void Model::Initialize(const std::string& directoryPath, const std::string& file
 
 	// モデル読み込み
 	modelData_ = LoadObjFile(directoryPath, filename);
-
-
+	animation_ = LoadAnimationFile(directoryPath, filename);
 	// 頂点リソースを作る
 	vertexResource_ = Mesh::CreateBufferResource(directXCommon_->GetDevice(), sizeof(VertexData) * modelData_.vertices.size());
 	// 頂点バッファビューを作成する
@@ -247,6 +285,13 @@ void Model::Update() {
 void Model::Draw(uint32_t texture, const Material& material, const DirectionalLight& dire) {
 
 	pso_ = PSO::GatInstance();
+	animationTime += 1.0f / 60.0f;
+	animationTime = std::fmod(animationTime, animation_.duration); // 最後まで行ったら最初からリピート再生。リピートしなくても別によい
+	NodeAnimation& rootNodeAnimation = animation_.nodeAnimations[modelData_.rootNode.name]; // rootNodeのAnimationを取得
+	Vector3 translate = CalculateValue(rootNodeAnimation.translate.keyframes, animationTime);
+	Quaternion rotate = CalculateValue(rootNodeAnimation.rotate.keyframes, animationTime);
+	Vector3 scale = CalculateValue(rootNodeAnimation.scale.keyframes, animationTime);
+	aniMatrix_ = MakeAffineMatrix(scale, rotate, translate);
 
 	textureManager_ = TextureManager::GetInstance();
 	// 色のデータを変数から読み込み

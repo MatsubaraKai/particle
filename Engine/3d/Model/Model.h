@@ -55,6 +55,10 @@ public:
 	ModelData LoadObjFile(const std::string& directoryPath, const std::string& filePath);
 	MaterialData LoadMaterialTemplateFile(const std::string& directoryPath, const std::string& filename);
 
+	Matrix4x4 GetAniMatrix() { return aniMatrix_; }
+	// アニメーション読み込み
+	AnimationData LoadAnimationFile(const std::string& directoryPath, const std::string& filePath);
+
 	Node ReadNode(aiNode* node);
 
 private:
@@ -70,6 +74,7 @@ private:
 
 	VertexData* vertexData_;
 	ModelData modelData_;
+	AnimationData animation_;
 	DirectXCommon* directXCommon_;
 	WinAPI* sWinAPI_;
 	TextureManager* textureManager_ = nullptr;
@@ -99,5 +104,10 @@ private:
 	// 頂点バッファビューを作成する
 	D3D12_VERTEX_BUFFER_VIEW wvpBufferView{};
 	Camera* camera_ = nullptr;
+
+	Matrix4x4 aniMatrix_;
+	float animationTime = 0.0f;
 };
+
+
 

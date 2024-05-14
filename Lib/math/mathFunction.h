@@ -3,6 +3,8 @@
 #include "Vector3.h"
 #include<cmath>
 #include<cassert>
+#include <vector>
+#include <ModelData.h>
 
 
 // ベクトル変換
@@ -13,6 +15,9 @@ Matrix4x4 Multiply(const Matrix4x4 m1, const Matrix4x4 m2);
 Matrix4x4 MakeIdentity4x4();
 
 Matrix4x4 MakeAffineMatrix(const Vector3& scale, const Vector3& rotate, const Vector3& translate);
+Matrix4x4 MakeAffineMatrix(const Vector3& scale, const Quaternion& rotate, const Vector3& translate);
+
+Matrix4x4 MakeRotateMatrix(const Quaternion& quaternion);
 
 Matrix4x4 MakeRotateXMatrix(float radian);
 Matrix4x4 MakeRotateYMatrix(float radian);
@@ -32,8 +37,18 @@ Matrix4x4 MakeScaleMatrix(const Vector3& scale);
 
 Matrix4x4 MakeTranslateMatrix(const Vector3& translate);
 
-
+float Lerp(const float& v1, const float& v2, float t);
+Vector3 Lerp(const Vector3& v1, const Vector3& v2, float t);
+Quaternion Lerp(const Quaternion& v1, const Quaternion& v2, float t);
 //Matrix4x4 MakeAffineMatrixBillboard(const Vector3& scale, const Vector3& rotate, const Vector3& translate)
+float Dot(const Vector3& v1, const Vector3& v2);
+float DotQuaternion(const Quaternion& v1, const Quaternion& v2);
+Vector3 SLerp(const Vector3& v1, const Vector3& v2, float t);
+Quaternion SLerp(const Quaternion& v1, const Quaternion& v2, float t);
 Vector3 Add(const Vector3& posa, const Vector3& posb);
 
 Vector3 Normalize(const Vector3& v);
+Quaternion Normalize(Quaternion quaternion);
+Matrix4x4 MakeRotateMatrix(const Quaternion& quaternion);
+Vector3 CalculateValue(const std::vector<KeyFrameVector3>& keyframes, float time);
+Quaternion CalculateValue(const std::vector<KeyFrameQuaternion>& keyframes, float time);

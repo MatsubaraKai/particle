@@ -56,6 +56,9 @@
     <Filter Include="Engine\Utility">
       <UniqueIdentifier>{4770cf4e-73c4-4350-a380-c7e5146b12d4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\3d\Animation">
+      <UniqueIdentifier>{3f8b20ea-3197-4b2f-97c0-340a1cf23028}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Interface\DirectXCommon.cpp">
@@ -188,6 +191,9 @@
     <ClCompile Include="Engine\Adapter\Engine.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\3d\Animation\Animation.cpp">
+      <Filter>Engine\3d\Animation</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Interface\DirectXCommon.h">
@@ -250,10 +256,10 @@
     <ClInclude Include="Game\Scene\TitleScene.h">
       <Filter>Application\scene</Filter>
     </ClInclude>
-    <ClInclude Include="Lib\math\MaterialData.h">
+    <ClInclude Include="Engine\3d\Model\MaterialData.h">
       <Filter>Engine\3d\Model</Filter>
     </ClInclude>
-    <ClInclude Include="Lib\math\ModelData.h">
+    <ClInclude Include="Engine\3d\Model\ModelData.h">
       <Filter>Engine\3d\Model</Filter>
     </ClInclude>
     <ClInclude Include="Engine\3d\WorldTransform.h">
@@ -363,6 +369,12 @@
     </ClInclude>
     <ClInclude Include="Engine\Adapter\Engine.h">
       <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\math\Quaternion.h">
+      <Filter>Engine\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\3d\Animation\Animation.h">
+      <Filter>Engine\3d\Animation</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
