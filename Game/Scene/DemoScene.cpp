@@ -12,7 +12,7 @@ void DemoScene::Init()
 	camera->SetTranslate(cameraPos);
 	input = Input::GetInstance();
 	textureHandle = TextureManager::StoreTexture("Resources/uvChecker.png");
-	textureHandle2 = TextureManager::StoreTexture("Resources/white.png");
+	textureHandle2 = TextureManager::StoreTexture("Resources/AnimatedCube/AnimatedCube_BaseColor.png");
 	demoSprite = new Sprite();
 	demoSprite->Init({ 0.0f,0.0f }, { 600.0f,600.0f }, { 0.0f,0.0f }, { 1.0f,1.0f,1.0f,1.0f }, "Resources/uvChecker.png");
 	material.color = { 1.0f,1.0f,1.0f,1.0f };
