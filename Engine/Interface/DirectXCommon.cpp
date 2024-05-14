@@ -114,7 +114,7 @@ void DirectXCommon::BeginFrame() {
 	commandList_->ResourceBarrier(1, &barrier_);
 
 	//指定した色で画面全体をクリアする
-	float clearColor[] = { 0.1f,0.25f,0.5f,1.0f }; //青っぽい色。 RGBAの淳  0.1/0.25/0.5/1.0f
+	float clearColor[] = { 1.0f,0.1f,0.1f,1.0f }; //青っぽい色。 RGBAの淳  0.1/0.25/0.5/1.0f
 	commandList_->ClearRenderTargetView(rtvHandles_[backBufferIndex], clearColor, 0, nullptr);
 	dsvHandle = dsvDescriptorHeap_->GetCPUDescriptorHandleForHeapStart();
 	commandList_->OMSetRenderTargets(1, &rtvHandles_[backBufferIndex], false, &dsvHandle);
