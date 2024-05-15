@@ -402,7 +402,7 @@
     <FxCompile Include="CopyImage.VS.hlsl">
       <Filter>Resource\Shader</Filter>
     </FxCompile>
-    <FxCompile Include="Grayslcale.PS.hlsl">
+    <FxCompile Include="Grayscale.PS.hlsl">
       <Filter>Resource\Shader</Filter>
     </FxCompile>
     <FxCompile Include="Vignette.PS.hlsl">
