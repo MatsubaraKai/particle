@@ -188,6 +188,12 @@
     <ClCompile Include="Engine\Adapter\Engine.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
+    <ClCompile Include="Grayscale.cpp">
+      <Filter>Engine\Interface\PSO</Filter>
+    </ClCompile>
+    <ClCompile Include="Vignette.cpp">
+      <Filter>Engine\Interface\PSO</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Interface\DirectXCommon.h">
@@ -364,6 +370,12 @@
     <ClInclude Include="Engine\Adapter\Engine.h">
       <Filter>Engine</Filter>
     </ClInclude>
+    <ClInclude Include="Grayscale.h">
+      <Filter>Engine\Interface\PSO</Filter>
+    </ClInclude>
+    <ClInclude Include="Vignette.h">
+      <Filter>Engine\Interface\PSO</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Object3d.PS.hlsl">
@@ -384,6 +396,24 @@
     <FxCompile Include="Sprite.VS.hlsl">
       <Filter>Resource\Shader</Filter>
     </FxCompile>
+    <FxCompile Include="CopyImage.PS.hlsl">
+      <Filter>Resource\Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="CopyImage.VS.hlsl">
+      <Filter>Resource\Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Grayslcale.PS.hlsl">
+      <Filter>Resource\Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Vignette.PS.hlsl">
+      <Filter>Resource\Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="SkinningObject3d.PS.hlsl">
+      <Filter>Resource\Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="SkinningObject3d.VS.hlsl">
+      <Filter>Resource\Shader</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Object3d.hlsli">
@@ -397,6 +427,12 @@
     </None>
     <None Include="imgui\imgui.ini">
       <Filter>Externals\Imgui</Filter>
+    </None>
+    <None Include="CopyImage.hlsli">
+      <Filter>Resource\Shader</Filter>
+    </None>
+    <None Include="SkinningObject3d.hlsli">
+      <Filter>Resource\Shader</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
