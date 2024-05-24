@@ -45,7 +45,7 @@ public:
 	Model();
 	~Model();
 	void Initialize(const std::string& directoryPath, const std::string& filePath, const Material& material);
-	void Update();
+	void Update(Skeleton& skeleton);
 	void Draw(uint32_t texture, const Material& material, const DirectionalLight& dire);
 
 
@@ -60,6 +60,7 @@ public:
 	AnimationData LoadAnimationFile(const std::string& directoryPath, const std::string& filePath);
 
 	Node ReadNode(aiNode* node);
+	Skeleton CreateSkeleton(const Node& rootNode);
 
 private:
 

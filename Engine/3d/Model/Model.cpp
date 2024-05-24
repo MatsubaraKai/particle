@@ -221,6 +221,37 @@ Node Model::ReadNode(aiNode* node)
 }
 ;
 
+int32_t CreateJoint(const Node& node,
+	const std::optional<int32_t>& parent,
+	std::vector<Joint>& joints) {
+	Joint joint;
+	joint.name = node.name;
+	joint.localMatrix = node.localMatrix;
+	joint.skeletonSpaceMatrix = MakeIdentity4x4();
+	joint.transform = node.transform;
+	joint.index = int32_t(joints.size()); // 現在登録されている数をIndexに
+	joint.parent = parent;
+	joints.push_back(joint);// SkeletonのJoint列に追加
+	for (const Node& child : node.children) {
+		// 子Jointを作成し、そのIndexを登録
+		int32_t childIndex = CreateJoint(child, joint.index, joints);
+		joints[joint.index].children.push_back(childIndex);
+	}
+	// 自身のIndexを返す
+	return joint.index;
+}
+
+Skeleton Model::CreateSkeleton(const Node& rootNode) {
+	Skeleton skeleton;
+	skeleton.root = CreateJoint(rootNode, {}, skeleton.joints);
+
+	// 名前とindexのマッピングを行いアクセスしやすくする
+	for (const Joint& joint : skeleton.joints) {
+		skeleton.jointMap.emplace(joint.name, joint.index);
+	}
+	return skeleton;
+}
+
 void Model::Initialize(const std::string& directoryPath, const std::string& filename, const Material& material) {
 	WinAPI* sWinAPI = WinAPI::GetInstance();
 	directXCommon_ = DirectXCommon::GetInstance();
@@ -277,8 +308,18 @@ void Model::Initialize(const std::string& directoryPath, const std::string& file
 
 };
 
-void Model::Update() {
+void Model::Update(Skeleton& skeleton) {
+	
 	//worldTransform_.UpdateMatrix();
+	for (Joint& joint : skeleton.joints) {
+		joint.localMatrix = MakeAffineMatrix(joint.transform.scale, joint.transform.rotate, joint.transform.translate);
+		if (joint.parent) {
+			joint.skeletonSpaceMatrix = joint.localMatrix * skeleton.joints[*joint.parent].skeletonSpaceMatrix;
+		}
+		else {
+			joint.skeletonSpaceMatrix = joint.localMatrix;
+		}
+	}
 };
 
 

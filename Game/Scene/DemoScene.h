@@ -25,12 +25,22 @@ private:
 	//変数
 	uint32_t textureHandle;
 	uint32_t textureHandle2;
+	uint32_t textureHandle3;
+
 	Object3d* object3d = nullptr;
 	Object3d* object3d2 = nullptr;
+	Object3d* human = nullptr;
+	Object3d* human2 = nullptr;
+	Object3d* simple = nullptr;
+	Model* human3 = nullptr;
+
 	Material material;
 
 	WorldTransform worldTransform;
 	WorldTransform worldTransform2;
+	WorldTransform worldTransform3;
+	WorldTransform worldTransform4;
+	WorldTransform worldTransform5;
 
 	Particle* particle = nullptr;
 	Particle* particle2 = nullptr;
