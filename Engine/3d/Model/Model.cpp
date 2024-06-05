@@ -221,7 +221,18 @@ Node Model::ReadNode(aiNode* node)
 }
 ;
 
-int32_t CreateJoint(const Node& node,
+Skeleton Model::CreateSkeleton(const Node& rootNode) {
+	Skeleton skeleton;
+	skeleton.root = CreateJoint(rootNode, {}, skeleton.joints);
+
+	// 名前とindexのマッピングを行いアクセスしやすくする
+	for (const Joint& joint : skeleton.joints) {
+		skeleton.jointMap.emplace(joint.name, joint.index);
+	}
+	return skeleton;
+}
+
+int32_t Model::CreateJoint(const Node& node,
 	const std::optional<int32_t>& parent,
 	std::vector<Joint>& joints) {
 	Joint joint;
@@ -239,17 +250,6 @@ int32_t CreateJoint(const Node& node,
 	}
 	// 自身のIndexを返す
 	return joint.index;
-}
-
-Skeleton Model::CreateSkeleton(const Node& rootNode) {
-	Skeleton skeleton;
-	skeleton.root = CreateJoint(rootNode, {}, skeleton.joints);
-
-	// 名前とindexのマッピングを行いアクセスしやすくする
-	for (const Joint& joint : skeleton.joints) {
-		skeleton.jointMap.emplace(joint.name, joint.index);
-	}
-	return skeleton;
 }
 
 void Model::Initialize(const std::string& directoryPath, const std::string& filename, const Material& material) {
@@ -303,9 +303,7 @@ void Model::Initialize(const std::string& directoryPath, const std::string& file
 	directionalLightData->direction = { 0.0f,-1.0f,0.0f };
 	directionalLightData->intensity = 1.0f;
 
-
 	//worldTransform_.Initialize();
-
 };
 
 void Model::Update(Skeleton& skeleton) {
@@ -321,7 +319,6 @@ void Model::Update(Skeleton& skeleton) {
 		}
 	}
 };
-
 
 void Model::Draw(uint32_t texture, const Material& material, const DirectionalLight& dire) {
 

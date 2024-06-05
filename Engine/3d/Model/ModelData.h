@@ -8,6 +8,48 @@
 #include <Matrix4x4.h>
 #include "map"
 #include "optional"
+
+struct EulerTransform {
+	Vector3 scale;
+	Vector3 rotate;
+	Vector3 translate;
+};
+
+struct QuaternionTransform {
+	Vector3 scale;
+	Quaternion rotate;
+	Vector3 translate;
+};
+
+struct TransformationMatrix {
+	Matrix4x4 WVP;
+	Matrix4x4 World;
+	Matrix4x4 WorldInverseTranspose;
+};
+
+struct VATData {
+	float VATTime;
+	float MaxVATTime;
+	Vector4 VatPositionTexSize;//(1.0/width, 1.0/height, width, height)
+	Vector4 VatNormalTexSize;//(1.0/width, 1.0/height, width, height)
+};
+
+struct Material {
+	Vector4 color;
+	int32_t enableLighting;
+	float padding[3];
+	Matrix4x4 uvTransform;
+	float shininess;
+};
+struct VertexWeightData {
+	float weight;
+	uint32_t vertexIndex;
+};
+
+struct JointWeightData {
+	Matrix4x4 inverseBindPoseMatrix;
+	std::vector<VertexWeightData> vertexWeights;
+};
 struct Node {
 	QuaternionTransform transform;
 	Matrix4x4 localMatrix;
@@ -16,8 +58,13 @@ struct Node {
 };
 struct ModelData {
 	std::vector<VertexData> vertices;
+	std::vector<uint32_t> indices;
+	std::map<std::string, JointWeightData> skinClusterData;
 	MaterialData material;
+	uint32_t textureIndex;
 	Node rootNode;
+	std::string directoryPath;
+	std::string filename;
 
 };
 
