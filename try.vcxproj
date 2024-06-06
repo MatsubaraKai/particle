@@ -154,6 +154,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="imgui\imgui_tables.cpp" />
     <ClCompile Include="imgui\imgui_widgets.cpp" />
     <ClCompile Include="Engine\2d\ImGuiCommon.cpp" />
+    <ClCompile Include="Game\Utilty\levelDataLoader\LevelDataLoader.cpp" />
     <ClCompile Include="Lib\Utility\function.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Engine\Interface\WinAPI.cpp" />
@@ -166,6 +167,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Vignette.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\..\Downloads\json.hpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="Engine\3d\Model\Model.h" />
     <ClInclude Include="Engine\3d\Model\ModelManager.h" />
     <ClInclude Include="Engine\3d\Object3d\Object3d.h" />
@@ -187,6 +192,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Game\Scene\ClearScene.h" />
     <ClInclude Include="Game\Scene\GameManager.h" />
     <ClInclude Include="Game\Scene\IScene.h" />
+    <ClInclude Include="Game\Utilty\levelDataLoader\LevelData.h" />
     <ClInclude Include="Game\Utilty\TimedCall.h" />
     <ClInclude Include="Grayscale.h" />
     <ClInclude Include="imgui\imconfig.h" />
@@ -197,6 +203,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="imgui\imstb_rectpack.h" />
     <ClInclude Include="imgui\imstb_textedit.h" />
     <ClInclude Include="imgui\imstb_truetype.h" />
+    <ClInclude Include="Game\Utilty\levelDataLoader\LevelDataLoader.h" />
     <ClInclude Include="Lib\math\MaterialData.h" />
     <ClInclude Include="Engine\3d\Material.h" />
     <ClInclude Include="Lib\math\Matrix3x3.h" />

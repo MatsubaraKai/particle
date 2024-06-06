@@ -194,6 +194,7 @@
     <ClCompile Include="Vignette.cpp">
       <Filter>Engine\Interface\PSO</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Utilty\levelDataLoader\LevelDataLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Interface\DirectXCommon.h">
@@ -376,6 +377,9 @@
     <ClInclude Include="Vignette.h">
       <Filter>Engine\Interface\PSO</Filter>
     </ClInclude>
+    <ClInclude Include="Game\Utilty\levelDataLoader\LevelData.h" />
+    <ClInclude Include="Game\Utilty\levelDataLoader\LevelDataLoader.h" />
+    <ClInclude Include="..\..\..\..\Downloads\json.hpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Object3d.PS.hlsl">
