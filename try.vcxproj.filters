@@ -379,7 +379,7 @@
     </ClInclude>
     <ClInclude Include="Game\Utilty\levelDataLoader\LevelData.h" />
     <ClInclude Include="Game\Utilty\levelDataLoader\LevelDataLoader.h" />
-    <ClInclude Include="..\..\..\..\Downloads\json.hpp" />
+    <ClInclude Include="Engine\Externals\nlohmann\json.hpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Object3d.PS.hlsl">
