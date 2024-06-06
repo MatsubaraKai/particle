@@ -128,18 +128,18 @@ EulerTransform LevelDataLoader::TransformLoad(nlohmann::json& object) {
 
 	// 平行移動
 	result.translate.num[0] = static_cast<float>(transform["translation"][0]);
-	result.translate.num[1] = static_cast<float>(transform["translation"][2]);
-	result.translate.num[2] = static_cast<float>(transform["translation"][1]);
+	result.translate.num[1] = static_cast<float>(transform["translation"][1]);
+	result.translate.num[2] = static_cast<float>(transform["translation"][2]);
 
 	// 回転角
 	result.rotate.num[0] = static_cast<float>(transform["rotation"][0]);
-	result.rotate.num[1] = static_cast<float>(transform["rotation"][2]);
-	result.rotate.num[2] = static_cast<float>(transform["rotation"][1]);
+	result.rotate.num[1] = static_cast<float>(transform["rotation"][1]);
+	result.rotate.num[2] = static_cast<float>(transform["rotation"][2]);
 
 	// スケーリング
 	result.scale.num[0] = static_cast<float>(transform["scaling"][0]);
-	result.scale.num[1] = static_cast<float>(transform["scaling"][2]);
-	result.scale.num[2] = static_cast<float>(transform["scaling"][1]);
+	result.scale.num[1] = static_cast<float>(transform["scaling"][1]);
+	result.scale.num[2] = static_cast<float>(transform["scaling"][2]);
 
 	return result;
 }
