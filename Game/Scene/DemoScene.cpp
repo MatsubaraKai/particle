@@ -56,6 +56,9 @@ void DemoScene::Init()
 	demoEmitter_.transform.scale = { 0.5f,0.5f,0.5f };
 	particle->Initialize(demoEmitter_);
 	particle2->Initialize(demoEmitter_);
+
+	levelDataLoader_ = LevelDataLoader::GetInstance();
+	levelDataLoader_->Initialize("project/gamedata/levelEditor", "Transform.json");
 }
 
 void DemoScene::Update()
@@ -86,6 +89,10 @@ void DemoScene::Update()
 	object3d2->Update();
 	object3d3->Update();
 
+	for (Object3d& obj : levelEditorObjects_) {
+		obj.world.UpdateMatrix();
+	}
+
 }
 void DemoScene::Draw()
 {
@@ -95,6 +102,9 @@ void DemoScene::Draw()
 	object3d3->Draw(textureHandle3, camera);
 	particle->Draw(demoEmitter_, { worldTransform.translation_.x,worldTransform.translation_.y,worldTransform.translation_.z + 5 }, textureHandle, camera, demoRandPro, false);
 	particle2->Draw(demoEmitter_, { worldTransform2.translation_.x,worldTransform2.translation_.y,worldTransform2.translation_.z + 5 }, textureHandle2, camera, demoRandPro, false);
+	for (Object3d& obj : levelEditorObjects_) {
+		obj.model.Draw(textureHandle, obj.material, obj.world);
+	}
 }
 
 void DemoScene::Release() {

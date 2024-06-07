@@ -48,7 +48,6 @@ public:
 	void Update();
 	void Draw(uint32_t texture, const Material& material, const DirectionalLight& dire);
 
-
 	void SetTextureManager(TextureManager* textureManager) {
 		textureManager_ = textureManager;
 	}

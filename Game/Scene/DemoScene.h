@@ -7,6 +7,7 @@
 #include "Sprite.h"
 #include "Object3d.h"
 #include "Model.h"
+#include "LevelDataLoader.h"
 class DemoScene : public IScene
 {
 public:
@@ -39,4 +40,13 @@ private:
 	Particle* particle2 = nullptr;
 	Emitter demoEmitter_;
 	RandRangePro demoRandPro;
+	struct Object3d {
+		Model model;
+		WorldTransform world;
+		Vector4 material;
+		std::string name;
+	};
+	//LevelEditor
+	LevelDataLoader* levelDataLoader_;
+	std::list<Object3d> levelEditorObjects_;
 };

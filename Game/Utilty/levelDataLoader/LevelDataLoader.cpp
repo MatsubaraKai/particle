@@ -63,7 +63,7 @@ LevelData* LevelDataLoader::SearchObjects(nlohmann::json& deserialized) {
 			//要素追加
 			levelData->objectsData_.emplace_back(LevelData::MeshData{});
 			//今追加した要素の参照を得る
-			LevelData::MeshData& objectData = std::get<LevelData::MeshData>(levelData->objectsData_.back());
+			LevelData::MeshData& objectData = levelData->objectsData_.back();
 
 			//オブジェクト名
 			objectData.name = object["Name"];
@@ -98,7 +98,7 @@ void LevelDataLoader::SearchChildren(LevelData* levelData, nlohmann::json& paren
 			//要素追加
 			levelData->objectsData_.emplace_back(LevelData::MeshData{});
 			//今追加した要素の参照を得る
-			LevelData::MeshData& objectData = std::get<LevelData::MeshData>(levelData->objectsData_.back());
+			LevelData::MeshData & objectData = levelData->objectsData_.back();
 
 			//オブジェクト名
 			objectData.name = object["Name"];
