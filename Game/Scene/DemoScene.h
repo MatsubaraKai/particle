@@ -17,20 +17,26 @@ public:
 	void Release()override;
 	int GameClose()override;
 
+
 private:
 	int sceneTime = 0;
 	Camera* camera = nullptr;
 	Input* input = nullptr;
 	Sprite* demoSprite = nullptr;
+	TextureManager* textureManager_;
 
 	//変数
 	uint32_t textureHandle;
 	uint32_t textureHandle2;
 	uint32_t textureHandle3;
-	Object3d* object3d = nullptr;
+	/*Object3d* object3d = nullptr;
 	Object3d* object3d2 = nullptr;
-	Object3d* object3d3 = nullptr;
+	Object3d* object3d3 = nullptr;*/
 	Material material;
+
+	std::unique_ptr<Model> model_[3];
+	WorldTransform worldTransformModel_[3];
+	Vector4 modelMaterial_[3];
 
 	WorldTransform worldTransform;
 	WorldTransform worldTransform2;
@@ -46,6 +52,9 @@ private:
 		Vector4 material;
 		std::string name;
 	};
+	std::list<Object3d> objects_;
+	ModelData ObjModelData_;
+	uint32_t ObjTexture_;
 	//LevelEditor
 	LevelDataLoader* levelDataLoader_;
 	std::list<Object3d> levelEditorObjects_;
