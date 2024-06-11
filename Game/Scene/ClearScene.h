@@ -6,7 +6,6 @@
 #include "WorldTransform.h"
 #include "Model.h"
 #include "TextureManager.h"
-#include "../Car/Car.h"
 #include "Particle.h"
 #define STAGE_MAX 10
 class ClearScene : public IScene
@@ -24,7 +23,6 @@ private:
 	//メンバ
 	Input* input_ = nullptr;
 	Camera* camera_ = nullptr;
-	Car* car_ = nullptr;
 	Sprite* sprite_ = nullptr;
 	Model* model2_ = {};
 	Model* model_ = nullptr;

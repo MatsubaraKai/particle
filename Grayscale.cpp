@@ -10,7 +10,7 @@ void Grayscale::CreatePipelineStateObject() {
 	Grayscale::SetRasterrizerState();
 	Grayscale::CreateDepth();
 	// Shaderをコンパイルする
-	property.vertexShaderBlob = CompileShader(L"CopyImage.VS.hlsl",
+	property.vertexShaderBlob = CompileShader(L"Fullscreen.VS.hlsl",
 		L"vs_6_0", sDirectXCommon->GetDxcUtils(), sDirectXCommon->GetDxcCompiler(), sDirectXCommon->GetIncludeHandler());
 	assert(property.vertexShaderBlob != nullptr);
 

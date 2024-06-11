@@ -1,22 +1,18 @@
-#include "Particle.h"
 #include "Sprite.h"
 #include "WinAPI.h"
 #include "DirectXCommon.h"
 #include "Camera.h"
 #include "mathFunction.h"
 #include "Mesh.h"
-#include "ImGuiCommon.h"
-
-#include <numbers>
-
+#include "SRVManager.h"
+#include "TextureManager.h"
 
 
-Particle::Particle() {};
-void Particle::Initialize(Emitter emitter) {
+Sprite::Sprite() {};
+
+void Sprite::Init(const Vector2& pos, const Vector2& size, const Vector2& anchorPoint, const Vector4& color, const std::string& filePath) {
 	sWinAPI = WinAPI::GetInstance();
 	sDirectXCommon = DirectXCommon::GetInstance();
-
-	
 
 	//rootParamerters[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE; // DescripterTableを使う
 	//rootParamerters[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL; // PixelShaderで使う
@@ -35,37 +31,21 @@ void Particle::Initialize(Emitter emitter) {
 
 	vertexResourceSprite_->Map(0, nullptr, reinterpret_cast<void**>(&vertexDataSprite_));
 
+	float left = 0.0f - anchorPoint.x;
+	float right = 1.0f - anchorPoint.x;
+	float top = 0.0f - anchorPoint.y;
+	float bottom = 1.0f - anchorPoint.y;
 	// 1枚目の三角形
-	vertexDataSprite_[0].position = { -1.0f,-1.0f,0.0f,1.0f };//左下
+	vertexDataSprite_[0].position = { left,bottom,0.0f,1.0f };//左下
+	vertexDataSprite_[1].position = { left,top,0.0f,1.0f }; // 左上
+	vertexDataSprite_[2].position = { right,bottom,0.0f,1.0f }; // 右下
+	vertexDataSprite_[3].position = { right,top,0.0f,1.0f }; // 右上
+
+	// 1枚目の三角形
 	vertexDataSprite_[0].texcorrd = { 0.0f,1.0f };
-	vertexDataSprite_[1].position = { -1.0f,1.0f,0.0f,1.0f }; // 左上
 	vertexDataSprite_[1].texcorrd = { 0.0f,0.0f };
-	vertexDataSprite_[2].position = { 1.0f,-1.0f,0.0f,1.0f }; // 右下
 	vertexDataSprite_[2].texcorrd = { 1.0f,1.0f };
-
-	vertexDataSprite_[3].position = { 1.0f,1.0f,0.0f,1.0f }; // 右上
 	vertexDataSprite_[3].texcorrd = { 1.0f,0.0f };
-
-	//vertexDataSprite_[0].normal = {
-	//	vertexDataSprite_[0].position.x,
-	//	vertexDataSprite_[0].position.y,
-	//	vertexDataSprite_[0].position.z };
-
-	//vertexDataSprite_[1].normal = {
-	//	vertexDataSprite_[1].position.x,
-	//	vertexDataSprite_[1].position.y,
-	//	vertexDataSprite_[1].position.z };
-
-	//vertexDataSprite_[2].normal = {
-	//	vertexDataSprite_[2].position.x,
-	//	vertexDataSprite_[2].position.y,
-	//	vertexDataSprite_[2].position.z };
-
-	//vertexDataSprite_[3].normal = {
-	//	vertexDataSprite_[3].position.x,
-	//	vertexDataSprite_[3].position.y,
-	//	vertexDataSprite_[3].position.z };
-
 	// 実際に頂点リソースを作る
 	materialResource = Mesh::CreateBufferResource(sDirectXCommon->GetDevice(), sizeof(Material));
 
@@ -75,23 +55,20 @@ void Particle::Initialize(Emitter emitter) {
 	// 書き込むためのアドレスを取得
 	materialResource->Map(0, nullptr, reinterpret_cast<void**>(&materialData));
 	// 色のデータを変数から読み込み
-	materialData->color = {1.0f,1.0f,1.0f,1.0f};
+	materialData->color = color;
 	materialData->uvTransform = MakeIdentity4x4();
-	materialData->enableLighting = false;
+
+
+
+	// Sprite用のTransformationMatrix用のリソースを作る。Matrix4x4 1つ分のサイズを用意する
+	transformationMatrixResouceSprite = Mesh::CreateBufferResource(sDirectXCommon->GetDevice(), sizeof(TransformationMatrix));
+	// 書き込むためのアドレスを取得
+	transformationMatrixResouceSprite->Map(0, nullptr, reinterpret_cast<void**>(&transformationMatrixDataSprite));
+	// 単位行列を書き込んでおく
+	transformationMatrixDataSprite->WVP = MakeIdentity4x4();
 
 	// Transform変数の初期化
-	
-	// Sprite用のTransformationMatrix用のリソースを作る。Matrix4x4 1つ分のサイズを用意する
-	transformationMatrixResouceSprite = Mesh::CreateBufferResource(sDirectXCommon->GetDevice(), sizeof(ParticleForGPU) * kNumMaxInstance);
-	// 書き込むためのアドレスを取得
-	transformationMatrixResouceSprite->Map(0, nullptr, reinterpret_cast<void**>(&instancingData));
-	// 単位行列を書き込んでおく
-	
-	for (uint32_t index = 0; index < kNumMaxInstance; ++index) {
-		instancingData[index].WVP = MakeIdentity4x4();
-		instancingData[index].World = MakeIdentity4x4();
-		instancingData[index].color = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
-	}
+	transform_ = { {size.x,size.y,1.0f},{0.0f,0.0f,0.0f},{pos.x,pos.y ,0.0f} };
 
 	indexResourceSprite = Mesh::CreateBufferResource(sDirectXCommon->GetDevice(), sizeof(uint32_t) * 6);
 	// リソースの先頭のアドレスから使う
@@ -116,110 +93,55 @@ void Particle::Initialize(Emitter emitter) {
 		{0.0f,0.0f,0.0f},
 		{0.0f,0.0f,0.0f}
 	};
-	
-	//std::uniform_real_distribution<float> distribution(-1.0f, 1.0f);
-	//for (uint32_t index = 0; index < kNumMaxInstance; ++index) {
-	//	//particles_[index] = MakeNewParticle(randomEngine);
-	//	
-	//}
 
-	instancingSrvDesc.Format = DXGI_FORMAT_UNKNOWN;
-	instancingSrvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-	instancingSrvDesc.ViewDimension = D3D12_SRV_DIMENSION_BUFFER;
-	instancingSrvDesc.Buffer.FirstElement = 0;
-	instancingSrvDesc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
-	instancingSrvDesc.Buffer.NumElements = kNumMaxInstance;
-	instancingSrvDesc.Buffer.StructureByteStride = sizeof(ParticleForGPU);
+	const DirectX::TexMetadata& metadata_ =
+		TextureManager::GetInstance()->GetMetaData(filePath);
+	originSize_ = { static_cast<float>(metadata_.width),static_cast<float>(metadata_.height) };
 
-	//// SRVを作成するDescriptorHeapの場所を決める
-	//instancingSrvHandleCPU = sDirectXCommon->GetSrvDescriptorHeap()->GetCPUDescriptorHandleForHeapStart();
-	//instancingSrvHandleGPU = sDirectXCommon->GetSrvDescriptorHeap()->GetGPUDescriptorHandleForHeapStart();
-	//// 先頭はImGuiが使っているのでその次を使う
-	//instancingSrvHandleCPU.ptr += sDirectXCommon->GetDevice()->(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV) * TextureManager::index_;
-	//instancingSrvHandleGPU.ptr += sDirectXCommon->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV) * TextureManager::index_;
-	// 
-	instancingSrvHandleCPU = sDirectXCommon->GetCPUDescriptorHandle(sDirectXCommon->GetSrvDescriptorHeap().Get(), sDirectXCommon->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV), TextureManager::index_);
-	instancingSrvHandleGPU = sDirectXCommon->GetGPUDescriptorHandle(sDirectXCommon->GetSrvDescriptorHeap().Get(), sDirectXCommon->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV),TextureManager::index_);
-	// SRVの生成
-	sDirectXCommon->GetDevice()->CreateShaderResourceView(transformationMatrixResouceSprite.Get(), &instancingSrvDesc, instancingSrvHandleCPU);
-	TextureManager::PlusIndex();
-	directionalLightData = nullptr;
-	directionalLightResource = Mesh::CreateBufferResource(sDirectXCommon->GetDevice(), sizeof(DirectionalLight));
-	// 書き込むためのアドレスを取得
-	directionalLightResource->Map(0, nullptr, reinterpret_cast<void**>(&directionalLightData));
+};
+void Sprite::Update() {
+	/*transform_.translate = { position_.x,position_.y ,0.0f };
+	transform_.scale = { size_.x,size_.y,1.0f };*/
+	float left = 0.0f - anchorPoint_.x;
+	float right = 1.0f - anchorPoint_.x;
+	float top = 0.0f - anchorPoint_.y;
+	float bottom = 1.0f - anchorPoint_.y;
 
-	// デフォルト値はとりあえず以下のようにしておく
-	directionalLightData->color = { 1.0f,1.0f,1.0f,1.0f };
-	directionalLightData->direction = { 0.0f,-1.0f,0.0f };
-	directionalLightData->intensity = 1.0f;
-	emitter_ = emitter;
-	emitter_.count =6;
-	emitter_.frequency = 0.02f;// 0.5秒ごとに発生
-	emitter_.frequencyTime = 0.0f;// 発生頻度用の時刻、0で初期化
+
+	// 1枚目の三角形
+	vertexDataSprite_[0].position = { left,bottom,0.0f,1.0f };//左下
+	vertexDataSprite_[1].position = { left,top,0.0f,1.0f }; // 左上
+	vertexDataSprite_[2].position = { right,bottom,0.0f,1.0f }; // 右下
+	vertexDataSprite_[3].position = { right,top,0.0f,1.0f }; // 右上
+
+
+	float tex_left = textureleftTop_.x / originSize_.x;
+	float tex_right = (textureleftTop_.x + textureSize_.x) / originSize_.x;
+	float tex_top = textureleftTop_.y / originSize_.y;
+	float tex_bottom = (textureleftTop_.y + textureSize_.y) / originSize_.y;
+
+	// 1枚目の三角形
+	vertexDataSprite_[0].texcorrd = { tex_left,tex_bottom };
+	vertexDataSprite_[1].texcorrd = { tex_left,tex_top };
+	vertexDataSprite_[2].texcorrd = { tex_right,tex_bottom };
+	vertexDataSprite_[3].texcorrd = { tex_right,tex_top };
+	//// 1枚目の三角形
+	//vertexDataSprite_[0].texcorrd = { 0.0f,1.0f };
+	//vertexDataSprite_[1].texcorrd = { 0.0f,0.0f };
+	//vertexDataSprite_[2].texcorrd = { 1.0f,1.0f };
+	//vertexDataSprite_[3].texcorrd = { 1.0f,0.0f };
 };
 
-void Particle::Draw(Emitter emitter,const Vector3& worldTransform, uint32_t texture,  Camera* camera, const RandRangePro& randRange,bool scaleAddFlag) {
-	pso_ = PSOParticle::GatInstance();
-	
-	emitter_.count = emitter.count;
-	emitter_.transform = { emitter.transform.scale,{0.0f,0.0f,0.0f},worldTransform };
-	randRange_ = randRange;
 
-	randRange_ = 
-	{
-	{0.3f,0.7f},
-	{0.2f,0.5f},
-	{-0.5f,0.3f}
-	};
-	//materialData->color = {1.0f,1.0f,1.0f,1.0f};
-	Matrix4x4 backToFrontMatrix = MakeRotateYMatrix(std::numbers::pi_v<float>);
-	Matrix4x4 billboardMatrix = Multiply(backToFrontMatrix,camera->cameraMatrix_);
-	billboardMatrix.m[3][0] = 0.0f;
-	billboardMatrix.m[3][1] = 0.0f;
-	billboardMatrix.m[3][2] = 0.0f;
-	std::random_device seedGenerator;
-	std::mt19937 randomEngine(seedGenerator());
-	
-
-	emitter_.frequencyTime += kDeltaTime;// 時刻を進める
-	if (emitter_.frequency <= emitter_.frequencyTime) {// 頻度より大きいなら発生
-		particles_.splice(particles_.end(), particle->Emission(emitter_, randomEngine, worldTransform , randRange));
-		emitter_.frequencyTime -= emitter_.frequency;// 余計に過ぎた時間も加味して頻度計算する
-
-	}
-
-	uint32_t numInstance = 0;// 描画すべきインスタンス数
+void Sprite::Draw(uint32_t texture, const Vector4& color) {
+	pso_ = PSOSprite::GatInstance();
+	materialData->color = color;
 	// Sprite用のWorldViewProjectMatrixを作る
-	for (std::list<ParticlePro>::iterator particleIterator = particles_.begin(); particleIterator != particles_.end();) {
-		if ((*particleIterator).lifeTime <= (*particleIterator).currentTime){
-			particleIterator = particles_.erase(particleIterator);
-			continue;
-		}
-	
-		(*particleIterator).transform.translate.x += (*particleIterator).velocity.x * kDeltaTime;
-		(*particleIterator).transform.translate.y += (*particleIterator).velocity.y * kDeltaTime;
-		(*particleIterator).transform.translate.z += (*particleIterator).velocity.z * kDeltaTime;
-		if (scaleAddFlag) {
-			(*particleIterator).transform.scale = Add((*particleIterator).transform.scale, { 0.1f ,0.1f,0.1f });
-		}
-		(*particleIterator).currentTime += kDeltaTime;
-		// (*particleIterator).color = { 1.0f,1.0f,1.0f,1.0f };
-		float alpha = 5.0f - ((*particleIterator).currentTime / (*particleIterator).lifeTime);
-		//transforms_[index].rotate.x += 0.1f;
-		Matrix4x4 worldMatrix = Multiply(MakeScaleMatrix((*particleIterator).transform.scale), Multiply(billboardMatrix, MakeTranslateMatrix((*particleIterator).transform.translate)));
-		//Matrix4x4 worldViewProjectionMatrixSprite = Multiply(worldMatrixSprite, Multiply(viewMatrixSprite, projectionMatrixSprite));
-		Matrix4x4 worldViewProjectionMatrix = Multiply(worldMatrix, Multiply(camera->viewMatrix_, camera->projectionMatrix_));
-		if (numInstance < kNumMaxInstance) {
-			instancingData[numInstance].WVP = worldViewProjectionMatrix;
-			instancingData[numInstance].World = worldMatrix;
-			instancingData[numInstance].color = (*particleIterator).color;
-			instancingData[numInstance].color.w = alpha;
-		}
-		++numInstance; // 生きているparticluの数を1使うんとする
-		++particleIterator;
-
-	}
-	textureManager_ = TextureManager::GetInstance();
+	Matrix4x4 worldMatrixSprite = MakeAffineMatrix(transform_.scale, transform_.rotate, transform_.translate);
+	Matrix4x4 viewMatrixSprite = MakeIdentity4x4();
+	Matrix4x4 projectionMatrixSprite = MakeOrthographicMatrix(0.0f, 0.0f, float(WinAPI::kClientWidth_), float(WinAPI::kClientHeight_), 0.0f, 100.0f);
+	Matrix4x4 worldViewProjectionMatrixSprite = Multiply(worldMatrixSprite, Multiply(viewMatrixSprite, projectionMatrixSprite));
+	transformationMatrixDataSprite->WVP = worldViewProjectionMatrixSprite;
 	sDirectXCommon->GetCommandList()->SetGraphicsRootSignature(pso_->GetProperty().rootSignature.Get());
 	sDirectXCommon->GetCommandList()->SetPipelineState(pso_->GetProperty().graphicsPipelineState.Get());    //PSOを設定
 	sDirectXCommon->GetCommandList()->IASetVertexBuffers(0, 1, &vertexBufferViewSprite_); // VBVを設定
@@ -229,53 +151,18 @@ void Particle::Draw(Emitter emitter,const Vector3& worldTransform, uint32_t text
 	// マテリアルCBufferの場所を設定
 	sDirectXCommon->GetCommandList()->SetGraphicsRootConstantBufferView(0, materialResource->GetGPUVirtualAddress());
 	// TransformationmatrixCBufferの場所を設定
-	sDirectXCommon->GetCommandList()->SetGraphicsRootDescriptorTable(1,instancingSrvHandleGPU);
+	sDirectXCommon->GetCommandList()->SetGraphicsRootConstantBufferView(1, transformationMatrixResouceSprite->GetGPUVirtualAddress());
 	// SRV のDescriptorTableの先頭を設定。2はrootParameter[2]である。
-	sDirectXCommon->GetCommandList()->SetGraphicsRootDescriptorTable(2, textureManager_->textureSrvHandleGPU_[texture]);
-	sDirectXCommon->GetCommandList()->SetGraphicsRootConstantBufferView(3, directionalLightResource->GetGPUVirtualAddress());
+	sDirectXCommon->GetCommandList()->SetGraphicsRootDescriptorTable(2, SRVManager::GetGPUDescriptorHandle(texture));
 	// 描画（DrawCall/ドローコール）
 	//sDirectXCommon->GetCommandList()->DrawInstanced(6, 1, 0, 0);
-	sDirectXCommon->GetCommandList()->DrawIndexedInstanced(6, numInstance, 0, 0, 0);
+	sDirectXCommon->GetCommandList()->DrawIndexedInstanced(6, 1, 0, 0, 0);
 }
 
 
 
 
-Particle::ParticlePro Particle::MakeNewParticle(std::mt19937& randomEngine, const Vector3& scale, const Vector3& translate, const RandRangePro& randRange)
-{
-	RandRangePro ran = randRange;
-	std::uniform_real_distribution<float> distribution(-0.8f, 0.8f);
-	std::uniform_real_distribution<float> distriposX(ran.rangeX.x, ran.rangeX.y);//distriposX(-0.7f, -0.3
-	std::uniform_real_distribution<float> distriposY(ran.rangeY.x,ran.rangeY.y );//  distriposY(0.2f, 0.5f)
-	std::uniform_real_distribution<float> distriposZ(ran.rangeZ.x, ran.rangeZ.y);// distriposZ(-0.5f, 0.3f
-	std::uniform_real_distribution<float> distColor(0.0f, 1.0f);
-	std::uniform_real_distribution<float> distTime(0.0f, 1.5f);
-
-	Particle::ParticlePro particle;
-	particle.transform.scale = scale;
-	particle.transform.rotate = { 0.0f,0.0f,0.0f };
-
-	// 位置と速度を[-1,1]でランダムに初期化
-	Vector3 randomTranslate = { distriposX(randomEngine), distriposY(randomEngine), distriposZ(randomEngine) };
-	particle.transform.translate = Add(translate,randomTranslate);
-	particle.velocity = { distribution(randomEngine),distribution(randomEngine),distribution(randomEngine) };
-	particle.color = { 1.0f,1.0f ,1.0f,0.7f };
-	particle.lifeTime = distTime(randomEngine);
-	particle.currentTime = 0;
-	return particle;
-}
-
-std::list<Particle::ParticlePro> Particle::Emission(const Emitter& emitter, std::mt19937& randEngine, const Vector3& worldTransform, const RandRangePro& randRange)
-{
-	std::list<Particle::ParticlePro> particles;
-	for (uint32_t count = 0; count < emitter.count; ++count) {
-		particles.push_back(MakeNewParticle(randEngine, emitter.transform.scale,emitter.transform.translate,randRange));
-
-	}
-	return particles;
-}
-
-D3D12_VERTEX_BUFFER_VIEW Particle::CreateBufferView() {
+D3D12_VERTEX_BUFFER_VIEW Sprite::CreateBufferView() {
 	D3D12_VERTEX_BUFFER_VIEW view{};
 
 	//リソースの先頭のアドレスから使う

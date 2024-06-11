@@ -157,6 +157,8 @@
     <ClCompile Include="Grayscale.cpp">
       <Filter>Interface</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Interface\PSOCopyImage.cpp" />
+    <ClCompile Include="Engine\Interface\SRVManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Lib\utility\function.h">
@@ -309,6 +311,8 @@
     <ClInclude Include="Grayscale.h">
       <Filter>Interface</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Interface\PSOCopyImage.h" />
+    <ClInclude Include="Engine\Interface\SRVManager.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Object3d.PS.hlsl">
@@ -330,9 +334,22 @@
       <Filter>Resource\Shader</Filter>
     </FxCompile>
     <FxCompile Include="Grayscale.PS.hlsl" />
-    <FxCompile Include="CopyImage.PS.hlsl" />
-    <FxCompile Include="CopyImage.VS.hlsl" />
     <FxCompile Include="Vignette.PS.hlsl">
+      <Filter>Resource</Filter>
+    </FxCompile>
+    <FxCompile Include="Fullscreen.PS.hlsl">
+      <Filter>Resource</Filter>
+    </FxCompile>
+    <FxCompile Include="Fullscreen.VS.hlsl">
+      <Filter>Resource</Filter>
+    </FxCompile>
+    <FxCompile Include="BoxFilter.PS.hlsl">
+      <Filter>Resource</Filter>
+    </FxCompile>
+    <FxCompile Include="DepthBasedOutline.PS.hlsl">
+      <Filter>Resource</Filter>
+    </FxCompile>
+    <FxCompile Include="GaussianFilter.PS.hlsl">
       <Filter>Resource</Filter>
     </FxCompile>
   </ItemGroup>
@@ -348,6 +365,9 @@
     </None>
     <None Include="Sprite.hlsli">
       <Filter>Resource\Shader</Filter>
+    </None>
+    <None Include="Fullscreen.hlsli">
+      <Filter>Resource</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
