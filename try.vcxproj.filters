@@ -335,6 +335,7 @@
     <FxCompile Include="Vignette.PS.hlsl">
       <Filter>Resource</Filter>
     </FxCompile>
+    <FxCompile Include="GaussianFilter.PS.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui\imgui.ini">
