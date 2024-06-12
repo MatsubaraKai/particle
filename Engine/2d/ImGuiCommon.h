@@ -8,7 +8,12 @@ class DirectXCommon;
 class ImGuiCommon
 {
 public:
-	
+	static ImGuiCommon* GetInstance();
+
+	ImGuiCommon() = default;
+	~ImGuiCommon() = default;
+	const ImGuiCommon& operator=(const ImGuiCommon&) = delete;
+
 	void Initialize();
 	void Update();
 	void Draw();

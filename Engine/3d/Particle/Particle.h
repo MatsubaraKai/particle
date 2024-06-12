@@ -22,6 +22,7 @@
 #include "Material.h"
 #include "DirectionLight.h"
 #include "WorldTransform.h"
+#include "TextureManager.h"
 #pragma comment(lib,"d3d12.lib")
 #pragma comment(lib,"dxgi.lib")
 #pragma comment(lib,"dxcompiler.lib")
@@ -29,7 +30,6 @@ class WinAPI;
 class DirectXCommon;
 class Camera;
 class Mesh;
-class TextureManager;
 
 struct ParticleForGPU {
 	Matrix4x4 WVP;
@@ -60,14 +60,14 @@ public:
 		float lifeTime;
 		float currentTime;
 	};
-	
+
 
 	Particle();
 	~Particle();
 
 	void Initialize(Emitter emitter);
 	//void Update();
-	void Draw(Emitter emitter,const Vector3& worldTransform,uint32_t texture, Camera* camera, const RandRangePro& randRange, bool scaleAddFlag);
+	void Draw(Emitter emitter, const Vector3& worldTransform, uint32_t texture, Camera* camera, const RandRangePro& randRange, bool scaleAddFlag);
 	void Release();
 	void SetTextureManager(TextureManager* textureManager) {
 		textureManager_ = textureManager;
@@ -94,14 +94,12 @@ private:
 	// Sprite用のTransformationMatrix用のリソースを作る。Matrix4x4 1つ分のサイズを用意する
 	Microsoft::WRL::ComPtr < ID3D12Resource> transformationMatrixResouceSprite;
 	// データを書き込む
-	//TransformationMatrix* transformationMatrixDataSprite = nullptr;
-	D3D12_SHADER_RESOURCE_VIEW_DESC instancingSrvDesc{};
-	
+
 	D3D12_CPU_DESCRIPTOR_HANDLE instancingSrvHandleCPU;
 	D3D12_GPU_DESCRIPTOR_HANDLE instancingSrvHandleGPU;
 
-	Particle*particle = nullptr;
-	
+	Particle* particle = nullptr;
+
 
 	//D3D12_DESCRIPTOR_RANGE descriptorRange_[1] = {};
 
@@ -129,13 +127,11 @@ private:
 	DirectionalLight* directionalLightData;
 	Transform transformUv;
 
-	
+	uint32_t SRVIndex_;
 
 	// Δtを定義。とりあえず60fps固定してあるが、
 	//実時間を計測して可変fpsで動かせるようにしておくとなお良い
 	const float kDeltaTime = 1.0f / 45.0f;
 	Emitter emitter_{};
 	RandRangePro randRange_;
-	
 };
-
