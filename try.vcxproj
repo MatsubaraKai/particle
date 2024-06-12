@@ -118,6 +118,26 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\2d\PostProcess.cpp" />
+    <ClCompile Include="Engine\3d\Model\Model.cpp" />
+    <ClCompile Include="Engine\3d\Model\ModelManager.cpp" />
+    <ClCompile Include="Engine\3d\Object3d\Object3d.cpp" />
+    <ClCompile Include="Engine\3d\Object3d\Object3dCommon.cpp" />
+    <ClCompile Include="Engine\3d\Particle\Particle.cpp" />
+    <ClCompile Include="Engine\3d\Particle\ParticleManager.cpp" />
+    <ClCompile Include="Engine\3d\Sphere\Sphere.cpp" />
+    <ClCompile Include="Engine\3d\Triangle\Triangle.cpp" />
+    <ClCompile Include="Engine\Interface\Camera.cpp" />
+    <ClCompile Include="Engine\Interface\Heap\SRVManager.cpp" />
+    <ClCompile Include="Engine\Interface\Mesh.cpp" />
+    <ClCompile Include="Engine\Interface\PSO\PSOCopyImage.cpp" />
+    <ClCompile Include="Engine\Interface\PSO\PSOModel.cpp" />
+    <ClCompile Include="Engine\Interface\PSO\PSOParticle.cpp" />
+    <ClCompile Include="Engine\Interface\PSO\PSOProperty.cpp" />
+    <ClCompile Include="Engine\Interface\PSO\PSOSprite.cpp" />
+    <ClCompile Include="Engine\Interface\WorldTransform.cpp" />
+    <ClCompile Include="Game\Collision\Collider.cpp" />
+    <ClCompile Include="Game\Collision\CollisionManager.cpp" />
     <ClCompile Include="Game\Scene\DemoScene.cpp" />
     <ClCompile Include="Engine\Audio\Audio.cpp" />
     <ClCompile Include="Engine\Adapter\Engine.cpp" />
@@ -125,14 +145,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Game\Scene\ClearScene.cpp" />
     <ClCompile Include="Game\Scene\GameManager.cpp" />
     <ClCompile Include="Engine\Input\Input.cpp" />
-    <ClCompile Include="Engine\3d\Model.cpp" />
-    <ClCompile Include="Engine\Interface\PSO.cpp" />
     <ClCompile Include="Game\Scene\IScene.cpp" />
-    <ClCompile Include="Engine\3d\Sphere.cpp" />
     <ClCompile Include="Engine\2d\Sprite.cpp" />
-    <ClCompile Include="Engine\3d\Camera.cpp" />
     <ClCompile Include="Engine\Interface\DirectXCommon.cpp" />
-    <ClCompile Include="Engine\3d\Triangle.cpp" />
     <ClCompile Include="Game\Scene\TitleScene.cpp" />
     <ClCompile Include="Engine\Input\InputManager.cpp" />
     <ClCompile Include="imgui\imgui.cpp" />
@@ -145,22 +160,39 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Lib\utility\function.cpp" />
     <ClCompile Include="Engine\2d\ImGuiCommon.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Engine\3d\Mesh.cpp" />
     <ClCompile Include="Engine\Interface\WinAPI.cpp" />
     <ClCompile Include="Lib\math\mathFunction.cpp" />
     <ClCompile Include="Engine\Interface\TextureManager.cpp" />
-    <ClCompile Include="Engine\3d\WorldTransform.cpp" />
-    <ClCompile Include="Game\Player\Player.cpp" />
-    <ClCompile Include="Engine\Interface\PSOSprite.cpp" />
-    <ClCompile Include="Engine\Interface\PSOProperty.cpp" />
-    <ClCompile Include="Engine\Interface\PSOParticle.cpp" />
-    <ClCompile Include="Engine\3d\Particle.cpp" />
     <ClCompile Include="Game\Utilty\TimedCall.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Engine\2d\PostProcess.h" />
+    <ClInclude Include="Engine\3d\Model\MaterialData.h" />
+    <ClInclude Include="Engine\3d\Model\Model.h" />
+    <ClInclude Include="Engine\3d\Model\ModelData.h" />
+    <ClInclude Include="Engine\3d\Model\ModelManager.h" />
+    <ClInclude Include="Engine\3d\Object3d\Object3d.h" />
+    <ClInclude Include="Engine\3d\Object3d\Object3dCommon.h" />
+    <ClInclude Include="Engine\3d\Particle\Particle.h" />
+    <ClInclude Include="Engine\3d\Particle\ParticleManager.h" />
+    <ClInclude Include="Engine\3d\Sphere\Sphere.h" />
+    <ClInclude Include="Engine\3d\Triangle\Triangle.h" />
     <ClInclude Include="Engine\Audio\Audio.h" />
     <ClInclude Include="Engine\3d\DirectionLight.h" />
     <ClInclude Include="Engine\Adapter\Engine.h" />
+    <ClInclude Include="Engine\Interface\Camera.h" />
+    <ClInclude Include="Engine\Interface\Heap\SRVManager.h" />
+    <ClInclude Include="Engine\Interface\Mesh.h" />
+    <ClInclude Include="Engine\Interface\PSO\PSOCopyImage.h" />
+    <ClInclude Include="Engine\Interface\PSO\PSOModel.h" />
+    <ClInclude Include="Engine\Interface\PSO\PSOParticle.h" />
+    <ClInclude Include="Engine\Interface\PSO\PSOProperty.h" />
+    <ClInclude Include="Engine\Interface\PSO\PSOSprite.h" />
+    <ClInclude Include="Engine\Interface\WorldTransform.h" />
+    <ClInclude Include="Game\Collision\Collider.h" />
+    <ClInclude Include="Game\Collision\CollisionConfig.h" />
+    <ClInclude Include="Game\Collision\CollisionManager.h" />
+    <ClInclude Include="Game\Scene\DemoScene.h" />
     <ClInclude Include="Game\Scene\GameScene.h" />
     <ClInclude Include="Game\Scene\ClearScene.h" />
     <ClInclude Include="Game\Scene\GameManager.h" />
@@ -175,24 +207,17 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="imgui\imstb_rectpack.h" />
     <ClInclude Include="imgui\imstb_textedit.h" />
     <ClInclude Include="imgui\imstb_truetype.h" />
-    <ClInclude Include="Lib\math\MaterialData.h" />
     <ClInclude Include="Engine\3d\Material.h" />
     <ClInclude Include="Lib\math\Matrix3x3.h" />
     <ClInclude Include="Engine\3d\ResourceObject.h" />
-    <ClInclude Include="Engine\3d\Model.h" />
-    <ClInclude Include="Engine\Interface\PSO.h" />
-    <ClInclude Include="Engine\3d\Sphere.h" />
     <ClInclude Include="Engine\2d\Sprite.h" />
-    <ClInclude Include="Engine\3d\Camera.h" />
     <ClInclude Include="Engine\Interface\DirectXCommon.h" />
-    <ClInclude Include="Engine\3d\Triangle.h" />
     <ClInclude Include="Game\Scene\TitleScene.h" />
     <ClInclude Include="Lib\math\Quaternion.h" />
     <ClInclude Include="Lib\utility\function.h" />
     <ClInclude Include="Engine\2d\ImGuiCommon.h" />
     <ClInclude Include="Lib\math\mathFunction.h" />
     <ClInclude Include="Lib\math\Matrix4x4.h" />
-    <ClInclude Include="Engine\3d\Mesh.h" />
     <ClInclude Include="Lib\math\Transform.h" />
     <ClInclude Include="Lib\math\Vector3.h" />
     <ClInclude Include="Lib\math\Vector4.h" />
@@ -200,18 +225,15 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Interface\TextureManager.h" />
     <ClInclude Include="Lib\math\Vector2.h" />
     <ClInclude Include="Lib\math\VertexData.h" />
-    <ClInclude Include="Lib\math\ModelData.h" />
     <ClInclude Include="Lib\math\TransformationMatrix.h" />
-    <ClInclude Include="Engine\3d\WorldTransform.h" />
-    <ClInclude Include="Game\Player\Player.h" />
-    <ClInclude Include="Engine\Interface\PSOSprite.h" />
-    <ClInclude Include="Engine\Interface\PSOProperty.h" />
-    <ClInclude Include="Engine\Interface\PSOParticle.h" />
-    <ClInclude Include="Engine\3d\Particle.h" />
     <ClInclude Include="Game\Utilty\TimedCall.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui\imgui.ini" />
+    <None Include="Resources\shader\Fullscreen.hlsli" />
+    <None Include="Resources\shader\Object3d.hlsli" />
+    <None Include="Resources\shader\Particle.hlsli" />
+    <None Include="Resources\shader\Sprite.hlsli" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Engine\Externals\DirectXTex\DirectXTex_Desktop_2022_Win10.vcxproj">
@@ -223,6 +245,23 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
   </ItemGroup>
   <ItemGroup>
     <Text Include="imgui\LICENSE.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Resources\shader\BoxFilter.PS.hlsl" />
+    <FxCompile Include="Resources\shader\DepthBasedOutline.PS.hlsl" />
+    <FxCompile Include="Resources\shader\Fullscreen.PS.hlsl" />
+    <FxCompile Include="Resources\shader\Fullscreen.VS.hlsl" />
+    <FxCompile Include="Resources\shader\GaussianFilter.PS.hlsl" />
+    <FxCompile Include="Resources\shader\Grayscale.PS.hlsl" />
+    <FxCompile Include="Resources\shader\LuminanceBasedOutline.PS.hlsl" />
+    <FxCompile Include="Resources\shader\Object3d.PS.hlsl" />
+    <FxCompile Include="Resources\shader\Object3d.VS.hlsl" />
+    <FxCompile Include="Resources\shader\Particle.PS.hlsl" />
+    <FxCompile Include="Resources\shader\Particle.VS.hlsl" />
+    <FxCompile Include="Resources\shader\SkinningObject3d.VS.hlsl" />
+    <FxCompile Include="Resources\shader\Sprite.PS.hlsl" />
+    <FxCompile Include="Resources\shader\Sprite.VS.hlsl" />
+    <FxCompile Include="Resources\shader\Vignetting.PS.hlsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -44,7 +44,7 @@ GameManager::GameManager() {
 
 GameManager::~GameManager() {}
 
-const char kWindowTitle[] = "LE2B_05_オイカワユウマ";
+const char kWindowTitle[] = "LE3A";
 
 int GameManager::Run() {
 	//DirectXCommon::D3DResourceLeakChecker leakCheck;
