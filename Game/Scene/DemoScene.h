@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "IScene.h"
 #include "Triangle.h"
 #include "WorldTransform.h"
@@ -25,7 +25,7 @@ private:
 	Input* input = nullptr;
 	Sprite* demoSprite = nullptr;
 
-	//�ϐ�
+	//変数
 	uint32_t textureHandle;
 	uint32_t textureHandle2;
 	Object3d* object3d = nullptr;

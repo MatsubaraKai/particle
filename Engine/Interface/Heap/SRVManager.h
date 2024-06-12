@@ -1,10 +1,10 @@
-#pragma once
+ï»¿#pragma once
 #include <cstdint>
 #include <wrl.h>
 #include <d3d12.h>
 
 /*----------------------------------------------------------
-   ‚±‚ÌƒNƒ‰ƒX‚ÍƒVƒ“ƒOƒ‹ƒgƒ“ƒpƒ^[ƒ“‚ğŒ³‚ÉİŒv‚·‚é
+   ã“ã®ã‚¯ãƒ©ã‚¹ã¯ã‚·ãƒ³ã‚°ãƒ«ãƒˆãƒ³ãƒ‘ã‚¿ãƒ¼ãƒ³ã‚’å…ƒã«è¨­è¨ˆã™ã‚‹
 --------------------------------------------------------------*/
 
 class SRVManager
@@ -21,25 +21,25 @@ public:
 
 	static SRVManager* GetInstance();
 	Microsoft::WRL::ComPtr <ID3D12DescriptorHeap> GetDescriptorHeap() { return descriptorHeap_.Get(); };
-	// Å‘åSRV”iÅ‘åƒeƒNƒXƒ`ƒƒ–‡”j
+	// æœ€å¤§SRVæ•°ï¼ˆæœ€å¤§ãƒ†ã‚¯ã‚¹ãƒãƒ£æšæ•°ï¼‰
 	static const uint32_t kMaXSRVCount;
-	// SRV—p‚ÌƒfƒXƒNƒŠƒvƒ^ƒTƒCƒY
+	// SRVç”¨ã®ãƒ‡ã‚¹ã‚¯ãƒªãƒ—ã‚¿ã‚µã‚¤ã‚º
 	static uint32_t descriptorSize_;
-	// SRV—pƒfƒXƒNƒŠƒvƒ^ƒq[ƒv
+	// SRVç”¨ãƒ‡ã‚¹ã‚¯ãƒªãƒ—ã‚¿ãƒ’ãƒ¼ãƒ—
 	static Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeap_;
-	// Ÿ‚Ég—p‚·‚éSRVƒCƒ“ƒfƒbƒNƒX
+	// æ¬¡ã«ä½¿ç”¨ã™ã‚‹SRVã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
 	static uint32_t useIndex_;
 
 	static D3D12_CPU_DESCRIPTOR_HANDLE GetCPUDescriptorHandle(uint32_t index);
 	static D3D12_GPU_DESCRIPTOR_HANDLE GetGPUDescriptorHandle(uint32_t index);
 
-	// SRV¶¬iƒeƒNƒXƒ`ƒƒ—pj
+	// SRVç”Ÿæˆï¼ˆãƒ†ã‚¯ã‚¹ãƒãƒ£ç”¨ï¼‰
 	static void CreateSRVforTexture2D(uint32_t srvIndex, ID3D12Resource* pResource, DXGI_FORMAT Format, UINT MipLevels);
-	// SRV¶¬iStructured Buffer—pj
+	// SRVç”Ÿæˆï¼ˆStructured Bufferç”¨ï¼‰
 	static void CreateSRVforStructuredBuffer(uint32_t srvIndex, ID3D12Resource* pResource, UINT numElements, UINT structureByteStride);
 
 	static void CreateSRVRenderTexture(uint32_t srvIndex, ID3D12Resource* pResource, DXGI_FORMAT Format, UINT MipLevels);
-	// SRV¶¬iDepth—pj
+	// SRVç”Ÿæˆï¼ˆDepthç”¨ï¼‰
 	static void CreateSRVDepth(uint32_t srvIndex, ID3D12Resource* pResource, DXGI_FORMAT Format, UINT MipLevels);
 	//static void CreateSRVRenderTexture(uint32_t srvIndex, ID3D12Resource* pResource, DXGI_FORMAT Format, UINT MipLevels);
 	void PreDraw();

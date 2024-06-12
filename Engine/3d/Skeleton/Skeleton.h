@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "Vector3.h"
 #include "Matrix4x4.h"
 #include "Quaternion.h"
@@ -13,7 +13,7 @@
 #include <d3d12.h>
 struct EulerTransform {
 	Vector3 Tscale;
-	Vector3 rotate; //Euler‚Å‚Ì‰ñ“]
+	Vector3 rotate; //Eulerã§ã®å›è»¢
 	Vector3 translate;
 };
 struct QuaternionTransform {
@@ -23,20 +23,20 @@ struct QuaternionTransform {
 };
 
 struct Joint {
-	QuaternionTransform transform; // Transformî•ñ
+	QuaternionTransform transform; // Transformæƒ…å ±
 	Matrix4x4 localMatrix; // localMatrix
-	Matrix4x4 skeletonSpaceMatrix; // skeleton‚Å‚Ì•ÏŠ·s—ñ
-	std::string name; // –¼‘O
-	std::vector<int32_t> chaidren; // qJoint‚ÌIndex‚Ì‚è‚·‚ÆB‚¢‚È‚¯‚ê‚Î‹ó
-	int32_t index; // ©g‚ÌIndex
-	std::optional<int32_t> parent; // eJoint‚ÌIndexB‚¢‚È‚¯‚ê‚Înull
+	Matrix4x4 skeletonSpaceMatrix; // skeletonã§ã®å¤‰æ›è¡Œåˆ—
+	std::string name; // åå‰
+	std::vector<int32_t> chaidren; // å­Jointã®Indexã®ã‚Šã™ã¨ã€‚ã„ãªã‘ã‚Œã°ç©º
+	int32_t index; // è‡ªèº«ã®Index
+	std::optional<int32_t> parent; // è¦ªJointã®Indexã€‚ã„ãªã‘ã‚Œã°null
 };
 
 struct  SkeletonData
 {
-	int32_t root; // RootJooint‚ÌIndex
-	std::map<std::string, int32_t> jointMap; // Join–¼‚ÆIndex‚Æ‚Ì«‘
-	std::vector<Joint> joints; // Š‘®‚µ‚Ä‚¢‚éƒWƒ‡ƒCƒ“ƒg
+	int32_t root; // RootJoointã®Index
+	std::map<std::string, int32_t> jointMap; // Joinåã¨Indexã¨ã®è¾æ›¸
+	std::vector<Joint> joints; // æ‰€å±ã—ã¦ã„ã‚‹ã‚¸ãƒ§ã‚¤ãƒ³ãƒˆ
 };
 struct Node {
 	QuaternionTransform transform;
@@ -70,8 +70,8 @@ struct VertexInfluence {
 };
 
 struct WellForGPU {
-	Matrix4x4 skeletonSpaceMatrix; // ˆÊ’u—p
-	Matrix4x4 skeletonSpaceinverseTransposeMatrix; // –@ü—p
+	Matrix4x4 skeletonSpaceMatrix; // ä½ç½®ç”¨
+	Matrix4x4 skeletonSpaceinverseTransposeMatrix; // æ³•ç·šç”¨
 };
 struct SkinCluster {
 	std::vector<Matrix4x4> inverseBindposeMatrices;

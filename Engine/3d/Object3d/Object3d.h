@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "PSOModel.h"
 #include "ModelData.h"
 #include "MaterialData.h"
@@ -41,21 +41,21 @@ private:
 	Object3dCommon* objectCommon_ = nullptr;
 
 	HRESULT hr;
-	// RootSignatureì¬
+	// RootSignatureä½œæˆ
 	Model* model_ = nullptr;
 
-	/*ˆÚ“®—p*/
-	// WVP—p‚ÌƒŠƒ\[ƒX‚ğì‚éBMatrix4x4 1‚Â•ª‚ÌƒTƒCƒY‚ğ—pˆÓ‚·‚é
+	/*ç§»å‹•ç”¨*/
+	// WVPç”¨ã®ãƒªã‚½ãƒ¼ã‚¹ã‚’ä½œã‚‹ã€‚Matrix4x4 1ã¤åˆ†ã®ã‚µã‚¤ã‚ºã‚’ç”¨æ„ã™ã‚‹
 	TransformationMatrix* wvpData;
 	Microsoft::WRL::ComPtr < ID3D12Resource> wvpResource;
-	// ’¸“_ƒoƒbƒtƒ@ƒrƒ…[‚ğì¬‚·‚é
+	// é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ãƒ“ãƒ¥ãƒ¼ã‚’ä½œæˆã™ã‚‹
 	D3D12_VERTEX_BUFFER_VIEW wvpBufferView{};
 	Transform transformUv;
 
-	/*ƒJƒƒ‰—p*/
+	/*ã‚«ãƒ¡ãƒ©ç”¨*/
 	Microsoft::WRL::ComPtr < ID3D12Resource> cameraForGPUResource_;
 	CameraForGPU* cameraForGPUData_;
-	// ƒf[ƒ^‚ğ‘‚«‚Ş
+	// ãƒ‡ãƒ¼ã‚¿ã‚’æ›¸ãè¾¼ã‚€
 	WorldTransform worldTransform_;
 };
 

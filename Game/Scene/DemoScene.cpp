@@ -1,4 +1,4 @@
-#include "DemoScene.h"
+ï»¿#include "DemoScene.h"
 #include "ImGuiCommon.h"
 #include "TextureManager.h"
 #include "ModelManager.h"
@@ -58,7 +58,7 @@ void DemoScene::Init()
 void DemoScene::Update()
 {
 	sceneTime++;
-	////ƒJƒƒ‰‚ÌXV
+	////ã‚«ãƒ¡ãƒ©ã®æ›´æ–°
 	camera->Update();
 	demoSprite->Update();
 
@@ -95,7 +95,7 @@ void DemoScene::PostDraw()
 void DemoScene::Release() {
 }
 
-// ƒQ[ƒ€‚ğI—¹
+// ã‚²ãƒ¼ãƒ ã‚’çµ‚äº†
 int DemoScene::GameClose()
 {
 	return false;

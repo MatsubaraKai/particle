@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include<Windows.h>
 #include<d3d12.h>
@@ -51,21 +51,21 @@ private:
 	Microsoft::WRL::ComPtr < ID3D12Resource> vertexResourceSprite_ = nullptr;
 	WinAPI* sWinAPI;
 	TextureManager* textureManager_ = nullptr;
-	// ’¸“_ƒoƒbƒtƒ@ƒrƒ…[‚ğì¬‚·‚é
+	// é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ãƒ“ãƒ¥ãƒ¼ã‚’ä½œæˆã™ã‚‹
 	D3D12_VERTEX_BUFFER_VIEW vertexBufferViewSprite_{};
 
 	VertexData* vertexDataSprite_ = nullptr;
 
-	// Sprite—p‚ÌTransformationMatrix—p‚ÌƒŠƒ\[ƒX‚ğì‚éBMatrix4x4 1‚Â•ª‚ÌƒTƒCƒY‚ğ—pˆÓ‚·‚é
+	// Spriteç”¨ã®TransformationMatrixç”¨ã®ãƒªã‚½ãƒ¼ã‚¹ã‚’ä½œã‚‹ã€‚Matrix4x4 1ã¤åˆ†ã®ã‚µã‚¤ã‚ºã‚’ç”¨æ„ã™ã‚‹
 	Microsoft::WRL::ComPtr < ID3D12Resource> transformationMatrixResouceSprite;
-	// ƒf[ƒ^‚ğ‘‚«‚Ş
+	// ãƒ‡ãƒ¼ã‚¿ã‚’æ›¸ãè¾¼ã‚€
 
 	D3D12_CPU_DESCRIPTOR_HANDLE instancingSrvHandleCPU;
 	D3D12_GPU_DESCRIPTOR_HANDLE instancingSrvHandleGPU;
 
 	//D3D12_DESCRIPTOR_RANGE descriptorRange_[1] = {};
 
-	// RootParmeterì¬B•¡”‚Å‚Á‚Ä‚¢‚Å‚«‚é‚Ì‚Å”z—ñB¡‰ñ‚ÍŒ‹‰Ê‚P‚Â‚¾‚¯‚È‚Ì‚Å’·‚³1‚Ì”z—ñ
+	// RootParmeterä½œæˆã€‚è¤‡æ•°ã§ã£ã¦ã„ã§ãã‚‹ã®ã§é…åˆ—ã€‚ä»Šå›ã¯çµæœï¼‘ã¤ã ã‘ãªã®ã§é•·ã•1ã®é…åˆ—
 	//D3D12_ROOT_PARAMETER rootParamerters[1] = {};
 
 	uint32_t* indexDataSprite;
@@ -73,20 +73,20 @@ private:
 	D3D12_INDEX_BUFFER_VIEW indexBufferViewSprite{};
 
 
-	// ÀÛ‚É’¸“_ƒŠƒ\[ƒX‚ğì‚é
+	// å®Ÿéš›ã«é ‚ç‚¹ãƒªã‚½ãƒ¼ã‚¹ã‚’ä½œã‚‹
 	Microsoft::WRL::ComPtr <ID3D12Resource> materialResource;
-	// ’¸“_ƒoƒbƒtƒ@ƒrƒ…[‚ğì¬‚·‚é
+	// é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ãƒ“ãƒ¥ãƒ¼ã‚’ä½œæˆã™ã‚‹
 	D3D12_VERTEX_BUFFER_VIEW materialBufferView{};
-	// ’¸“_ƒŠƒ\[ƒX‚Éƒf[ƒ^‚ğ‘‚«‚Ş
+	// é ‚ç‚¹ãƒªã‚½ãƒ¼ã‚¹ã«ãƒ‡ãƒ¼ã‚¿ã‚’æ›¸ãè¾¼ã‚€
 	PostMaterial* materialData;
 	//ParticlePro particles_[kNumMaxInstance];
 	std::list<Transform>  transforms_;
-	// •½sŒõŒ¹—p
+	// å¹³è¡Œå…‰æºç”¨
 	Microsoft::WRL::ComPtr < ID3D12Resource> directionalLightResource;
 
-	// •½sŒõŒ¹—p
+	// å¹³è¡Œå…‰æºç”¨
 	Microsoft::WRL::ComPtr < ID3D12Resource> depthStencilResource;
-	// ƒf[ƒ^‚ğ‘‚«‚Ş
+	// ãƒ‡ãƒ¼ã‚¿ã‚’æ›¸ãè¾¼ã‚€
 	DirectionalLight* directionalLightData;
 	Transform transformUv;
 

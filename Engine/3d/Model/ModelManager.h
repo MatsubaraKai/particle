@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <vector>
 #include <map>
 #include "Model.h"
@@ -18,15 +18,15 @@ public:
 private:
 	DirectXCommon* dxCommon_;
 private:
-	// ƒ‚ƒfƒ‹ƒf[ƒ^
+	// ãƒ¢ãƒ‡ãƒ«ãƒ‡ãƒ¼ã‚¿
 	std::map<std::string, std::unique_ptr<Model>> models;
 public:
 	/// <summary>
-	/// ƒ‚ƒfƒ‹ƒtƒ@ƒCƒ‹‚Ì“Ç‚İ‚İ
+	/// ãƒ¢ãƒ‡ãƒ«ãƒ•ã‚¡ã‚¤ãƒ«ã®èª­ã¿è¾¼ã¿
 	/// </summary>
 	void LoadModel(const std::string& directoryPath, const std::string& filePath);
 	/// <summary>
-	/// ƒ‚ƒfƒ‹‚ÌŒŸõ
+	/// ãƒ¢ãƒ‡ãƒ«ã®æ¤œç´¢
 	/// </summary>
 	Model* FindModel(const std::string& filePath);
 public:	//Gettrer

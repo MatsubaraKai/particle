@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "ModelData.h"
 
 #include "mathFunction.h"
@@ -7,14 +7,14 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 struct AnimationData {
-	float duration = 0; // ƒAƒjƒ\ƒVƒ‡ƒ“‘S‘Ì‚ÌÚi’PˆÊ‚Í•bj
-	// NodeAnimation‚ÌW‡BNOde–¼‚ÅŠJ‚¯‚é‚æ‚¤‚É‚µ‚Ä‚¨‚­
+	float duration = 0; // ã‚¢ãƒ‹ãƒ¡â€•ã‚·ãƒ§ãƒ³å…¨ä½“ã®å°ºï¼ˆå˜ä½ã¯ç§’ï¼‰
+	// NodeAnimationã®é›†åˆã€‚NOdeåã§é–‹ã‘ã‚‹ã‚ˆã†ã«ã—ã¦ãŠã
 	std::unordered_map<std::string, NodeAnimation> nodeAnimations;
 };
 class Animation
 {
 public:
-	// ƒAƒjƒ[ƒVƒ‡ƒ““Ç‚İ‚İ
+	// ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³èª­ã¿è¾¼ã¿
 	AnimationData LoadAnimationFile(const std::string& directoryPath, const std::string& filePath);
 
 	void Init(const std::string& directoryPath, const std::string& filePath);

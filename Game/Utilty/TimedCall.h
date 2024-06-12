@@ -1,8 +1,8 @@
-#pragma once
+ï»¿#pragma once
 
 #include <functional>
 /// <summary>
-/// ŒÀ”­“®
+/// æ™‚é™ç™ºå‹•
 /// </summary>
 class TimedCall
 {

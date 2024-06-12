@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <d3d12.h>
 #include "DirectXCommon.h"
 #include "PSOProperty.h"
@@ -20,27 +20,27 @@ public:
 
 
 	/// <summary>
-	/// •`‰æ‚ÉŠÖ‚·‚éİ’è‚ğ‚Ü‚Æ‚ß‚éŠÖ”
+	/// æç”»ã«é–¢ã™ã‚‹è¨­å®šã‚’ã¾ã¨ã‚ã‚‹é–¢æ•°
 	/// </summary>
 	void CreatePipelineStateObject();
 
 	/// <summary>
-	/// Shader‚ÆResource‚ğŠÖŒW‚Ì‚Â‚¯•û‚ğŒˆ‚ß‚éŠÖ”
+	/// Shaderã¨Resourceã‚’é–¢ä¿‚ã®ã¤ã‘æ–¹ã‚’æ±ºã‚ã‚‹é–¢æ•°
 	/// </summary>
 	void CreateRootSignature();
 
 	/// <summary>
-	/// VS‚Ö“n‚·’¸“_ƒf[ƒ^‚Ìw’è‚ğs‚¤ŠÖ”
+	/// VSã¸æ¸¡ã™é ‚ç‚¹ãƒ‡ãƒ¼ã‚¿ã®æŒ‡å®šã‚’è¡Œã†é–¢æ•°
 	/// </summary>
 	void SetInputLayout();
 
 	/// <summary>
-	/// PS‚©‚ç‚Ìo—Í‚ğ‚Ç‚¤‘‚«‚Ş‚©‚Ìİ’è‚ğs‚¤ŠÖ”
+	/// PSã‹ã‚‰ã®å‡ºåŠ›ã‚’ã©ã†æ›¸ãè¾¼ã‚€ã‹ã®è¨­å®šã‚’è¡Œã†é–¢æ•°
 	/// </summary>
 	void SetBlendState();
 
 	/// <summary>
-	/// ƒ‰ƒXƒ^ƒ‰ƒCƒU[‚ÉŠÖ‚·‚éİ’è‚ÌŠÖ”
+	/// ãƒ©ã‚¹ã‚¿ãƒ©ã‚¤ã‚¶ãƒ¼ã«é–¢ã™ã‚‹è¨­å®šã®é–¢æ•°
 	/// </summary>
 	void SetRasterrizerState();
 
@@ -50,7 +50,7 @@ public:
 	/// <returns></returns>
 
 	/// <summary>
-	/// DepthBuffer‚Ì¶¬
+	/// DepthBufferã®ç”Ÿæˆ
 	/// </summary>
 	void CreateDepth();
 
@@ -59,14 +59,14 @@ public:
 
 private:
 	HRESULT hr_;
-	// RootSignatureì¬
+	// RootSignatureä½œæˆ
 	D3D12_ROOT_SIGNATURE_DESC descriptionRootSignature{};
-	// ƒVƒŠƒAƒ‰ƒCƒY‚µ‚ÄƒoƒCƒiƒŠ‚É‚·‚é
+	// ã‚·ãƒªã‚¢ãƒ©ã‚¤ã‚ºã—ã¦ãƒã‚¤ãƒŠãƒªã«ã™ã‚‹
 	//ID3DBlob* signatureBlob;
 	//ID3DBlob* errorBlob;
-	// ƒoƒCƒiƒŠ‚ğŒ³‚É¶¬
+	// ãƒã‚¤ãƒŠãƒªã‚’å…ƒã«ç”Ÿæˆ
 	//ID3D12RootSignature* rootSignature;
-	// RootParmeterì¬B•¡”‚Å‚Á‚Ä‚¢‚Å‚«‚é‚Ì‚Å”z—ñB¡‰ñ‚ÍŒ‹‰Ê‚P‚Â‚¾‚¯‚È‚Ì‚Å’·‚³1‚Ì”z—ñ
+	// RootParmeterä½œæˆã€‚è¤‡æ•°ã§ã£ã¦ã„ã§ãã‚‹ã®ã§é…åˆ—ã€‚ä»Šå›ã¯çµæœï¼‘ã¤ã ã‘ãªã®ã§é•·ã•1ã®é…åˆ—
 	D3D12_ROOT_PARAMETER rootParamerters[6] = {};
 
 	D3D12_STATIC_SAMPLER_DESC staticSamplers[1] = {};
@@ -77,22 +77,22 @@ private:
 	D3D12_INPUT_ELEMENT_DESC inputElementDescs[5] = {};
 	D3D12_INPUT_LAYOUT_DESC  inputLayoutDesc{};
 
-	// blendState‚Ìİ’è
+	// blendStateã®è¨­å®š
 	D3D12_BLEND_DESC blendDesc{};
 
-	// RasiterzerState‚Ìİ’è
+	// RasiterzerStateã®è¨­å®š
 	D3D12_RASTERIZER_DESC rasterizerDesc{};
 
 	/*IDxcBlob* vertexShaderBlob;
 	IDxcBlob* pixelShaderBlob;*/
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC graphicsPipelineStateDesc{};
-	//ÀÛ‚É¶¬
+	//å®Ÿéš›ã«ç”Ÿæˆ
 	//ID3D12PipelineState* graphicsPipelineState;
 
-	// DepthStencilState‚Ìİ’è
+	// DepthStencilStateã®è¨­å®š
 	D3D12_DEPTH_STENCIL_DESC depthStencilDesc_{};
 
-	// •`‰ææ‚ÌRTV‚ğİ’è‚·‚é
+	// æç”»å…ˆã®RTVã‚’è¨­å®šã™ã‚‹
 	D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle;
 
 	PSOProperty property;
