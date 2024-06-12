@@ -154,10 +154,8 @@
     <ClCompile Include="Engine\2d\ImGuiCommon.cpp">
       <Filter>Engine\2d</Filter>
     </ClCompile>
-    <ClCompile Include="Grayscale.cpp">
-      <Filter>Interface</Filter>
-    </ClCompile>
     <ClCompile Include="Game\Scene\DemoScene.cpp" />
+    <ClCompile Include="Game\Utilty\TimedCall.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Lib\utility\function.h">
@@ -307,50 +305,12 @@
     <ClInclude Include="Engine\2d\ImGuiCommon.h">
       <Filter>Engine\2d</Filter>
     </ClInclude>
-    <ClInclude Include="Grayscale.h">
-      <Filter>Interface</Filter>
-    </ClInclude>
-    <ClInclude Include="DemoScene.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="Object3d.PS.hlsl">
-      <Filter>Resource\Shader</Filter>
-    </FxCompile>
-    <FxCompile Include="Object3d.VS.hlsl">
-      <Filter>Resource\Shader</Filter>
-    </FxCompile>
-    <FxCompile Include="Sprite.PS.hlsl">
-      <Filter>Resource\Shader</Filter>
-    </FxCompile>
-    <FxCompile Include="Particle.PS.hlsl">
-      <Filter>Resource\Shader</Filter>
-    </FxCompile>
-    <FxCompile Include="Particle.VS.hlsl">
-      <Filter>Resource\Shader</Filter>
-    </FxCompile>
-    <FxCompile Include="Sprite.VS.hlsl">
-      <Filter>Resource\Shader</Filter>
-    </FxCompile>
-    <FxCompile Include="Grayscale.PS.hlsl" />
-    <FxCompile Include="CopyImage.PS.hlsl" />
-    <FxCompile Include="CopyImage.VS.hlsl" />
-    <FxCompile Include="Vignette.PS.hlsl">
-      <Filter>Resource</Filter>
-    </FxCompile>
-    <FxCompile Include="GaussianFilter.PS.hlsl" />
+    <ClInclude Include="Game\Utilty\TimedCall.h" />
+    <ClInclude Include="Lib\math\Quaternion.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui\imgui.ini">
       <Filter>Lib</Filter>
-    </None>
-    <None Include="Object3d.hlsli">
-      <Filter>Resource\Shader</Filter>
-    </None>
-    <None Include="Particle.hlsli">
-      <Filter>Resource\Shader</Filter>
-    </None>
-    <None Include="Sprite.hlsli">
-      <Filter>Resource\Shader</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
