@@ -46,7 +46,7 @@ public:
 		WAVEFORMATEX fmt; // 波形フォーマット
 	};
 
-	
+
 
 	static uint32_t SoundLoadWave(const char* filename);
 
@@ -74,4 +74,3 @@ private:
 	static SoundData soundData[soundDataMaxSize];
 
 };
-

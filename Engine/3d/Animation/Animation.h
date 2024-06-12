@@ -1,6 +1,8 @@
 #pragma once
 #include "ModelData.h"
+
 #include "mathFunction.h"
+
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
@@ -26,3 +28,4 @@ private:
 	Matrix4x4 matrix_;
 	float animationTime = 0.0f;
 };
+

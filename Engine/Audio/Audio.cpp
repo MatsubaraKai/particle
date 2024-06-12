@@ -58,7 +58,7 @@ uint32_t Audio::SoundLoadWave(const char* filename)
 	// チャンク本体の読み込み
 	assert(format.chunk.size <= sizeof(format.fmt));
 	file.read((char*)&format.fmt, format.chunk.size);
-	
+
 	// Dataチャンクの読み込み
 	ChunkHeader data;
 	file.read((char*)&data, sizeof(data));
@@ -80,7 +80,7 @@ uint32_t Audio::SoundLoadWave(const char* filename)
 
 	// Waveファイルを閉じる
 	file.close();
-	
+
 	// returnするための音声データ
 	soundData[soundHandle];
 
@@ -103,7 +103,7 @@ void Audio::SoundUnload(uint32_t audioHandle) {
 	soundData[audioHandle].wfek = {};
 }
 
-void Audio::SoundPlayWave(IXAudio2* xAudio2,uint32_t audioHandle,bool loopFlag)
+void Audio::SoundPlayWave(IXAudio2* xAudio2, uint32_t audioHandle, bool loopFlag)
 {
 	HRESULT result;
 
@@ -130,13 +130,13 @@ void Audio::SoundPlayWave(IXAudio2* xAudio2,uint32_t audioHandle,bool loopFlag)
 void Audio::SoundStopWave(IXAudio2* xAudio2, uint32_t audioHandle)
 {
 	HRESULT result;
-	
+
 
 	// 波形データの再生
 	//result = pSourceVoice->SubmitSourceBuffer(&buf);
 	// 波形フォーマットを元にSorceVoiceの生成
 	result = pSourceVoice[audioHandle]->Stop();
-	
+
 
 }
 
@@ -148,7 +148,7 @@ void Audio::SoundLoopWave(IXAudio2* xAudio2, const SoundData& soundData)
 	// 波形データの再生
 	//result = pSourceVoice->SubmitSourceBuffer(&buf);
 	// 波形フォーマットを元にSorceVoiceの生成
-	
+
 
 
 }

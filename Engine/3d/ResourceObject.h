@@ -19,7 +19,6 @@ public:
 		}
 	}
 	Microsoft::WRL::ComPtr<ID3D12Resource> Get() { return resource_; }
-	private:
-		Microsoft::WRL::ComPtr<ID3D12Resource> resource_;
+private:
+	Microsoft::WRL::ComPtr<ID3D12Resource> resource_;
 };
-

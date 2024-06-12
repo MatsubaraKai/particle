@@ -1,6 +1,7 @@
-#include "Triangle.h"
+#include "Triangle/Triangle.h"
 #include <mathFunction.h>
-
+#include "SRVManager.h"
+#include "TextureManager.h"
 void Triangle::Initialize(Camera* camera, Vector4 DrawColor) {
 
 	WinAPI* sWinAPI = WinAPI::GetInstance();
@@ -24,7 +25,7 @@ void Triangle::Initialize(Camera* camera, Vector4 DrawColor) {
 		vertexData_[0].position.x,
 		vertexData_[0].position.y,
 		vertexData_[0].position.z };
-	vertexData_[0].texcorrd =  { 0.0f,1.0f };
+	vertexData_[0].texcorrd = { 0.0f,1.0f };
 	//上
 	vertexData_[1].position = { 0.0f,1.0f ,0.0f,1.0f };
 	vertexData_[1].normal = {
@@ -125,13 +126,11 @@ void Triangle::Initialize(Camera* camera, Vector4 DrawColor) {
 };
 
 
-void Triangle::Draw(WorldTransform worlsTransform, Camera* camera,uint32_t texture, Vector4 DrawColor) {
-	PSO *pso = PSO::GatInstance();
+void Triangle::Draw(WorldTransform worlsTransform, Camera* camera, uint32_t texture, Vector4 DrawColor) {
+	PSO* pso = PSO::GatInstance();
 
 	camera_ = camera;
-	textureManager_ = TextureManager::GetInstance();
-	
-	Matrix4x4 worldViewProjectionMatrix = Multiply(worlsTransform.matWorld_, Multiply(camera_->viewMatrix_, camera_->projectionMatrix_));
+	Matrix4x4 worldViewProjectionMatrix = Multiply(worlsTransform.matWorld_, camera->GetViewprojectionMatrix());
 	TransformationData->WVP = worldViewProjectionMatrix;
 	TransformationData->World = MakeIdentity4x4();
 	// 色のデータを変数から読み込み
@@ -149,7 +148,7 @@ void Triangle::Draw(WorldTransform worlsTransform, Camera* camera,uint32_t textu
 	sDirectXCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(1, wvpResource->GetGPUVirtualAddress());
 
 	// SRV のDescriptorTableの先頭を設定。2はrootParameter[2]である。
-	sDirectXCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(2, textureManager_->textureSrvHandleGPU_[texture]);
+	sDirectXCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(2, SRVManager::GetGPUDescriptorHandle(texture));
 	// 描画！（DrawCall/ドローコール）・3頂点で1つのインスタンス。インスタンスについては今後
 	sDirectXCommon_->GetCommandList()->DrawInstanced(6, 1, 0, 0);
 };

@@ -10,11 +10,11 @@ void PSOSprite::CreatePipelineStateObject() {
 	PSOSprite::SetRasterrizerState();
 	PSOSprite::CreateDepth();
 	// Shaderをコンパイルする
-	property.vertexShaderBlob = CompileShader(L"Sprite.VS.hlsl",
+	property.vertexShaderBlob = CompileShader(L"Resources/shader/Sprite.VS.hlsl",
 		L"vs_6_0", sDirectXCommon->GetDxcUtils(), sDirectXCommon->GetDxcCompiler(), sDirectXCommon->GetIncludeHandler());
 	assert(property.vertexShaderBlob != nullptr);
 
-	property.pixelShaderBlob = CompileShader(L"GaussianFilter.PS.hlsl",
+	property.pixelShaderBlob = CompileShader(L"Resources/shader/Sprite.PS.hlsl",
 		L"ps_6_0", sDirectXCommon->GetDxcUtils(), sDirectXCommon->GetDxcCompiler(), sDirectXCommon->GetIncludeHandler());
 	assert(property.pixelShaderBlob != nullptr);
 
@@ -40,6 +40,8 @@ void PSOSprite::CreatePipelineStateObject() {
 	graphicsPipelineStateDesc.DepthStencilState = depthStencilDesc_;
 	graphicsPipelineStateDesc.DSVFormat = DXGI_FORMAT_D24_UNORM_S8_UINT;
 
+
+
 	//実際に生成
 	property.graphicsPipelineState = nullptr;
 	hr_ = sDirectXCommon->GetDevice()->CreateGraphicsPipelineState(&graphicsPipelineStateDesc,
@@ -54,6 +56,7 @@ void PSOSprite::CreateRootSignature() {
 	descriptionRootSignature.Flags =
 		D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
 
+
 	// シリアライズしてバイナリにする
 	property.signatureBlob = nullptr;
 
@@ -61,6 +64,7 @@ void PSOSprite::CreateRootSignature() {
 	rootParamerters[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;  // CBVを使う
 	rootParamerters[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;  // PixelShaderで使う
 	rootParamerters[0].Descriptor.ShaderRegister = 0; //レジスタ番号0とバインド
+
 	rootParamerters[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;  // CBVを使う
 	rootParamerters[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;  // vertexShaderで使う
 	rootParamerters[1].Descriptor.ShaderRegister = 0; //レジスタ番号0とバインド
@@ -125,7 +129,7 @@ void PSOSprite::SetBlendState() {
 	blendDesc.RenderTarget[0].BlendEnable = TRUE;
 	blendDesc.RenderTarget[0].SrcBlend = D3D12_BLEND_SRC_ALPHA;
 	blendDesc.RenderTarget[0].BlendOp = D3D12_BLEND_OP_ADD;
-	blendDesc.RenderTarget[0].DestBlend = D3D12_BLEND_ONE;
+	blendDesc.RenderTarget[0].DestBlend = D3D12_BLEND_INV_SRC_ALPHA;
 
 	blendDesc.RenderTarget[0].SrcBlendAlpha = D3D12_BLEND_ONE;
 	blendDesc.RenderTarget[0].BlendOpAlpha = D3D12_BLEND_OP_ADD;

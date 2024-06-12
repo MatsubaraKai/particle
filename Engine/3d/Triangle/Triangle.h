@@ -8,7 +8,7 @@
 #include "WinAPI.h"
 #include "DirectXCommon.h"
 #include "Mesh.h"
-#include "PSO.h"
+#include "PSOModel.h"
 #include "VertexData.h"
 #include "Vector4.h"
 #include "Vector3.h"
@@ -26,7 +26,6 @@
 #pragma comment(lib,"dxcompiler.lib")
 
 
-class TextureManager;
 
 class Triangle
 {
@@ -39,9 +38,6 @@ public:
 	void Release();
 	D3D12_VERTEX_BUFFER_VIEW  CreateBufferView();
 	D3D12_RESOURCE_DESC  CreateBufferResourceDesc(size_t sizeInBytes);
-	void SetTextureManager(TextureManager* textureManager) {
-		textureManager_ = textureManager;
-	}
 
 
 	HRESULT hr;
@@ -78,12 +74,11 @@ public:
 	DirectionalLight* directionalLightData;
 
 	DirectXCommon* sDirectXCommon_ = nullptr;
-	TextureManager* textureManager_ = nullptr;
-	Camera *camera_ = nullptr;
+
+	Camera* camera_ = nullptr;
 
 	//ビューポート
 	D3D12_VIEWPORT viewport{};
 	// シザー矩形
 	D3D12_RECT scissorRect{};
 };
-

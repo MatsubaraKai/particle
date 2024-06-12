@@ -10,11 +10,11 @@ void PSOParticle::CreatePipelineStateObject() {
 	PSOParticle::SetRasterrizerState();
 	PSOParticle::CreateDepth();
 	// Shaderをコンパイルする
-	property.vertexShaderBlob = CompileShader(L"Particle.VS.hlsl",
+	property.vertexShaderBlob = CompileShader(L"Resources/shader/Particle.VS.hlsl",
 		L"vs_6_0", sDirectXCommon->GetDxcUtils(), sDirectXCommon->GetDxcCompiler(), sDirectXCommon->GetIncludeHandler());
 	assert(property.vertexShaderBlob != nullptr);
 
-	property.pixelShaderBlob = CompileShader(L"GaussianFilter.PS.hlsl",
+	property.pixelShaderBlob = CompileShader(L"Resources/shader/Particle.PS.hlsl",
 		L"ps_6_0", sDirectXCommon->GetDxcUtils(), sDirectXCommon->GetDxcCompiler(), sDirectXCommon->GetIncludeHandler());
 	assert(property.pixelShaderBlob != nullptr);
 
@@ -66,7 +66,7 @@ void PSOParticle::CreateRootSignature() {
 	descriptorRange2_[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV; // SRVを使う
 	descriptorRange2_[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND; // Offsetを自動計算
 
-	
+
 	descriptorRange_[0].BaseShaderRegister = 0; // 0から始まる
 	descriptorRange_[0].NumDescriptors = 1; // 数は1つ
 	descriptorRange_[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV; // SRVを使う

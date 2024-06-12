@@ -13,22 +13,12 @@
 #pragma comment(lib,"dxgi.lib")
 #pragma comment(lib,"dxcompiler.lib")
 
-class DirectXCommon;
-class WinAPI;
-class TextureManager;
 
 class Mesh
 {
 public:
 	Mesh();
 	~Mesh();
-	
-
-	static Microsoft::WRL::ComPtr <ID3D12Resource> CreateBufferResource(Microsoft::WRL::ComPtr<ID3D12Device> device,size_t sizeInBytes);
-	D3D12_RESOURCE_DESC  CreateBufferResourceDesc(size_t sizeInBytes);
-	D3D12_VERTEX_BUFFER_VIEW  CreateBufferView();	
-	
-private:
-	DirectXCommon* sDirectXCommon_ = nullptr;
+	static Microsoft::WRL::ComPtr <ID3D12Resource> CreateBufferResource(Microsoft::WRL::ComPtr<ID3D12Device> device, size_t sizeInBytes);
 };
 

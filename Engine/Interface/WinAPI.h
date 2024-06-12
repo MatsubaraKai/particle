@@ -41,11 +41,11 @@ public: // メンバ関数
 	static int32_t GetKClientWidth() { return kClientWidth_; };
 	static int32_t GetKClientHeight() { return kClientHeight_; };
 
-	 HWND GetHwnd() { return hwnd_; }
+	HWND GetHwnd() { return hwnd_; }
 
-	 WNDCLASS GetWc() { return wc_; }
+	WNDCLASS GetWc() { return wc_; }
 
-	
+
 	// ウィンドウの生成
 	HWND hwnd_;
 
@@ -62,10 +62,6 @@ public: // 定数
 private:
 
 	Microsoft::WRL::ComPtr<ID3D12Debug1> debugController_;
-	
+
 
 };
-
-
-
-

@@ -1,16 +1,7 @@
 ﻿#include "Mesh.h"
-#include"WinAPI.h"
-#include"DirectXCommon.h"
-#include "TextureManager.h"
 
 Mesh::Mesh() {
-
-
-
 };
-
-
-
 
 Microsoft::WRL::ComPtr <ID3D12Resource> Mesh::CreateBufferResource(Microsoft::WRL::ComPtr<ID3D12Device> device, size_t sizeInBytes) {
 	//頂点リソース用のヒープの設定
@@ -27,7 +18,7 @@ Microsoft::WRL::ComPtr <ID3D12Resource> Mesh::CreateBufferResource(Microsoft::WR
 	resourceDesc.SampleDesc.Count = 1;
 	// バッファに場合はこれにする決まり
 	resourceDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
-	
+
 	Microsoft::WRL::ComPtr <ID3D12Resource> resource = nullptr;
 	HRESULT hr = device->CreateCommittedResource(&uploadHeapProperties, D3D12_HEAP_FLAG_NONE,
 		&resourceDesc, D3D12_RESOURCE_STATE_GENERIC_READ, nullptr,
@@ -36,11 +27,3 @@ Microsoft::WRL::ComPtr <ID3D12Resource> Mesh::CreateBufferResource(Microsoft::WR
 	resource->SetName(L"aaaaaaa");
 	return resource;
 };
-
-
-
-
-	//ID3D12Resource* CreateBufferResourceDesc(ID3D12Device* device, size_t sizeInBytes);
-
-
-

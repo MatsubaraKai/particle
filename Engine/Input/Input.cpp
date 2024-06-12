@@ -1,16 +1,18 @@
 #include "Input.h"
 #include "WinAPI.h"
-
+#include <Xinput.h>
+//Xinput.lib; Xinput9_1_0.lib
+#pragma comment(lib, "Xinput.lib")
 
 void Input::Initialize() {
-	WinAPI *sWinAPI = WinAPI::GetInstance();
+	WinAPI* sWinAPI = WinAPI::GetInstance();
 	// DirectInputの初期化
 	ComPtr<IDirectInput8> directInput = nullptr;
 	result = DirectInput8Create(
 		sWinAPI->GetWc().hInstance, DIRECTINPUT_VERSION, IID_IDirectInput8,
 		(void**)&directInput, nullptr);
 	assert(SUCCEEDED(result));
-	
+
 	// キーボードデバイスの生成
 	result = directInput->CreateDevice(GUID_SysKeyboard, &keyboard, NULL);
 	assert(SUCCEEDED(result));
@@ -21,13 +23,27 @@ void Input::Initialize() {
 
 	// 排他制御レベルのセット
 	result = keyboard->SetCooperativeLevel(
-		sWinAPI->GetHwnd(),DISCL_FOREGROUND | DISCL_NONEXCLUSIVE | DISCL_NOWINKEY);
+		sWinAPI->GetHwnd(), DISCL_FOREGROUND | DISCL_NONEXCLUSIVE | DISCL_NOWINKEY);
 	assert(SUCCEEDED(result));
-	
-	//XInputEnable(true);
 
+	DWORD dwResult;
+	for (DWORD i = 0; i < XUSER_MAX_COUNT; i++)
+	{
+		XINPUT_STATE state;
+		ZeroMemory(&state, sizeof(XINPUT_STATE));
 
-	
+		// Simply get the state of the controller from XInput.
+		dwResult = XInputGetState(i, &state);
+
+		if (dwResult == ERROR_SUCCESS)
+		{
+			// Controller is connected
+		}
+		else
+		{
+			// Controller is not connected
+		}
+	}
 
 
 }
@@ -40,39 +56,6 @@ void Input::Update() {
 	keyboard->Acquire();
 
 	keyboard->GetDeviceState(sizeof(keys), keys);
-
-	//DWORD dwResult;
-	//for (DWORD i = 0; i < XUSER_MAX_COUNT; i++)
-	//{
-	//	
-	//	ZeroMemory(&state, sizeof(XINPUT_STATE));
-
-	//	// Simply get the state of the controller from XInput.
-	//	dwResult = XInputGetState(i, &state);
-
-	//	if (dwResult == ERROR_SUCCESS)
-	//	{
-	//		// Controller is connected
-	//	}
-	//	else
-	//	{
-	//		// Controller is not connected
-	//	}
-	//}
-
-}
-
-bool Input::GetJoystickState(XINPUT_STATE &state)
-{
-	ZeroMemory(&state, sizeof(XINPUT_STATE));
-
-	// コントローラーの状態を取得
-	result = XInputGetState(0,&state);
-
-	if (result == ERROR_SUCCESS) {
-		return true;
-	}
-	return false;
 }
 
 bool Input::PushKey(BYTE keyNumber)
@@ -94,5 +77,3 @@ Input* Input::GetInstance() {
 	static Input instance;
 	return &instance;
 }
-
-
