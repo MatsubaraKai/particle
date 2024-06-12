@@ -2,9 +2,12 @@
 #include <Windows.h>
 #include "WinAPI.h"
 #include "DirectXCommon.h"
-#include "PSO.h"
+#include "SRVManager.h"
+#include "PSOModel.h"
 #include "PSOSprite.h"
 #include "PSOParticle.h"
+#include "PSOCopyImage.h"
+#include "PostProcess.h"
 #include "Input.h"
 #include "Mesh.h"
 #include "ImGuiCommon.h"
@@ -14,6 +17,9 @@
 #include "Sprite.h"
 #include "Sphere.h"
 #include "Model.h"
+#include "ModelManager.h"
+#include "Object3d.h"
+#include "Object3dCommon.h"
 #include "Triangle.h"
 
 #include "VertexData.h"
@@ -27,28 +33,42 @@
 GameManager::GameManager() {
 	// 各シーンの排列
 	sceneArr_[TITLE] = std::make_unique<TitleScene>();
-	sceneArr_[STSGE1] = std::make_unique<GameScene>();
+	sceneArr_[STAGE] = std::make_unique<GameScene>();
 	sceneArr_[CLEAR] = std::make_unique<ClearScene>();
+	sceneArr_[DEMO] = std::make_unique<DemoScene>();
+
+	// 初期シーンの設定
+	//sceneNo_ = TITLE; //GameManagerのクラスにISceneを継承させて触れるようにしているため正しいかは怪しい
+	//input_ = Input::GetInstance();
 }
 
 GameManager::~GameManager() {}
 
-const char kWindowTitle[] = "Scene";
+const char kWindowTitle[] = "LE2B_05_オイカワユウマ";
 
 int GameManager::Run() {
 	//DirectXCommon::D3DResourceLeakChecker leakCheck;
 
 	WinAPI* sWinAPI = WinAPI::GetInstance();
-	sWinAPI->Initialize(L"Scene");
+	sWinAPI->Initialize(L"CG2");
 
 	DirectXCommon* sDirctX = DirectXCommon::GetInstance();
 	sDirctX->Initialize();
 
+	ImGuiCommon* imGuiCommon = ImGuiCommon::GetInstance();
+	imGuiCommon->Initialize();
+
 	Audio* sAudio = Audio::GetInstance();
 	sAudio->Initialize();
 
+	Object3dCommon* sObjectCommon = Object3dCommon::GetInstance();
+	sObjectCommon->Init();
+
+	ModelManager* sModelManager = ModelManager::GetInstance();
+	sModelManager->init();
 
 	TextureManager* sTextureManager = TextureManager::GetInstance();
+	sTextureManager->Init();
 
 	PSO* pso = PSO::GatInstance();
 	pso->CreatePipelineStateObject();
@@ -59,6 +79,10 @@ int GameManager::Run() {
 	PSOParticle* psoParticle = PSOParticle::GatInstance();
 	psoParticle->CreatePipelineStateObject();
 
+	PSOCopyImage* psoCopyImage = PSOCopyImage::GatInstance();
+	psoCopyImage->CreatePipelineStateObject();
+
+	//post->Init();
 	sceneArr_[currentSceneNo_]->Init();
 
 	Input* sInput = Input::GetInstance();
@@ -72,8 +96,18 @@ int GameManager::Run() {
 			break;
 		}
 		// ゲームの処理の開始
-		sDirctX->BeginFrame();
+		sDirctX->tempRender();
+		// ImGui
+		ImGuiCommon::GetInstance()->UICreate();
+		//ImGuiの更新
+		ImGuiCommon::GetInstance()->Update();
+
 		sInput->Update();
+
+		ImGui::Begin("kakunin");
+		ImGui::Text("%d", IScene::GetSceneNo());
+		ImGui::End();
+
 		// シーンのチェック
 		prevSceneNo_ = currentSceneNo_;
 		currentSceneNo_ = sceneArr_[currentSceneNo_]->GetSceneNo();
@@ -102,7 +136,8 @@ int GameManager::Run() {
 		///
 		/// ↑描画処理ここまで
 		///
-
+		sDirctX->BeginFrame();
+		sceneArr_[currentSceneNo_]->PostDraw();
 		// フレームの終了
 		//スワップチェーン
 		sDirctX->ViewChange();
@@ -117,6 +152,12 @@ int GameManager::Run() {
 	//出力ウィンドウへの文字出力
 	OutputDebugStringA("Hello,DirectX!\n");
 
+
+	/*------------------------------------------------------------
+
+	-------------------------------------------------------------*/
+
+	sModelManager->Finalize();
 	sWinAPI->Finalize();
 	//delete sWinAPI;
 	sDirctX->Release();

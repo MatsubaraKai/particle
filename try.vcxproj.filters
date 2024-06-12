@@ -157,6 +157,7 @@
     <ClCompile Include="Grayscale.cpp">
       <Filter>Interface</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Scene\DemoScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Lib\utility\function.h">
@@ -309,6 +310,7 @@
     <ClInclude Include="Grayscale.h">
       <Filter>Interface</Filter>
     </ClInclude>
+    <ClInclude Include="DemoScene.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Object3d.PS.hlsl">

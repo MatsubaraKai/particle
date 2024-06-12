@@ -1,9 +1,9 @@
 #pragma once
 //シーン名を列挙型(Enum)で定義
-enum SCENE { TITLE,STSGE1,CLEAR };
+enum SCENE { TITLE, STAGE, CLEAR, DEMO };
 
 // シーン内での処理を行う基底クラス
-class IScene{
+class IScene {
 protected:
 	// シーン番号を管理する変数
 	static int sceneNo;
@@ -13,6 +13,7 @@ public:
 	virtual void Init() = 0;
 	virtual void Update() = 0;
 	virtual void Draw() = 0;
+	virtual void PostDraw() = 0;
 	virtual void Release() = 0;
 	virtual int GameClose() = 0;
 
@@ -23,6 +24,5 @@ public:
 	static int GetSceneNo();
 	static void SetSceneNo(int sceneno);
 
-	
-};
 
+};
