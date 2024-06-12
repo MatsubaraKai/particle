@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <DirectXTex.h>
 #include <string>
 #include <string>
@@ -16,13 +16,13 @@ class ParticleManager
 {
 public:
 	struct particleGroup {
-		// ÀÛ‚É’¸“_ƒŠƒ\[ƒX‚ğì‚é
+		// å®Ÿéš›ã«é ‚ç‚¹ãƒªã‚½ãƒ¼ã‚¹ã‚’ä½œã‚‹
 		Microsoft::WRL::ComPtr <ID3D12Resource> materialResource;
 		//std::list<Particle> particles;
 		uint32_t kNumMaxInstance;
 	};
 public:
-	// ƒVƒ“ƒOƒ‹ƒgƒ“ƒpƒ^[ƒ“
+	// ã‚·ãƒ³ã‚°ãƒ«ãƒˆãƒ³ãƒ‘ã‚¿ãƒ¼ãƒ³
 	static ParticleManager* GetInstance();
 
 	ParticleManager() = default;

@@ -1,28 +1,28 @@
-#include "SRVManager.h"
+ï»¿#include "SRVManager.h"
 #include "DirectXCommon.h"
 
 const uint32_t SRVManager::kMaXSRVCount = 512;
 
 uint32_t SRVManager::useIndex_ = 1;
 
-// SRV—p‚ÌƒfƒXƒNƒŠƒvƒ^ƒTƒCƒY
+// SRVç”¨ã®ãƒ‡ã‚¹ã‚¯ãƒªãƒ—ã‚¿ã‚µã‚¤ã‚º
 uint32_t SRVManager::descriptorSize_;
 
 Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> SRVManager::descriptorHeap_;
 void SRVManager::Init() {
-	// ƒfƒXƒNƒŠƒvƒ^ƒq[ƒv‚Ì¶¬
+	// ãƒ‡ã‚¹ã‚¯ãƒªãƒ—ã‚¿ãƒ’ãƒ¼ãƒ—ã®ç”Ÿæˆ
 	descriptorHeap_ = DirectXCommon::GetInstance()->CreateDescriptorHeap(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, kMaXSRVCount, true);
-	// ƒfƒXƒNƒŠƒvƒ^1ŒÂ•ª‚ÌƒTƒCƒY‚ğæ“¾‚µ‚Ä‹L˜^
+	// ãƒ‡ã‚¹ã‚¯ãƒªãƒ—ã‚¿1å€‹åˆ†ã®ã‚µã‚¤ã‚ºã‚’å–å¾—ã—ã¦è¨˜éŒ²
 	descriptorSize_ = DirectXCommon::GetInstance()->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 }
 
 uint32_t SRVManager::Allocate()
 {
-	// return ‚·‚é”Ô†‚ğ‚¢‚Á‚½‚ñ‹L˜^‚µ‚Ä‚¨‚­
+	// return ã™ã‚‹ç•ªå·ã‚’ã„ã£ãŸã‚“è¨˜éŒ²ã—ã¦ãŠã
 	int index = useIndex_;
-	// Ÿ‰ñ‚Ì‚½‚ß‚É”Ô†‚ğ1i‚ß‚é
+	// æ¬¡å›ã®ãŸã‚ã«ç•ªå·ã‚’1é€²ã‚ã‚‹
 	useIndex_++;
-	// ã‚Å‹L˜^‚µ‚½”Ô†‚ğreturn
+	// ä¸Šã§è¨˜éŒ²ã—ãŸç•ªå·ã‚’return
 	return index;
 }
 
@@ -49,12 +49,12 @@ D3D12_GPU_DESCRIPTOR_HANDLE SRVManager::GetGPUDescriptorHandle(uint32_t index)
 void SRVManager::CreateSRVforTexture2D(uint32_t srvIndex, ID3D12Resource* pResource, DXGI_FORMAT Format, UINT MipLevels)
 {
 	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
-	// metaData‚ğŠî‚ÉSRV‚Ìİ’è
+	// metaDataã‚’åŸºã«SRVã®è¨­å®š
 	srvDesc.Format = Format;
 	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;//2DƒeƒNƒXƒ`ƒƒfi
+	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;//2Dãƒ†ã‚¯ã‚¹ãƒãƒ£fi
 	srvDesc.Texture2D.MipLevels = UINT(MipLevels);
-	// SRV‚Ì¶¬
+	// SRVã®ç”Ÿæˆ
 	DirectXCommon::GetInstance()->GetDevice()->CreateShaderResourceView(pResource, &srvDesc, GetCPUDescriptorHandle(srvIndex));
 
 }
@@ -69,37 +69,37 @@ void SRVManager::CreateSRVforStructuredBuffer(uint32_t srvIndex, ID3D12Resource*
 	srvDesc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
 	srvDesc.Buffer.NumElements = numElements;
 	srvDesc.Buffer.StructureByteStride = sizeof(structureByteStride);
-	// SRV‚Ì¶¬
+	// SRVã®ç”Ÿæˆ
 	DirectXCommon::GetInstance()->GetDevice()->CreateShaderResourceView(pResource, &srvDesc, GetCPUDescriptorHandle(srvIndex));
 }
 
 void SRVManager::CreateSRVDepth(uint32_t srvIndex, ID3D12Resource* pResource, DXGI_FORMAT Format, UINT MipLevels)
 {
 	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
-	// metaData‚ğŠî‚ÉSRV‚Ìİ’è
+	// metaDataã‚’åŸºã«SRVã®è¨­å®š
 	srvDesc.Format = Format;
 	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;//2DƒeƒNƒXƒ`ƒƒfi
+	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;//2Dãƒ†ã‚¯ã‚¹ãƒãƒ£fi
 	srvDesc.Texture2D.MipLevels = UINT(MipLevels);
-	// SRV‚Ì¶¬
+	// SRVã®ç”Ÿæˆ
 	DirectXCommon::GetInstance()->GetDevice()->CreateShaderResourceView(pResource, &srvDesc, GetCPUDescriptorHandle(srvIndex));
 }
 
 void SRVManager::CreateSRVRenderTexture(uint32_t srvIndex, ID3D12Resource* pResource, DXGI_FORMAT Format, UINT MipLevels)
 {
 	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
-	// metaData‚ğŠî‚ÉSRV‚Ìİ’è
+	// metaDataã‚’åŸºã«SRVã®è¨­å®š
 	srvDesc.Format = Format;
 	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;//2DƒeƒNƒXƒ`ƒƒfi
+	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;//2Dãƒ†ã‚¯ã‚¹ãƒãƒ£fi
 	srvDesc.Texture2D.MipLevels = UINT(MipLevels);
-	// SRV‚Ì¶¬
+	// SRVã®ç”Ÿæˆ
 	DirectXCommon::GetInstance()->GetDevice()->CreateShaderResourceView(pResource, &srvDesc, GetCPUDescriptorHandle(srvIndex));
 }
 
 void SRVManager::PreDraw()
 {
-	// •`‰æ—p‚ÌDescriptorHeap‚Ìİ’è
+	// æç”»ç”¨ã®DescriptorHeapã®è¨­å®š
 	ID3D12DescriptorHeap* descriptorHeaps[] = { descriptorHeap_.Get() };
 	DirectXCommon::GetInstance()->GetCommandList()->SetDescriptorHeaps(1, descriptorHeaps);
 }

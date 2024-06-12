@@ -1,8 +1,8 @@
-#include "ModelManager.h"
+ï»¿#include "ModelManager.h"
 
 void ModelManager::init()
 {
-	// ˆø”‚Åó‚¯æ‚Á‚Äƒƒ“ƒo•Ï”‚É‹L˜^‚·‚é
+	// å¼•æ•°ã§å—ã‘å–ã£ã¦ãƒ¡ãƒ³ãƒå¤‰æ•°ã«è¨˜éŒ²ã™ã‚‹
 	dxCommon_ = DirectXCommon::GetInstance();
 }
 
@@ -20,12 +20,12 @@ void ModelManager::Finalize()
 
 void ModelManager::LoadModel(const std::string& directoryPath, const std::string& filePath)
 {
-	// “Ç‚İ‚İÏ‚İƒ‚ƒfƒ‹‚ğŒŸõ
+	// èª­ã¿è¾¼ã¿æ¸ˆã¿ãƒ¢ãƒ‡ãƒ«ã‚’æ¤œç´¢
 	if (models.contains(filePath)) {
-		//  “Ç‚İ‚İÏ‚İ‚È‚ç‘Šúreturn
+		//  èª­ã¿è¾¼ã¿æ¸ˆã¿ãªã‚‰æ—©æœŸreturn
 		return;
 	}
-	// ƒ‚ƒfƒ‹‚Ì¶¬‚Æƒtƒ@ƒCƒ‹“Ç‚İ‚İA‰Šú‰»
+	// ãƒ¢ãƒ‡ãƒ«ã®ç”Ÿæˆã¨ãƒ•ã‚¡ã‚¤ãƒ«èª­ã¿è¾¼ã¿ã€åˆæœŸåŒ–
 	std::unique_ptr<Model> model = std::make_unique<Model>();
 	model->Initialize(directoryPath, filePath,
 		{ { 1.0f,1.0f,1.0f,1.0 },true
@@ -35,13 +35,13 @@ void ModelManager::LoadModel(const std::string& directoryPath, const std::string
 
 Model* ModelManager::FindModel(const std::string& filePath)
 {
-	// “Ç‚İ‚İÏ‚İƒ‚ƒfƒ‹‚ğŒŸõ
+	// èª­ã¿è¾¼ã¿æ¸ˆã¿ãƒ¢ãƒ‡ãƒ«ã‚’æ¤œç´¢
 	if (models.contains(filePath)) {
-		// “Ç‚İ‚İƒ‚ƒfƒ‹‚ğ–ß‚è’l‚Æ‚µ‚Äreturn
+		// èª­ã¿è¾¼ã¿ãƒ¢ãƒ‡ãƒ«ã‚’æˆ»ã‚Šå€¤ã¨ã—ã¦return
 		return models.at(filePath).get();
 	}
 
-	// ƒtƒ@ƒCƒ‹–¼ˆê’v–³‚µ
+	// ãƒ•ã‚¡ã‚¤ãƒ«åä¸€è‡´ç„¡ã—
 	return nullptr;
 }
 

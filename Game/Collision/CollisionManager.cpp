@@ -1,4 +1,4 @@
-#include "CollisionManager.h"
+ï»¿#include "CollisionManager.h"
 #include "GameScene.h"
 //#include "Enemy.h"
 //#include "Player.h"
@@ -6,14 +6,14 @@
 
 void CollisionManager::CheckAllCollision() {
 
-	//// ©’eƒŠƒXƒg‚Ìæ“¾
+	//// è‡ªå¼¾ãƒªã‚¹ãƒˆã®å–å¾—
 	//const std::list<PlayerBullet*>& playerBullets = player_->Getbullet();
 
-	//// “G’eƒŠƒXƒg‚Ìæ“¾
+	//// æ•µå¼¾ãƒªã‚¹ãƒˆã®å–å¾—
 	//const std::list<EnemyBullet*>& enemyBullets = enemy_->Getbullet();
 
 	//std::list<Collider*> colliders_;
-	//// ƒRƒ‰ƒCƒ_[‚ğƒŠƒXƒg‚É“o˜^
+	//// ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã‚’ãƒªã‚¹ãƒˆã«ç™»éŒ²
 	//colliders_.push_back(player_);
 	//colliders_.push_back(enemy_);
 
@@ -25,16 +25,16 @@ void CollisionManager::CheckAllCollision() {
 	//}
 
 	// std::list<Collider*> colliders;
-	//  ƒŠƒXƒg“à‚ÌƒyƒA‚ğ‘“–‚½‚è
+	//  ãƒªã‚¹ãƒˆå†…ã®ãƒšã‚¢ã‚’ç·å½“ãŸã‚Š
 	std::list<Collider*>::iterator itrA = colliders_.begin();
 	for (; itrA != colliders_.end(); ++itrA) {
 
-		// ƒCƒeƒŒ[ƒ^B‚ÍƒCƒeƒŒ[ƒ^\A‚ÌŸ‚Ì—v‘f‚©‚ç‰ñ‚·id•¡”»’è‚ğ‰ñ”ğj
+		// ã‚¤ãƒ†ãƒ¬ãƒ¼ã‚¿Bã¯ã‚¤ãƒ†ãƒ¬ãƒ¼ã‚¿â€•Aã®æ¬¡ã®è¦ç´ ã‹ã‚‰å›ã™ï¼ˆé‡è¤‡åˆ¤å®šã‚’å›é¿ï¼‰
 		std::list<Collider*>::iterator itrB = itrA;
 		itrB++;
 		for (; itrB != colliders_.end(); ++itrB) {
 
-			// ƒyƒA‚Ì“–‚½‚è”»’è
+			// ãƒšã‚¢ã®å½“ãŸã‚Šåˆ¤å®š
 			CheckCollisionPair(*itrA, *itrB);
 		}
 	}
@@ -46,19 +46,19 @@ void CollisionManager::PushClider(Collider* collider)
 }
 
 void CollisionManager::CheckCollisionPair(Collider* colliderA, Collider* colliderB) {
-	// ”»’è‘ÎÛA‚ÆB‚ÌÀ•W
+	// åˆ¤å®šå¯¾è±¡Aã¨Bã®åº§æ¨™
 	Vector3 posA, posB;
 	int radiusA, radiusB;
 
-	// colliderA‚ÌÀ•W
+	// colliderAã®åº§æ¨™
 	posA = colliderA->GetWorldPosition();
 	radiusA = colliderA->GetRadius();
 
-	// colliderB‚ÌÀ•W
+	// colliderBã®åº§æ¨™
 	posB = colliderB->GetWorldPosition();
 	radiusB = colliderB->GetRadius();
-	// ’e‚Æ’e‚ÌlŒğ·”»’è
-	// Õ“ËƒtƒBƒ‹ƒ^ƒŠƒ“ƒO
+	// å¼¾ã¨å¼¾ã®è€ƒäº¤å·®åˆ¤å®š
+	// è¡çªãƒ•ã‚£ãƒ«ã‚¿ãƒªãƒ³ã‚°
 
 	float p2b = (posB.x - posA.x) * (posB.x - posA.x) + (posB.y - posA.y) * (posB.y - posA.y) +
 		(posB.z - posA.z) * (posB.z - posA.z);
@@ -73,9 +73,9 @@ void CollisionManager::CheckCollisionPair(Collider* colliderA, Collider* collide
 			colliderB->GetCollisonAttribute() != colliderA->GetCollisionMask()) {
 			return;
 		};
-		// ƒRƒ‰ƒCƒ_[A‚ÌÕ“ËƒR[ƒ‹ƒoƒbƒN‚ğŒÄ‚Ño‚·
+		// ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼Aã®è¡çªæ™‚ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯ã‚’å‘¼ã³å‡ºã™
 		colliderA->OnCollision();
-		// ƒRƒ‰ƒCƒ_[B‚ÌÕ“ËƒR[ƒ‹ƒoƒbƒN‚ğŒÄ‚Ño‚·
+		// ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼Bã®è¡çªæ™‚ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯ã‚’å‘¼ã³å‡ºã™
 		colliderB->OnCollision();
 	}
 };

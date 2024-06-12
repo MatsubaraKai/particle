@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include"Vector3.h"
 #include<cstdint>
 class Collider {
@@ -6,7 +6,7 @@ public:
 
 
 	// Getter
-	// ”¼Œa‚ğæ“¾
+	// åŠå¾„ã‚’å–å¾—
 	int GetRadius() { return radius_; }
 
 	// Setter
@@ -14,25 +14,25 @@ public:
 
 	virtual void OnCollision() = 0;
 
-	// ƒ[ƒ‹ƒhÀ•W‚ğæ“¾
+	// ãƒ¯ãƒ¼ãƒ«ãƒ‰åº§æ¨™ã‚’å–å¾—
 	virtual Vector3 GetWorldPosition() const = 0;
 
-	// Õ“Ë‘®«i©•ªj‚ğæ“¾
+	// è¡çªå±æ€§ï¼ˆè‡ªåˆ†ï¼‰ã‚’å–å¾—
 	uint32_t GetCollisonAttribute() { return collisionAttribute_; }
-	// Õ“Ë‘®«i©•ªj‚ğİ’è
+	// è¡çªå±æ€§ï¼ˆè‡ªåˆ†ï¼‰ã‚’è¨­å®š
 	void SetCollisonAttribute(uint32_t collisionAttribute);
-	// Õ“Ëƒ}ƒXƒNi‘Šèj‚ğæ“¾
+	// è¡çªãƒã‚¹ã‚¯ï¼ˆç›¸æ‰‹ï¼‰ã‚’å–å¾—
 	uint32_t GetCollisionMask() { return CollisionMask_; }
-	// Õ“Ëƒ}ƒXƒNi‘Šèj‚ğİ’è
+	// è¡çªãƒã‚¹ã‚¯ï¼ˆç›¸æ‰‹ï¼‰ã‚’è¨­å®š
 	void SetCollisionMask(uint32_t CollisionMask);
 
 private:
-	// Õ“Ë”¼Œa
+	// è¡çªåŠå¾„
 	int radius_ = 2;
 
-	// Õ“Ë‘®«i©•ªj
+	// è¡çªå±æ€§ï¼ˆè‡ªåˆ†ï¼‰
 	uint32_t collisionAttribute_ = 0xFFFFFFFF;
-	// Õ“Ëƒ}ƒXƒNi‘Šèj
+	// è¡çªãƒã‚¹ã‚¯ï¼ˆç›¸æ‰‹ï¼‰
 	uint32_t CollisionMask_ = 0xffffffff;
 
 };

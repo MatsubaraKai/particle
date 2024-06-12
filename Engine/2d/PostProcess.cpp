@@ -1,4 +1,4 @@
-#include "PostProcess.h"
+ï»¿#include "PostProcess.h"
 #include "PSOCopyImage.h"
 #include "Mesh.h"
 #include <SRVManager.h>
@@ -7,13 +7,13 @@ PostProcess::PostProcess()
 }
 void PostProcess::Init()
 {
-	// ŽÀÛ‚É’¸“_ƒŠƒ\[ƒX‚ðì‚é
+	// å®Ÿéš›ã«é ‚ç‚¹ãƒªã‚½ãƒ¼ã‚¹ã‚’ä½œã‚‹
 	materialResource = Mesh::CreateBufferResource(DirectXCommon::GetInstance()->GetDevice(), sizeof(PostMaterial));
 
 	/*materialBufferView = CreateBufferView();;*/
-	// ’¸“_ƒŠƒ\[ƒX‚Éƒf[ƒ^‚ð‘‚«ž‚Þ
+	// é ‚ç‚¹ãƒªã‚½ãƒ¼ã‚¹ã«ãƒ‡ãƒ¼ã‚¿ã‚’æ›¸ãè¾¼ã‚€
 	materialData = nullptr;
-	// ‘‚«ž‚Þ‚½‚ß‚ÌƒAƒhƒŒƒX‚ðŽæ“¾
+	// æ›¸ãè¾¼ã‚€ãŸã‚ã®ã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’å–å¾—
 	materialResource->Map(0, nullptr, reinterpret_cast<void**>(&materialData));
 	materialData->projectionInverse = camera_->GetViewprojectionMatrix();
 
@@ -29,18 +29,18 @@ void PostProcess::Draw() {
 	PSOCopyImage* pso_ = PSOCopyImage::GatInstance();
 	DirectXCommon* sDirectXCommon = DirectXCommon::GetInstance();
 	sDirectXCommon->GetCommandList()->SetGraphicsRootSignature(pso_->GetProperty().rootSignature.Get());
-	sDirectXCommon->GetCommandList()->SetPipelineState(pso_->GetProperty().graphicsPipelineState.Get());    //PSO‚ðÝ’è
-	//sDirectXCommon->GetCommandList()->IASetVertexBuffers(0, 1, &vertexBufferViewSprite_); // VBV‚ðÝ’è
+	sDirectXCommon->GetCommandList()->SetPipelineState(pso_->GetProperty().graphicsPipelineState.Get());    //PSOã‚’è¨­å®š
+	//sDirectXCommon->GetCommandList()->IASetVertexBuffers(0, 1, &vertexBufferViewSprite_); // VBVã‚’è¨­å®š
 	//sDirectXCommon->GetCommandList()->IASetIndexBuffer(&indexBufferViewSprite);
-	//Œ`ó‚ðÝ’èBPSO‚ÉÝ’è‚µ‚Ä‚¢‚é‚à‚Ì‚Æ‚Í‚Ü‚½•ÊB“¯‚¶‚à‚Ì‚ðÝ’è‚·‚é‚Æl‚¦‚Ä‚¨‚¯‚Î—Ç‚¢
+	//å½¢çŠ¶ã‚’è¨­å®šã€‚PSOã«è¨­å®šã—ã¦ã„ã‚‹ã‚‚ã®ã¨ã¯ã¾ãŸåˆ¥ã€‚åŒã˜ã‚‚ã®ã‚’è¨­å®šã™ã‚‹ã¨è€ƒãˆã¦ãŠã‘ã°è‰¯ã„
 	sDirectXCommon->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	// ƒ}ƒeƒŠƒAƒ‹CBuffer‚ÌêŠ‚ðÝ’è
-	// SRV ‚ÌDescriptorTable‚Ìæ“ª‚ðÝ’èB2‚ÍrootParameter[2]‚Å‚ ‚éB
+	// ãƒžãƒ†ãƒªã‚¢ãƒ«CBufferã®å ´æ‰€ã‚’è¨­å®š
+	// SRV ã®DescriptorTableã®å…ˆé ­ã‚’è¨­å®šã€‚2ã¯rootParameter[2]ã§ã‚ã‚‹ã€‚
 	sDirectXCommon->GetCommandList()->SetGraphicsRootDescriptorTable(0, SRVManager::GetInstance()->GetGPUDescriptorHandle(sDirectXCommon->GetRenderIndex()));
 	sDirectXCommon->GetCommandList()->SetGraphicsRootDescriptorTable(1, SRVManager::GetInstance()->GetGPUDescriptorHandle(sDirectXCommon->GetDepthIndex()));
-	// ƒ}ƒeƒŠƒAƒ‹CBuffer‚ÌêŠ‚ðÝ’è
+	// ãƒžãƒ†ãƒªã‚¢ãƒ«CBufferã®å ´æ‰€ã‚’è¨­å®š
 	sDirectXCommon->GetCommandList()->SetGraphicsRootConstantBufferView(2, materialResource->GetGPUVirtualAddress());
-	// •`‰æiDrawCall/ƒhƒ[ƒR[ƒ‹j
+	// æç”»ï¼ˆDrawCall/ãƒ‰ãƒ­ãƒ¼ã‚³ãƒ¼ãƒ«ï¼‰
 	//sDirectXCommon->GetCommandList()->DrawInstanced(6, 1, 0, 0);
 	sDirectXCommon->GetCommandList()->DrawInstanced(3, 1, 0, 0);
 }

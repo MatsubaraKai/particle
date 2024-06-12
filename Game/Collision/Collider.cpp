@@ -1,10 +1,10 @@
-#include "Collider.h"
+ï»¿#include "Collider.h"
 
-// Õ“Ë‘®«i©•ªj‚ğİ’è
+// è¡çªå±æ€§ï¼ˆè‡ªåˆ†ï¼‰ã‚’è¨­å®š
 void Collider::SetCollisonAttribute(uint32_t collisionAttribute) {
 	collisionAttribute_ = collisionAttribute;
 };
-// Õ“Ëƒ}ƒXƒNi‘Šèj‚ğİ’è
+// è¡çªãƒã‚¹ã‚¯ï¼ˆç›¸æ‰‹ï¼‰ã‚’è¨­å®š
 void Collider::SetCollisionMask(uint32_t CollisionMask) {
 	CollisionMask_ = CollisionMask;
 };

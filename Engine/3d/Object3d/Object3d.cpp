@@ -1,4 +1,4 @@
-#include "Object3d.h"
+ï»¿#include "Object3d.h"
 #include "Modelmanager.h"
 #include "Object3dCommon.h"
 void Object3d::Init()
@@ -8,20 +8,20 @@ void Object3d::Init()
 	DirectXCommon* directXCommon = DirectXCommon::GetInstance();
 	worldTransform_.Initialize();
 
-	//ƒoƒbƒtƒ@ƒŠƒ\[ƒX
-	// ƒf[ƒ^‚ğ‘‚«‚Ş
+	//ãƒãƒƒãƒ•ã‚¡ãƒªã‚½ãƒ¼ã‚¹
+	// ãƒ‡ãƒ¼ã‚¿ã‚’æ›¸ãè¾¼ã‚€
 	wvpData = nullptr;
-	// WVP—p‚ÌƒŠƒ\[ƒX‚ğì‚éBMatrix4x4 1‚Â•ª‚ÌƒTƒCƒY‚ğ—pˆÓ‚·‚é
+	// WVPç”¨ã®ãƒªã‚½ãƒ¼ã‚¹ã‚’ä½œã‚‹ã€‚Matrix4x4 1ã¤åˆ†ã®ã‚µã‚¤ã‚ºã‚’ç”¨æ„ã™ã‚‹
 	wvpResource = Mesh::CreateBufferResource(directXCommon->GetDevice(), sizeof(TransformationMatrix));
-	// ‘‚«‚Ş‚½‚ß‚ÌƒAƒhƒŒƒX‚ğæ“¾
+	// æ›¸ãè¾¼ã‚€ãŸã‚ã®ã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’å–å¾—
 	wvpResource->Map(0, nullptr, reinterpret_cast<void**>(&wvpData));
-	//’PˆÊs—ñ‚ğ‘‚«‚ñ‚Å‚¢‚­
+	//å˜ä½è¡Œåˆ—ã‚’æ›¸ãè¾¼ã‚“ã§ã„ã
 	wvpData->WVP = MakeIdentity4x4();
 	wvpData->World = MakeIdentity4x4();
-	// ƒJƒƒ‰—p
+	// ã‚«ãƒ¡ãƒ©ç”¨
 	cameraForGPUData_ = nullptr;
 	cameraForGPUResource_ = Mesh::CreateBufferResource(directXCommon->GetDevice(), sizeof(CameraForGPU));
-	// ‘‚«‚Ş‚½‚ß‚ÌƒAƒhƒŒƒX‚ğæ“¾
+	// æ›¸ãè¾¼ã‚€ãŸã‚ã®ã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’å–å¾—
 	cameraForGPUResource_->Map(0, nullptr, reinterpret_cast<void**>(&cameraForGPUData_));
 
 	cameraForGPUData_->worldPosition = { 1.0f,1.0f,-5.0f };
@@ -47,12 +47,12 @@ void Object3d::Draw(uint32_t texture, Camera* camera)
 
 	//directionalLightData->direction =  Normalize(directionalLightData->direction);
 	directXCommon->GetCommandList()->SetGraphicsRootSignature(pso->GetProperty().rootSignature.Get());
-	directXCommon->GetCommandList()->SetPipelineState(pso->GetProperty().graphicsPipelineState.Get());    //PSO‚ğİ’è
-	//Œ`ó‚ğİ’èBPSO‚Éİ’è‚µ‚Ä‚¢‚é‚à‚Ì‚Æ‚Í‚Ü‚½•ÊB“¯‚¶‚à‚Ì‚ğİ’è‚·‚é‚Æl‚¦‚Ä‚¨‚¯‚Î—Ç‚¢
+	directXCommon->GetCommandList()->SetPipelineState(pso->GetProperty().graphicsPipelineState.Get());    //PSOã‚’è¨­å®š
+	//å½¢çŠ¶ã‚’è¨­å®šã€‚PSOã«è¨­å®šã—ã¦ã„ã‚‹ã‚‚ã®ã¨ã¯ã¾ãŸåˆ¥ã€‚åŒã˜ã‚‚ã®ã‚’è¨­å®šã™ã‚‹ã¨è€ƒãˆã¦ãŠã‘ã°è‰¯ã„
 	directXCommon->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	directXCommon->GetCommandList()->SetGraphicsRootConstantBufferView(1, wvpResource->GetGPUVirtualAddress());
 	directXCommon->GetCommandList()->SetGraphicsRootConstantBufferView(4, cameraForGPUResource_->GetGPUVirtualAddress());
-	// 3Dƒ‚ƒfƒ‹‚ªŠ„‚è“–‚Ä‚ç‚ê‚Ä‚¢‚ê‚Î•`‰æ‚·‚é
+	// 3Dãƒ¢ãƒ‡ãƒ«ãŒå‰²ã‚Šå½“ã¦ã‚‰ã‚Œã¦ã„ã‚Œã°æç”»ã™ã‚‹
 	if (model_) {
 		wvpData->WVP = worldViewProjectionMatrix;
 		wvpData->World = worldTransform_.matWorld_;
@@ -74,21 +74,21 @@ void Object3d::SetModel(const std::string& filePath)
 
 ModelData Object3d::LoadObjFile(const std::string& directoryPath, const std::string& filename)
 {
-	ModelData modelData; // \’z‚·‚éMataData
-	std::vector<Vector4> positions; // ˆÊ’u
-	std::vector<Vector3> normals; // –@ü
-	std::vector<Vector2> texcoords; // ƒeƒNƒXƒ`ƒƒÀ•W
-	std::string line; // ƒtƒ@ƒCƒ‹‚©‚ç“Ç‚ñ‚¾1s‚ğŠi”[‚·‚é‚à‚Ì
+	ModelData modelData; // æ§‹ç¯‰ã™ã‚‹MataData
+	std::vector<Vector4> positions; // ä½ç½®
+	std::vector<Vector3> normals; // æ³•ç·š
+	std::vector<Vector2> texcoords; // ãƒ†ã‚¯ã‚¹ãƒãƒ£åº§æ¨™
+	std::string line; // ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰èª­ã‚“ã 1è¡Œã‚’æ ¼ç´ã™ã‚‹ã‚‚ã®
 
-	std::ifstream file(directoryPath + "/" + filename); // ƒtƒ@ƒCƒ‹‚ğŠJ‚­
-	assert(file.is_open()); // ‚Æ‚è‚ ‚¦‚¸ŠJ‚¯‚È‚©‚Á‚½‚ç~‚ß‚é
+	std::ifstream file(directoryPath + "/" + filename); // ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‹ã
+	assert(file.is_open()); // ã¨ã‚Šã‚ãˆãšé–‹ã‘ãªã‹ã£ãŸã‚‰æ­¢ã‚ã‚‹
 
 	while (std::getline(file, line)) {
 		std::string identifier;
 		std::istringstream s(line);
-		s >> identifier; // æ“ª‚Ì¯•Êq‚ğ“Ç‚Ş
+		s >> identifier; // å…ˆé ­ã®è­˜åˆ¥å­ã‚’èª­ã‚€
 
-		// identifier‚É‰‚¶‚½ˆ—
+		// identifierã«å¿œã˜ãŸå‡¦ç†
 		if (identifier == "v") {
 			Vector4 position;
 			s >> position.x >> position.y >> position.z;
@@ -111,20 +111,20 @@ ModelData Object3d::LoadObjFile(const std::string& directoryPath, const std::str
 		}
 		else if (identifier == "f") {
 			VertexData triangle[3];
-			// –Ê‚ÍOŠpŒ`ŒÀ’èB‚»‚Ì‘¼‚Í–¢‘Î‰
+			// é¢ã¯ä¸‰è§’å½¢é™å®šã€‚ãã®ä»–ã¯æœªå¯¾å¿œ
 			for (int32_t faceVertex = 0; faceVertex < 3; ++faceVertex) {
 				std::string vertexDefinition;
 				s >> vertexDefinition;
-				// ’¸“_‚Ì—v‘f‚Ö‚ÌIndex‚ÍuˆÊ’u/UV/–@üv‚ÅŠi”[‚³‚ê‚Ä‚¢‚é‚Ì‚ÅA•ª‰ğ‚µ‚ÄIndex‚ğæ“¾‚·‚é
+				// é ‚ç‚¹ã®è¦ç´ ã¸ã®Indexã¯ã€Œä½ç½®/UV/æ³•ç·šã€ã§æ ¼ç´ã•ã‚Œã¦ã„ã‚‹ã®ã§ã€åˆ†è§£ã—ã¦Indexã‚’å–å¾—ã™ã‚‹
 				std::istringstream v(vertexDefinition);
 				uint32_t elementIndices[3];
 				for (int32_t element = 0; element < 3; ++element) {
 					std::string index;
-					std::getline(v, index, '/');// ‹æØ‚è‚ÅƒCƒ“ƒfƒbƒNƒX‚ğ“Ç‚ñ‚Å‚¢‚­
+					std::getline(v, index, '/');// åŒºåˆ‡ã‚Šã§ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’èª­ã‚“ã§ã„ã
 					elementIndices[element] = std::stoi(index);
 
 				}
-				// —v‘f‚Ö‚ÌIndex‚©‚çAÀÛ‚Ì—v‘f‚Ì’l‚ğæ“¾‚µ‚ÄA’¸“_‚ğ\’z‚·‚é
+				// è¦ç´ ã¸ã®Indexã‹ã‚‰ã€å®Ÿéš›ã®è¦ç´ ã®å€¤ã‚’å–å¾—ã—ã¦ã€é ‚ç‚¹ã‚’æ§‹ç¯‰ã™ã‚‹
 				Vector4 position = positions[elementIndices[0] - 1];
 				Vector2 texcoord = texcoords[elementIndices[1] - 1];
 				Vector3 normal = normals[elementIndices[2] - 1];
@@ -144,10 +144,10 @@ ModelData Object3d::LoadObjFile(const std::string& directoryPath, const std::str
 
 		}
 		else if (identifier == "mtllib") {
-			// materialtemplateLibraryƒtƒ@ƒCƒ‹‚Ì–¼‘O‚ğæ“¾‚·‚é
+			// materialtemplateLibraryãƒ•ã‚¡ã‚¤ãƒ«ã®åå‰ã‚’å–å¾—ã™ã‚‹
 			std::string materialFilename;
 			s >> materialFilename;
-			// Šî–{“I‚Éobjƒtƒ@ƒCƒ‹‚Æ“¯ˆêŠK‘w‚Émtl‚Í‘¶İ‚³‚¹‚é‚Ì‚ÅAƒfƒBƒŒƒNƒgƒŠ–¼‚Æƒtƒ@ƒCƒ‹–¼‚ğ“n‚·
+			// åŸºæœ¬çš„ã«objãƒ•ã‚¡ã‚¤ãƒ«ã¨åŒä¸€éšå±¤ã«mtlã¯å­˜åœ¨ã•ã›ã‚‹ã®ã§ã€ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªåã¨ãƒ•ã‚¡ã‚¤ãƒ«åã‚’æ¸¡ã™
 			modelData.material = LoadMaterialTemplateFile(directoryPath, materialFilename);
 		}
 
@@ -157,21 +157,21 @@ ModelData Object3d::LoadObjFile(const std::string& directoryPath, const std::str
 
 MaterialData Object3d::LoadMaterialTemplateFile(const std::string& directoryPath, const std::string& filename)
 {
-	MaterialData materialData;// \’z‚·‚éMaterialData
-	std::string line; // ƒtƒ@ƒCƒ‹‚©‚ç“Ç‚ñ‚¾1s‚ğ‚©‚­‚Ì‚¤‚·‚é‚à‚Ì
-	std::ifstream file(directoryPath + "/" + filename); // ƒtƒ@ƒCƒ‹‚ğŠJ‚­
-	assert(file.is_open()); // ‚Æ‚è‚ ‚¦‚¸ŠJ‚¯‚È‚©‚Á‚½‚ç~‚ß‚é
+	MaterialData materialData;// æ§‹ç¯‰ã™ã‚‹MaterialData
+	std::string line; // ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰èª­ã‚“ã 1è¡Œã‚’ã‹ãã®ã†ã™ã‚‹ã‚‚ã®
+	std::ifstream file(directoryPath + "/" + filename); // ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‹ã
+	assert(file.is_open()); // ã¨ã‚Šã‚ãˆãšé–‹ã‘ãªã‹ã£ãŸã‚‰æ­¢ã‚ã‚‹
 
 	while (std::getline(file, line)) {
 		std::string identifier;
 		std::istringstream s(line);
 		s >> identifier;
 
-		// identifer‚É‰‚¶‚½ˆ—
+		// identiferã«å¿œã˜ãŸå‡¦ç†
 		if (identifier == "map_Kd") {
 			std::string textureFilename;
 			s >> textureFilename;
-			// ˜AŒ‹‚µ‚Äƒtƒ@ƒCƒ‹ƒpƒX‚É‚·‚é
+			// é€£çµã—ã¦ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹ã«ã™ã‚‹
 			materialData.textureFilePath = directoryPath + "/" + textureFilename;
 		}
 
