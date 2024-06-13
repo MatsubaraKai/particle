@@ -1,4 +1,4 @@
-#include "Skeleton.h"
+ï»¿#include "Skeleton.h"
 #include "Model.h"
 #include "SRVManager.h"
 
@@ -14,15 +14,15 @@ int32_t Skeleton::CreateJoint(const Node& node, const std::optional<int32_t>& pa
 	joint.localMatrix = node.localMatrix;
 	joint.skeletonSpaceMatrix = MakeIdentity4x4();
 	joint.transform = node.transform;
-	joint.index = int32_t(joints.size()); // Œ»İ“o˜^‚³‚ê‚Ä‚é”‚ğIndex‚É
+	joint.index = int32_t(joints.size()); // ç¾åœ¨ç™»éŒ²ã•ã‚Œã¦ã‚‹æ•°ã‚’Indexã«
 	joint.parent = parent;
-	joints.push_back(joint); // Skeleton‚ÌJoint—ñ‚É’Ç‰Á
+	joints.push_back(joint); // Skeletonã®Jointåˆ—ã«è¿½åŠ 
 	for (const Node& child : node.children) {
-		// qIndex‚ğì¬‚µA‚»‚ÌIndex‚ğ‘¸‚­
+		// å­Indexã‚’ä½œæˆã—ã€ãã®Indexã‚’å°Šã
 		int32_t childIndex = CreateJoint(child, joint.index, joints);
 		joints[joint.index].chaidren.push_back(childIndex);
 	}
-	// ©g‚ÌIndex‚ğ•Ô‚·
+	// è‡ªèº«ã®Indexã‚’è¿”ã™
 	return joint.index;
 }
 
@@ -31,7 +31,7 @@ SkeletonData Skeleton::CreateSkeleton(const Node& rootNode)
 	SkeletonData skeleton;
 	skeleton.root = CreateJoint(rootNode, {}, skeleton.joints);
 
-	// –¼‘O‚Æindex‚Ìƒ}ƒbƒsƒ“ƒO‚ğs‚¢ƒAƒNƒZƒX‚µ‚â‚·‚­‚·‚é
+	// åå‰ã¨indexã®ãƒãƒƒãƒ”ãƒ³ã‚°ã‚’è¡Œã„ã‚¢ã‚¯ã‚»ã‚¹ã—ã‚„ã™ãã™ã‚‹
 	for (const Joint& joint : skeleton.joints) {
 		skeleton.jointMap.emplace(joint.name, joint.index);
 	}
@@ -42,19 +42,19 @@ SkinCluster Skeleton::CreateSkinCluster(const Microsoft::WRL::ComPtr<ID3D12Devic
 	const ModelData& modelData, const Microsoft::WRL::ComPtr<ID3D12DescriptorHeap>& descriptorHeap, uint32_t descriptorSize)
 {
 	SkinCluster skinCluster;
-	// particle—p‚ÌResource‚ğŠm•Û
+	// particleç”¨ã®Resourceã‚’ç¢ºä¿
 	skinCluster.paletteResource = Mesh::CreateBufferResource(DirectXCommon::GetInstance()->GetDevice(),
 		sizeof(WellForGPU) * skeleton.joints.size());
 	WellForGPU* mappedPalette = nullptr;
 	skinCluster.paletteResource->Map(0, nullptr, reinterpret_cast<void**>(&mappedPalette));
-	skinCluster.mappedPalette = { mappedPalette, skeleton.joints.size() };// span‚ğg‚Á‚ÄƒAƒNƒZƒX‚·‚é‚æ‚¤‚É‚·‚é
+	skinCluster.mappedPalette = { mappedPalette, skeleton.joints.size() };// spanã‚’ä½¿ã£ã¦ã‚¢ã‚¯ã‚»ã‚¹ã™ã‚‹ã‚ˆã†ã«ã™ã‚‹
 	uint32_t index = SRVManager::GetInstance()->Allocate();
 	skinCluster.paletteSrvHandle.first = SRVManager::GetInstance()->GetCPUDescriptorHandle(
 		index);
 	skinCluster.paletteSrvHandle.second = SRVManager::GetInstance()->GetGPUDescriptorHandle(
 		index);
 
-	// palette—p‚Ìsrv‚ğì¬BStructureBuffer‚ÅƒAƒNƒZƒX‚Å‚«‚é‚æ‚¤‚É‚·‚é
+	// paletteç”¨ã®srvã‚’ä½œæˆã€‚StructureBufferã§ã‚¢ã‚¯ã‚»ã‚¹ã§ãã‚‹ã‚ˆã†ã«ã™ã‚‹
 	D3D12_SHADER_RESOURCE_VIEW_DESC paletteSrvDesc{  };
 	paletteSrvDesc.Format = DXGI_FORMAT_UNKNOWN;
 	paletteSrvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
@@ -66,7 +66,7 @@ SkinCluster Skeleton::CreateSkinCluster(const Microsoft::WRL::ComPtr<ID3D12Devic
 	DirectXCommon::GetInstance()->GetDevice()->CreateShaderResourceView(skinCluster.paletteResource.Get(),
 		&paletteSrvDesc, skinCluster.paletteSrvHandle.first);
 
-	// influence—p‚ÌResource‚ğŠm•ÛB’¸“_–ˆ‚Éinfluenceî•ñ‚ğ’Ç‰Á‚Å‚«‚é‚æ‚¤‚É‚·‚é
+	// influenceç”¨ã®Resourceã‚’ç¢ºä¿ã€‚é ‚ç‚¹æ¯ã«influenceæƒ…å ±ã‚’è¿½åŠ ã§ãã‚‹ã‚ˆã†ã«ã™ã‚‹
 	skinCluster.influenceResource = Mesh::CreateBufferResource(DirectXCommon::GetInstance()->GetDevice(),
 		sizeof(VertexInfluence) * modelData.vertices.size());
 	VertexInfluence* mappedInfluence = nullptr;
@@ -74,27 +74,27 @@ SkinCluster Skeleton::CreateSkinCluster(const Microsoft::WRL::ComPtr<ID3D12Devic
 	std::memset(mappedInfluence, 0, sizeof(VertexInfluence) * modelData.vertices.size());
 	skinCluster.mappedInfluence = { mappedInfluence,modelData.vertices.size() };
 
-	// Influence—p‚ÌVBV‚ğì¬
+	// Influenceç”¨ã®VBVã‚’ä½œæˆ
 	skinCluster.influenceBufferView.BufferLocation = skinCluster.influenceResource->GetGPUVirtualAddress();
 	skinCluster.influenceBufferView.SizeInBytes = UINT(sizeof(VertexInfluence) * modelData.vertices.size());
 	skinCluster.influenceBufferView.StrideInBytes = sizeof(VertexInfluence);
 
 
-	// InverseBindPoseMatrix‚ğŠi”[‚·‚éêŠ‚ğì¬‚µ‚ÄA’PˆÊs—ñ‚Å–„‚ß‚é
+	// InverseBindPoseMatrixã‚’æ ¼ç´ã™ã‚‹å ´æ‰€ã‚’ä½œæˆã—ã¦ã€å˜ä½è¡Œåˆ—ã§åŸ‹ã‚ã‚‹
 	skinCluster.inverseBindposeMatrices.resize(skeleton.joints.size());
 	std::generate(skinCluster.inverseBindposeMatrices.begin(), skinCluster.inverseBindposeMatrices.end(), MakeIdentity4x4);
 
-	for (const auto& jointWeight : modelData.skinClusterData) { // Model‚ÌSkinCluster‚Ìœ–@‚ğ‰ğÍ
-		auto it = skeleton.jointMap.find(jointWeight.first); // joitweight.first‚Íjoint–¼‚È‚Ì‚ÅAskeleton‚É‘ÎÛ‚Æ‚È‚éjoint‚ªŠÜ‚Ü‚ê‚Ä‚¢‚é‚©”»’f
-		if (it == skeleton.jointMap.end()) { // jointWeight.first–¼‚È‚Ì‚ÅAskeleton‚É‘ÎÛ‚Æ‚È‚éjoint‚ªŠÜ‚Ü‚ê‚Ä‚¢‚é‚©”»’f
+	for (const auto& jointWeight : modelData.skinClusterData) { // Modelã®SkinClusterã®é™¤æ³•ã‚’è§£æ
+		auto it = skeleton.jointMap.find(jointWeight.first); // joitweight.firstã¯jointåãªã®ã§ã€skeletonã«å¯¾è±¡ã¨ãªã‚‹jointãŒå«ã¾ã‚Œã¦ã„ã‚‹ã‹åˆ¤æ–­
+		if (it == skeleton.jointMap.end()) { // jointWeight.firståãªã®ã§ã€skeletonã«å¯¾è±¡ã¨ãªã‚‹jointãŒå«ã¾ã‚Œã¦ã„ã‚‹ã‹åˆ¤æ–­
 			continue;
 		}
-		// (*itr).second‚É‚Íindex‚ª“ü‚Á‚Ä‚¢‚é‚Ì‚ÅAŠY“–‚Ìindex‚ÌinversePoseMatrix‚ğ‘ã“ü
+		// (*itr).secondã«ã¯indexãŒå…¥ã£ã¦ã„ã‚‹ã®ã§ã€è©²å½“ã®indexã®inversePoseMatrixã‚’ä»£å…¥
 		skinCluster.inverseBindposeMatrices[(*it).second] = jointWeight.second.inverseBindPposeMatrix;
 		for (const auto& vertexWeight : jointWeight.second.vertexWeights) {
-			auto& currentInfluence = skinCluster.mappedInfluence[vertexWeight.vertexIndex];// ŠY“–‚ÌvertexIndex‚Ìinfluenceî•ñ‚ğQÆ‚µ‚Ä‚¨‚­
-			for (uint32_t index = 0; index < kNumMaxInfluence; ++index) { // ‹ó‚¢‚Ä‚¢‚é‚Æ‚±‚ë‚É“ü‚ê‚é
-				if (currentInfluence.weights[index] == 0.0f) {// weight == 0‚ª‹ó‚¢‚Ä‚¢‚éó‘Ô‚È‚Ì‚ÅA‚»‚ÌêŠ‚Éweight‚Æjoint‚Ìindex‚ğ‘ã“ü
+			auto& currentInfluence = skinCluster.mappedInfluence[vertexWeight.vertexIndex];// è©²å½“ã®vertexIndexã®influenceæƒ…å ±ã‚’å‚ç…§ã—ã¦ãŠã
+			for (uint32_t index = 0; index < kNumMaxInfluence; ++index) { // ç©ºã„ã¦ã„ã‚‹ã¨ã“ã‚ã«å…¥ã‚Œã‚‹
+				if (currentInfluence.weights[index] == 0.0f) {// weight == 0ãŒç©ºã„ã¦ã„ã‚‹çŠ¶æ…‹ãªã®ã§ã€ãã®å ´æ‰€ã«weightã¨jointã®indexã‚’ä»£å…¥
 					currentInfluence.weights[index] = vertexWeight.weight;
 					currentInfluence.jointIndices[index] = (*it).second;
 					break;

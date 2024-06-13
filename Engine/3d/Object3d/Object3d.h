@@ -58,4 +58,3 @@ private:
 	// データを書き込む
 	WorldTransform worldTransform_;
 };
-

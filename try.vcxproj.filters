@@ -56,6 +56,15 @@
     <Filter Include="Engine\Interface\PSO">
       <UniqueIdentifier>{e88a0a03-fbdd-4617-9a14-ede6079a6151}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\3d\Skeleton">
+      <UniqueIdentifier>{4853eb96-f0fd-4704-9197-008b7f19bb2e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\3d\Sphere">
+      <UniqueIdentifier>{859fcffa-6589-4937-a2e5-84ba56b41a36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\3d\Triangle">
+      <UniqueIdentifier>{f00f3304-5de1-4dfe-a738-5e8824cafa62}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Interface\DirectXCommon.cpp">
@@ -148,18 +157,6 @@
     <ClCompile Include="Engine\3d\Object3d\Object3dCommon.cpp">
       <Filter>Engine\3d\Object3d</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\3d\Triangle\Triangle.cpp">
-      <Filter>Engine\3d</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\3d\Sphere\Sphere.cpp">
-      <Filter>Engine\3d</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Interface\Camera.cpp">
-      <Filter>Engine\3d</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Interface\WorldTransform.cpp">
-      <Filter>Engine\3d</Filter>
-    </ClCompile>
     <ClCompile Include="Lib\utility\function.cpp">
       <Filter>Engine\Utility</Filter>
     </ClCompile>
@@ -194,6 +191,21 @@
       <Filter>Engine\Interface</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Interface\Heap\SRVManager.cpp">
+      <Filter>Engine\Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\3d\Skeleton\Skeleton.cpp">
+      <Filter>Engine\3d\Skeleton</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\3d\Sphere\Sphere.cpp">
+      <Filter>Engine\3d\Sphere</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\3d\Triangle\Triangle.cpp">
+      <Filter>Engine\3d\Triangle</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Interface\WorldTransform.cpp">
+      <Filter>Engine\Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Interface\Camera.cpp">
       <Filter>Engine\Interface</Filter>
     </ClCompile>
   </ItemGroup>
@@ -330,18 +342,6 @@
     <ClInclude Include="Engine\3d\Object3d\Object3dCommon.h">
       <Filter>Engine\3d\Object3d</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\3d\Triangle\Triangle.h">
-      <Filter>Engine\3d</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\3d\Sphere\Sphere.h">
-      <Filter>Engine\3d</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Interface\Camera.h">
-      <Filter>Engine\3d</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Interface\WorldTransform.h">
-      <Filter>Engine\3d</Filter>
-    </ClInclude>
     <ClInclude Include="Lib\utility\function.h">
       <Filter>Engine\Utility</Filter>
     </ClInclude>
@@ -381,8 +381,33 @@
     <ClInclude Include="Engine\Interface\Heap\SRVManager.h">
       <Filter>Engine\Interface</Filter>
     </ClInclude>
+    <ClInclude Include="imconfig.h" />
+    <ClInclude Include="Engine\3d\Skeleton\Skeleton.h">
+      <Filter>Engine\3d\Skeleton</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\3d\Sphere\Sphere.h">
+      <Filter>Engine\3d\Sphere</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\3d\Triangle\Triangle.h">
+      <Filter>Engine\3d\Triangle</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Interface\WorldTransform.h">
+      <Filter>Engine\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Interface\Camera.h">
+      <Filter>Engine\Interface</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <None Include="imgui\imgui.ini">
+      <Filter>Externals\Imgui</Filter>
+    </None>
+    <None Include="imgui.ini" />
+    <None Include=".editorconfig" />
+    <None Include=".gitattributes" />
+    <None Include=".gitignore" />
+    <None Include="assimp-vc143-mt.dll" />
+    <None Include="assimp-vc143-mtd.dll" />
     <None Include="Resources\shader\Fullscreen.hlsli">
       <Filter>Resource\Shader</Filter>
     </None>
@@ -394,9 +419,6 @@
     </None>
     <None Include="Resources\shader\Sprite.hlsli">
       <Filter>Resource\Shader</Filter>
-    </None>
-    <None Include="imgui\imgui.ini">
-      <Filter>Externals\Imgui</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

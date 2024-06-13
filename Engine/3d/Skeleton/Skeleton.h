@@ -91,3 +91,4 @@ public:
 		const ModelData& modelData, const Microsoft::WRL::ComPtr<ID3D12DescriptorHeap>& descriptorHeap, uint32_t descriptorSize);
 private:
 };
+

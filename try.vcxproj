@@ -125,6 +125,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\3d\Object3d\Object3dCommon.cpp" />
     <ClCompile Include="Engine\3d\Particle\Particle.cpp" />
     <ClCompile Include="Engine\3d\Particle\ParticleManager.cpp" />
+    <ClCompile Include="Engine\3d\Skeleton\Skeleton.cpp" />
     <ClCompile Include="Engine\3d\Sphere\Sphere.cpp" />
     <ClCompile Include="Engine\3d\Triangle\Triangle.cpp" />
     <ClCompile Include="Engine\Interface\Camera.cpp" />
@@ -175,6 +176,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\3d\Object3d\Object3dCommon.h" />
     <ClInclude Include="Engine\3d\Particle\Particle.h" />
     <ClInclude Include="Engine\3d\Particle\ParticleManager.h" />
+    <ClInclude Include="Engine\3d\Skeleton\Skeleton.h" />
     <ClInclude Include="Engine\3d\Sphere\Sphere.h" />
     <ClInclude Include="Engine\3d\Triangle\Triangle.h" />
     <ClInclude Include="Engine\Audio\Audio.h" />
@@ -199,6 +201,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Input\Input.h" />
     <ClInclude Include="Game\Scene\IScene.h" />
     <ClInclude Include="Engine\Input\InputManager.h" />
+    <ClInclude Include="imconfig.h" />
     <ClInclude Include="imgui\imconfig.h" />
     <ClInclude Include="imgui\imgui.h" />
     <ClInclude Include="imgui\imgui_impl_dx12.h" />
@@ -229,6 +232,12 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Game\Utilty\TimedCall.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include=".editorconfig" />
+    <None Include=".gitattributes" />
+    <None Include=".gitignore" />
+    <None Include="assimp-vc143-mt.dll" />
+    <None Include="assimp-vc143-mtd.dll" />
+    <None Include="imgui.ini" />
     <None Include="imgui\imgui.ini" />
     <None Include="Resources\shader\Fullscreen.hlsli">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
