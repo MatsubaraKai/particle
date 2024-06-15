@@ -1,4 +1,5 @@
 ﻿#include "PSOCopyImage.h"
+#include <d3dx12.h>
 
 
 void PSOCopyImage::CreatePipelineStateObject() {
@@ -15,7 +16,7 @@ void PSOCopyImage::CreatePipelineStateObject() {
 		L"vs_6_0", sDirectXCommon->GetDxcUtils(), sDirectXCommon->GetDxcCompiler(), sDirectXCommon->GetIncludeHandler());
 	assert(property.vertexShaderBlob != nullptr);
 
-	property.pixelShaderBlob = CompileShader(L"Resources/shader/DepthBasedOutline.PS.hlsl",
+	property.pixelShaderBlob = CompileShader(L"Resources/shader/LuminanceBasedOutline.PS.hlsl",
 		L"ps_6_0", sDirectXCommon->GetDxcUtils(), sDirectXCommon->GetDxcCompiler(), sDirectXCommon->GetIncludeHandler());
 	assert(property.pixelShaderBlob != nullptr);
 
@@ -46,6 +47,8 @@ void PSOCopyImage::CreatePipelineStateObject() {
 	hr_ = sDirectXCommon->GetDevice()->CreateGraphicsPipelineState(&graphicsPipelineStateDesc,
 		IID_PPV_ARGS(&property.graphicsPipelineState));
 	assert(SUCCEEDED(hr_));
+
+	//DirectXCommon::GetInstance()->ChangeDepthStatetoRender();
 }
 
 void PSOCopyImage::CreateRootSignature() {
@@ -65,37 +68,54 @@ void PSOCopyImage::CreateRootSignature() {
 	descriptorRange_[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV; // SRVを使う
 	descriptorRange_[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND; // Offsetを自動計算
 
+	descriptorRange_[1].BaseShaderRegister = 1; // 0から始まる
+	descriptorRange_[1].NumDescriptors = 1; // 数は2つ
+	descriptorRange_[1].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV; // SRVを使う
+	descriptorRange_[1].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND; // Offsetを自動計算
+
+	descriptorRange_[2].BaseShaderRegister = 2; // 0から始まる
+	descriptorRange_[2].NumDescriptors = 1; // 数は2つ
+	descriptorRange_[2].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV; // SRVを使う
+	descriptorRange_[2].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND; // Offsetを自動計算
+
+
 	rootParamerters[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE; // DescripterTableを使う
 	rootParamerters[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL; // PixelShaderで使う
-	rootParamerters[0].DescriptorTable.pDescriptorRanges = descriptorRange_; // Tableの中身の配列を指定
-	rootParamerters[0].DescriptorTable.NumDescriptorRanges = _countof(descriptorRange_); // Tableで利用する数
+	rootParamerters[0].DescriptorTable.pDescriptorRanges = &descriptorRange_[0]; // Tableの中身の配列を指定
+	rootParamerters[0].DescriptorTable.NumDescriptorRanges = 1; // Tableで利用する数
 
 	rootParamerters[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE; // DescripterTableを使う
 	rootParamerters[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL; // PixelShaderで使う
-	rootParamerters[1].DescriptorTable.pDescriptorRanges = descriptorRange_; // Tableの中身の配列を指定
-	rootParamerters[1].DescriptorTable.NumDescriptorRanges = _countof(descriptorRange_); // Tableで利用する数
+	rootParamerters[1].DescriptorTable.pDescriptorRanges = &descriptorRange_[1]; // Tableの中身の配列を指定
+	rootParamerters[1].DescriptorTable.NumDescriptorRanges = 1; // Tableで利用する数
+
+	rootParamerters[2].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE; // DescripterTableを使う
+	rootParamerters[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL; // PixelShaderで使う
+	rootParamerters[2].DescriptorTable.pDescriptorRanges = &descriptorRange_[2]; // Tableの中身の配列を指定
+	rootParamerters[2].DescriptorTable.NumDescriptorRanges = 1; // Tableで利用する数
+
 
 
 
 	// ProjectionInverseを送る用　Matria
-	rootParamerters[2].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;  // CBVを使う
-	rootParamerters[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;  // PixelShaderで使う
-	rootParamerters[2].Descriptor.ShaderRegister = 0; //レジスタ番号0とバインド
+	rootParamerters[3].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;  // CBVを使う
+	rootParamerters[3].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;  // PixelShaderで使う
+	rootParamerters[3].Descriptor.ShaderRegister = 0; //レジスタ番号0とバインド
 
 
 	staticSamplers[0].Filter = D3D12_FILTER_MIN_MAG_MIP_LINEAR; // バイナリフィルタ
-	staticSamplers[0].AddressU = D3D12_TEXTURE_ADDRESS_MODE_WRAP; // 0~1の範囲外をリピート
-	staticSamplers[0].AddressV = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
-	staticSamplers[0].AddressW = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
+	staticSamplers[0].AddressU = D3D12_TEXTURE_ADDRESS_MODE_CLAMP; // 0~1の範囲外をリピート
+	staticSamplers[0].AddressV = D3D12_TEXTURE_ADDRESS_MODE_CLAMP;
+	staticSamplers[0].AddressW = D3D12_TEXTURE_ADDRESS_MODE_CLAMP;
 	staticSamplers[0].ComparisonFunc = D3D12_COMPARISON_FUNC_NEVER; // 比較しない
 	staticSamplers[0].MaxLOD = D3D12_FLOAT32_MAX; // ありったけのMipmapを使う
 	staticSamplers[0].ShaderRegister = 0; // レジスタ番号0を使う
 	staticSamplers[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL; // PixelShaderで使う
 
 	staticSamplers[1].Filter = D3D12_FILTER_MIN_MAG_MIP_POINT; // バイナリフィルタ
-	staticSamplers[1].AddressU = D3D12_TEXTURE_ADDRESS_MODE_WRAP; // 0~1の範囲外をリピート
-	staticSamplers[1].AddressV = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
-	staticSamplers[1].AddressW = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
+	staticSamplers[1].AddressU = D3D12_TEXTURE_ADDRESS_MODE_CLAMP; // 0~1の範囲外をリピート
+	staticSamplers[1].AddressV = D3D12_TEXTURE_ADDRESS_MODE_CLAMP;
+	staticSamplers[1].AddressW = D3D12_TEXTURE_ADDRESS_MODE_CLAMP;
 	staticSamplers[1].ComparisonFunc = D3D12_COMPARISON_FUNC_NEVER; // 比較しない
 	staticSamplers[1].MaxLOD = D3D12_FLOAT32_MAX; // ありったけのMipmapを使う
 	staticSamplers[1].ShaderRegister = 1; // レジスタ番号0を使う

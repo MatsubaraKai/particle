@@ -1,37 +1,37 @@
-#include "Animation.h"
+ï»¿#include "Animation.h"
 #include <cassert>
 AnimationData Animation::LoadAnimationFile(const std::string& directoryPath, const std::string& filePath)
 {
-	AnimationData animation;// ¡‰ñì‚éƒAƒjƒ[ƒVƒ‡ƒ“
+	AnimationData animation;// ä»Šå›ä½œã‚‹ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³
 	Assimp::Importer importer;
 	std::string filePathA = directoryPath + "/" + filePath;
 	const aiScene* scene = importer.ReadFile(filePath.c_str(), 0);
-	assert(scene->mNumAnimations != 0);// ƒAƒjƒ[ƒVƒ‡ƒ“‚ª‚È‚¢
-	aiAnimation* animationAssimp = scene->mAnimations[0]; // Å‰‚ÌƒAƒjƒ[ƒVƒ‡ƒ“‚¾‚¯Ì—pB‚à‚¿‚ë‚ñ•¡”‘Î‰‚·‚é‚É‰z‚µ‚½‚±‚Æ‚Í‚È‚¢
-	animation.duration = float(animationAssimp->mDuration / animationAssimp->mTicksPerSecond); // ŠÔ‚Ì’PˆÊ‚ğ•b‚É•ÏŠ·
+	assert(scene->mNumAnimations != 0);// ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ãŒãªã„
+	aiAnimation* animationAssimp = scene->mAnimations[0]; // æœ€åˆã®ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã ã‘æ¡ç”¨ã€‚ã‚‚ã¡ã‚ã‚“è¤‡æ•°å¯¾å¿œã™ã‚‹ã«è¶Šã—ãŸã“ã¨ã¯ãªã„
+	animation.duration = float(animationAssimp->mDuration / animationAssimp->mTicksPerSecond); // æ™‚é–“ã®å˜ä½ã‚’ç§’ã«å¤‰æ›
 	AnimationCurve<NodeAnimation> keyframes;
-	// assimp‚Å‚ÍŒÂX‚ÌNode‚ÌAnimation‚ğchannel‚Æ“Ç‚ñ‚Å‚¢‚é‚Ì‚Åchannel‚ğ‰ñ‚µ‚ÄNodeAnimation‚Ìî•ñ‚ğ‚Æ‚Á‚Ä‚­‚é
+	// assimpã§ã¯å€‹ã€…ã®Nodeã®Animationã‚’channelã¨èª­ã‚“ã§ã„ã‚‹ã®ã§channelã‚’å›ã—ã¦NodeAnimationã®æƒ…å ±ã‚’ã¨ã£ã¦ãã‚‹
 	for (uint32_t channelIndex = 0; channelIndex < animationAssimp->mNumChannels; ++channelIndex) {
 		aiNodeAnim* nodeAnimationAssimp = animationAssimp->mChannels[channelIndex];
 		NodeAnimation& nodeAnimation = animation.nodeAnimations[nodeAnimationAssimp->mNodeName.C_Str()];
 		for (uint32_t keyIndex = 0; keyIndex < nodeAnimationAssimp->mNumPositionKeys; ++keyIndex) {
 			aiVectorKey& keyAssimp = nodeAnimationAssimp->mPositionKeys[keyIndex];
 			KeyFrameVector3 keyframe{};
-			keyframe.time = float(keyAssimp.mTime / animationAssimp->mTicksPerSecond); // ‚±‚±‚à•b‚É•ÏŠ·
+			keyframe.time = float(keyAssimp.mTime / animationAssimp->mTicksPerSecond); // ã“ã“ã‚‚ç§’ã«å¤‰æ›
 			keyframe.value = { -keyAssimp.mValue.x, keyAssimp.mValue.y, keyAssimp.mValue.z };
 			nodeAnimation.translate.keyframes.push_back(keyframe);
 		}
 		for (uint32_t keyIndex = 0; keyIndex < nodeAnimationAssimp->mNumPositionKeys; ++keyIndex) {
 			aiQuatKey& keyAssimp = nodeAnimationAssimp->mRotationKeys[keyIndex];
 			KeyFrameQuaternion keyframe{};
-			keyframe.time = float(keyAssimp.mTime / animationAssimp->mTicksPerSecond); // ‚±‚±‚à•b‚É•ÏŠ·
+			keyframe.time = float(keyAssimp.mTime / animationAssimp->mTicksPerSecond); // ã“ã“ã‚‚ç§’ã«å¤‰æ›
 			keyframe.value = { keyAssimp.mValue.x, -keyAssimp.mValue.y, -keyAssimp.mValue.z, keyAssimp.mValue.w };
 			nodeAnimation.rotate.keyframes.push_back(keyframe);
 		}
 		for (uint32_t keyIndex = 0; keyIndex < nodeAnimationAssimp->mNumPositionKeys; ++keyIndex) {
 			aiVectorKey& keyAssimp = nodeAnimationAssimp->mScalingKeys[keyIndex];
 			KeyFrameVector3 keyframe{};
-			keyframe.time = float(keyAssimp.mTime / animationAssimp->mTicksPerSecond); // ‚±‚±‚à•b‚É•ÏŠ·
+			keyframe.time = float(keyAssimp.mTime / animationAssimp->mTicksPerSecond); // ã“ã“ã‚‚ç§’ã«å¤‰æ›
 			keyframe.value = { keyAssimp.mValue.x, keyAssimp.mValue.y, keyAssimp.mValue.z };
 			nodeAnimation.scale.keyframes.push_back(keyframe);
 		}
@@ -49,22 +49,22 @@ void Animation::Init(const std::string& directoryPath, const std::string& filePa
 void Animation::Updata()
 {
 	animationTime += 1.0f / 60.0f;
-	animationTime = std::fmod(animationTime, animation_.duration); // ÅŒã‚Ü‚Ås‚Á‚½‚çÅ‰‚©‚çƒŠƒs[ƒgÄ¶BƒŠƒs[ƒg‚µ‚È‚­‚Ä‚à•Ê‚É‚æ‚¢
+	animationTime = std::fmod(animationTime, animation_.duration); // æœ€å¾Œã¾ã§è¡Œã£ãŸã‚‰æœ€åˆã‹ã‚‰ãƒªãƒ”ãƒ¼ãƒˆå†ç”Ÿã€‚ãƒªãƒ”ãƒ¼ãƒˆã—ãªãã¦ã‚‚åˆ¥ã«ã‚ˆã„
 	//NodeAnimation& rootAnimation = animation_.nodeAnimations[mode]
 }
 
 //Vector3 Animation::CalucateValue(const std::vector<KeyFrameVector3>& keyframes, float time)
 //{
-//	assert(!keyframes.empty()); // ƒL[‚ª‚È‚¢‚à‚Ì‚Í•Ô‚·’l‚ª‚í‚©‚ç‚È‚¢‚Ì‚Åƒ_ƒ
-//	if (keyframes.size() == 1 || time <= keyframes[0].time) {// ƒL[‚ª1‚Â‚©A‚ªƒL[ƒtƒŒ[ƒ€‘O‚È‚çÅ‰‚Ì’l‚Æ‚·‚é
+//	assert(!keyframes.empty()); // ã‚­ãƒ¼ãŒãªã„ã‚‚ã®ã¯è¿”ã™å€¤ãŒã‚ã‹ã‚‰ãªã„ã®ã§ãƒ€ãƒ¡
+//	if (keyframes.size() == 1 || time <= keyframes[0].time) {// ã‚­ãƒ¼ãŒ1ã¤ã‹ã€æ™‚åˆ»ãŒã‚­ãƒ¼ãƒ•ãƒ¬ãƒ¼ãƒ å‰ãªã‚‰æœ€åˆã®å€¤ã¨ã™ã‚‹
 //		return keyframes[0].value;
 //	}
 //
 //	for (size_t index = 0; index < keyframes.size() - 1; ++index) {
 //		size_t nextIndex = index + 1;
-//		// index‚ÆnextIndex‚Ì2‚Â‚Ìkeyframe‚ğæ“¾‚µ‚Ä”ÍˆÍ“à‚É‚ª‚ ‚é‚©‚ğ”»’è
+//		// indexã¨nextIndexã®2ã¤ã®keyframeã‚’å–å¾—ã—ã¦ç¯„å›²å†…ã«æ™‚åˆ»ãŒã‚ã‚‹ã‹ã‚’åˆ¤å®š
 //		if (keyframes[index].time <= time && time <= keyframes[nextIndex].time) {
-//			// ”ÍˆÍ“à‚ğ•âŠÔ‚·‚é
+//			// ç¯„å›²å†…ã‚’è£œé–“ã™ã‚‹
 //			float t = (time - keyframes[index].time) / (keyframes[nextIndex].time - keyframes[index].time);
 //			return Lerp();
 //		}

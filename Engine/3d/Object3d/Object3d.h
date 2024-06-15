@@ -33,6 +33,9 @@ public: // Setter
 	void SetModel(Model* model) { model_ = model; }
 	void SetModel(const std::string& filePath);
 	void SetWorldTransform(const WorldTransform& worldtransform) { worldTransform_ = worldtransform; };
+	void ModelDebug(const char* name);
+	WorldTransform worldTransform_;
+
 public: // Getter
 	WorldTransform GetWorldTransform() { return worldTransform_; }
 	ModelData LoadObjFile(const std::string& directoryPath, const std::string& filename);
@@ -56,5 +59,4 @@ private:
 	Microsoft::WRL::ComPtr < ID3D12Resource> cameraForGPUResource_;
 	CameraForGPU* cameraForGPUData_;
 	// データを書き込む
-	WorldTransform worldTransform_;
 };

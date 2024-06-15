@@ -104,6 +104,8 @@ public:
 	/// </summary>
 	void CreateDXCCompilier();
 
+	void ChangeDepthStatetoRead();
+	void ChangeDepthStatetoRender();
 
 	void tempRender();
 
@@ -276,3 +278,4 @@ public: // 共通変数　以下の変数は変更しない
 	const static uint32_t rtvDescriptorSize_ = 3;
 	const static uint32_t dsvDescriptorSize_ = 1;
 };
+

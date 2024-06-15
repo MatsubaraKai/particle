@@ -1,6 +1,6 @@
 #pragma once
 #include"WinAPI.h"
-
+#include "imgui.h"
 #include "Vector3.h"
 #include "Matrix4x4.h"
 #include "Transform.h"
@@ -29,6 +29,7 @@ public: //Setter
 	void SetAspectRario() {}
 	void SetNearClip() {}
 	void SetFarClip() {}
+	void CameraDebug();
 
 private:
 	Transform transform_;

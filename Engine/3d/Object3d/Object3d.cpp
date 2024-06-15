@@ -28,6 +28,34 @@ void Object3d::Init()
 
 }
 
+void Object3d::ModelDebug(const char* name)
+{
+#ifdef _DEBUG
+	ImGui::Begin("model");
+
+	if (ImGui::TreeNode(name))
+	{
+		float translate[3] = { worldTransform_.translation_.x, worldTransform_.translation_.y, worldTransform_.translation_.z };
+		ImGui::DragFloat3("transform", translate, 0.01f);
+		worldTransform_.translation_ = { translate[0],translate[1],translate[2] };
+
+		float rotate[3] = { worldTransform_.rotation_.x , worldTransform_.rotation_.y, worldTransform_.rotation_.z };
+		ImGui::DragFloat3("rotate", rotate, 0.01f);
+		worldTransform_.rotation_ = { rotate[0],rotate[1],rotate[2] };
+
+		float scale[3] = { worldTransform_.scale_.x, worldTransform_.scale_.y, worldTransform_.scale_.z };
+		ImGui::DragFloat3("scale", scale, 0.01f);
+		worldTransform_.scale_ = { scale[0],scale[1],scale[2] };
+		ImGui::TreePop();
+
+		worldTransform_.UpdateMatrix();
+
+	}
+
+	ImGui::End();
+#endif // _DEBUG
+
+}
 void Object3d::Update()
 {
 	worldTransform_.UpdateMatrix();

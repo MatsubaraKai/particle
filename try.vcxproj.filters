@@ -56,15 +56,6 @@
     <Filter Include="Engine\Interface\PSO">
       <UniqueIdentifier>{e88a0a03-fbdd-4617-9a14-ede6079a6151}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\3d\Skeleton">
-      <UniqueIdentifier>{4853eb96-f0fd-4704-9197-008b7f19bb2e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\3d\Sphere">
-      <UniqueIdentifier>{859fcffa-6589-4937-a2e5-84ba56b41a36}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\3d\Triangle">
-      <UniqueIdentifier>{f00f3304-5de1-4dfe-a738-5e8824cafa62}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Interface\DirectXCommon.cpp">
@@ -78,9 +69,6 @@
     </ClCompile>
     <ClCompile Include="Engine\Adapter\Engine.cpp">
       <Filter>Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="main.cpp">
-      <Filter>Engine\Interface</Filter>
     </ClCompile>
     <ClCompile Include="Engine\2d\Sprite.cpp">
       <Filter>Engine\2d</Filter>
@@ -169,9 +157,6 @@
     <ClCompile Include="Engine\Input\InputManager.cpp">
       <Filter>Engine\Interface\input</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Interface\PSO\PSOCopyImage.cpp">
-      <Filter>Engine\Interface\PSO</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Interface\PSO\PSOModel.cpp">
       <Filter>Engine\Interface\PSO</Filter>
     </ClCompile>
@@ -184,30 +169,29 @@
     <ClCompile Include="Engine\Interface\PSO\PSOSprite.cpp">
       <Filter>Engine\Interface\PSO</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\2d\PostProcess.cpp">
-      <Filter>Engine\2d</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Interface\Mesh.cpp">
       <Filter>Engine\Interface</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Interface\Heap\SRVManager.cpp">
       <Filter>Engine\Interface</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\3d\Skeleton\Skeleton.cpp">
-      <Filter>Engine\3d\Skeleton</Filter>
+    <ClCompile Include="Engine\3d\Skeleton\Skeleton.cpp" />
+    <ClCompile Include="Engine\3d\Triangle\Triangle.cpp">
+      <Filter>Engine\3d</Filter>
     </ClCompile>
     <ClCompile Include="Engine\3d\Sphere\Sphere.cpp">
-      <Filter>Engine\3d\Sphere</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\3d\Triangle\Triangle.cpp">
-      <Filter>Engine\3d\Triangle</Filter>
+      <Filter>Engine\3d</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Interface\WorldTransform.cpp">
-      <Filter>Engine\Interface</Filter>
+      <Filter>Engine\3d</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Interface\Camera.cpp">
-      <Filter>Engine\Interface</Filter>
+      <Filter>Engine\3d</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\2d\PostProcess.cpp" />
+    <ClCompile Include="Engine\Interface\PSO\PSOCopyImage.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Engine\3d\Animation\Animation.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Interface\DirectXCommon.h">
@@ -306,9 +290,6 @@
     <ClInclude Include="Game\Utilty\TimedCall.h">
       <Filter>Engine\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="Lib\math\Quaternion.h">
-      <Filter>Engine\Math</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\3d\DirectionLight.h">
       <Filter>Engine\Utility</Filter>
     </ClInclude>
@@ -325,9 +306,6 @@
       <Filter>Engine\3d\Model</Filter>
     </ClInclude>
     <ClInclude Include="Engine\3d\Model\ModelData.h">
-      <Filter>Engine\3d\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\3d\Model\ModelManager.h">
       <Filter>Engine\3d\Model</Filter>
     </ClInclude>
     <ClInclude Include="Engine\3d\Particle\Particle.h">
@@ -357,9 +335,6 @@
     <ClInclude Include="Engine\Input\InputManager.h">
       <Filter>Engine\Interface\input</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Interface\PSO\PSOCopyImage.h">
-      <Filter>Engine\Interface\PSO</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Interface\PSO\PSOModel.h">
       <Filter>Engine\Interface\PSO</Filter>
     </ClInclude>
@@ -372,9 +347,6 @@
     <ClInclude Include="Engine\Interface\PSO\PSOSprite.h">
       <Filter>Engine\Interface\PSO</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\2d\PostProcess.h">
-      <Filter>Engine\2d</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Interface\Mesh.h">
       <Filter>Engine\Interface</Filter>
     </ClInclude>
@@ -382,21 +354,26 @@
       <Filter>Engine\Interface</Filter>
     </ClInclude>
     <ClInclude Include="imconfig.h" />
-    <ClInclude Include="Engine\3d\Skeleton\Skeleton.h">
-      <Filter>Engine\3d\Skeleton</Filter>
+    <ClInclude Include="Engine\3d\Skeleton\Skeleton.h" />
+    <ClInclude Include="Engine\3d\Triangle\Triangle.h">
+      <Filter>Engine\3d</Filter>
     </ClInclude>
     <ClInclude Include="Engine\3d\Sphere\Sphere.h">
-      <Filter>Engine\3d\Sphere</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\3d\Triangle\Triangle.h">
-      <Filter>Engine\3d\Triangle</Filter>
+      <Filter>Engine\3d</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Interface\WorldTransform.h">
-      <Filter>Engine\Interface</Filter>
+      <Filter>Engine\3d</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Interface\Camera.h">
-      <Filter>Engine\Interface</Filter>
+      <Filter>Engine\3d</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\3d\Model\ModelManager.h">
+      <Filter>Engine\3d</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\2d\PostProcess.h" />
+    <ClInclude Include="Engine\Interface\PSO\PSOCopyImage.h" />
+    <ClInclude Include="Lib\math\Quaternion.h" />
+    <ClInclude Include="Engine\3d\Animation\Animation.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui\imgui.ini">
@@ -408,9 +385,6 @@
     <None Include=".gitignore" />
     <None Include="assimp-vc143-mt.dll" />
     <None Include="assimp-vc143-mtd.dll" />
-    <None Include="Resources\shader\Fullscreen.hlsli">
-      <Filter>Resource\Shader</Filter>
-    </None>
     <None Include="Resources\shader\Object3d.hlsli">
       <Filter>Resource\Shader</Filter>
     </None>
@@ -420,32 +394,12 @@
     <None Include="Resources\shader\Sprite.hlsli">
       <Filter>Resource\Shader</Filter>
     </None>
+    <None Include="Resources\shader\Fullscreen.hlsli" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="imgui\LICENSE.txt" />
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Resources\shader\BoxFilter.PS.hlsl">
-      <Filter>Resource\Shader</Filter>
-    </FxCompile>
-    <FxCompile Include="Resources\shader\DepthBasedOutline.PS.hlsl">
-      <Filter>Resource\Shader</Filter>
-    </FxCompile>
-    <FxCompile Include="Resources\shader\Fullscreen.PS.hlsl">
-      <Filter>Resource\Shader</Filter>
-    </FxCompile>
-    <FxCompile Include="Resources\shader\Fullscreen.VS.hlsl">
-      <Filter>Resource\Shader</Filter>
-    </FxCompile>
-    <FxCompile Include="Resources\shader\GaussianFilter.PS.hlsl">
-      <Filter>Resource\Shader</Filter>
-    </FxCompile>
-    <FxCompile Include="Resources\shader\Grayscale.PS.hlsl">
-      <Filter>Resource\Shader</Filter>
-    </FxCompile>
-    <FxCompile Include="Resources\shader\LuminanceBasedOutline.PS.hlsl">
-      <Filter>Resource\Shader</Filter>
-    </FxCompile>
     <FxCompile Include="Resources\shader\Object3d.PS.hlsl">
       <Filter>Resource\Shader</Filter>
     </FxCompile>
@@ -458,17 +412,22 @@
     <FxCompile Include="Resources\shader\Particle.VS.hlsl">
       <Filter>Resource\Shader</Filter>
     </FxCompile>
-    <FxCompile Include="Resources\shader\SkinningObject3d.VS.hlsl">
-      <Filter>Resource\Shader</Filter>
-    </FxCompile>
     <FxCompile Include="Resources\shader\Sprite.PS.hlsl">
       <Filter>Resource\Shader</Filter>
     </FxCompile>
     <FxCompile Include="Resources\shader\Sprite.VS.hlsl">
       <Filter>Resource\Shader</Filter>
     </FxCompile>
-    <FxCompile Include="Resources\shader\Vignetting.PS.hlsl">
-      <Filter>Resource\Shader</Filter>
-    </FxCompile>
+    <FxCompile Include="Resources\shader\BoxFilter.PS.hlsl" />
+    <FxCompile Include="Resources\shader\DepthBasedOutline.PS.hlsl" />
+    <FxCompile Include="Resources\shader\Fullscreen.PS.hlsl" />
+    <FxCompile Include="Resources\shader\Fullscreen.VS.hlsl" />
+    <FxCompile Include="Resources\shader\GaussianFilter.PS.hlsl" />
+    <FxCompile Include="Resources\shader\Grayscale.PS.hlsl" />
+    <FxCompile Include="Resources\shader\LuminanceBasedOutline.PS.hlsl" />
+    <FxCompile Include="Resources\shader\Vignetting.PS.hlsl" />
+    <FxCompile Include="Resources\shader\SkinningObject3d.VS.hlsl" />
+    <FxCompile Include="RadialBlur.PS.hlsl" />
+    <FxCompile Include="Dissololve.PS.hlsl" />
   </ItemGroup>
 </Project>

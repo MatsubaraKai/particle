@@ -8,7 +8,8 @@ void DemoScene::Init()
 	camera = new Camera;
 	camera->Initialize();
 	Vector3 cameraPos = camera->GetTransform().translate;
-	cameraPos.z = -5;
+	cameraPos.z = -15;
+	cameraPos.x = 3.5f;
 	camera->SetTranslate(cameraPos);
 	input = Input::GetInstance();
 	textureHandle = TextureManager::StoreTexture("Resources/uvChecker.png");
@@ -60,22 +61,28 @@ void DemoScene::Update()
 	sceneTime++;
 	////カメラの更新
 	camera->Update();
+	camera->CameraDebug();
 	demoSprite->Update();
-
+	
 	if (Input::GetInstance()->TriggerKey(DIK_A)) {
 		rotateSize_ = 0.0f;
 	}
 	if (Input::GetInstance()->TriggerKey(DIK_D)) {
 		rotateSize_ = 0.05f;
+
 	}
+	
 
-
+	worldTransform.rotation_.x += rotateSize_;
 	worldTransform.rotation_.y += rotateSize_;
+	worldTransform2.rotation_.z += rotateSize_;
 	object3d->SetWorldTransform(worldTransform);
 	object3d2->SetWorldTransform(worldTransform2);
 
 	object3d->Update();
-	//object3d2->Update();
+	object3d2->Update();
+	object3d->ModelDebug("1");
+	object3d2->ModelDebug("2");
 
 }
 void DemoScene::Draw()
@@ -83,8 +90,8 @@ void DemoScene::Draw()
 	//demoSprite->Draw(textureHandle,{1.0f,1.0f,1.0f,1.0f});
 	object3d->Draw(textureHandle, camera);
 	object3d2->Draw(textureHandle2, camera);
-	particle->Draw(demoEmitter_, { worldTransform.translation_.x,worldTransform.translation_.y,worldTransform.translation_.z + 5 }, textureHandle, camera, demoRandPro, false);
-	particle2->Draw(demoEmitter_, { worldTransform2.translation_.x,worldTransform2.translation_.y,worldTransform2.translation_.z + 5 }, textureHandle2, camera, demoRandPro, false);
+	/*particle->Draw(demoEmitter_, { worldTransform.translation_.x,worldTransform.translation_.y,worldTransform.translation_.z + 5 }, textureHandle, camera, demoRandPro, false);
+	particle2->Draw(demoEmitter_, { worldTransform2.translation_.x,worldTransform2.translation_.y,worldTransform2.translation_.z + 5 }, textureHandle2, camera, demoRandPro, false);*/
 }
 
 void DemoScene::PostDraw()
