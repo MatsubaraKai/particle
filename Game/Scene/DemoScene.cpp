@@ -73,7 +73,7 @@ void DemoScene::Update()
 	}
 	
 
-	worldTransform.rotation_.x += rotateSize_;
+	worldTransform.translation_.x += rotateSize_;
 	worldTransform.rotation_.y += rotateSize_;
 	worldTransform2.rotation_.z += rotateSize_;
 	object3d->SetWorldTransform(worldTransform);
