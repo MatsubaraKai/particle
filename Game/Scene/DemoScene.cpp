@@ -70,6 +70,10 @@ void DemoScene::Update()
 	object3d2->Update();
 	object3d->ModelDebug("1");
 	object3d2->ModelDebug("2");
+	ImGui::Begin("read me");
+	ImGui::Text("move : WASD or Joystick");
+	ImGui::Text("jump : SPACE or A button");
+	ImGui::End();
 
 }
 void DemoScene::Draw()
