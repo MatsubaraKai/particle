@@ -21,12 +21,15 @@ public:
 	int GameClose()override;
 
 	void Move();
+	void Jump();
 	float Lerp(const float& a, const float& b, float t);
 	float LerpShortAngle(float a, float b, float t);
 	float LerpShortTranslate(float a, float b, float t);
 	float Length(const Vector3& v);
 	WorldTransform worldTransform;
 	WorldTransform worldTransform2;
+	Object3d* object3d = nullptr;
+	Object3d* object3d2 = nullptr;
 private:
 	int sceneTime = 0;
 	Camera* camera = nullptr;
@@ -36,8 +39,7 @@ private:
 	//変数
 	uint32_t textureHandle;
 	uint32_t textureHandle2;
-	Object3d* object3d = nullptr;
-	Object3d* object3d2 = nullptr;
+	
 	Material material;
 
 	Particle* particle = nullptr;
@@ -49,6 +51,9 @@ private:
 
 	float angle_ = 0.0f;
 	float PlayerSpeed = 0.05f;
+	float PlayerJumpSpeed = 0.08f;
 	float rotateSize_ = 0.05f;
+	bool flag = false;
+	float flagcount = 0;
 };
 

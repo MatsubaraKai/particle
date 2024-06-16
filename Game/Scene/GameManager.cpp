@@ -104,7 +104,7 @@ int GameManager::Run() {
 
 		sInput->Update();
 
-		ImGui::Begin("kakunin");
+		ImGui::Begin("now scene");
 		ImGui::Text("%d", IScene::GetSceneNo());
 		ImGui::End();
 

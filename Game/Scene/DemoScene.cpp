@@ -8,8 +8,9 @@ void DemoScene::Init()
 	camera = new Camera;
 	camera->Initialize();
 	Vector3 cameraPos = camera->GetTransform().translate;
-	cameraPos.z = -15;
 	cameraPos.x = 3.5f;
+	cameraPos.y = 1.0f;
+	cameraPos.z = -15.0f;
 	camera->SetTranslate(cameraPos);
 	input = Input::GetInstance();
 	textureHandle = TextureManager::StoreTexture("Resources/uvChecker.png");
@@ -60,20 +61,11 @@ void DemoScene::Update()
 	camera->Update();
 	camera->CameraDebug();
 	demoSprite->Update();
-	/*if (Input::GetInstance()->TriggerKey(DIK_A)) {
-		rotateSize_ = 0.0f;
-	}
-	if (Input::GetInstance()->TriggerKey(DIK_D)) {
-		rotateSize_ = 0.05f;
-	}*/
 	
-
-	/*worldTransform.translation_.x += rotateSize_;
-	worldTransform.rotation_.y += rotateSize_;
-	worldTransform2.rotation_.z += rotateSize_;*/
 	object3d->SetWorldTransform(worldTransform);
 	object3d2->SetWorldTransform(worldTransform2);
 	Move();
+	Jump();
 	object3d->Update();
 	object3d2->Update();
 	object3d->ModelDebug("1");
@@ -109,35 +101,37 @@ void DemoScene::Move()
 	XINPUT_STATE joyState;
 	Vector3 move = { 0.0f,0.0f,0.0f };
 	//移動
-	if (Input::GetInstance()->TriggerKey(DIK_W))
+	if (Input::GetInstance()->PushKey(DIK_W))
 	{
 		move.z = PlayerSpeed;
 		//目標角度の算出
 		angle_ = std::atan2(move.x, move.z);
 	}
-	if (Input::GetInstance()->TriggerKey(DIK_S))
+	if (Input::GetInstance()->PushKey(DIK_S))
 	{
 		move.z = -PlayerSpeed;
 		//目標角度の算出
 		angle_ = std::atan2(move.x, move.z);
 	}
-	if (Input::GetInstance()->TriggerKey(DIK_A))
+	if (Input::GetInstance()->PushKey(DIK_A))
 	{
 		move.x = -PlayerSpeed;
 		//目標角度の算出
 		angle_ = std::atan2(move.x, move.z);
 	}
-	if (Input::GetInstance()->TriggerKey(DIK_D))
+	if (Input::GetInstance()->PushKey(DIK_D))
 	{
 		move.x = PlayerSpeed;
 		//目標角度の算出
 		angle_ = std::atan2(move.x, move.z);
 	}
+
 	// Y軸周り角度(θy)	歩いている方向に顔を向ける
 	worldTransform.rotation_.y = LerpShortAngle(worldTransform.rotation_.y, angle_, 0.1f);
 	worldTransform.translation_.x += move.x;
 	worldTransform.translation_.z += move.z;
-	if (Input::GetInstance()->GetJoystickState(0,joyState))
+
+	if (Input::GetInstance()->GetJoystickState(0, joyState))
 	{
 		const float threshold = 0.9f;
 		bool isMoving = false;
@@ -181,6 +175,38 @@ void DemoScene::Move()
 			}
 		}
 	}
+	worldTransform.UpdateMatrix();
+}
+
+void DemoScene::Jump()
+{
+	XINPUT_STATE joyState;
+	//ゲームパットの状態を得る変数(XINPUT)
+	Vector3 move = { 0.0f,0.0f,0.0f };
+	//移動
+	if (Input::GetInstance()->TriggerKey(DIK_SPACE) && flag == false)
+	{
+		flag = true;
+	}
+	if (Input::GetInstance()->GetJoystickState(0, joyState))
+	{
+		if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_LEFT_SHOULDER)
+		{
+			flag = true;
+		}
+	}
+	if (flag == true) {
+		flagcount++;
+		move.y = PlayerJumpSpeed;
+		PlayerJumpSpeed -= 0.005f;
+	}
+	if(PlayerJumpSpeed <= -0.08f){
+		flag = false;
+		PlayerJumpSpeed = 0.08f;
+	}
+	
+	worldTransform.translation_.y += move.y;
+	worldTransform.UpdateMatrix();
 }
 
 float DemoScene::Lerp(const float& a, const float& b, float t) {
