@@ -28,10 +28,7 @@ void DemoScene::Init()
 	postProcess_->SetCamera(camera);
 	postProcess_->Init();
 
-
 	ModelManager::GetInstance()->LoadModel("Resources/human", "sneakWalk.gltf");
-	//ModelManager::GetInstance()->LoadModel("Resources/simpleSkin", "simpleSkin.gltf");
-	//ModelManager::GetInstance()->LoadModel("Resources/ball", "ball.obj");
 	object3d = new Object3d();
 	object3d->Init();
 	object3d2 = new Object3d();
@@ -63,22 +60,20 @@ void DemoScene::Update()
 	camera->Update();
 	camera->CameraDebug();
 	demoSprite->Update();
-	
-	if (Input::GetInstance()->TriggerKey(DIK_A)) {
+	/*if (Input::GetInstance()->TriggerKey(DIK_A)) {
 		rotateSize_ = 0.0f;
 	}
 	if (Input::GetInstance()->TriggerKey(DIK_D)) {
 		rotateSize_ = 0.05f;
-
-	}
+	}*/
 	
 
-	worldTransform.translation_.x += rotateSize_;
+	/*worldTransform.translation_.x += rotateSize_;
 	worldTransform.rotation_.y += rotateSize_;
-	worldTransform2.rotation_.z += rotateSize_;
+	worldTransform2.rotation_.z += rotateSize_;*/
 	object3d->SetWorldTransform(worldTransform);
 	object3d2->SetWorldTransform(worldTransform2);
-
+	Move();
 	object3d->Update();
 	object3d2->Update();
 	object3d->ModelDebug("1");
@@ -107,3 +102,131 @@ int DemoScene::GameClose()
 {
 	return false;
 }
+
+void DemoScene::Move()
+{
+	//ゲームパットの状態を得る変数(XINPUT)
+	XINPUT_STATE joyState;
+	Vector3 move = { 0.0f,0.0f,0.0f };
+	//移動
+	if (Input::GetInstance()->TriggerKey(DIK_W))
+	{
+		move.z = PlayerSpeed;
+		//目標角度の算出
+		angle_ = std::atan2(move.x, move.z);
+	}
+	if (Input::GetInstance()->TriggerKey(DIK_S))
+	{
+		move.z = -PlayerSpeed;
+		//目標角度の算出
+		angle_ = std::atan2(move.x, move.z);
+	}
+	if (Input::GetInstance()->TriggerKey(DIK_A))
+	{
+		move.x = -PlayerSpeed;
+		//目標角度の算出
+		angle_ = std::atan2(move.x, move.z);
+	}
+	if (Input::GetInstance()->TriggerKey(DIK_D))
+	{
+		move.x = PlayerSpeed;
+		//目標角度の算出
+		angle_ = std::atan2(move.x, move.z);
+	}
+	// Y軸周り角度(θy)	歩いている方向に顔を向ける
+	worldTransform.rotation_.y = LerpShortAngle(worldTransform.rotation_.y, angle_, 0.1f);
+	worldTransform.translation_.x += move.x;
+	worldTransform.translation_.z += move.z;
+	if (Input::GetInstance()->GetJoystickState(0,joyState))
+	{
+		const float threshold = 0.9f;
+		bool isMoving = false;
+		move = { 0,0,0 };
+
+		if (joyState.Gamepad.sThumbLX != 0 || joyState.Gamepad.sThumbLY != 0)
+		{
+			// 移動量
+			move =
+			{
+				(float)joyState.Gamepad.sThumbLX / SHRT_MAX,
+				0.0f,
+				(float)joyState.Gamepad.sThumbLY / SHRT_MAX
+			};
+
+			float inputMagnitude = Length(move);
+
+			// スティックの入力が一定の閾値以上の場合のみ移動処理を実行
+			if (inputMagnitude > threshold)
+			{
+				isMoving = true;
+
+				// スティックの入力に応じて速度を調整する
+				float adjustedSpeed = PlayerSpeed * inputMagnitude;
+
+				// 最大速度を超えないようにする
+				if (adjustedSpeed > 0.05f)
+				{
+					adjustedSpeed = 0.05f;
+				}
+
+				// 実際の移動量を計算
+				move.x *= adjustedSpeed;
+				move.z *= adjustedSpeed;
+				// 目標角度の算出
+				angle_ = std::atan2(move.x, move.z);
+				// Y軸周り角度(θy)	歩いている方向に顔を向ける
+				worldTransform.rotation_.y = LerpShortAngle(worldTransform.rotation_.y, angle_, 0.1f);
+				worldTransform.translation_.x += move.x;
+				worldTransform.translation_.z += move.z;
+			}
+		}
+	}
+}
+
+float DemoScene::Lerp(const float& a, const float& b, float t) {
+	float result{};
+
+	result = a + b * t;
+
+	return result;
+}
+
+// 最短角度補間
+float DemoScene::LerpShortAngle(float a, float b, float t)
+{
+	// 角度差分を求める
+	float diff = b - a;
+
+	diff = std::fmod(diff, 2 * (float)std::numbers::pi);
+	if (diff < 2 * (float)-std::numbers::pi)
+	{
+		diff += 2 * (float)std::numbers::pi;
+	}
+	else if (diff >= 2 * std::numbers::pi)
+	{
+		diff -= 2 * (float)std::numbers::pi;
+	}
+
+	diff = std::fmod(diff, 2 * (float)std::numbers::pi);
+	if (diff < (float)-std::numbers::pi)
+	{
+		diff += 2 * (float)std::numbers::pi;
+	}
+	else if (diff >= (float)std::numbers::pi)
+	{
+		diff -= 2 * (float)std::numbers::pi;
+	}
+
+	return Lerp(a, diff, t);
+}
+
+float DemoScene::LerpShortTranslate(float a, float b, float t) {
+	return a + t * (b - a);
+}
+
+float DemoScene::Length(const Vector3& v) {
+	float result;
+	result = powf(v.x, 2.0) + powf(v.y, 2.0) + powf(v.z, 2.0);
+
+	return sqrtf(result);
+};
