@@ -190,7 +190,7 @@ void DemoScene::Jump()
 	}
 	if (Input::GetInstance()->GetJoystickState(0, joyState))
 	{
-		if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_LEFT_SHOULDER)
+		if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A)
 		{
 			flag = true;
 		}
@@ -199,6 +199,9 @@ void DemoScene::Jump()
 		flagcount++;
 		move.y = PlayerJumpSpeed;
 		PlayerJumpSpeed -= 0.005f;
+	}
+	else {
+		worldTransform.translation_.y = 0.000f;
 	}
 	if(PlayerJumpSpeed <= -0.08f){
 		flag = false;
