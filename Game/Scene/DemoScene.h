@@ -28,7 +28,6 @@ public:
 	float Length(const Vector3& v);
 	WorldTransform worldTransform;
 	WorldTransform worldTransform2;
-	Model* model = nullptr;
 	Object3d* object3d = nullptr;
 	Object3d* object3d2 = nullptr;
 private:
@@ -40,10 +39,8 @@ private:
 	//変数
 	uint32_t textureHandle;
 	uint32_t textureHandle2;
-	uint32_t textureHandle3;
 
 	Material material;
-	Material material2;
 
 	Particle* particle = nullptr;
 	Particle* particle2 = nullptr;
