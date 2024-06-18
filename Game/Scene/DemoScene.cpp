@@ -15,6 +15,7 @@ void DemoScene::Init()
 	input = Input::GetInstance();
 	textureHandle = TextureManager::StoreTexture("Resources/uvChecker.png");
 	textureHandle2 = TextureManager::StoreTexture("Resources/white.png");
+	textureHandle3 = TextureManager::StoreTexture("Resources/ball/ball.png");
 	demoSprite = new Sprite();
 	demoSprite->Init({ 0.0f,0.0f }, { 600.0f,600.0f }, { 0.0f,0.0f }, { 1.0f,1.0f,1.0f,1.0f }, "Resources/uvChecker.png");
 	material.color = { 1.0f,1.0f,1.0f,1.0f };
@@ -30,6 +31,8 @@ void DemoScene::Init()
 	postProcess_->Init();
 
 	ModelManager::GetInstance()->LoadModel("Resources/human", "sneakWalk.gltf");
+	model = new Model();
+	model->Initialize("Resources/ball", "ball.obj",material);
 	object3d = new Object3d();
 	object3d->Init();
 	object3d2 = new Object3d();
@@ -68,6 +71,7 @@ void DemoScene::Update()
 	Jump();
 	object3d->Update();
 	object3d2->Update();
+	model->Update();
 	object3d->ModelDebug("1");
 	object3d2->ModelDebug("2");
 	ImGui::Begin("read me");
@@ -81,6 +85,7 @@ void DemoScene::Draw()
 	//demoSprite->Draw(textureHandle,{1.0f,1.0f,1.0f,1.0f});
 	object3d->Draw(textureHandle, camera);
 	object3d2->Draw(textureHandle2, camera);
+	model->Draw(textureHandle3,material,DirectionalLight());
 	/*particle->Draw(demoEmitter_, { worldTransform.translation_.x,worldTransform.translation_.y,worldTransform.translation_.z + 5 }, textureHandle, camera, demoRandPro, false);
 	particle2->Draw(demoEmitter_, { worldTransform2.translation_.x,worldTransform2.translation_.y,worldTransform2.translation_.z + 5 }, textureHandle2, camera, demoRandPro, false);*/
 }
