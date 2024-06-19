@@ -30,6 +30,8 @@ public:
 	WorldTransform worldTransform2;
 	Object3d* object3d = nullptr;
 	Object3d* object3d2 = nullptr;
+	Material material;
+
 private:
 	int sceneTime = 0;
 	Camera* camera = nullptr;
@@ -40,7 +42,6 @@ private:
 	uint32_t textureHandle;
 	uint32_t textureHandle2;
 
-	Material material;
 
 	Particle* particle = nullptr;
 	Particle* particle2 = nullptr;

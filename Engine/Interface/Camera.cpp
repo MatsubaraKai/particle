@@ -32,11 +32,9 @@ void Camera::CameraDebug()
 	float scale[3] = { transform_.scale.x, transform_.scale.y, transform_.scale.z };
 	ImGui::DragFloat3("scale", scale, 0.01f);
 
-
 	transform_.translate = { translate[0],translate[1],translate[2] };
 	transform_.rotate = { rotate[0],rotate[1],rotate[2] };
 	transform_.scale = { scale[0],scale[1],scale[2] };
-
 
 	ImGui::End();
 #endif // _DEBUG

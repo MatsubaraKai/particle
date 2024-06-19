@@ -29,13 +29,13 @@ void DemoScene::Init()
 	postProcess_ = new PostProcess();
 	postProcess_->SetCamera(camera);
 	postProcess_->Init();
-
+	
 	ModelManager::GetInstance()->LoadModel("Resources/human", "sneakWalk.gltf");
 	object3d = new Object3d();
 	object3d->Init();
 	object3d2 = new Object3d();
 	object3d2->Init();
-
+	worldTransform.UpdateMatrix();
 	object3d->SetModel("sneakWalk.gltf");
 	object3d2->SetModel("sneakWalk.gltf");
 	particle = new Particle();
@@ -72,15 +72,19 @@ void DemoScene::Update()
 	object3d->ModelDebug("1");
 	object3d2->ModelDebug("2");
 	demoSprite->SpriteDebug("1");
+	ImGui::Begin("color");
+	float color[4] = { material.color.x,material.color.y,material.color.z,material.color.w };
+	ImGui::DragFloat4("color", color, 0.01f);
+	material.color = { color[0],color[1],color[2],color[3] };
+	ImGui::End();
 	ImGui::Begin("read me");
 	ImGui::Text("move : WASD or Joystick");
 	ImGui::Text("jump : SPACE or A button");
 	ImGui::End();
-
 }
 void DemoScene::Draw()
 {
-	demoSprite->Draw(textureHandle2,{1.0f,1.0f,1.0f,1.0f});
+	demoSprite->Draw(textureHandle,material.color);
 	object3d->Draw(textureHandle, camera);
 	object3d2->Draw(textureHandle2, camera);
 	/*particle->Draw(demoEmitter_, { worldTransform.translation_.x,worldTransform.translation_.y,worldTransform.translation_.z + 5 }, textureHandle, camera, demoRandPro, false);
