@@ -71,6 +71,7 @@ void DemoScene::Update()
 	object3d2->Update();
 	object3d->ModelDebug("1");
 	object3d2->ModelDebug("2");
+	demoSprite->SpriteDebug("1");
 	ImGui::Begin("read me");
 	ImGui::Text("move : WASD or Joystick");
 	ImGui::Text("jump : SPACE or A button");
@@ -79,7 +80,7 @@ void DemoScene::Update()
 }
 void DemoScene::Draw()
 {
-	demoSprite->Draw(textureHandle,{1.0f,1.0f,1.0f,1.0f});
+	demoSprite->Draw(textureHandle2,{1.0f,1.0f,1.0f,1.0f});
 	object3d->Draw(textureHandle, camera);
 	object3d2->Draw(textureHandle2, camera);
 	/*particle->Draw(demoEmitter_, { worldTransform.translation_.x,worldTransform.translation_.y,worldTransform.translation_.z + 5 }, textureHandle, camera, demoRandPro, false);

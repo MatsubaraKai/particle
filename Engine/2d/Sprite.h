@@ -63,6 +63,7 @@ public:
 		this->textureSize_ = textureSize;
 	}
 	D3D12_VERTEX_BUFFER_VIEW CreateBufferView();
+	void SpriteDebug(const char* name);
 private:
 	PSOSprite* pso_ = nullptr;
 	Microsoft::WRL::ComPtr < ID3D12Resource> vertexResourceSprite_ = nullptr;
