@@ -33,8 +33,7 @@ public: // Setter
 	void SetModel(Model* model) { model_ = model; }
 	void SetModel(const std::string& filePath);
 	void SetWorldTransform(const WorldTransform& worldtransform) { worldTransform_ = worldtransform; };
-	void ModelDebug(const char* name);
-	WorldTransform worldTransform_;
+	void ModelDebug(const char* name, WorldTransform& worldtransform);
 
 public: // Getter
 	WorldTransform GetWorldTransform() { return worldTransform_; }
@@ -42,7 +41,7 @@ public: // Getter
 	MaterialData LoadMaterialTemplateFile(const std::string& directoryPath, const std::string& filename);
 private:
 	Object3dCommon* objectCommon_ = nullptr;
-
+	WorldTransform worldTransform_;
 	HRESULT hr;
 	// RootSignature作成
 	Model* model_ = nullptr;

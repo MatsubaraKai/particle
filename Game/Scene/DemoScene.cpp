@@ -31,13 +31,13 @@ void DemoScene::Init()
 	postProcess_->Init();
 	
 	ModelManager::GetInstance()->LoadModel("Resources/human", "sneakWalk.gltf");
+	ModelManager::GetInstance()->LoadModel("Resources/human", "walk.gltf");
 	object3d = new Object3d();
 	object3d->Init();
 	object3d2 = new Object3d();
 	object3d2->Init();
-	worldTransform.UpdateMatrix();
 	object3d->SetModel("sneakWalk.gltf");
-	object3d2->SetModel("sneakWalk.gltf");
+	object3d2->SetModel("walk.gltf");
 	particle = new Particle();
 	particle2 = new Particle();
 
@@ -69,8 +69,8 @@ void DemoScene::Update()
 	Jump();
 	object3d->Update();
 	object3d2->Update();
-	object3d->ModelDebug("1");
-	object3d2->ModelDebug("2");
+	object3d->ModelDebug("1", worldTransform);
+	object3d2->ModelDebug("2", worldTransform2);
 	demoSprite->SpriteDebug("1");
 	ImGui::Begin("color");
 	float color[4] = { material.color.x,material.color.y,material.color.z,material.color.w };

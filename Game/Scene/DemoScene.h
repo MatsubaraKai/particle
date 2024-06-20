@@ -30,6 +30,7 @@ public:
 	WorldTransform worldTransform2;
 	Object3d* object3d = nullptr;
 	Object3d* object3d2 = nullptr;
+	Object3d* object3d3 = nullptr;
 	Material material;
 
 private:
