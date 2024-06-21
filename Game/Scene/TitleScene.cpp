@@ -16,11 +16,13 @@ void TitleScene::Init()
 	textureHandle = TextureManager::StoreTexture("Resources/uvChecker.png");
 	textureHandle2 = TextureManager::StoreTexture("Resources/white.png");
 	fadeTex = TextureManager::StoreTexture("Resources/black.png");
+
 	fadeSprite = new Sprite();
 	fadeSprite->Init({ 0.0f,0.0f }, { 1280.0f,720.0f }, { 0.0f,0.0f }, { 1.0f,1.0f,1.0f,1.0f }, "Resources/uvChecker.png");
 	fadeSprite->SetTextureSize({ 1280.0f,720.0f });
 	material.color = { 1.0f,1.0f,1.0f,0.0f };
 	material.enableLighting = false;
+
 	particle = new Particle();
 	particle2 = new Particle();
 	worldTransform.Initialize();
@@ -52,6 +54,15 @@ void TitleScene::Update()
 	camera->Update();
 	camera->CameraDebug();
 	fadeSprite->Update();
+	fadeSprite->SpriteDebug("1");
+	ImGui::Begin("color");
+	float color[4] = { material.color.x,material.color.y,material.color.z,material.color.w };
+	ImGui::DragFloat4("color", color, 0.01f);
+	material.color = { color[0],color[1],color[2],color[3] };
+	ImGui::End();
+	ImGui::Begin("FadeIn");
+	ImGui::Checkbox("FadeIn", &isFadingIn);
+	ImGui::End();
 	if (input->TriggerKey(DIK_SPACE)) {
 		StartFadeIn();
 	}

@@ -4,6 +4,7 @@
 #include "ModelManager.h"
 void DemoScene::Init()
 {
+
 	camera = new Camera;
 	camera->Initialize();
 	Vector3 cameraPos = camera->GetTransform().translate;
@@ -14,6 +15,13 @@ void DemoScene::Init()
 	input = Input::GetInstance();
 	textureHandle = TextureManager::StoreTexture("Resources/uvChecker.png");
 	textureHandle2 = TextureManager::StoreTexture("Resources/white.png");
+	fadeTex = TextureManager::StoreTexture("Resources/black.png");
+	fadeSprite = new Sprite();
+	fadeSprite->Init({ 0.0f,0.0f }, { 1280.0f,720.0f }, { 0.0f,0.0f }, { 1.0f,1.0f,1.0f,1.0f }, "Resources/uvChecker.png");
+	fadeSprite->SetTextureSize({ 1280.0f,720.0f });
+	material2.color = { 1.0f,1.0f,1.0f,0.0f };
+	material2.enableLighting = true;
+
 	demoSprite = new Sprite();
 	demoSprite->Init({ 0.0f,0.0f }, { 300.0f,300.0f }, { 0.0f,0.0f }, { 1.0f,1.0f,1.0f,1.0f }, "Resources/uvChecker.png");
 	demoSprite->SetTextureSize({ 512.0f,512.0f });
@@ -51,15 +59,26 @@ void DemoScene::Init()
 	demoEmitter_.transform.scale = { 0.5f,0.5f,0.5f };
 	particle->Initialize(demoEmitter_);
 	particle2->Initialize(demoEmitter_);
+	StartFadeOut();
 }
 
 void DemoScene::Update()
 {
+
+	if (isFadeOut == true)
+	{
+		UpdateFadeOut();
+	}
+	if (isFadingIn == true)
+	{
+		UpdateFadeIn();
+	}
 	sceneTime++;
 	////カメラの更新
 	camera->Update();
 	camera->CameraDebug();
 	demoSprite->Update();
+	fadeSprite->Update();
 
 	object3d->SetWorldTransform(worldTransform);
 	object3d2->SetWorldTransform(worldTransform2);
@@ -67,24 +86,29 @@ void DemoScene::Update()
 	Jump();
 	object3d->Update();
 	object3d2->Update();
-	object3d->ModelDebug("1", worldTransform);
-	object3d2->ModelDebug("2", worldTransform2);
-	demoSprite->SpriteDebug("1");
+	object3d->ModelDebug("uvModel", worldTransform);
+	object3d2->ModelDebug("whiteModel", worldTransform2);
+	demoSprite->SpriteDebug("uvTex");
+	fadeSprite->SpriteDebug("FadeTex");
 	ImGui::Begin("color");
 	float color[4] = { material.color.x,material.color.y,material.color.z,material.color.w };
-	ImGui::DragFloat4("color", color, 0.01f);
+	ImGui::DragFloat4("uvTex", color, 0.01f);
 	material.color = { color[0],color[1],color[2],color[3] };
+	float color1[4] = { material2.color.x,material2.color.y,material2.color.z,material2.color.w };
+	ImGui::DragFloat4("FadeTex", color1, 0.01f);
+	material2.color = { color1[0],color1[1],color1[2],color1[3] };
 	ImGui::End();
 	ImGui::Begin("read me");
+	ImGui::ShowStyleSelector("a");
+	ImGui::ShowDemoWindow();
+	ImGui::GetStyle();
 	ImGui::Text("move : WASD or Joystick");
 	ImGui::Text("jump : SPACE or A button");
 	static char buf[99] = "hoge";
 	ImGui::Text("%s", buf);
 	ImGui::InputText("string", buf, sizeof(buf));
+	ImGui::Checkbox("FadeIn", &isFadingIn);
 	ImGui::End();
-	if (input->TriggerKey(DIK_0)) {
-		sceneNo = 0;
-	}
 }
 void DemoScene::Draw()
 {
@@ -93,6 +117,7 @@ void DemoScene::Draw()
 	object3d2->Draw(textureHandle2, camera);
 	/*particle->Draw(demoEmitter_, { worldTransform.translation_.x,worldTransform.translation_.y,worldTransform.translation_.z + 5 }, textureHandle, camera, demoRandPro, false);
 	particle2->Draw(demoEmitter_, { worldTransform2.translation_.x,worldTransform2.translation_.y,worldTransform2.translation_.z + 5 }, textureHandle2, camera, demoRandPro, false);*/
+	fadeSprite->Draw(fadeTex, material2.color);
 }
 
 void DemoScene::PostDraw()
@@ -273,3 +298,44 @@ float DemoScene::Length(const Vector3& v) {
 
 	return sqrtf(result);
 };
+
+void DemoScene::StartFadeOut()
+{
+	isFadeOut = true;
+	alpha = 1.0f;
+	material2.color = { 1.0f, 1.0f, 1.0f, alpha };
+}
+
+void DemoScene::UpdateFadeOut()
+{
+	alpha -= 0.01f; // フェードイン速度の調整（必要に応じて変更）
+	material2.color = { 1.0f, 1.0f, 1.0f, alpha };
+
+	if (alpha <= 0.0f)
+	{
+		// フェードイン完了時の処理
+		isFadeOut = false;
+	}
+}
+
+
+void DemoScene::StartFadeIn()
+{
+	isFadingIn = true;
+	alpha = 0.0f;
+	material2.color = { 1.0f, 1.0f, 1.0f, alpha };
+}
+
+void DemoScene::UpdateFadeIn()
+{
+	alpha += 0.01f; // フェードイン速度の調整（必要に応じて変更）
+	material2.color = { 1.0f, 1.0f, 1.0f, alpha };
+
+	if (alpha >= 1.0f)
+	{
+		// フェードイン完了時の処理
+		isFadingIn = false;
+		alpha = 0.0f;
+		sceneNo = 0;
+	}
+}

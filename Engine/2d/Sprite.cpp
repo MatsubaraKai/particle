@@ -9,6 +9,7 @@
 
 
 Sprite::Sprite() {};
+Sprite::~Sprite() {};
 
 void Sprite::Init(const Vector2& pos, const Vector2& size, const Vector2& anchorPoint, const Vector4& color, const std::string& filePath) {
 	sWinAPI = WinAPI::GetInstance();
@@ -158,6 +159,7 @@ void Sprite::Draw(uint32_t texture, const Vector4& color) {
 	//sDirectXCommon->GetCommandList()->DrawInstanced(6, 1, 0, 0);
 	sDirectXCommon->GetCommandList()->DrawIndexedInstanced(6, 1, 0, 0, 0);
 }
+void Sprite::Release() {};
 
 void Sprite::SpriteDebug(const char* name)
 {
@@ -184,7 +186,6 @@ void Sprite::SpriteDebug(const char* name)
 #endif // _DEBUG
 
 }
-
 
 D3D12_VERTEX_BUFFER_VIEW Sprite::CreateBufferView() {
 	D3D12_VERTEX_BUFFER_VIEW view{};

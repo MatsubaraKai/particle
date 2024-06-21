@@ -19,6 +19,10 @@ public:
 	void PostDraw()override;
 	void Release()override;
 	int GameClose()override;
+	void StartFadeOut();
+	void UpdateFadeOut();
+	void StartFadeIn();
+	void UpdateFadeIn();
 
 	void Move();
 	void Jump();
@@ -32,22 +36,30 @@ public:
 	Object3d* object3d2 = nullptr;
 	Object3d* object3d3 = nullptr;
 	Material material;
+	Material material2;
+
 
 private:
 	int sceneTime = 0;
 	Camera* camera = nullptr;
 	Input* input = nullptr;
 	Sprite* demoSprite = nullptr;
+	Sprite* fadeSprite = nullptr;
 
 	//変数
 	uint32_t textureHandle;
 	uint32_t textureHandle2;
+	uint32_t fadeTex;
 	Particle* particle = nullptr;
 	Particle* particle2 = nullptr;
 	Emitter demoEmitter_;
 	RandRangePro demoRandPro;
 
 	PostProcess* postProcess_ = nullptr;
+
+	float alpha = 0;
+	bool isFadeOut = false;
+	bool isFadingIn = false;
 
 	float angle_ = 0.0f;
 	float PlayerSpeed = 0.05f;
