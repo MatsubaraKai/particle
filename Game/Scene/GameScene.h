@@ -1,6 +1,14 @@
 #pragma once
 #include "IScene.h"
-
+#include "Triangle.h"
+#include "WorldTransform.h"
+#include "Input.h"
+#include "Xinput.h"
+#include "Particle.h"
+#include "Sprite.h"
+#include "Object3d.h"
+#include "Model.h"
+#include "PostProcess.h"
 
 class GameScene :public IScene
 {

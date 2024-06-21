@@ -1,4 +1,7 @@
 #include "GameScene.h"
+#include "ImGuiCommon.h"
+#include "TextureManager.h"
+#include "ModelManager.h"
 
 void GameScene::Init()
 {

@@ -60,7 +60,7 @@ void DemoScene::Update()
 	camera->Update();
 	camera->CameraDebug();
 	demoSprite->Update();
-	
+
 	object3d->SetWorldTransform(worldTransform);
 	object3d2->SetWorldTransform(worldTransform2);
 	Move();
@@ -85,7 +85,7 @@ void DemoScene::Update()
 }
 void DemoScene::Draw()
 {
-	demoSprite->Draw(textureHandle,material.color);
+	demoSprite->Draw(textureHandle, material.color);
 	object3d->Draw(textureHandle, camera);
 	object3d2->Draw(textureHandle2, camera);
 	/*particle->Draw(demoEmitter_, { worldTransform.translation_.x,worldTransform.translation_.y,worldTransform.translation_.z + 5 }, textureHandle, camera, demoRandPro, false);
@@ -214,11 +214,11 @@ void DemoScene::Jump()
 	else {
 		worldTransform.translation_.y = 0.000f;
 	}
-	if(PlayerJumpSpeed <= -0.08f){
+	if (PlayerJumpSpeed <= -0.08f) {
 		flag = false;
 		PlayerJumpSpeed = 0.08f;
 	}
-	
+
 	worldTransform.translation_.y += move.y;
 	worldTransform.UpdateMatrix();
 }
