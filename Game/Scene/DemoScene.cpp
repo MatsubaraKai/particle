@@ -2,7 +2,6 @@
 #include "ImGuiCommon.h"
 #include "TextureManager.h"
 #include "ModelManager.h"
-
 void DemoScene::Init()
 {
 	camera = new Camera;
@@ -29,7 +28,6 @@ void DemoScene::Init()
 	postProcess_ = new PostProcess();
 	postProcess_->SetCamera(camera);
 	postProcess_->Init();
-	
 	ModelManager::GetInstance()->LoadModel("Resources/human", "sneakWalk.gltf");
 	ModelManager::GetInstance()->LoadModel("Resources/human", "walk.gltf");
 	object3d = new Object3d();
@@ -80,6 +78,9 @@ void DemoScene::Update()
 	ImGui::Begin("read me");
 	ImGui::Text("move : WASD or Joystick");
 	ImGui::Text("jump : SPACE or A button");
+	static char buf[99] = "hoge";
+	ImGui::Text("%s", buf);
+	ImGui::InputText("string", buf, sizeof(buf));
 	ImGui::End();
 }
 void DemoScene::Draw()

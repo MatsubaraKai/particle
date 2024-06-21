@@ -42,8 +42,6 @@ private:
 	//変数
 	uint32_t textureHandle;
 	uint32_t textureHandle2;
-
-
 	Particle* particle = nullptr;
 	Particle* particle2 = nullptr;
 	Emitter demoEmitter_;
