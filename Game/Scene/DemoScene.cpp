@@ -82,6 +82,9 @@ void DemoScene::Update()
 	ImGui::Text("%s", buf);
 	ImGui::InputText("string", buf, sizeof(buf));
 	ImGui::End();
+	if (input->TriggerKey(DIK_0)) {
+		sceneNo = 0;
+	}
 }
 void DemoScene::Draw()
 {
