@@ -14,7 +14,7 @@ void ImGuiCommon::Initialize() {
 	//こういうもんである
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
-	ImGui::StyleColorsDark();
+	ImGui::StyleColorsCustom();
 	ImGui_ImplWin32_Init(sWinAPI_->GetHwnd());
 	ImGui_ImplDX12_Init(sDirectXCommon_->GetDevice().Get(),
 		sDirectXCommon_->GetSwapChainDesc().BufferCount,
