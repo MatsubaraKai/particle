@@ -185,7 +185,7 @@ void ImGui::StyleColorsCustom(ImGuiStyle* dst)
     colors[ImGuiCol_FrameBgHovered] = ImVec4(1.0f, 0.63f, 0.0f, 0.8f);
     colors[ImGuiCol_FrameBgActive] = ImVec4(1.0f, 0.63f, 0.0f, 0.93f);
     colors[ImGuiCol_TitleBg] = ImVec4(0.01f, 0.09f, 0.1f, 0.73f);
-    colors[ImGuiCol_TitleBgActive] = ImVec4(0.10f, 0.99f, 1.00f, 0.6f);
+    colors[ImGuiCol_TitleBgActive] = ImVec4(0.10f, 0.99f, 1.00f, 0.3f);
     colors[ImGuiCol_TitleBgCollapsed] = ImVec4(0.01f, 0.09f, 0.1f, 0.73f);
     colors[ImGuiCol_MenuBarBg] = ImVec4(0.10f, 0.99f, 1.00f, 0.2f);
     colors[ImGuiCol_ScrollbarBg] = ImVec4(0.10f, 0.99f, 1.00f, 0.2f);

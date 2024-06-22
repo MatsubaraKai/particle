@@ -96,7 +96,7 @@ void DirectXCommon::tempRender()
 	//指定した色で画面全体をクリアする
 //float clearColor[] = { 0.1f,0.25f,0.5f,1.0f }; //青っぽい色。 RGBAの淳  0.1/0.25/0.5/1.0f
 	//float clearColor[] = { 0.2f,0.5f,0.25f,1.0f }; //青っぽい色。 RGBAの淳  0.1/0.25/0.5/1.0f
-	const Vector4 kRenderTargetClearValue{ 0.0f,0.82f,1.0f,1.0f };
+	const Vector4 kRenderTargetClearValue{ 0.05f,0.05f,0.05f,1.0f };
 	float rederClearColor[] = {
 		kRenderTargetClearValue.x,
 		kRenderTargetClearValue.y,
@@ -175,7 +175,7 @@ void DirectXCommon::BeginFrame() {
 	//指定した色で画面全体をクリアする
 	//float clearColor[] = { 0.1f,0.25f,0.5f,1.0f }; //青っぽい色。 RGBAの淳  0.1/0.25/0.5/1.0f
 	//float clearColor[] = { 0.25f,0.5f,0.1f,1.0f }; //青っぽい色。 RGBAの淳  0.1/0.25/0.5/1.0f
-	float clearColor[] = { 0.5f,0.1f,0.25f,1.0f }; //青っぽい色。 RGBAの淳  0.1/0.25/0.5/1.0f
+	float clearColor[] = { 0.1f,0.1f,0.1f,1.0f }; //青っぽい色。 RGBAの淳  0.1/0.25/0.5/1.0f
 	commandList_->ClearRenderTargetView(rtvHandles_[backBufferIndex], clearColor, 0, nullptr);
 	dsvHandle = dsvDescriptorHeap_->GetCPUDescriptorHandleForHeapStart();
 
@@ -404,7 +404,8 @@ void DirectXCommon::RTVInit() {
 	device_->CreateRenderTargetView(swapChainResources_[1].Get(), &rtvDesc_, rtvHandles_[1]);
 
 	rtvHandles_[2].ptr = rtvHandles_[1].ptr + device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
-	const Vector4 kRenderTargetClearValue{ 0.0f,0.82f,1.0f,1.0f }; // 一旦わかりやすいように赤
+	//const Vector4 kRenderTargetClearValue{ 0.0f,0.82f,1.0f,1.0f }; // 一旦わかりやすいように赤
+	const Vector4 kRenderTargetClearValue{ 0.05f,0.05f,0.05f,1.0f }; // 一旦わかりやすいように赤
 	renderTextureResource_ = CreateRenderTextureResource(
 		device_, WinAPI::kClientWidth_, WinAPI::kClientHeight_,
 		DXGI_FORMAT_R8G8B8A8_UNORM_SRGB, kRenderTargetClearValue);

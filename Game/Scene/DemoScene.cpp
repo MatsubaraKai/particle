@@ -100,8 +100,6 @@ void DemoScene::Update()
 	ImGui::End();
 	ImGui::Begin("read me");
 	ImGui::ShowStyleSelector("a");
-	ImGui::ShowDemoWindow();
-	ImGui::GetStyle();
 	ImGui::Text("move : WASD or Joystick");
 	ImGui::Text("jump : SPACE or A button");
 	static char buf[99] = "hoge";
