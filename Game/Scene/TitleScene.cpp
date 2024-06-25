@@ -31,7 +31,7 @@ void TitleScene::Init()
 	worldTransform2.translation_.x = 5;
 	worldTransform.UpdateMatrix();
 	worldTransform2.UpdateMatrix();
-	demoRandPro = {
+	RandPro = {
 		{1.0f,4.0f},
 		{1.0f,4.0f},
 		{0.0f,2.0f}
@@ -39,12 +39,12 @@ void TitleScene::Init()
 	postProcess_ = new PostProcess();
 	postProcess_->SetCamera(camera);
 	postProcess_->Init();
-	demoEmitter_.count = 6;
-	demoEmitter_.frequency = 0.02f;
-	demoEmitter_.frequencyTime = 0.0f;
-	demoEmitter_.transform.scale = { 0.5f,0.5f,0.5f };
-	particle->Initialize(demoEmitter_);
-	particle2->Initialize(demoEmitter_);
+	Emitter_.count = 6;
+	Emitter_.frequency = 0.02f;
+	Emitter_.frequencyTime = 0.0f;
+	Emitter_.transform.scale = { 0.5f,0.5f,0.5f };
+	particle->Initialize(Emitter_);
+	particle2->Initialize(Emitter_);
 }
 
 void TitleScene::Update()
@@ -73,8 +73,8 @@ void TitleScene::Update()
 }
 void TitleScene::Draw()
 {
-	particle->Draw(demoEmitter_, { worldTransform.translation_.x,worldTransform.translation_.y,worldTransform.translation_.z + 5 }, textureHandle, camera, demoRandPro, false);
-	particle2->Draw(demoEmitter_, { worldTransform2.translation_.x,worldTransform2.translation_.y,worldTransform2.translation_.z + 5 }, textureHandle2, camera, demoRandPro, false);
+	particle->Draw(Emitter_, { worldTransform.translation_.x,worldTransform.translation_.y,worldTransform.translation_.z + 5 }, textureHandle, camera, RandPro, false);
+	particle2->Draw(Emitter_, { worldTransform2.translation_.x,worldTransform2.translation_.y,worldTransform2.translation_.z + 5 }, textureHandle2, camera, RandPro, false);
 	fadeSprite->Draw(fadeTex, material.color);
 }
 

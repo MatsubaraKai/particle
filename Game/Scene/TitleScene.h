@@ -37,8 +37,8 @@ private:
 	uint32_t textureHandle2;
 	Particle* particle = nullptr;
 	Particle* particle2 = nullptr;
-	Emitter demoEmitter_;
-	RandRangePro demoRandPro;
+	Emitter Emitter_;
+	RandRangePro RandPro;
 	PostProcess* postProcess_ = nullptr;
 	float alpha = 0;
 	bool isFadingIn = false;

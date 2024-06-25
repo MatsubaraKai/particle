@@ -30,32 +30,36 @@ public:
 	float LerpShortAngle(float a, float b, float t);
 	float LerpShortTranslate(float a, float b, float t);
 	float Length(const Vector3& v);
-	WorldTransform worldTransform;
-	WorldTransform worldTransform2;
-	Object3d* object3d = nullptr;
-	Object3d* object3d2 = nullptr;
-	Object3d* object3d3 = nullptr;
-	Material material;
-	Material material2;
-
 
 private:
 	int sceneTime = 0;
 	Camera* camera = nullptr;
 	Input* input = nullptr;
-	Sprite* demoSprite = nullptr;
+
+	Object3d* object3d = nullptr;
+	Object3d* object3d2 = nullptr;
+
+	Sprite* uvSprite = nullptr;
 	Sprite* fadeSprite = nullptr;
+
+	Particle* particle = nullptr;
+	Particle* particle2 = nullptr;
+
+	PostProcess* postProcess_ = nullptr;
 
 	//変数
 	uint32_t textureHandle;
 	uint32_t textureHandle2;
 	uint32_t fadeTex;
-	Particle* particle = nullptr;
-	Particle* particle2 = nullptr;
-	Emitter demoEmitter_;
-	RandRangePro demoRandPro;
 
-	PostProcess* postProcess_ = nullptr;
+	Material material;
+	Material material2;
+
+	WorldTransform worldTransform;
+	WorldTransform worldTransform2;
+
+	Emitter Emitter_;
+	RandRangePro RandPro;
 
 	float alpha = 0;
 	bool isFadeOut = false;

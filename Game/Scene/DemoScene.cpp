@@ -17,48 +17,63 @@ void DemoScene::Init()
 	textureHandle2 = TextureManager::StoreTexture("Resources/white.png");
 	fadeTex = TextureManager::StoreTexture("Resources/black.png");
 	fadeSprite = new Sprite();
+
 	fadeSprite->Init({ 0.0f,0.0f }, { 1280.0f,720.0f }, { 0.0f,0.0f }, { 1.0f,1.0f,1.0f,1.0f }, "Resources/uvChecker.png");
 	fadeSprite->SetTextureSize({ 1280.0f,720.0f });
+
 	material2.color = { 1.0f,1.0f,1.0f,0.0f };
 	material2.enableLighting = true;
 
-	demoSprite = new Sprite();
-	demoSprite->Init({ 0.0f,0.0f }, { 300.0f,300.0f }, { 0.0f,0.0f }, { 1.0f,1.0f,1.0f,1.0f }, "Resources/uvChecker.png");
-	demoSprite->SetTextureSize({ 512.0f,512.0f });
+	uvSprite = new Sprite();
+	uvSprite->Init({ 0.0f,0.0f }, { 300.0f,300.0f }, { 0.0f,0.0f }, { 1.0f,1.0f,1.0f,1.0f }, "Resources/uvChecker.png");
+	uvSprite->SetTextureSize({ 512.0f,512.0f });
+
 	material.color = { 1.0f,1.0f,1.0f,1.0f };
 	material.enableLighting = false;
+
 	worldTransform.Initialize();
-	worldTransform.translation_.x = 0;
+	worldTransform.translation_ = { 0,0,0 };
+	worldTransform.rotation_ = { 0,0,0 };
+	worldTransform.scale_ = { 1,1,1 };
+
 	worldTransform2.Initialize();
-	worldTransform2.translation_.x = 5;
+	worldTransform2.translation_ = { 5,0,0 };
+	worldTransform2.rotation_ = { 0,0,0 };
+	worldTransform2.scale_ = { 1,1,1 };
+
 	worldTransform.UpdateMatrix();
 	worldTransform2.UpdateMatrix();
+
 	postProcess_ = new PostProcess();
 	postProcess_->SetCamera(camera);
 	postProcess_->Init();
+
 	ModelManager::GetInstance()->LoadModel("Resources/human", "sneakWalk.gltf");
 	ModelManager::GetInstance()->LoadModel("Resources/human", "walk.gltf");
+
 	object3d = new Object3d();
 	object3d->Init();
 	object3d2 = new Object3d();
 	object3d2->Init();
+
 	object3d->SetModel("sneakWalk.gltf");
 	object3d2->SetModel("walk.gltf");
+
 	particle = new Particle();
 	particle2 = new Particle();
 
-	demoRandPro = {
+	RandPro = {
 		{1.0f,4.0f},
 		{1.0f,4.0f},
 		{0.0f,2.0f}
 	};
 
-	demoEmitter_.count = 6;
-	demoEmitter_.frequency = 0.02f;
-	demoEmitter_.frequencyTime = 0.0f;
-	demoEmitter_.transform.scale = { 0.5f,0.5f,0.5f };
-	particle->Initialize(demoEmitter_);
-	particle2->Initialize(demoEmitter_);
+	Emitter_.count = 6;
+	Emitter_.frequency = 0.02f;
+	Emitter_.frequencyTime = 0.0f;
+	Emitter_.transform.scale = { 0.5f,0.5f,0.5f };
+	particle->Initialize(Emitter_);
+	particle2->Initialize(Emitter_);
 	StartFadeOut();
 }
 
@@ -77,19 +92,23 @@ void DemoScene::Update()
 	////カメラの更新
 	camera->Update();
 	camera->CameraDebug();
-	demoSprite->Update();
+	uvSprite->Update();
 	fadeSprite->Update();
 
 	object3d->SetWorldTransform(worldTransform);
 	object3d2->SetWorldTransform(worldTransform2);
+
 	Move();
 	Jump();
+
 	object3d->Update();
 	object3d2->Update();
+
 	object3d->ModelDebug("uvModel", worldTransform);
 	object3d2->ModelDebug("whiteModel", worldTransform2);
-	demoSprite->SpriteDebug("uvTex");
+	uvSprite->SpriteDebug("uvTex");
 	fadeSprite->SpriteDebug("FadeTex");
+
 	ImGui::Begin("color");
 	float color[4] = { material.color.x,material.color.y,material.color.z,material.color.w };
 	ImGui::DragFloat4("uvTex", color, 0.01f);
@@ -110,7 +129,7 @@ void DemoScene::Update()
 }
 void DemoScene::Draw()
 {
-	demoSprite->Draw(textureHandle, material.color);
+	uvSprite->Draw(textureHandle, material.color);
 	object3d->Draw(textureHandle, camera);
 	object3d2->Draw(textureHandle2, camera);
 	/*particle->Draw(demoEmitter_, { worldTransform.translation_.x,worldTransform.translation_.y,worldTransform.translation_.z + 5 }, textureHandle, camera, demoRandPro, false);
