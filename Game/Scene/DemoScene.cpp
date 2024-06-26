@@ -126,6 +126,7 @@ void DemoScene::Update()
 	ImGui::InputText("string", buf, sizeof(buf));
 	ImGui::Checkbox("FadeIn", &isFadingIn);
 	ImGui::End();
+	postProcess_->Update();
 }
 void DemoScene::Draw()
 {

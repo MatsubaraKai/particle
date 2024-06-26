@@ -23,6 +23,7 @@ void PostProcess::Init()
 
 void PostProcess::Update()
 {
+	
 }
 
 void PostProcess::Draw() {

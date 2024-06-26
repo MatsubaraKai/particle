@@ -428,6 +428,6 @@
     <FxCompile Include="Resources\shader\Vignetting.PS.hlsl" />
     <FxCompile Include="Resources\shader\SkinningObject3d.VS.hlsl" />
     <FxCompile Include="RadialBlur.PS.hlsl" />
-    <FxCompile Include="Dissololve.PS.hlsl" />
+    <FxCompile Include="Resources\shader\Dissololve.PS.hlsl" />
   </ItemGroup>
 </Project>
