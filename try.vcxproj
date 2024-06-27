@@ -120,6 +120,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
   <ItemGroup>
     <ClCompile Include="Engine\2d\PostProcess.cpp" />
     <ClCompile Include="Engine\3d\Animation\Animation.cpp" />
+    <ClCompile Include="Engine\3d\Model\AnimationModel.cpp" />
     <ClCompile Include="Engine\3d\Model\Model.cpp" />
     <ClCompile Include="Engine\3d\Model\ModelManager.cpp" />
     <ClCompile Include="Engine\3d\Object3d\Object3d.cpp" />
@@ -131,8 +132,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\3d\Triangle\Triangle.cpp" />
     <ClCompile Include="Engine\Interface\Camera.cpp" />
     <ClCompile Include="Engine\Interface\Heap\SRVManager.cpp" />
+    <ClCompile Include="Engine\Interface\Loder.cpp" />
     <ClCompile Include="Engine\Interface\Mesh.cpp" />
-    <ClCompile Include="Engine\Interface\PSO\PSOCopyImage.cpp" />
+    <ClCompile Include="Engine\Interface\PSO\PSOPostEffect.cpp" />
     <ClCompile Include="Engine\Interface\PSO\PSOModel.cpp" />
     <ClCompile Include="Engine\Interface\PSO\PSOParticle.cpp" />
     <ClCompile Include="Engine\Interface\PSO\PSOProperty.cpp" />
@@ -161,16 +163,17 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="imgui\imgui_widgets.cpp" />
     <ClCompile Include="Lib\utility\function.cpp" />
     <ClCompile Include="Engine\2d\ImGuiCommon.cpp" />
-    <ClCompile Include="Loder.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Engine\Interface\WinAPI.cpp" />
     <ClCompile Include="Lib\math\mathFunction.cpp" />
     <ClCompile Include="Engine\Interface\TextureManager.cpp" />
     <ClCompile Include="Game\Utilty\TimedCall.cpp" />
+    <ClCompile Include="PSOAnimationModel.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\2d\PostProcess.h" />
     <ClInclude Include="Engine\3d\Animation\Animation.h" />
+    <ClInclude Include="Engine\3d\Model\AnimationModel.h" />
     <ClInclude Include="Engine\3d\Model\MaterialData.h" />
     <ClInclude Include="Engine\3d\Model\Model.h" />
     <ClInclude Include="Engine\3d\Model\ModelData.h" />
@@ -188,8 +191,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Externals\json.hpp" />
     <ClInclude Include="Engine\Interface\Camera.h" />
     <ClInclude Include="Engine\Interface\Heap\SRVManager.h" />
+    <ClInclude Include="Engine\Interface\Loder.h" />
     <ClInclude Include="Engine\Interface\Mesh.h" />
-    <ClInclude Include="Engine\Interface\PSO\PSOCopyImage.h" />
+    <ClInclude Include="Engine\Interface\PSO\PSOPostEffect.h" />
     <ClInclude Include="Engine\Interface\PSO\PSOModel.h" />
     <ClInclude Include="Engine\Interface\PSO\PSOParticle.h" />
     <ClInclude Include="Engine\Interface\PSO\PSOProperty.h" />
@@ -234,7 +238,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Lib\math\VertexData.h" />
     <ClInclude Include="Lib\math\TransformationMatrix.h" />
     <ClInclude Include="Game\Utilty\TimedCall.h" />
-    <ClInclude Include="Loder.h" />
+    <ClInclude Include="PSOAnimationModel.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".editorconfig" />
@@ -279,6 +283,12 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
+    <FxCompile Include="Random.PS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
     <FxCompile Include="Resources\shader\BoxFilter.PS.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
@@ -288,6 +298,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
     <FxCompile Include="Resources\shader\Dissololve.PS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="Resources\shader\Fog.PS.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>

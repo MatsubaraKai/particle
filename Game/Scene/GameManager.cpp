@@ -6,7 +6,7 @@
 #include "PSOModel.h"
 #include "PSOSprite.h"
 #include "PSOParticle.h"
-#include "PSOCopyImage.h"
+#include "PSOPostEffect.h"
 #include "PostProcess.h"
 #include "Input.h"
 #include "Mesh.h"
@@ -44,7 +44,7 @@ GameManager::GameManager() {
 
 GameManager::~GameManager() {}
 
-const char kWindowTitle[] = "LE3A";
+const char kWindowTitle[] = "LE2B_05_オイカワユウマ";
 
 int GameManager::Run() {
 	//DirectXCommon::D3DResourceLeakChecker leakCheck;
@@ -79,8 +79,8 @@ int GameManager::Run() {
 	PSOParticle* psoParticle = PSOParticle::GatInstance();
 	psoParticle->CreatePipelineStateObject();
 
-	PSOCopyImage* psoCopyImage = PSOCopyImage::GatInstance();
-	psoCopyImage->CreatePipelineStateObject();
+	PSOPostEffect* pSOPostEffect = PSOPostEffect::GatInstance();
+	pSOPostEffect->CreatePipelineStateObject();
 
 	//post->Init();
 	sceneArr_[currentSceneNo_]->Init();
@@ -104,9 +104,9 @@ int GameManager::Run() {
 
 		sInput->Update();
 
-		ImGui::Begin("now scene");
+		/*ImGui::Begin("kakunin");
 		ImGui::Text("%d", IScene::GetSceneNo());
-		ImGui::End();
+		ImGui::End();*/
 
 		// シーンのチェック
 		prevSceneNo_ = currentSceneNo_;

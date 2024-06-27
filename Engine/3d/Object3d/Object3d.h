@@ -16,7 +16,10 @@
 #include <Camera.h>
 #include <WorldTransform.h>
 #include "Model.h"
+#include "AnimationModel.h"
 #include "Object3dCommon.h"
+#include <PSOAnimationModel.h>
+
 
 #pragma comment(lib,"d3d12.lib")
 #pragma comment(lib,"dxgi.lib")
@@ -28,23 +31,26 @@ public:
 	void Update();
 	void Draw(uint32_t texture, Camera* camera);
 	void Release();
+	void ModelDebug(const char* name, int id);
 
 public: // Setter
 	void SetModel(Model* model) { model_ = model; }
 	void SetModel(const std::string& filePath);
+	void SetAnimationModel(const std::string& filePath);
 	void SetWorldTransform(const WorldTransform& worldtransform) { worldTransform_ = worldtransform; };
-	void ModelDebug(const char* name, WorldTransform& worldtransform);
-
+	void SetTransform(Transform transform);
 public: // Getter
 	WorldTransform GetWorldTransform() { return worldTransform_; }
 	ModelData LoadObjFile(const std::string& directoryPath, const std::string& filename);
 	MaterialData LoadMaterialTemplateFile(const std::string& directoryPath, const std::string& filename);
 private:
 	Object3dCommon* objectCommon_ = nullptr;
-	WorldTransform worldTransform_;
+
 	HRESULT hr;
 	// RootSignature作成
 	Model* model_ = nullptr;
+	AnimationModel* animationModel_ = nullptr;
+
 
 	/*移動用*/
 	// WVP用のリソースを作る。Matrix4x4 1つ分のサイズを用意する
@@ -58,4 +64,7 @@ private:
 	Microsoft::WRL::ComPtr < ID3D12Resource> cameraForGPUResource_;
 	CameraForGPU* cameraForGPUData_;
 	// データを書き込む
+	WorldTransform worldTransform_;
 };
+
+

@@ -1,5 +1,5 @@
 ﻿#include "PostProcess.h"
-#include "PSOCopyImage.h"
+#include "PSOPostEffect.h"
 #include "Mesh.h"
 #include <SRVManager.h>
 PostProcess::PostProcess()
@@ -23,12 +23,11 @@ void PostProcess::Init()
 
 void PostProcess::Update()
 {
-	
 }
 
 void PostProcess::Draw() {
 	materialData->projectionInverse = Inverse(camera_->GetProjectionMatrix());
-	PSOCopyImage* pso_ = PSOCopyImage::GatInstance();
+	PSOPostEffect* pso_ = PSOPostEffect::GatInstance();
 	DirectXCommon* sDirectXCommon = DirectXCommon::GetInstance();
 	sDirectXCommon->GetCommandList()->SetGraphicsRootSignature(pso_->GetProperty().rootSignature.Get());
 	sDirectXCommon->GetCommandList()->SetPipelineState(pso_->GetProperty().graphicsPipelineState.Get());    //PSOを設定

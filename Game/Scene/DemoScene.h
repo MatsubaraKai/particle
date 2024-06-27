@@ -3,7 +3,6 @@
 #include "Triangle.h"
 #include "WorldTransform.h"
 #include "Input.h"
-#include "Xinput.h"
 #include "Particle.h"
 #include "Sprite.h"
 #include "Object3d.h"
@@ -19,57 +18,34 @@ public:
 	void PostDraw()override;
 	void Release()override;
 	int GameClose()override;
-	void StartFadeOut();
-	void UpdateFadeOut();
-	void StartFadeIn();
-	void UpdateFadeIn();
-
-	void Move();
-	void Jump();
-	float Lerp(const float& a, const float& b, float t);
-	float LerpShortAngle(float a, float b, float t);
-	float LerpShortTranslate(float a, float b, float t);
-	float Length(const Vector3& v);
 
 private:
 	int sceneTime = 0;
 	Camera* camera = nullptr;
 	Input* input = nullptr;
-
-	Object3d* object3d = nullptr;
-	Object3d* object3d2 = nullptr;
-
-	Sprite* uvSprite = nullptr;
-	Sprite* fadeSprite = nullptr;
-
-	Particle* particle = nullptr;
-	Particle* particle2 = nullptr;
-
-	PostProcess* postProcess_ = nullptr;
+	Sprite* demoSprite = nullptr;
 
 	//変数
 	uint32_t textureHandle;
 	uint32_t textureHandle2;
-	uint32_t fadeTex;
-
+	Object3d* object3d = nullptr;
+	Object3d* object3d2 = nullptr;
 	Material material;
-	Material material2;
 
 	WorldTransform worldTransform;
 	WorldTransform worldTransform2;
 
-	Emitter Emitter_;
-	RandRangePro RandPro;
+	Particle* particle = nullptr;
+	Particle* particle2 = nullptr;
+	Emitter demoEmitter_;
+	RandRangePro demoRandPro;
 
-	float alpha = 0;
-	bool isFadeOut = false;
-	bool isFadingIn = false;
+	PostProcess* postProcess_ = nullptr;
+	std::vector<Object3d*> object3d_;
 
-	float angle_ = 0.0f;
-	float PlayerSpeed = 0.05f;
-	float PlayerJumpSpeed = 0.08f;
-	float rotateSize_ = 0.05f;
-	bool flag = false;
-	float flagcount = 0;
+	int id = 0;
+	float rotateSize_ = 1.057f;
 };
+
+
 

@@ -1,8 +1,7 @@
 #include "Input.h"
 #include "WinAPI.h"
-#include <Xinput.h>
 //Xinput.lib; Xinput9_1_0.lib
-#pragma comment(lib, "Xinput.lib")
+
 
 void Input::Initialize() {
 	WinAPI* sWinAPI = WinAPI::GetInstance();
@@ -66,6 +65,19 @@ bool Input::PushKey(BYTE keyNumber)
 	return false;
 }
 
+bool Input::GetJoystickState(XINPUT_STATE& state)
+{
+	ZeroMemory(&state, sizeof(XINPUT_STATE));
+
+	// コントローラーの状態を取得
+	result = XInputGetState(0, &state);
+
+	if (result == ERROR_SUCCESS) {
+		return true;
+	}
+	return false;
+}
+
 bool Input::TriggerKey(BYTE keyNumber)
 {
 	if (keys[keyNumber] && preKeys[keyNumber] == 0) {
@@ -77,56 +89,3 @@ Input* Input::GetInstance() {
 	static Input instance;
 	return &instance;
 }
-
-// すべてのキーの検出関数を作成する
-void Input::CreateAllKeyDetectionFunctions()
-{
-	for (int i = 0; i < 256; ++i) {
-
-	}
-}
-// ジョイスティックのデッドゾーンを適用する関数
-SHORT Input::ApplyDeadzone(SHORT value, SHORT deadzone) {
-	if (value < -deadzone || value > deadzone) {
-		// デッドゾーン外の場合、そのままの値を返す
-		return value;
-	}
-	else {
-		// デッドゾーン内の場合、0を返す
-		return 0;
-	}
-}
-
-bool Input::GetJoystickState(int32_t stickNo, XINPUT_STATE& state)
-{
-	DWORD Result = XInputGetState(stickNo, &state);
-
-	// XInputGetStateが成功した場合、resultの値はERROR_SUCCESS
-	if (Result == ERROR_SUCCESS) {
-		// デッドゾーンを適用
-		state.Gamepad.sThumbLX = ApplyDeadzone(state.Gamepad.sThumbLX, DEADZONE_THRESHOLD);
-		state.Gamepad.sThumbLY = ApplyDeadzone(state.Gamepad.sThumbLY, DEADZONE_THRESHOLD);
-		// 他にも必要ならデッドゾーンの適用を追加
-
-		return true;  // 成功した場合はtrueを返す
-	}
-
-	return Result == ERROR_SUCCESS;
-}
-
-bool Input::IsLeftMouseClicked()
-{
-	return GetAsyncKeyState(VK_LBUTTON) < 0;
-}
-
-
-
-bool Input::IsLeftMouseTrigger()
-{
-	bool currentState = (GetAsyncKeyState(VK_LBUTTON) & 0x8000) != 0;
-	bool clicked = currentState && !lastState;
-	lastState = currentState;
-	return clicked;
-}
-
-Input* Input::instance = NULL;

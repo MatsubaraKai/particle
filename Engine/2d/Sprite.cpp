@@ -169,7 +169,7 @@ void Sprite::SpriteDebug(const char* name)
 	if (ImGui::TreeNode(name))
 	{
 		float translate[3] = { transform_.translate.x, transform_.translate.y, transform_.translate.z };
-		ImGui::DragFloat3("transform", translate, 1.0f);
+		ImGui::DragFloat3("transform", translate, 0.01f);
 		transform_.translate = { translate[0],translate[1],translate[2] };
 
 		float rotate[3] = { transform_.rotate.x , transform_.rotate.y, transform_.rotate.z };
@@ -177,7 +177,7 @@ void Sprite::SpriteDebug(const char* name)
 		transform_.rotate = { rotate[0],rotate[1],rotate[2] };
 
 		float scale[3] = { transform_.scale.x, transform_.scale.y, transform_.scale.z };
-		ImGui::DragFloat3("scale", scale, 1.0f);
+		ImGui::DragFloat3("scale", scale, 0.01f);
 		transform_.scale = { scale[0],scale[1],scale[2] };
 		ImGui::TreePop();
 	}

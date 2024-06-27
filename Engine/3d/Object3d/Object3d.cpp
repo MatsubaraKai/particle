@@ -21,7 +21,7 @@ void Object3d::Init()
 	// カメラ用
 	cameraForGPUData_ = nullptr;
 	cameraForGPUResource_ = Mesh::CreateBufferResource(directXCommon->GetDevice(), sizeof(CameraForGPU));
-	// 書き込むためのアドレスを取得
+	//// 書き込むためのアドレスを取得
 	cameraForGPUResource_->Map(0, nullptr, reinterpret_cast<void**>(&cameraForGPUData_));
 
 	cameraForGPUData_->worldPosition = { 1.0f,1.0f,-5.0f };
@@ -31,11 +31,12 @@ void Object3d::Init()
 void Object3d::Update()
 {
 	worldTransform_.UpdateMatrix();
-	if (model_) {
+	if (animationModel_) {
+		animationModel_->Update();
+	}
+	else if (model_) {
 		model_->Update();
 	}
-
-
 }
 
 void Object3d::Draw(uint32_t texture, Camera* camera)
@@ -53,7 +54,13 @@ void Object3d::Draw(uint32_t texture, Camera* camera)
 	directXCommon->GetCommandList()->SetGraphicsRootConstantBufferView(1, wvpResource->GetGPUVirtualAddress());
 	directXCommon->GetCommandList()->SetGraphicsRootConstantBufferView(4, cameraForGPUResource_->GetGPUVirtualAddress());
 	// 3Dモデルが割り当てられていれば描画する
-	if (model_) {
+	if (animationModel_) {
+		wvpData->WVP = worldViewProjectionMatrix;
+		wvpData->World = worldTransform_.matWorld_;
+		animationModel_->Draw(texture, { { 1.0f,1.0f,1.0f,1.0f },false
+			}, { { 1.0f,1.0,1.0,1.0f } ,{ 0.0f,-1.0f,0.0f },0.5f });
+	}
+	else if (model_) {
 		wvpData->WVP = worldViewProjectionMatrix;
 		wvpData->World = worldTransform_.matWorld_;
 		model_->Draw(texture, { { 1.0f,1.0f,1.0f,1.0f },false
@@ -70,6 +77,19 @@ void Object3d::Release()
 void Object3d::SetModel(const std::string& filePath)
 {
 	model_ = ModelManager::GetInstance()->FindModel(filePath);
+}
+
+void Object3d::SetAnimationModel(const std::string& filePath)
+{
+	animationModel_ = ModelManager::GetInstance()->FindAnimationModel(filePath);
+}
+
+void Object3d::SetTransform(Transform transform)
+{
+	worldTransform_.translation_ = transform.translate;
+	worldTransform_.rotation_ = transform.rotate;
+	worldTransform_.scale_ = transform.scale;
+
 }
 
 ModelData Object3d::LoadObjFile(const std::string& directoryPath, const std::string& filename)
@@ -180,27 +200,27 @@ MaterialData Object3d::LoadMaterialTemplateFile(const std::string& directoryPath
 	return materialData;
 }
 
-void Object3d::ModelDebug(const char* name, WorldTransform& worldtransform)
+void Object3d::ModelDebug(const char* name, int id)
 {
 #ifdef _DEBUG
-	ImGui::Begin("model");
+	ImGui::Begin("model%d",id);
 
 	if (ImGui::TreeNode(name))
 	{
-		float translate[3] = { worldtransform.translation_.x, worldtransform.translation_.y, worldtransform.translation_.z };
+		float translate[3] = { worldTransform_.translation_.x, worldTransform_.translation_.y, worldTransform_.translation_.z };
 		ImGui::DragFloat3("transform", translate, 0.01f);
-		worldtransform.translation_ = { translate[0],translate[1],translate[2] };
+		worldTransform_.translation_ = { translate[0],translate[1],translate[2] };
 
-		float rotate[3] = { worldtransform.rotation_.x , worldtransform.rotation_.y, worldtransform.rotation_.z };
+		float rotate[3] = { worldTransform_.rotation_.x , worldTransform_.rotation_.y, worldTransform_.rotation_.z };
 		ImGui::DragFloat3("rotate", rotate, 0.01f);
-		worldtransform.rotation_ = { rotate[0],rotate[1],rotate[2] };
+		worldTransform_.rotation_ = { rotate[0],rotate[1],rotate[2] };
 
-		float scale[3] = { worldtransform.scale_.x, worldtransform.scale_.y, worldtransform.scale_.z };
+		float scale[3] = { worldTransform_.scale_.x, worldTransform_.scale_.y, worldTransform_.scale_.z };
 		ImGui::DragFloat3("scale", scale, 0.01f);
-		worldtransform.scale_ = { scale[0],scale[1],scale[2] };
+		worldTransform_.scale_ = { scale[0],scale[1],scale[2] };
 		ImGui::TreePop();
-		
 	}
+	worldTransform_.UpdateMatrix();
 	ImGui::End();
 #endif // _DEBUG
 

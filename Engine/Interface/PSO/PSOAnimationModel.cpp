@@ -1,25 +1,22 @@
-﻿#include "PSOCopyImage.h"
-#include <d3dx12.h>
+﻿#include "PSOAnimationModel.h"
 
 
-void PSOCopyImage::CreatePipelineStateObject() {
+void PSOAnimationModel::CreatePipelineStateObject() {
 	// DirectXCommonのインスタンスを取得
 	DirectXCommon* sDirectXCommon = DirectXCommon::GetInstance();
 
-	PSOCopyImage::CreateRootSignature();
-	PSOCopyImage::SetInputLayout();
-	PSOCopyImage::SetBlendState();
-	PSOCopyImage::SetRasterrizerState();
-	PSOCopyImage::CreateDepth();
+	PSOAnimationModel::CreateRootSignature();
+	PSOAnimationModel::SetInputLayout();
+	PSOAnimationModel::SetBlendState();
+	PSOAnimationModel::SetRasterrizerState();
+	PSOAnimationModel::CreateDepth();
 	// Shaderをコンパイルする
-	property.vertexShaderBlob = CompileShader(L"Resources/shader/Fullscreen.VS.hlsl",
+	property.vertexShaderBlob = CompileShader(L"Resources/shader/SkinningObject3d.VS.hlsl",
 		L"vs_6_0", sDirectXCommon->GetDxcUtils(), sDirectXCommon->GetDxcCompiler(), sDirectXCommon->GetIncludeHandler());
 	assert(property.vertexShaderBlob != nullptr);
 
-	//Vignetting RadialBlur Grayscale GaussianFilter Dissololve DepthBasedOutline BoxFilter LuminanceBasedOutline
-	property.pixelShaderBlob = CompileShader(L"Resources/shader/LuminanceBasedOutline.PS.hlsl",
+	property.pixelShaderBlob = CompileShader(L"Resources/shader/Object3d.PS.hlsl",
 		L"ps_6_0", sDirectXCommon->GetDxcUtils(), sDirectXCommon->GetDxcCompiler(), sDirectXCommon->GetIncludeHandler());
-
 	assert(property.pixelShaderBlob != nullptr);
 
 	graphicsPipelineStateDesc.pRootSignature = property.rootSignature.Get(); // RootSignature
@@ -49,11 +46,9 @@ void PSOCopyImage::CreatePipelineStateObject() {
 	hr_ = sDirectXCommon->GetDevice()->CreateGraphicsPipelineState(&graphicsPipelineStateDesc,
 		IID_PPV_ARGS(&property.graphicsPipelineState));
 	assert(SUCCEEDED(hr_));
-
-	//DirectXCommon::GetInstance()->ChangeDepthStatetoRender();
 }
 
-void PSOCopyImage::CreateRootSignature() {
+void PSOAnimationModel::CreateRootSignature() {
 	// DirectXCommonのインスタンスを取得
 	DirectXCommon* sDirectXCommon = DirectXCommon::GetInstance();
 
@@ -63,65 +58,46 @@ void PSOCopyImage::CreateRootSignature() {
 	// シリアライズしてバイナリにする
 	property.signatureBlob = nullptr;
 
+	// RootParmeter作成。複数でっていできるので配列。今回は結果１つだけなので長さ1の配列
+	rootParamerters[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;  // CBVを使う
+	rootParamerters[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;  // PixelShaderで使う
+	rootParamerters[0].Descriptor.ShaderRegister = 0; //レジスタ番号0とバインド
 
+	rootParamerters[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;  // CBVを使う
+	rootParamerters[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;  // vertexShaderで使う
+	rootParamerters[1].Descriptor.ShaderRegister = 0; //レジスタ番号0とバインド
 
 	descriptorRange_[0].BaseShaderRegister = 0; // 0から始まる
-	descriptorRange_[0].NumDescriptors = 1; // 数は2つ
+	descriptorRange_[0].NumDescriptors = 1; // 数は1つ
 	descriptorRange_[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV; // SRVを使う
 	descriptorRange_[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND; // Offsetを自動計算
 
-	descriptorRange_[1].BaseShaderRegister = 1; // 0から始まる
-	descriptorRange_[1].NumDescriptors = 1; // 数は2つ
-	descriptorRange_[1].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV; // SRVを使う
-	descriptorRange_[1].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND; // Offsetを自動計算
-
-	descriptorRange_[2].BaseShaderRegister = 2; // 0から始まる
-	descriptorRange_[2].NumDescriptors = 1; // 数は2つ
-	descriptorRange_[2].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV; // SRVを使う
-	descriptorRange_[2].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND; // Offsetを自動計算
-
-
-	rootParamerters[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE; // DescripterTableを使う
-	rootParamerters[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL; // PixelShaderで使う
-	rootParamerters[0].DescriptorTable.pDescriptorRanges = &descriptorRange_[0]; // Tableの中身の配列を指定
-	rootParamerters[0].DescriptorTable.NumDescriptorRanges = 1; // Tableで利用する数
-
-	rootParamerters[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE; // DescripterTableを使う
-	rootParamerters[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL; // PixelShaderで使う
-	rootParamerters[1].DescriptorTable.pDescriptorRanges = &descriptorRange_[1]; // Tableの中身の配列を指定
-	rootParamerters[1].DescriptorTable.NumDescriptorRanges = 1; // Tableで利用する数
-
 	rootParamerters[2].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE; // DescripterTableを使う
 	rootParamerters[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL; // PixelShaderで使う
-	rootParamerters[2].DescriptorTable.pDescriptorRanges = &descriptorRange_[2]; // Tableの中身の配列を指定
-	rootParamerters[2].DescriptorTable.NumDescriptorRanges = 1; // Tableで利用する数
+	rootParamerters[2].DescriptorTable.pDescriptorRanges = descriptorRange_; // Tableの中身の配列を指定
+	rootParamerters[2].DescriptorTable.NumDescriptorRanges = _countof(descriptorRange_); // Tableで利用する数
 
+	rootParamerters[3].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
+	rootParamerters[3].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+	rootParamerters[3].Descriptor.ShaderRegister = 1;
 
+	rootParamerters[4].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
+	rootParamerters[4].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+	rootParamerters[4].Descriptor.ShaderRegister = 2;
 
-
-	// ProjectionInverseを送る用　Matria
-	rootParamerters[3].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;  // CBVを使う
-	rootParamerters[3].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;  // PixelShaderで使う
-	rootParamerters[3].Descriptor.ShaderRegister = 0; //レジスタ番号0とバインド
-
+	rootParamerters[5].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE; // DescripterTableを使う
+	rootParamerters[5].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX; // PixelShaderで使う
+	rootParamerters[5].DescriptorTable.pDescriptorRanges = descriptorRange_; // Tableの中身の配列を指定
+	rootParamerters[5].DescriptorTable.NumDescriptorRanges = _countof(descriptorRange_); // Tableで利用する数
 
 	staticSamplers[0].Filter = D3D12_FILTER_MIN_MAG_MIP_LINEAR; // バイナリフィルタ
-	staticSamplers[0].AddressU = D3D12_TEXTURE_ADDRESS_MODE_CLAMP; // 0~1の範囲外をリピート
-	staticSamplers[0].AddressV = D3D12_TEXTURE_ADDRESS_MODE_CLAMP;
-	staticSamplers[0].AddressW = D3D12_TEXTURE_ADDRESS_MODE_CLAMP;
+	staticSamplers[0].AddressU = D3D12_TEXTURE_ADDRESS_MODE_WRAP; // 0~1の範囲外をリピート
+	staticSamplers[0].AddressV = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
+	staticSamplers[0].AddressW = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
 	staticSamplers[0].ComparisonFunc = D3D12_COMPARISON_FUNC_NEVER; // 比較しない
 	staticSamplers[0].MaxLOD = D3D12_FLOAT32_MAX; // ありったけのMipmapを使う
 	staticSamplers[0].ShaderRegister = 0; // レジスタ番号0を使う
 	staticSamplers[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL; // PixelShaderで使う
-
-	staticSamplers[1].Filter = D3D12_FILTER_MIN_MAG_MIP_POINT; // バイナリフィルタ
-	staticSamplers[1].AddressU = D3D12_TEXTURE_ADDRESS_MODE_CLAMP; // 0~1の範囲外をリピート
-	staticSamplers[1].AddressV = D3D12_TEXTURE_ADDRESS_MODE_CLAMP;
-	staticSamplers[1].AddressW = D3D12_TEXTURE_ADDRESS_MODE_CLAMP;
-	staticSamplers[1].ComparisonFunc = D3D12_COMPARISON_FUNC_NEVER; // 比較しない
-	staticSamplers[1].MaxLOD = D3D12_FLOAT32_MAX; // ありったけのMipmapを使う
-	staticSamplers[1].ShaderRegister = 1; // レジスタ番号0を使う
-	staticSamplers[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL; // PixelShaderで使う
 
 	descriptionRootSignature.pParameters = rootParamerters; // ルートパラメータ配列へのポインタ
 	descriptionRootSignature.NumParameters = _countof(rootParamerters); // 配列の長さ
@@ -142,20 +118,41 @@ void PSOCopyImage::CreateRootSignature() {
 	assert(SUCCEEDED(hr_));
 }
 
-void PSOCopyImage::SetInputLayout() {
-	// 頂点には何もデータを入力しないので、InputLayoutは利用しない。ドライバやGPUのやることが
-	// 少なくなりそうな気配を感じる
-	inputLayoutDesc.pInputElementDescs = nullptr;
-	inputLayoutDesc.NumElements = 0;
+void PSOAnimationModel::SetInputLayout() {
+	inputElementDescs[0].SemanticName = "POSITION";
+	inputElementDescs[0].SemanticIndex = 0;
+	inputElementDescs[0].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
+	inputElementDescs[0].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
+	inputElementDescs[1].SemanticName = "TEXCOORD";
+	inputElementDescs[1].SemanticIndex = 0;
+	inputElementDescs[1].Format = DXGI_FORMAT_R32G32_FLOAT;
+	inputElementDescs[1].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
+	inputElementDescs[2].SemanticName = "NORMAL";
+	inputElementDescs[2].SemanticIndex = 0;
+	inputElementDescs[2].Format = DXGI_FORMAT_R32G32B32_FLOAT;
+	inputElementDescs[2].AlignedByteOffset =
+		D3D12_APPEND_ALIGNED_ELEMENT;
+	inputLayoutDesc.pInputElementDescs = inputElementDescs;
+	inputLayoutDesc.NumElements = _countof(inputElementDescs);
+	inputElementDescs[3].SemanticName = "WEIGHT";
+	inputElementDescs[3].SemanticIndex = 0;
+	inputElementDescs[3].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;// float32_t4
+	inputElementDescs[3].InputSlot = 1; // 1番目のslotのVBVのことだと伝える
+	inputElementDescs[3].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
+	inputElementDescs[4].SemanticName = "INDEX";
+	inputElementDescs[4].SemanticIndex = 0;
+	inputElementDescs[4].Format = DXGI_FORMAT_R32G32B32A32_SINT;// float32_t4
+	inputElementDescs[4].InputSlot = 1; // 1番目のslotのVBVのことだと伝える
+	inputElementDescs[4].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
 
 }
 
-void PSOCopyImage::SetBlendState() {
+void PSOAnimationModel::SetBlendState() {
 	// blendStateの設定
 	//すべての色要素を書き込む
 	blendDesc.RenderTarget[0].RenderTargetWriteMask =
 		D3D12_COLOR_WRITE_ENABLE_ALL;
-	blendDesc.RenderTarget[0].BlendEnable = false;
+	blendDesc.RenderTarget[0].BlendEnable = TRUE;
 	blendDesc.RenderTarget[0].SrcBlend = D3D12_BLEND_SRC_ALPHA;
 	blendDesc.RenderTarget[0].BlendOp = D3D12_BLEND_OP_ADD;
 	blendDesc.RenderTarget[0].DestBlend = D3D12_BLEND_INV_SRC_ALPHA;
@@ -165,22 +162,25 @@ void PSOCopyImage::SetBlendState() {
 	blendDesc.RenderTarget[0].DestBlendAlpha = D3D12_BLEND_ZERO;
 }
 
-void PSOCopyImage::SetRasterrizerState() {
+void PSOAnimationModel::SetRasterrizerState() {
 	//裏面（時計回り）を表示しない
 	rasterizerDesc.CullMode = D3D12_CULL_MODE_BACK;
 	// 三角形の中を塗りつぶす
 	rasterizerDesc.FillMode = D3D12_FILL_MODE_SOLID;
 }
 
-void PSOCopyImage::CreateDepth()
+void PSOAnimationModel::CreateDepth()
 {
-	// 全画面に対してなにか処理を施したいだけだから、比較も書き込みも必要ないのでDepth自体不要
-	depthStencilDesc_.DepthEnable = false;
-
+	// Depthの機能を有効化する
+	depthStencilDesc_.DepthEnable = true;
+	// 書き込みします
+	depthStencilDesc_.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;
+	// 比較関数はLessEqual。つまり、近づければ描画される
+	depthStencilDesc_.DepthFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;
 }
 
 
-PSOCopyImage* PSOCopyImage::GatInstance() {
-	static PSOCopyImage instance;
+PSOAnimationModel* PSOAnimationModel::GatInstance() {
+	static PSOAnimationModel instance;
 	return &instance;
 }

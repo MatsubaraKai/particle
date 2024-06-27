@@ -1,17 +1,16 @@
-﻿#include "PSOModel.h"
+﻿#include "PSOAnimationModel.h"
 
-
-void PSO::CreatePipelineStateObject() {
+void PSOAnimationModel::CreatePipelineStateObject() {
 	// DirectXCommonのインスタンスを取得
 	DirectXCommon* sDirectXCommon = DirectXCommon::GetInstance();
 
-	PSO::CreateRootSignature();
-	PSO::SetInputLayout();
-	PSO::SetBlendState();
-	PSO::SetRasterrizerState();
-	PSO::CreateDepth();
+	PSOAnimationModel::CreateRootSignature();
+	PSOAnimationModel::SetInputLayout();
+	PSOAnimationModel::SetBlendState();
+	PSOAnimationModel::SetRasterrizerState();
+	PSOAnimationModel::CreateDepth();
 	// Shaderをコンパイルする
-	property.vertexShaderBlob = CompileShader(L"Resources/shader/Object3d.VS.hlsl",
+	property.vertexShaderBlob = CompileShader(L"Resources/shader/SkinningObject3d.VS.hlsl",
 		L"vs_6_0", sDirectXCommon->GetDxcUtils(), sDirectXCommon->GetDxcCompiler(), sDirectXCommon->GetIncludeHandler());
 	assert(property.vertexShaderBlob != nullptr);
 
@@ -48,7 +47,7 @@ void PSO::CreatePipelineStateObject() {
 	assert(SUCCEEDED(hr_));
 }
 
-void PSO::CreateRootSignature() {
+void PSOAnimationModel::CreateRootSignature() {
 	// DirectXCommonのインスタンスを取得
 	DirectXCommon* sDirectXCommon = DirectXCommon::GetInstance();
 
@@ -85,6 +84,11 @@ void PSO::CreateRootSignature() {
 	rootParamerters[4].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
 	rootParamerters[4].Descriptor.ShaderRegister = 2;
 
+	rootParamerters[5].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE; // DescripterTableを使う
+	rootParamerters[5].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX; // PixelShaderで使う
+	rootParamerters[5].DescriptorTable.pDescriptorRanges = descriptorRange_; // Tableの中身の配列を指定
+	rootParamerters[5].DescriptorTable.NumDescriptorRanges = _countof(descriptorRange_); // Tableで利用する数
+
 	staticSamplers[0].Filter = D3D12_FILTER_MIN_MAG_MIP_LINEAR; // バイナリフィルタ
 	staticSamplers[0].AddressU = D3D12_TEXTURE_ADDRESS_MODE_WRAP; // 0~1の範囲外をリピート
 	staticSamplers[0].AddressV = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
@@ -113,7 +117,7 @@ void PSO::CreateRootSignature() {
 	assert(SUCCEEDED(hr_));
 }
 
-void PSO::SetInputLayout() {
+void PSOAnimationModel::SetInputLayout() {
 	inputElementDescs[0].SemanticName = "POSITION";
 	inputElementDescs[0].SemanticIndex = 0;
 	inputElementDescs[0].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
@@ -129,10 +133,20 @@ void PSO::SetInputLayout() {
 		D3D12_APPEND_ALIGNED_ELEMENT;
 	inputLayoutDesc.pInputElementDescs = inputElementDescs;
 	inputLayoutDesc.NumElements = _countof(inputElementDescs);
+	inputElementDescs[3].SemanticName = "WEIGHT";
+	inputElementDescs[3].SemanticIndex = 0;
+	inputElementDescs[3].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;// float32_t4
+	inputElementDescs[3].InputSlot = 1; // 1番目のslotのVBVのことだと伝える
+	inputElementDescs[3].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
+	inputElementDescs[4].SemanticName = "INDEX";
+	inputElementDescs[4].SemanticIndex = 0;
+	inputElementDescs[4].Format = DXGI_FORMAT_R32G32B32A32_SINT;// float32_t4
+	inputElementDescs[4].InputSlot = 1; // 1番目のslotのVBVのことだと伝える
+	inputElementDescs[4].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
 
 }
 
-void PSO::SetBlendState() {
+void PSOAnimationModel::SetBlendState() {
 	// blendStateの設定
 	//すべての色要素を書き込む
 	blendDesc.RenderTarget[0].RenderTargetWriteMask =
@@ -147,14 +161,14 @@ void PSO::SetBlendState() {
 	blendDesc.RenderTarget[0].DestBlendAlpha = D3D12_BLEND_ZERO;
 }
 
-void PSO::SetRasterrizerState() {
+void PSOAnimationModel::SetRasterrizerState() {
 	//裏面（時計回り）を表示しない
 	rasterizerDesc.CullMode = D3D12_CULL_MODE_BACK;
 	// 三角形の中を塗りつぶす
 	rasterizerDesc.FillMode = D3D12_FILL_MODE_SOLID;
 }
 
-void PSO::CreateDepth()
+void PSOAnimationModel::CreateDepth()
 {
 	// Depthの機能を有効化する
 	depthStencilDesc_.DepthEnable = true;
@@ -165,7 +179,7 @@ void PSO::CreateDepth()
 }
 
 
-PSO* PSO::GatInstance() {
-	static PSO instance;
+PSOAnimationModel* PSOAnimationModel::GatInstance() {
+	static PSOAnimationModel instance;
 	return &instance;
 }

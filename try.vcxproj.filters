@@ -189,10 +189,12 @@
       <Filter>Engine\3d</Filter>
     </ClCompile>
     <ClCompile Include="Engine\2d\PostProcess.cpp" />
-    <ClCompile Include="Engine\Interface\PSO\PSOCopyImage.cpp" />
+    <ClCompile Include="Engine\Interface\PSO\PSOPostEffect.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Engine\3d\Animation\Animation.cpp" />
-    <ClCompile Include="Loder.cpp" />
+    <ClCompile Include="PSOAnimationModel.cpp" />
+    <ClCompile Include="Engine\3d\Model\AnimationModel.cpp" />
+    <ClCompile Include="Engine\Interface\Loder.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Interface\DirectXCommon.h">
@@ -372,11 +374,13 @@
       <Filter>Engine\3d</Filter>
     </ClInclude>
     <ClInclude Include="Engine\2d\PostProcess.h" />
-    <ClInclude Include="Engine\Interface\PSO\PSOCopyImage.h" />
+    <ClInclude Include="Engine\Interface\PSO\PSOPostEffect.h" />
     <ClInclude Include="Lib\math\Quaternion.h" />
     <ClInclude Include="Engine\3d\Animation\Animation.h" />
     <ClInclude Include="Engine\Externals\json.hpp" />
-    <ClInclude Include="Loder.h" />
+    <ClInclude Include="PSOAnimationModel.h" />
+    <ClInclude Include="Engine\3d\Model\AnimationModel.h" />
+    <ClInclude Include="Engine\Interface\Loder.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui\imgui.ini">
@@ -432,5 +436,7 @@
     <FxCompile Include="Resources\shader\SkinningObject3d.VS.hlsl" />
     <FxCompile Include="RadialBlur.PS.hlsl" />
     <FxCompile Include="Resources\shader\Dissololve.PS.hlsl" />
+    <FxCompile Include="Random.PS.hlsl" />
+    <FxCompile Include="Resources\shader\Fog.PS.hlsl" />
   </ItemGroup>
 </Project>
