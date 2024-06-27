@@ -192,6 +192,7 @@
     <ClCompile Include="Engine\Interface\PSO\PSOCopyImage.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Engine\3d\Animation\Animation.cpp" />
+    <ClCompile Include="Loder.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Interface\DirectXCommon.h">
@@ -374,6 +375,8 @@
     <ClInclude Include="Engine\Interface\PSO\PSOCopyImage.h" />
     <ClInclude Include="Lib\math\Quaternion.h" />
     <ClInclude Include="Engine\3d\Animation\Animation.h" />
+    <ClInclude Include="Engine\Externals\json.hpp" />
+    <ClInclude Include="Loder.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui\imgui.ini">

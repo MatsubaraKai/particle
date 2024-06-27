@@ -17,7 +17,7 @@ void PSOCopyImage::CreatePipelineStateObject() {
 	assert(property.vertexShaderBlob != nullptr);
 
 	//Vignetting RadialBlur Grayscale GaussianFilter Dissololve DepthBasedOutline BoxFilter LuminanceBasedOutline
-	property.pixelShaderBlob = CompileShader(L"Resources/shader/Dissololve.PS.hlsl",
+	property.pixelShaderBlob = CompileShader(L"Resources/shader/LuminanceBasedOutline.PS.hlsl",
 		L"ps_6_0", sDirectXCommon->GetDxcUtils(), sDirectXCommon->GetDxcCompiler(), sDirectXCommon->GetIncludeHandler());
 
 	assert(property.pixelShaderBlob != nullptr);
