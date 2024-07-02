@@ -9,8 +9,9 @@ void DemoScene::Init()
 	camera = new Camera;
 	camera->Initialize();
 	Vector3 cameraPos = camera->GetTransform().translate;
-	cameraPos.y = 1;
-	cameraPos.z = -15;
+	cameraPos.x = 3.5f;
+	cameraPos.y = 1.0f;
+	cameraPos.z = -15.0f;
 	camera->SetTranslate(cameraPos);
 	input = Input::GetInstance();
 	textureHandle = TextureManager::StoreTexture("Resources/uvChecker.png");
@@ -66,13 +67,8 @@ void DemoScene::Init()
 
 void DemoScene::Update()
 {
-	Transform cameraNewPos = camera->GetTransform();
-	ImGui::Begin("camera");
-	ImGui::DragFloat3("translate", &cameraNewPos.translate.x, 0.01f);
-	ImGui::DragFloat3("rotate", &cameraNewPos.rotate.x, 0.01f);
-	ImGui::End();
-	camera->SetTranslate(cameraNewPos.translate);
-	camera->SetRotate(cameraNewPos.rotate);
+	camera->Update();
+	camera->CameraDebug();
 	XINPUT_STATE joyState{};
 	if (Input::GetInstance()->GetJoystickState(joyState)) {
 	}
@@ -89,7 +85,6 @@ void DemoScene::Update()
 
 	sceneTime++;
 	////カメラの更新
-	camera->Update();
 	demoSprite->Update();
 
 	if (Input::GetInstance()->TriggerKey(DIK_A)) {
@@ -100,9 +95,10 @@ void DemoScene::Update()
 	}
 	for (std::vector<Object3d*>::iterator itr = object3d_.begin(); itr != object3d_.end(); itr++) {
 		(*itr)->Update();
-		(*itr)->ModelDebug("model");
 	}
-	
+	object3d_[0]->ModelDebug("model");
+	object3d_[1]->ModelDebug("model2");
+	object3d_[2]->ModelDebug("model3");
 	object3d->SetWorldTransform(worldTransform);
 	object3d2->SetWorldTransform(worldTransform2);
 
