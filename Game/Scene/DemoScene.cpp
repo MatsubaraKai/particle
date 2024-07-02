@@ -32,15 +32,20 @@ void DemoScene::Init()
 	ModelManager::GetInstance()->LoadModel("Resources/human", "sneakWalk.gltf");
 	ModelManager::GetInstance()->LoadModel("Resources/AnimatedCube", "AnimatedCube.gltf");
 	ModelManager::GetInstance()->LoadModel("Resources/ball", "ball.obj");
+	ModelManager::GetInstance()->LoadModel("Resources/human", "sneakWalk.gltf");
+
 	Loder::LoadJsonFile("Resources", "TL10", object3d_, camera);
+
 	object3d = new Object3d();
 	object3d->Init();
 	object3d2 = new Object3d();
 	object3d2->Init();
 
+	//object3d->SetModel("sneakWalk.gltf");
 	object3d->SetModel("sneakWalk.gltf");
 	object3d2->SetModel("AnimatedCube.gltf");
-	object3d->SetAnimationModel("sneakWalk.gltf");
+
+	
 	particle = new Particle();
 	particle2 = new Particle();
 
