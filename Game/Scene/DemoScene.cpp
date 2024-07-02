@@ -42,7 +42,8 @@ void DemoScene::Init()
 	object3d2->Init();
 
 	//object3d->SetModel("sneakWalk.gltf");
-	object3d->SetModel("sneakWalk.gltf");
+	//object3d->SetModel("ball.obj");
+	object3d->SetAnimationModel("sneakWalk.gltf");
 	object3d2->SetModel("AnimatedCube.gltf");
 
 	
@@ -105,6 +106,7 @@ void DemoScene::Update()
 	object3d->SetWorldTransform(worldTransform);
 	object3d2->SetWorldTransform(worldTransform2);
 
+	object3d->ModelDebug("modelaa");
 	object3d->Update();
 	object3d2->Update();
 }
