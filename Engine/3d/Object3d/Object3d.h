@@ -31,7 +31,7 @@ public:
 	void Update();
 	void Draw(uint32_t texture, Camera* camera);
 	void Release();
-	void ModelDebug(const char* name, int id);
+	void ModelDebug(const char* name);
 
 public: // Setter
 	void SetModel(Model* model) { model_ = model; }

@@ -29,11 +29,9 @@ void DemoScene::Init()
 	postProcess_->SetCamera(camera);
 	postProcess_->Init();
 
-
-
-	//ModelManager::GetInstance()->LoadModel("Resources/human", "sneakWalk.gltf");
-	//ModelManager::GetInstance()->LoadModel("Resources/AnimatedCube", "AnimatedCube.gltf");
-	//ModelManager::GetInstance()->LoadModel("Resources/ball", "ball.obj");
+	ModelManager::GetInstance()->LoadModel("Resources/human", "sneakWalk.gltf");
+	ModelManager::GetInstance()->LoadModel("Resources/AnimatedCube", "AnimatedCube.gltf");
+	ModelManager::GetInstance()->LoadModel("Resources/ball", "ball.obj");
 	Loder::LoadJsonFile("Resources", "TL10", object3d_, camera);
 	object3d = new Object3d();
 	object3d->Init();
@@ -42,6 +40,7 @@ void DemoScene::Init()
 
 	object3d->SetModel("sneakWalk.gltf");
 	object3d2->SetModel("AnimatedCube.gltf");
+	object3d->SetAnimationModel("sneakWalk.gltf");
 	particle = new Particle();
 	particle2 = new Particle();
 
@@ -80,7 +79,6 @@ void DemoScene::Update()
 	if (leftStickX > XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE) {
 		worldTransform.translation_.x += 0.01f;
 		worldTransform.rotation_.y = rotateSize_;
-
 	}
 
 	sceneTime++;
@@ -94,18 +92,16 @@ void DemoScene::Update()
 	if (Input::GetInstance()->TriggerKey(DIK_D)) {
 		rotateSize_ = 0.05f;
 	}
-
-	for (std::vector<Object3d*>::iterator itr = object3d_.begin(); itr != object3d_.end(); itr++, id++) {
+	for (std::vector<Object3d*>::iterator itr = object3d_.begin(); itr != object3d_.end(); itr++) {
 		(*itr)->Update();
-		(*itr)->ModelDebug("model",id);
+		(*itr)->ModelDebug("model");
 	}
 	
 	object3d->SetWorldTransform(worldTransform);
 	object3d2->SetWorldTransform(worldTransform2);
 
-	/*object3d->Update();
-	object3d2->Update();*/
-
+	object3d->Update();
+	object3d2->Update();
 }
 void DemoScene::Draw()
 {
@@ -113,8 +109,8 @@ void DemoScene::Draw()
 		(*itr)->Draw(textureHandle, camera);
 	}
 	//demoSprite->Draw(textureHandle,{1.0f,1.0f,1.0f,1.0f});
-	//object3d->Draw(textureHandle,camera);
-	//object3d2->Draw(textureHandle2, camera);
+	object3d->Draw(textureHandle,camera);
+	object3d2->Draw(textureHandle2, camera);
 	particle->Draw(demoEmitter_, { worldTransform.translation_.x,worldTransform.translation_.y,worldTransform.translation_.z + 5 }, textureHandle, camera, demoRandPro, false);
 	particle2->Draw(demoEmitter_, { worldTransform2.translation_.x,worldTransform2.translation_.y,worldTransform2.translation_.z + 5 }, textureHandle2, camera, demoRandPro, false);
 }

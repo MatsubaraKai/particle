@@ -200,10 +200,10 @@ MaterialData Object3d::LoadMaterialTemplateFile(const std::string& directoryPath
 	return materialData;
 }
 
-void Object3d::ModelDebug(const char* name, int id)
+void Object3d::ModelDebug(const char* name)
 {
 #ifdef _DEBUG
-	ImGui::Begin("model%d",id);
+	ImGui::Begin("model");
 
 	if (ImGui::TreeNode(name))
 	{
