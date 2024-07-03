@@ -9,9 +9,6 @@ void DemoScene::Init()
 	camera = new Camera;
 	camera->Initialize();
 	Vector3 cameraPos = camera->GetTransform().translate;
-	cameraPos.x = 3.5f;
-	cameraPos.y = 1.0f;
-	cameraPos.z = -15.0f;
 	camera->SetTranslate(cameraPos);
 	input = Input::GetInstance();
 	textureHandle = TextureManager::StoreTexture("Resources/uvChecker.png");
@@ -95,10 +92,12 @@ void DemoScene::Update()
 	}
 	for (std::vector<Object3d*>::iterator itr = object3d_.begin(); itr != object3d_.end(); itr++) {
 		(*itr)->Update();
+
 	}
 	object3d_[0]->ModelDebug("model");
 	object3d_[1]->ModelDebug("model2");
 	object3d_[2]->ModelDebug("model3");
+	object3d_[3]->ModelDebug("model4");
 	object3d->SetWorldTransform(worldTransform);
 	object3d2->SetWorldTransform(worldTransform2);
 
