@@ -13,9 +13,13 @@ void DemoScene::Init()
 	input = Input::GetInstance();
 	textureHandle = TextureManager::StoreTexture("Resources/uvChecker.png");
 	textureHandle2 = TextureManager::StoreTexture("Resources/white.png");
+	fadeTex = TextureManager::StoreTexture("Resources/black.png");
 	fadeSprite = new Sprite();
-	fadeSprite->Init({ 0.0f,0.0f }, { 1280.0f,720.0f }, { 0.0f,0.0f }, { 1.0f,1.0f,1.0f,1.0f }, "Resources/black.png");
+
+	fadeSprite->Init({ 0.0f,0.0f }, { 1280.0f,720.0f }, { 0.0f,0.0f }, { 1.0f,1.0f,1.0f,1.0f }, "Resources/uvChecker.png");
 	fadeSprite->SetTextureSize({ 1280.0f,720.0f });
+	material2.color = { 1.0f,1.0f,1.0f,0.0f };
+	material2.enableLighting = true;
 	demoSprite = new Sprite();
 	demoSprite->Init({ 0.0f,0.0f }, { 600.0f,600.0f }, { 0.0f,0.0f }, { 1.0f,1.0f,1.0f,1.0f }, "Resources/uvChecker.png");
 	material.color = { 1.0f,1.0f,1.0f,1.0f };
