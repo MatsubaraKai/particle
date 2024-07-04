@@ -67,6 +67,14 @@ void DemoScene::Init()
 
 void DemoScene::Update()
 {
+	if (isFadeOut == true)
+	{
+		UpdateFadeOut();
+	}
+	if (isFadingIn == true)
+	{
+		UpdateFadeIn();
+	}
 	camera->Update();
 	fadeSprite->Update();
 	fadeSprite->SpriteDebug("1");
@@ -153,43 +161,45 @@ int DemoScene::GameClose()
 	return false;
 }
 
+void DemoScene::StartFadeOut()
+{
+	isFadeOut = true;
+	alpha = 1.0f;
+	material2.color = { 1.0f, 1.0f, 1.0f, alpha };
+}
+
+void DemoScene::UpdateFadeOut()
+{
+	alpha -= 0.01f; // フェードイン速度の調整（必要に応じて変更）
+	material2.color = { 1.0f, 1.0f, 1.0f, alpha };
+
+	if (alpha <= 0.0f)
+	{
+		// フェードイン完了時の処理
+		isFadeOut = false;
+	}
+}
+
+
 void DemoScene::StartFadeIn()
 {
 	isFadingIn = true;
+	alpha = 0.0f;
+	material2.color = { 1.0f, 1.0f, 1.0f, alpha };
 }
 
 void DemoScene::UpdateFadeIn()
 {
 	alpha += 0.01f; // フェードイン速度の調整（必要に応じて変更）
-	material.color = { 1.0f, 1.0f, 1.0f, alpha };
+	material2.color = { 1.0f, 1.0f, 1.0f, alpha };
 
 	if (alpha >= 1.0f)
 	{
 		// フェードイン完了時の処理
 		isFadingIn = false;
 		alpha = 0.0f;
-		sceneNo = 3;
+		sceneNo = 0;
 	}
 }
-
-void DemoScene::StartFadeOut()
-{
-	isFadingOut = true;
-}
-
-void DemoScene::UpdateFadeOut()
-{
-	alpha -= 0.01f; // フェードイン速度の調整（必要に応じて変更）
-	material.color = { 1.0f, 1.0f, 1.0f, alpha };
-
-	if (alpha <= 1.0f)
-	{
-		// フェードイン完了時の処理
-		isFadingOut = false;
-		alpha = 0.0f;
-		sceneNo = 3;
-	}
-}
-
 
 
