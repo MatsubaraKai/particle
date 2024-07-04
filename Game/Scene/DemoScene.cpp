@@ -67,6 +67,7 @@ void DemoScene::Init()
 	demoEmitter_.transform.scale = { 0.5f,0.5f,0.5f };
 	particle->Initialize(demoEmitter_);
 	particle2->Initialize(demoEmitter_);
+	StartFadeOut();
 }
 
 void DemoScene::Update()
