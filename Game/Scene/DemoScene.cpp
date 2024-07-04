@@ -85,7 +85,7 @@ void DemoScene::Update()
 	fadeSprite->SpriteDebug("1");
 	camera->CameraDebug();
 	ImGui::Begin("color");
-	float color[4] = { material.color.x,material.color.y,material.color.z,material.color.w };
+	float color[4] = { material2.color.x,material2.color.y,material2.color.z,material2.color.w };
 	ImGui::DragFloat4("color", color, 0.01f);
 	material.color = { color[0],color[1],color[2],color[3] };
 	ImGui::End();
@@ -130,14 +130,6 @@ void DemoScene::Update()
 	object3d->ModelDebug("modelaa");
 	object3d->Update();
 	object3d2->Update();
-
-	if (input->TriggerKey(DIK_SPACE)) {
-		StartFadeIn();
-	}
-	if (isFadingIn)
-	{
-		UpdateFadeIn();
-	}
 }
 void DemoScene::Draw()
 {
@@ -149,7 +141,7 @@ void DemoScene::Draw()
 	object3d2->Draw(textureHandle2, camera);
 	particle->Draw(demoEmitter_, { worldTransform.translation_.x,worldTransform.translation_.y,worldTransform.translation_.z + 5 }, textureHandle, camera, demoRandPro, false);
 	particle2->Draw(demoEmitter_, { worldTransform2.translation_.x,worldTransform2.translation_.y,worldTransform2.translation_.z + 5 }, textureHandle2, camera, demoRandPro, false);
-	fadeSprite->Draw(fadeTex, material.color);
+	fadeSprite->Draw(fadeTex, material2.color);
 }
 
 void DemoScene::PostDraw()
