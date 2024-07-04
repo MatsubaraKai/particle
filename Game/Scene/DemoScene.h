@@ -18,31 +18,42 @@ public:
 	void PostDraw()override;
 	void Release()override;
 	int GameClose()override;
-
+	void StartFadeIn();
+	void StartFadeOut();
+	void UpdateFadeIn();
+	void UpdateFadeOut();
 private:
 	int sceneTime = 0;
 	Camera* camera = nullptr;
 	Input* input = nullptr;
 	Sprite* demoSprite = nullptr;
+	Sprite* fadeSprite = nullptr;
 
-	//変数
-	uint32_t textureHandle;
-	uint32_t textureHandle2;
+	std::vector<Object3d*> object3d_;
 	Object3d* object3d = nullptr;
 	Object3d* object3d2 = nullptr;
+
+	Particle* particle = nullptr;
+	Particle* particle2 = nullptr;
+
+	PostProcess* postProcess_ = nullptr;
+	//変数
+	uint32_t fadeTex;
+	uint32_t textureHandle;
+	uint32_t textureHandle2;
+	
 	Material material;
 
 	WorldTransform worldTransform;
 	WorldTransform worldTransform2;
 
-	Particle* particle = nullptr;
-	Particle* particle2 = nullptr;
+	
 	Emitter demoEmitter_;
 	RandRangePro demoRandPro;
 
-	PostProcess* postProcess_ = nullptr;
-	std::vector<Object3d*> object3d_;
-
+	float alpha = 0;
+	bool isFadingIn = false;
+	bool isFadingOut = false;
 	int id = 0;
 	float rotateSize_ = 1.057f;
 };

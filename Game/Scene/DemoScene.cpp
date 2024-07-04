@@ -13,6 +13,9 @@ void DemoScene::Init()
 	input = Input::GetInstance();
 	textureHandle = TextureManager::StoreTexture("Resources/uvChecker.png");
 	textureHandle2 = TextureManager::StoreTexture("Resources/white.png");
+	fadeSprite = new Sprite();
+	fadeSprite->Init({ 0.0f,0.0f }, { 1280.0f,720.0f }, { 0.0f,0.0f }, { 1.0f,1.0f,1.0f,1.0f }, "Resources/uvChecker.png");
+	fadeSprite->SetTextureSize({ 1280.0f,720.0f });
 	demoSprite = new Sprite();
 	demoSprite->Init({ 0.0f,0.0f }, { 600.0f,600.0f }, { 0.0f,0.0f }, { 1.0f,1.0f,1.0f,1.0f }, "Resources/uvChecker.png");
 	material.color = { 1.0f,1.0f,1.0f,1.0f };
@@ -65,7 +68,17 @@ void DemoScene::Init()
 void DemoScene::Update()
 {
 	camera->Update();
+	fadeSprite->Update();
+	fadeSprite->SpriteDebug("1");
 	camera->CameraDebug();
+	ImGui::Begin("color");
+	float color[4] = { material.color.x,material.color.y,material.color.z,material.color.w };
+	ImGui::DragFloat4("color", color, 0.01f);
+	material.color = { color[0],color[1],color[2],color[3] };
+	ImGui::End();
+	ImGui::Begin("FadeIn");
+	ImGui::Checkbox("FadeIn", &isFadingIn);
+	ImGui::End();
 	XINPUT_STATE joyState{};
 	if (Input::GetInstance()->GetJoystickState(joyState)) {
 	}
@@ -104,6 +117,14 @@ void DemoScene::Update()
 	object3d->ModelDebug("modelaa");
 	object3d->Update();
 	object3d2->Update();
+
+	if (input->TriggerKey(DIK_SPACE)) {
+		StartFadeIn();
+	}
+	if (isFadingIn)
+	{
+		UpdateFadeIn();
+	}
 }
 void DemoScene::Draw()
 {
@@ -115,6 +136,7 @@ void DemoScene::Draw()
 	object3d2->Draw(textureHandle2, camera);
 	particle->Draw(demoEmitter_, { worldTransform.translation_.x,worldTransform.translation_.y,worldTransform.translation_.z + 5 }, textureHandle, camera, demoRandPro, false);
 	particle2->Draw(demoEmitter_, { worldTransform2.translation_.x,worldTransform2.translation_.y,worldTransform2.translation_.z + 5 }, textureHandle2, camera, demoRandPro, false);
+	fadeSprite->Draw(fadeTex, material.color);
 }
 
 void DemoScene::PostDraw()
@@ -130,3 +152,44 @@ int DemoScene::GameClose()
 {
 	return false;
 }
+
+void DemoScene::StartFadeIn()
+{
+	isFadingIn = true;
+}
+
+void DemoScene::UpdateFadeIn()
+{
+	alpha += 0.01f; // フェードイン速度の調整（必要に応じて変更）
+	material.color = { 1.0f, 1.0f, 1.0f, alpha };
+
+	if (alpha >= 1.0f)
+	{
+		// フェードイン完了時の処理
+		isFadingIn = false;
+		alpha = 0.0f;
+		sceneNo = 3;
+	}
+}
+
+void DemoScene::StartFadeOut()
+{
+	isFadingOut = true;
+}
+
+void DemoScene::UpdateFadeOut()
+{
+	alpha -= 0.01f; // フェードイン速度の調整（必要に応じて変更）
+	material.color = { 1.0f, 1.0f, 1.0f, alpha };
+
+	if (alpha <= 1.0f)
+	{
+		// フェードイン完了時の処理
+		isFadingOut = false;
+		alpha = 0.0f;
+		sceneNo = 3;
+	}
+}
+
+
+
