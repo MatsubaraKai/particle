@@ -43,6 +43,7 @@ private:
 	uint32_t textureHandle2;
 	
 	Material material;
+	Material material2;
 
 	WorldTransform worldTransform;
 	WorldTransform worldTransform2;
@@ -52,8 +53,8 @@ private:
 	RandRangePro demoRandPro;
 
 	float alpha = 0;
+	bool isFadeOut = false;
 	bool isFadingIn = false;
-	bool isFadingOut = false;
 	int id = 0;
 	float rotateSize_ = 1.057f;
 };
