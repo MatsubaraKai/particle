@@ -107,20 +107,20 @@ int GameManager::Run() {
 		// 追跡するための変数
 
 		ImGui::Begin("kadai");
-		ImGui::Text("Current Status: %s", currentStatus);
-		if (ImGui::Button("Normal")) {
+		ImGui::Text("Status: %s", currentStatus);
+		if (ImGui::Button("Normal    ")) {
 			pSOPostEffect->CreatePipelineStateObject();
 			currentStatus = "Normal effect applied";
 		}
-		if (ImGui::Button("Outline")) {
+		if (ImGui::Button("Outline   ")) {
 			pSOPostEffect->CreatePipelineStateObjectLuminancebasedoutline();
 			currentStatus = "Outline effect applied";
 		}
-		if (ImGui::Button("Grayscale")) {
+		if (ImGui::Button("Grayscale ")) {
 			pSOPostEffect->CreatePipelineStateObjectGrayscale();
 			currentStatus = "Grayscale effect applied";
 		}
-		if (ImGui::Button("Fog")) {
+		if (ImGui::Button("Fog       ")) {
 			pSOPostEffect->CreatePipelineStateObjectFog();
 			currentStatus = "Fog effect applied";
 		}
@@ -128,15 +128,15 @@ int GameManager::Run() {
 			pSOPostEffect->CreatePipelineStateObjectDissololve();
 			currentStatus = "Dissolve effect applied";
 		}
-		if (ImGui::Button("Gaussian")) {
+		if (ImGui::Button("Gaussian  ")) {
 			pSOPostEffect->CreatePipelineStateObjectGaussian();
 			currentStatus = "Gaussian blur effect applied";
 		}
-		if (ImGui::Button("Vignett")) {
+		if (ImGui::Button("Vignett   ")) {
 			pSOPostEffect->CreatePipelineStateObjectVignett();
 			currentStatus = "Vignette effect applied";
 		}
-		if (ImGui::Button("Random")) {
+		if (ImGui::Button("Random    ")) {
 			pSOPostEffect->CreatePipelineStateObjectRandom();
 			currentStatus = "Random effect applied";
 		}
