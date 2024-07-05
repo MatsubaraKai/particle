@@ -27,6 +27,14 @@ public:
 	/// 描画に関する設定をまとめる関数
 	/// </summary>
 	void CreatePipelineStateObject();
+	void CreatePipelineStateObjectOutline();
+	void CreatePipelineStateObjectGrayscale();
+	void CreatePipelineStateObjectFog();
+	void CreatePipelineStateObjectDissololve();
+	void CreatePipelineStateObjectGaussian();
+	void CreatePipelineStateObjectVignett();
+	void CreatePipelineStateObjectRandom();
+	void CreatePipelineStateObjectRadialblur();
 
 	/// <summary>
 	/// ShaderとResourceを関係のつけ方を決める関数

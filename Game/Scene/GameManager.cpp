@@ -82,7 +82,7 @@ int GameManager::Run() {
 	PSOPostEffect* pSOPostEffect = PSOPostEffect::GatInstance();
 	pSOPostEffect->CreatePipelineStateObject();
 
-	//post->Init();
+
 	sceneArr_[currentSceneNo_]->Init();
 
 	Input* sInput = Input::GetInstance();
@@ -104,9 +104,48 @@ int GameManager::Run() {
 
 		sInput->Update();
 
-		/*ImGui::Begin("kakunin");
-		ImGui::Text("%d", IScene::GetSceneNo());
-		ImGui::End();*/
+		// 追跡するための変数
+
+		ImGui::Begin("kadai");
+		ImGui::Text("Current Status: %s", currentStatus);
+		if (ImGui::Button("Normal")) {
+			pSOPostEffect->CreatePipelineStateObject();
+			currentStatus = "Normal effect applied";
+		}
+		if (ImGui::Button("Outline")) {
+			pSOPostEffect->CreatePipelineStateObjectOutline();
+			currentStatus = "Outline effect applied";
+		}
+		if (ImGui::Button("Grayscale")) {
+			pSOPostEffect->CreatePipelineStateObjectGrayscale();
+			currentStatus = "Grayscale effect applied";
+		}
+		if (ImGui::Button("Fog")) {
+			pSOPostEffect->CreatePipelineStateObjectFog();
+			currentStatus = "Fog effect applied";
+		}
+		if (ImGui::Button("Dissololve")) {
+			pSOPostEffect->CreatePipelineStateObjectDissololve();
+			currentStatus = "Dissolve effect applied";
+		}
+		if (ImGui::Button("Gaussian")) {
+			pSOPostEffect->CreatePipelineStateObjectGaussian();
+			currentStatus = "Gaussian blur effect applied";
+		}
+		if (ImGui::Button("Vignett")) {
+			pSOPostEffect->CreatePipelineStateObjectVignett();
+			currentStatus = "Vignette effect applied";
+		}
+		if (ImGui::Button("Random")) {
+			pSOPostEffect->CreatePipelineStateObjectRandom();
+			currentStatus = "Random effect applied";
+		}
+		if (ImGui::Button("Radialblur")) {
+			pSOPostEffect->CreatePipelineStateObjectRadialblur();
+			currentStatus = "Radial blur effect applied";
+		}
+		ImGui::End();
+
 
 		// シーンのチェック
 		prevSceneNo_ = currentSceneNo_;

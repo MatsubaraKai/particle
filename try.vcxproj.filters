@@ -434,9 +434,10 @@
     <FxCompile Include="Resources\shader\LuminanceBasedOutline.PS.hlsl" />
     <FxCompile Include="Resources\shader\Vignetting.PS.hlsl" />
     <FxCompile Include="Resources\shader\SkinningObject3d.VS.hlsl" />
-    <FxCompile Include="RadialBlur.PS.hlsl" />
     <FxCompile Include="Resources\shader\Dissololve.PS.hlsl" />
-    <FxCompile Include="Random.PS.hlsl" />
     <FxCompile Include="Resources\shader\Fog.PS.hlsl" />
+    <FxCompile Include="Resources\shader\RadialBlur.PS.hlsl" />
+    <FxCompile Include="Resources\shader\Random.PS.hlsl" />
+    <FxCompile Include="Test.PS.hlsl" />
   </ItemGroup>
 </Project>

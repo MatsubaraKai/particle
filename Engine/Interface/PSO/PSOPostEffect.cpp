@@ -1,7 +1,6 @@
 ﻿#include "PSOPostEffect.h"
 #include <d3dx12.h>
 
-
 void PSOPostEffect::CreatePipelineStateObject() {
 	// DirectXCommonのインスタンスを取得
 	DirectXCommon* sDirectXCommon = DirectXCommon::GetInstance();
@@ -16,7 +15,399 @@ void PSOPostEffect::CreatePipelineStateObject() {
 		L"vs_6_0", sDirectXCommon->GetDxcUtils(), sDirectXCommon->GetDxcCompiler(), sDirectXCommon->GetIncludeHandler());
 	assert(property.vertexShaderBlob != nullptr);
 
+	property.pixelShaderBlob = CompileShader(L"Resources/shader/Fullscreen.PS.hlsl",
+		L"ps_6_0", sDirectXCommon->GetDxcUtils(), sDirectXCommon->GetDxcCompiler(), sDirectXCommon->GetIncludeHandler());
+	assert(property.pixelShaderBlob != nullptr);
+
+	graphicsPipelineStateDesc.pRootSignature = property.rootSignature.Get(); // RootSignature
+	graphicsPipelineStateDesc.InputLayout = inputLayoutDesc; //InputLayout
+	graphicsPipelineStateDesc.VS = { property.vertexShaderBlob->GetBufferPointer(),
+	property.vertexShaderBlob->GetBufferSize() };//vertexShader
+	graphicsPipelineStateDesc.PS = { property.pixelShaderBlob->GetBufferPointer(),
+	property.pixelShaderBlob->GetBufferSize() };// PixelShader
+	graphicsPipelineStateDesc.BlendState = blendDesc;//BlendState
+	graphicsPipelineStateDesc.RasterizerState = rasterizerDesc; //ReterizerState
+	// 書き込むRTVの情報
+	graphicsPipelineStateDesc.NumRenderTargets = 1;
+	graphicsPipelineStateDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+	//利用するトポロジ（形状）のタイプ。三角形
+	graphicsPipelineStateDesc.PrimitiveTopologyType =
+		D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+	// どのように画面に色を打ち込むかの設定（気にしなくてよい）
+	graphicsPipelineStateDesc.SampleDesc.Count = 1;
+	graphicsPipelineStateDesc.SampleMask = D3D12_DEFAULT_SAMPLE_MASK;
+
+	// DeptjStencilの設定
+	graphicsPipelineStateDesc.DepthStencilState = depthStencilDesc_;
+	graphicsPipelineStateDesc.DSVFormat = DXGI_FORMAT_D24_UNORM_S8_UINT;
+
+	//実際に生成
+	property.graphicsPipelineState = nullptr;
+	hr_ = sDirectXCommon->GetDevice()->CreateGraphicsPipelineState(&graphicsPipelineStateDesc,
+		IID_PPV_ARGS(&property.graphicsPipelineState));
+	assert(SUCCEEDED(hr_));
+
+	//DirectXCommon::GetInstance()->ChangeDepthStatetoRender();
+}
+
+void PSOPostEffect::CreatePipelineStateObjectOutline() {
+	// DirectXCommonのインスタンスを取得
+	DirectXCommon* sDirectXCommon = DirectXCommon::GetInstance();
+
+	PSOPostEffect::CreateRootSignature();
+	PSOPostEffect::SetInputLayout();
+	PSOPostEffect::SetBlendState();
+	PSOPostEffect::SetRasterrizerState();
+	PSOPostEffect::CreateDepth();
+	// Shaderをコンパイルする
+	property.vertexShaderBlob = CompileShader(L"Resources/shader/Fullscreen.VS.hlsl",
+		L"vs_6_0", sDirectXCommon->GetDxcUtils(), sDirectXCommon->GetDxcCompiler(), sDirectXCommon->GetIncludeHandler());
+	assert(property.vertexShaderBlob != nullptr);
+
 	property.pixelShaderBlob = CompileShader(L"Resources/shader/LuminanceBasedOutline.PS.hlsl",
+		L"ps_6_0", sDirectXCommon->GetDxcUtils(), sDirectXCommon->GetDxcCompiler(), sDirectXCommon->GetIncludeHandler());
+	assert(property.pixelShaderBlob != nullptr);
+
+	graphicsPipelineStateDesc.pRootSignature = property.rootSignature.Get(); // RootSignature
+	graphicsPipelineStateDesc.InputLayout = inputLayoutDesc; //InputLayout
+	graphicsPipelineStateDesc.VS = { property.vertexShaderBlob->GetBufferPointer(),
+	property.vertexShaderBlob->GetBufferSize() };//vertexShader
+	graphicsPipelineStateDesc.PS = { property.pixelShaderBlob->GetBufferPointer(),
+	property.pixelShaderBlob->GetBufferSize() };// PixelShader
+	graphicsPipelineStateDesc.BlendState = blendDesc;//BlendState
+	graphicsPipelineStateDesc.RasterizerState = rasterizerDesc; //ReterizerState
+	// 書き込むRTVの情報
+	graphicsPipelineStateDesc.NumRenderTargets = 1;
+	graphicsPipelineStateDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+	//利用するトポロジ（形状）のタイプ。三角形
+	graphicsPipelineStateDesc.PrimitiveTopologyType =
+		D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+	// どのように画面に色を打ち込むかの設定（気にしなくてよい）
+	graphicsPipelineStateDesc.SampleDesc.Count = 1;
+	graphicsPipelineStateDesc.SampleMask = D3D12_DEFAULT_SAMPLE_MASK;
+
+	// DeptjStencilの設定
+	graphicsPipelineStateDesc.DepthStencilState = depthStencilDesc_;
+	graphicsPipelineStateDesc.DSVFormat = DXGI_FORMAT_D24_UNORM_S8_UINT;
+
+	//実際に生成
+	property.graphicsPipelineState = nullptr;
+	hr_ = sDirectXCommon->GetDevice()->CreateGraphicsPipelineState(&graphicsPipelineStateDesc,
+		IID_PPV_ARGS(&property.graphicsPipelineState));
+	assert(SUCCEEDED(hr_));
+
+	//DirectXCommon::GetInstance()->ChangeDepthStatetoRender();
+}
+
+void PSOPostEffect::CreatePipelineStateObjectGrayscale() {
+	// DirectXCommonのインスタンスを取得
+	DirectXCommon* sDirectXCommon = DirectXCommon::GetInstance();
+
+	PSOPostEffect::CreateRootSignature();
+	PSOPostEffect::SetInputLayout();
+	PSOPostEffect::SetBlendState();
+	PSOPostEffect::SetRasterrizerState();
+	PSOPostEffect::CreateDepth();
+	// Shaderをコンパイルする
+	property.vertexShaderBlob = CompileShader(L"Resources/shader/Fullscreen.VS.hlsl",
+		L"vs_6_0", sDirectXCommon->GetDxcUtils(), sDirectXCommon->GetDxcCompiler(), sDirectXCommon->GetIncludeHandler());
+	assert(property.vertexShaderBlob != nullptr);
+
+	property.pixelShaderBlob = CompileShader(L"Resources/shader/Grayscale.PS.hlsl",
+		L"ps_6_0", sDirectXCommon->GetDxcUtils(), sDirectXCommon->GetDxcCompiler(), sDirectXCommon->GetIncludeHandler());
+	assert(property.pixelShaderBlob != nullptr);
+
+	graphicsPipelineStateDesc.pRootSignature = property.rootSignature.Get(); // RootSignature
+	graphicsPipelineStateDesc.InputLayout = inputLayoutDesc; //InputLayout
+	graphicsPipelineStateDesc.VS = { property.vertexShaderBlob->GetBufferPointer(),
+	property.vertexShaderBlob->GetBufferSize() };//vertexShader
+	graphicsPipelineStateDesc.PS = { property.pixelShaderBlob->GetBufferPointer(),
+	property.pixelShaderBlob->GetBufferSize() };// PixelShader
+	graphicsPipelineStateDesc.BlendState = blendDesc;//BlendState
+	graphicsPipelineStateDesc.RasterizerState = rasterizerDesc; //ReterizerState
+	// 書き込むRTVの情報
+	graphicsPipelineStateDesc.NumRenderTargets = 1;
+	graphicsPipelineStateDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+	//利用するトポロジ（形状）のタイプ。三角形
+	graphicsPipelineStateDesc.PrimitiveTopologyType =
+		D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+	// どのように画面に色を打ち込むかの設定（気にしなくてよい）
+	graphicsPipelineStateDesc.SampleDesc.Count = 1;
+	graphicsPipelineStateDesc.SampleMask = D3D12_DEFAULT_SAMPLE_MASK;
+
+	// DeptjStencilの設定
+	graphicsPipelineStateDesc.DepthStencilState = depthStencilDesc_;
+	graphicsPipelineStateDesc.DSVFormat = DXGI_FORMAT_D24_UNORM_S8_UINT;
+
+	//実際に生成
+	property.graphicsPipelineState = nullptr;
+	hr_ = sDirectXCommon->GetDevice()->CreateGraphicsPipelineState(&graphicsPipelineStateDesc,
+		IID_PPV_ARGS(&property.graphicsPipelineState));
+	assert(SUCCEEDED(hr_));
+
+	//DirectXCommon::GetInstance()->ChangeDepthStatetoRender();
+}
+
+void PSOPostEffect::CreatePipelineStateObjectFog() {
+	// DirectXCommonのインスタンスを取得
+	DirectXCommon* sDirectXCommon = DirectXCommon::GetInstance();
+
+	PSOPostEffect::CreateRootSignature();
+	PSOPostEffect::SetInputLayout();
+	PSOPostEffect::SetBlendState();
+	PSOPostEffect::SetRasterrizerState();
+	PSOPostEffect::CreateDepth();
+	// Shaderをコンパイルする
+	property.vertexShaderBlob = CompileShader(L"Resources/shader/Fullscreen.VS.hlsl",
+		L"vs_6_0", sDirectXCommon->GetDxcUtils(), sDirectXCommon->GetDxcCompiler(), sDirectXCommon->GetIncludeHandler());
+	assert(property.vertexShaderBlob != nullptr);
+
+	property.pixelShaderBlob = CompileShader(L"Resources/shader/Fog.PS.hlsl",
+		L"ps_6_0", sDirectXCommon->GetDxcUtils(), sDirectXCommon->GetDxcCompiler(), sDirectXCommon->GetIncludeHandler());
+	assert(property.pixelShaderBlob != nullptr);
+
+	graphicsPipelineStateDesc.pRootSignature = property.rootSignature.Get(); // RootSignature
+	graphicsPipelineStateDesc.InputLayout = inputLayoutDesc; //InputLayout
+	graphicsPipelineStateDesc.VS = { property.vertexShaderBlob->GetBufferPointer(),
+	property.vertexShaderBlob->GetBufferSize() };//vertexShader
+	graphicsPipelineStateDesc.PS = { property.pixelShaderBlob->GetBufferPointer(),
+	property.pixelShaderBlob->GetBufferSize() };// PixelShader
+	graphicsPipelineStateDesc.BlendState = blendDesc;//BlendState
+	graphicsPipelineStateDesc.RasterizerState = rasterizerDesc; //ReterizerState
+	// 書き込むRTVの情報
+	graphicsPipelineStateDesc.NumRenderTargets = 1;
+	graphicsPipelineStateDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+	//利用するトポロジ（形状）のタイプ。三角形
+	graphicsPipelineStateDesc.PrimitiveTopologyType =
+		D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+	// どのように画面に色を打ち込むかの設定（気にしなくてよい）
+	graphicsPipelineStateDesc.SampleDesc.Count = 1;
+	graphicsPipelineStateDesc.SampleMask = D3D12_DEFAULT_SAMPLE_MASK;
+
+	// DeptjStencilの設定
+	graphicsPipelineStateDesc.DepthStencilState = depthStencilDesc_;
+	graphicsPipelineStateDesc.DSVFormat = DXGI_FORMAT_D24_UNORM_S8_UINT;
+
+	//実際に生成
+	property.graphicsPipelineState = nullptr;
+	hr_ = sDirectXCommon->GetDevice()->CreateGraphicsPipelineState(&graphicsPipelineStateDesc,
+		IID_PPV_ARGS(&property.graphicsPipelineState));
+	assert(SUCCEEDED(hr_));
+
+	//DirectXCommon::GetInstance()->ChangeDepthStatetoRender();
+}
+
+void PSOPostEffect::CreatePipelineStateObjectDissololve() {
+	// DirectXCommonのインスタンスを取得
+	DirectXCommon* sDirectXCommon = DirectXCommon::GetInstance();
+
+	PSOPostEffect::CreateRootSignature();
+	PSOPostEffect::SetInputLayout();
+	PSOPostEffect::SetBlendState();
+	PSOPostEffect::SetRasterrizerState();
+	PSOPostEffect::CreateDepth();
+	// Shaderをコンパイルする
+	property.vertexShaderBlob = CompileShader(L"Resources/shader/Fullscreen.VS.hlsl",
+		L"vs_6_0", sDirectXCommon->GetDxcUtils(), sDirectXCommon->GetDxcCompiler(), sDirectXCommon->GetIncludeHandler());
+	assert(property.vertexShaderBlob != nullptr);
+
+	property.pixelShaderBlob = CompileShader(L"Resources/shader/Dissololve.PS.hlsl",
+		L"ps_6_0", sDirectXCommon->GetDxcUtils(), sDirectXCommon->GetDxcCompiler(), sDirectXCommon->GetIncludeHandler());
+	assert(property.pixelShaderBlob != nullptr);
+
+	graphicsPipelineStateDesc.pRootSignature = property.rootSignature.Get(); // RootSignature
+	graphicsPipelineStateDesc.InputLayout = inputLayoutDesc; //InputLayout
+	graphicsPipelineStateDesc.VS = { property.vertexShaderBlob->GetBufferPointer(),
+	property.vertexShaderBlob->GetBufferSize() };//vertexShader
+	graphicsPipelineStateDesc.PS = { property.pixelShaderBlob->GetBufferPointer(),
+	property.pixelShaderBlob->GetBufferSize() };// PixelShader
+	graphicsPipelineStateDesc.BlendState = blendDesc;//BlendState
+	graphicsPipelineStateDesc.RasterizerState = rasterizerDesc; //ReterizerState
+	// 書き込むRTVの情報
+	graphicsPipelineStateDesc.NumRenderTargets = 1;
+	graphicsPipelineStateDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+	//利用するトポロジ（形状）のタイプ。三角形
+	graphicsPipelineStateDesc.PrimitiveTopologyType =
+		D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+	// どのように画面に色を打ち込むかの設定（気にしなくてよい）
+	graphicsPipelineStateDesc.SampleDesc.Count = 1;
+	graphicsPipelineStateDesc.SampleMask = D3D12_DEFAULT_SAMPLE_MASK;
+
+	// DeptjStencilの設定
+	graphicsPipelineStateDesc.DepthStencilState = depthStencilDesc_;
+	graphicsPipelineStateDesc.DSVFormat = DXGI_FORMAT_D24_UNORM_S8_UINT;
+
+	//実際に生成
+	property.graphicsPipelineState = nullptr;
+	hr_ = sDirectXCommon->GetDevice()->CreateGraphicsPipelineState(&graphicsPipelineStateDesc,
+		IID_PPV_ARGS(&property.graphicsPipelineState));
+	assert(SUCCEEDED(hr_));
+
+	//DirectXCommon::GetInstance()->ChangeDepthStatetoRender();
+}
+
+void PSOPostEffect::CreatePipelineStateObjectGaussian() {
+	// DirectXCommonのインスタンスを取得
+	DirectXCommon* sDirectXCommon = DirectXCommon::GetInstance();
+
+	PSOPostEffect::CreateRootSignature();
+	PSOPostEffect::SetInputLayout();
+	PSOPostEffect::SetBlendState();
+	PSOPostEffect::SetRasterrizerState();
+	PSOPostEffect::CreateDepth();
+	// Shaderをコンパイルする
+	property.vertexShaderBlob = CompileShader(L"Resources/shader/Fullscreen.VS.hlsl",
+		L"vs_6_0", sDirectXCommon->GetDxcUtils(), sDirectXCommon->GetDxcCompiler(), sDirectXCommon->GetIncludeHandler());
+	assert(property.vertexShaderBlob != nullptr);
+
+	property.pixelShaderBlob = CompileShader(L"Resources/shader/GaussianFilter.PS.hlsl",
+		L"ps_6_0", sDirectXCommon->GetDxcUtils(), sDirectXCommon->GetDxcCompiler(), sDirectXCommon->GetIncludeHandler());
+	assert(property.pixelShaderBlob != nullptr);
+
+	graphicsPipelineStateDesc.pRootSignature = property.rootSignature.Get(); // RootSignature
+	graphicsPipelineStateDesc.InputLayout = inputLayoutDesc; //InputLayout
+	graphicsPipelineStateDesc.VS = { property.vertexShaderBlob->GetBufferPointer(),
+	property.vertexShaderBlob->GetBufferSize() };//vertexShader
+	graphicsPipelineStateDesc.PS = { property.pixelShaderBlob->GetBufferPointer(),
+	property.pixelShaderBlob->GetBufferSize() };// PixelShader
+	graphicsPipelineStateDesc.BlendState = blendDesc;//BlendState
+	graphicsPipelineStateDesc.RasterizerState = rasterizerDesc; //ReterizerState
+	// 書き込むRTVの情報
+	graphicsPipelineStateDesc.NumRenderTargets = 1;
+	graphicsPipelineStateDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+	//利用するトポロジ（形状）のタイプ。三角形
+	graphicsPipelineStateDesc.PrimitiveTopologyType =
+		D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+	// どのように画面に色を打ち込むかの設定（気にしなくてよい）
+	graphicsPipelineStateDesc.SampleDesc.Count = 1;
+	graphicsPipelineStateDesc.SampleMask = D3D12_DEFAULT_SAMPLE_MASK;
+
+	// DeptjStencilの設定
+	graphicsPipelineStateDesc.DepthStencilState = depthStencilDesc_;
+	graphicsPipelineStateDesc.DSVFormat = DXGI_FORMAT_D24_UNORM_S8_UINT;
+
+	//実際に生成
+	property.graphicsPipelineState = nullptr;
+	hr_ = sDirectXCommon->GetDevice()->CreateGraphicsPipelineState(&graphicsPipelineStateDesc,
+		IID_PPV_ARGS(&property.graphicsPipelineState));
+	assert(SUCCEEDED(hr_));
+
+	//DirectXCommon::GetInstance()->ChangeDepthStatetoRender();
+}
+
+void PSOPostEffect::CreatePipelineStateObjectVignett() {
+	// DirectXCommonのインスタンスを取得
+	DirectXCommon* sDirectXCommon = DirectXCommon::GetInstance();
+
+	PSOPostEffect::CreateRootSignature();
+	PSOPostEffect::SetInputLayout();
+	PSOPostEffect::SetBlendState();
+	PSOPostEffect::SetRasterrizerState();
+	PSOPostEffect::CreateDepth();
+	// Shaderをコンパイルする
+	property.vertexShaderBlob = CompileShader(L"Resources/shader/Fullscreen.VS.hlsl",
+		L"vs_6_0", sDirectXCommon->GetDxcUtils(), sDirectXCommon->GetDxcCompiler(), sDirectXCommon->GetIncludeHandler());
+	assert(property.vertexShaderBlob != nullptr);
+
+	property.pixelShaderBlob = CompileShader(L"Resources/shader/Vignetting.PS.hlsl",
+		L"ps_6_0", sDirectXCommon->GetDxcUtils(), sDirectXCommon->GetDxcCompiler(), sDirectXCommon->GetIncludeHandler());
+	assert(property.pixelShaderBlob != nullptr);
+
+	graphicsPipelineStateDesc.pRootSignature = property.rootSignature.Get(); // RootSignature
+	graphicsPipelineStateDesc.InputLayout = inputLayoutDesc; //InputLayout
+	graphicsPipelineStateDesc.VS = { property.vertexShaderBlob->GetBufferPointer(),
+	property.vertexShaderBlob->GetBufferSize() };//vertexShader
+	graphicsPipelineStateDesc.PS = { property.pixelShaderBlob->GetBufferPointer(),
+	property.pixelShaderBlob->GetBufferSize() };// PixelShader
+	graphicsPipelineStateDesc.BlendState = blendDesc;//BlendState
+	graphicsPipelineStateDesc.RasterizerState = rasterizerDesc; //ReterizerState
+	// 書き込むRTVの情報
+	graphicsPipelineStateDesc.NumRenderTargets = 1;
+	graphicsPipelineStateDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+	//利用するトポロジ（形状）のタイプ。三角形
+	graphicsPipelineStateDesc.PrimitiveTopologyType =
+		D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+	// どのように画面に色を打ち込むかの設定（気にしなくてよい）
+	graphicsPipelineStateDesc.SampleDesc.Count = 1;
+	graphicsPipelineStateDesc.SampleMask = D3D12_DEFAULT_SAMPLE_MASK;
+
+	// DeptjStencilの設定
+	graphicsPipelineStateDesc.DepthStencilState = depthStencilDesc_;
+	graphicsPipelineStateDesc.DSVFormat = DXGI_FORMAT_D24_UNORM_S8_UINT;
+
+	//実際に生成
+	property.graphicsPipelineState = nullptr;
+	hr_ = sDirectXCommon->GetDevice()->CreateGraphicsPipelineState(&graphicsPipelineStateDesc,
+		IID_PPV_ARGS(&property.graphicsPipelineState));
+	assert(SUCCEEDED(hr_));
+
+	//DirectXCommon::GetInstance()->ChangeDepthStatetoRender();
+}
+
+void PSOPostEffect::CreatePipelineStateObjectRandom() {
+	// DirectXCommonのインスタンスを取得
+	DirectXCommon* sDirectXCommon = DirectXCommon::GetInstance();
+
+	PSOPostEffect::CreateRootSignature();
+	PSOPostEffect::SetInputLayout();
+	PSOPostEffect::SetBlendState();
+	PSOPostEffect::SetRasterrizerState();
+	PSOPostEffect::CreateDepth();
+	// Shaderをコンパイルする
+	property.vertexShaderBlob = CompileShader(L"Resources/shader/Fullscreen.VS.hlsl",
+		L"vs_6_0", sDirectXCommon->GetDxcUtils(), sDirectXCommon->GetDxcCompiler(), sDirectXCommon->GetIncludeHandler());
+	assert(property.vertexShaderBlob != nullptr);
+
+	property.pixelShaderBlob = CompileShader(L"Resources/shader/Random.PS.hlsl",
+		L"ps_6_0", sDirectXCommon->GetDxcUtils(), sDirectXCommon->GetDxcCompiler(), sDirectXCommon->GetIncludeHandler());
+	assert(property.pixelShaderBlob != nullptr);
+
+	graphicsPipelineStateDesc.pRootSignature = property.rootSignature.Get(); // RootSignature
+	graphicsPipelineStateDesc.InputLayout = inputLayoutDesc; //InputLayout
+	graphicsPipelineStateDesc.VS = { property.vertexShaderBlob->GetBufferPointer(),
+	property.vertexShaderBlob->GetBufferSize() };//vertexShader
+	graphicsPipelineStateDesc.PS = { property.pixelShaderBlob->GetBufferPointer(),
+	property.pixelShaderBlob->GetBufferSize() };// PixelShader
+	graphicsPipelineStateDesc.BlendState = blendDesc;//BlendState
+	graphicsPipelineStateDesc.RasterizerState = rasterizerDesc; //ReterizerState
+	// 書き込むRTVの情報
+	graphicsPipelineStateDesc.NumRenderTargets = 1;
+	graphicsPipelineStateDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+	//利用するトポロジ（形状）のタイプ。三角形
+	graphicsPipelineStateDesc.PrimitiveTopologyType =
+		D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+	// どのように画面に色を打ち込むかの設定（気にしなくてよい）
+	graphicsPipelineStateDesc.SampleDesc.Count = 1;
+	graphicsPipelineStateDesc.SampleMask = D3D12_DEFAULT_SAMPLE_MASK;
+
+	// DeptjStencilの設定
+	graphicsPipelineStateDesc.DepthStencilState = depthStencilDesc_;
+	graphicsPipelineStateDesc.DSVFormat = DXGI_FORMAT_D24_UNORM_S8_UINT;
+
+	//実際に生成
+	property.graphicsPipelineState = nullptr;
+	hr_ = sDirectXCommon->GetDevice()->CreateGraphicsPipelineState(&graphicsPipelineStateDesc,
+		IID_PPV_ARGS(&property.graphicsPipelineState));
+	assert(SUCCEEDED(hr_));
+
+	//DirectXCommon::GetInstance()->ChangeDepthStatetoRender();
+}
+
+void PSOPostEffect::CreatePipelineStateObjectRadialblur() {
+	// DirectXCommonのインスタンスを取得
+	DirectXCommon* sDirectXCommon = DirectXCommon::GetInstance();
+
+	PSOPostEffect::CreateRootSignature();
+	PSOPostEffect::SetInputLayout();
+	PSOPostEffect::SetBlendState();
+	PSOPostEffect::SetRasterrizerState();
+	PSOPostEffect::CreateDepth();
+	// Shaderをコンパイルする
+	property.vertexShaderBlob = CompileShader(L"Resources/shader/Fullscreen.VS.hlsl",
+		L"vs_6_0", sDirectXCommon->GetDxcUtils(), sDirectXCommon->GetDxcCompiler(), sDirectXCommon->GetIncludeHandler());
+	assert(property.vertexShaderBlob != nullptr);
+
+	property.pixelShaderBlob = CompileShader(L"Resources/shader/RadialBlur.PS.hlsl",
 		L"ps_6_0", sDirectXCommon->GetDxcUtils(), sDirectXCommon->GetDxcCompiler(), sDirectXCommon->GetIncludeHandler());
 	assert(property.pixelShaderBlob != nullptr);
 

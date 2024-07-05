@@ -202,7 +202,7 @@ MaterialData Object3d::LoadMaterialTemplateFile(const std::string& directoryPath
 
 void Object3d::ModelDebug(const char* name)
 {
-#ifdef _DEBUG
+//#ifdef _DEBUG
 	ImGui::Begin("model");
 
 	if (ImGui::TreeNode(name))
@@ -222,6 +222,6 @@ void Object3d::ModelDebug(const char* name)
 	}
 	worldTransform_.UpdateMatrix();
 	ImGui::End();
-#endif // _DEBUG
+//#endif // _DEBUG
 
 }

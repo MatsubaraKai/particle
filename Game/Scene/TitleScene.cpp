@@ -23,22 +23,26 @@ void TitleScene::Init()
 	material.color = { 1.0f,1.0f,1.0f,0.0f };
 	material.enableLighting = false;
 
-	particle = new Particle();
-	particle2 = new Particle();
 	worldTransform.Initialize();
 	worldTransform.translation_.x = 0;
 	worldTransform2.Initialize();
 	worldTransform2.translation_.x = 5;
 	worldTransform.UpdateMatrix();
 	worldTransform2.UpdateMatrix();
+
+	particle = new Particle();
+	particle2 = new Particle();
+
 	RandPro = {
 		{1.0f,4.0f},
 		{1.0f,4.0f},
 		{0.0f,2.0f}
 	};
+
 	postProcess_ = new PostProcess();
 	postProcess_->SetCamera(camera);
 	postProcess_->Init();
+
 	Emitter_.count = 6;
 	Emitter_.frequency = 0.02f;
 	Emitter_.frequencyTime = 0.0f;

@@ -28,6 +28,7 @@ private:
 	
 	int sceneTime = 0;
 	Camera* camera = nullptr;
+
 	Input* input = nullptr;
 	Sprite* fadeSprite = nullptr;
 	//変数

@@ -22,7 +22,7 @@ void Camera::Update() {
 }
 void Camera::CameraDebug()
 {
-#ifdef _DEBUG
+//#ifdef _DEBUG
 	ImGui::Begin("camera");
 
 	float translate[3] = { transform_.translate.x,transform_.translate.y,transform_.translate.z };
@@ -37,5 +37,5 @@ void Camera::CameraDebug()
 	transform_.scale = { scale[0],scale[1],scale[2] };
 
 	ImGui::End();
-#endif // _DEBUG
+//#endif // _DEBUG
 }
