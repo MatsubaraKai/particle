@@ -48,7 +48,7 @@ void DemoScene::Init()
 
 	//object3d->SetModel("sneakWalk.gltf");
 	//object3d->SetModel("ball.obj");
-	object3d->SetAnimationModel("sneakWalk.gltf");
+	object3d->SetAnimationModel("ball.obj");
 	object3d2->SetModel("AnimatedCube.gltf");
 
 	
@@ -76,10 +76,14 @@ void DemoScene::Update()
 	{
 		UpdateFadeOut();
 	}
+	if (input->TriggerKey(DIK_SPACE)) {
+		StartFadeIn();
+	}
 	if (isFadingIn == true)
 	{
 		UpdateFadeIn();
 	}
+	
 	camera->Update();
 	fadeSprite->Update();
 	fadeSprite->SpriteDebug("1");
@@ -89,7 +93,7 @@ void DemoScene::Update()
 	ImGui::DragFloat4("color", color, 0.01f);
 	material.color = { color[0],color[1],color[2],color[3] };
 	ImGui::End();
-	ImGui::Begin("FadeIn");
+	ImGui::Begin("Space:FadeIn");
 	ImGui::Checkbox("FadeIn", &isFadingIn);
 	ImGui::End();
 	XINPUT_STATE joyState{};
@@ -110,11 +114,11 @@ void DemoScene::Update()
 	////カメラの更新
 	demoSprite->Update();
 
-	if (Input::GetInstance()->TriggerKey(DIK_A)) {
-		rotateSize_ = 0.0f;
+	if (Input::GetInstance()->PushKey(DIK_A)) {
+		worldTransform.translation_.x -= 0.5f;
 	}
-	if (Input::GetInstance()->TriggerKey(DIK_D)) {
-		rotateSize_ = 0.05f;
+	if (Input::GetInstance()->PushKey(DIK_D)) {
+		worldTransform.translation_.x += 0.5f;
 	}
 	for (std::vector<Object3d*>::iterator itr = object3d_.begin(); itr != object3d_.end(); itr++) {
 		(*itr)->Update();

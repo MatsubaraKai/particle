@@ -64,7 +64,7 @@ void TitleScene::Update()
 	ImGui::DragFloat4("color", color, 0.01f);
 	material.color = { color[0],color[1],color[2],color[3] };
 	ImGui::End();
-	ImGui::Begin("FadeIn");
+	ImGui::Begin("Space:FadeIn");
 	ImGui::Checkbox("FadeIn", &isFadingIn);
 	ImGui::End();
 	if (input->TriggerKey(DIK_SPACE)) {
