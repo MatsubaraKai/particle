@@ -113,7 +113,7 @@ int GameManager::Run() {
 			currentStatus = "Normal effect applied";
 		}
 		if (ImGui::Button("Outline")) {
-			pSOPostEffect->CreatePipelineStateObjectOutline();
+			pSOPostEffect->CreatePipelineStateObjectLuminancebasedoutline();
 			currentStatus = "Outline effect applied";
 		}
 		if (ImGui::Button("Grayscale")) {
@@ -144,6 +144,14 @@ int GameManager::Run() {
 			pSOPostEffect->CreatePipelineStateObjectRadialblur();
 			currentStatus = "Radial blur effect applied";
 		}
+		/*if (ImGui::Button("Depthbasedoutline")) {
+			pSOPostEffect->CreatePipelineStateObjectDepthbasedoutline();
+			currentStatus = "Depth based outline effect applied";
+		}
+		if (ImGui::Button("Boxfilter")) {
+			pSOPostEffect->CreatePipelineStateObjectBoxfilter();
+			currentStatus = "Box filter effect applied";
+		}*/
 		ImGui::End();
 
 

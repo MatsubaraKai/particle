@@ -27,7 +27,7 @@ public:
 	/// 描画に関する設定をまとめる関数
 	/// </summary>
 	void CreatePipelineStateObject();
-	void CreatePipelineStateObjectOutline();
+	void CreatePipelineStateObjectLuminancebasedoutline();
 	void CreatePipelineStateObjectGrayscale();
 	void CreatePipelineStateObjectFog();
 	void CreatePipelineStateObjectDissololve();
@@ -35,6 +35,8 @@ public:
 	void CreatePipelineStateObjectVignett();
 	void CreatePipelineStateObjectRandom();
 	void CreatePipelineStateObjectRadialblur();
+	void CreatePipelineStateObjectDepthbasedoutline();
+	void CreatePipelineStateObjectBoxfilter();
 
 	/// <summary>
 	/// ShaderとResourceを関係のつけ方を決める関数
