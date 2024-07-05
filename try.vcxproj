@@ -134,6 +134,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Interface\Heap\SRVManager.cpp" />
     <ClCompile Include="Engine\Interface\Loder.cpp" />
     <ClCompile Include="Engine\Interface\Mesh.cpp" />
+    <ClCompile Include="Engine\Interface\PSO\PSOAnimationModel.cpp" />
     <ClCompile Include="Engine\Interface\PSO\PSOPostEffect.cpp" />
     <ClCompile Include="Engine\Interface\PSO\PSOModel.cpp" />
     <ClCompile Include="Engine\Interface\PSO\PSOParticle.cpp" />
@@ -168,7 +169,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Lib\math\mathFunction.cpp" />
     <ClCompile Include="Engine\Interface\TextureManager.cpp" />
     <ClCompile Include="Game\Utilty\TimedCall.cpp" />
-    <ClCompile Include="PSOAnimationModel.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\2d\PostProcess.h" />
@@ -193,6 +193,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Interface\Heap\SRVManager.h" />
     <ClInclude Include="Engine\Interface\Loder.h" />
     <ClInclude Include="Engine\Interface\Mesh.h" />
+    <ClInclude Include="Engine\Interface\PSO\PSOAnimationModel.h" />
     <ClInclude Include="Engine\Interface\PSO\PSOPostEffect.h" />
     <ClInclude Include="Engine\Interface\PSO\PSOModel.h" />
     <ClInclude Include="Engine\Interface\PSO\PSOParticle.h" />
@@ -238,7 +239,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Lib\math\VertexData.h" />
     <ClInclude Include="Lib\math\TransformationMatrix.h" />
     <ClInclude Include="Game\Utilty\TimedCall.h" />
-    <ClInclude Include="PSOAnimationModel.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".editorconfig" />

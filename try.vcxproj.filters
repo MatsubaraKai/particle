@@ -192,9 +192,11 @@
     <ClCompile Include="Engine\Interface\PSO\PSOPostEffect.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Engine\3d\Animation\Animation.cpp" />
-    <ClCompile Include="PSOAnimationModel.cpp" />
     <ClCompile Include="Engine\3d\Model\AnimationModel.cpp" />
     <ClCompile Include="Engine\Interface\Loder.cpp" />
+    <ClCompile Include="Engine\Interface\PSO\PSOAnimationModel.cpp">
+      <Filter>Engine\Interface\PSO</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Interface\DirectXCommon.h">
@@ -378,9 +380,11 @@
     <ClInclude Include="Lib\math\Quaternion.h" />
     <ClInclude Include="Engine\3d\Animation\Animation.h" />
     <ClInclude Include="Engine\Externals\json.hpp" />
-    <ClInclude Include="PSOAnimationModel.h" />
     <ClInclude Include="Engine\3d\Model\AnimationModel.h" />
     <ClInclude Include="Engine\Interface\Loder.h" />
+    <ClInclude Include="Engine\Interface\PSO\PSOAnimationModel.h">
+      <Filter>Engine\Interface\PSO</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui\imgui.ini">
