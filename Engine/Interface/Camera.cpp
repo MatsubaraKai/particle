@@ -39,94 +39,6 @@ void Camera::CameraDebug()
     ImGui::End();
     //#endif // _DEBUG
 }
-//void Camera::Move()
-//{
-//    // ゲームパッドの状態を得る変数(XINPUT)
-//    XINPUT_STATE joyState;
-//    Vector3 move = { 0.0f, 0.0f, 0.0f };
-//
-//    // キーボードによる移動
-//    if (Input::GetInstance()->PushKey(DIK_W))
-//    {
-//        move.z = PlayerSpeed;
-//    }
-//    if (Input::GetInstance()->PushKey(DIK_S))
-//    {
-//        move.z = -PlayerSpeed;
-//    }
-//    if (Input::GetInstance()->PushKey(DIK_A))
-//    {
-//        move.x = -PlayerSpeed;
-//    }
-//    if (Input::GetInstance()->PushKey(DIK_D))
-//    {
-//        move.x = PlayerSpeed;
-//    }
-//
-//    // 目標角度の算出（キーボード）
-//    if (move.x != 0.0f || move.z != 0.0f)
-//    {
-//        angle_ = std::atan2(move.x, move.z);
-//        transform_.rotate.y = LerpShortAngle(transform_.rotate.y, angle_, 0.1f);
-//    }
-//
-//    // キーボードによる移動量の更新
-//    transform_.translate.x += move.x;
-//    transform_.translate.z += move.z;
-//
-//    // ゲームパッドの状態取得
-//    if (Input::GetInstance()->GetJoystickState(joyState))
-//    {
-//        // 左スティックによる移動
-//        Vector3 moveLeftStick = { 0, 0, 0 };
-//        const float leftStickDeadZone = 0.2f;
-//        if (std::abs(joyState.Gamepad.sThumbLX) > leftStickDeadZone * SHRT_MAX ||
-//            std::abs(joyState.Gamepad.sThumbLY) > leftStickDeadZone * SHRT_MAX)
-//        {
-//            moveLeftStick = {
-//                (float)joyState.Gamepad.sThumbLX / SHRT_MAX,
-//                0.0f,
-//                (float)joyState.Gamepad.sThumbLY / SHRT_MAX
-//            };
-//
-//            float inputMagnitude = Length(moveLeftStick);
-//            if (inputMagnitude > leftStickDeadZone)
-//            {
-//                moveLeftStick.x *= PlayerSpeed;
-//                moveLeftStick.z *= PlayerSpeed;
-//            }
-//        }
-//
-//        // カメラの向きに基づく移動方向の調整
-//        if (moveLeftStick.x != 0.0f || moveLeftStick.z != 0.0f)
-//        {
-//            // 移動ベクトルをカメラの向きに合わせる
-//            float cosY = cosf(transform_.rotate.y);
-//            float sinY = sinf(transform_.rotate.y);
-//            move = {
-//                moveLeftStick.x * cosY + moveLeftStick.z * sinY,
-//                0.0f,
-//                moveLeftStick.z * cosY - moveLeftStick.x * sinY
-//            };
-//            transform_.translate.x += move.x;
-//            transform_.translate.z += move.z;
-//        }
-//
-//        // 右スティックによる視野の移動
-//        const float lookSensitivity = 0.05f;
-//        const float rightStickDeadZone = 0.2f;
-//        if (std::abs(joyState.Gamepad.sThumbRX) > rightStickDeadZone * SHRT_MAX ||
-//            std::abs(joyState.Gamepad.sThumbRY) > rightStickDeadZone * SHRT_MAX)
-//        {
-//            float rightStickX = (float)joyState.Gamepad.sThumbRX / SHRT_MAX * lookSensitivity;
-//            float rightStickY = (float)joyState.Gamepad.sThumbRY / SHRT_MAX * lookSensitivity;
-//
-//            transform_.rotate.y += rightStickX;  // Yaw (水平回転)
-//            // 必要に応じてピッチ (垂直回転) も更新する場合
-//            // transform_.rotate.x += rightStickY;  // Pitch
-//        }
-//    }
-//}
 
 void Camera::Move()
 {
@@ -247,6 +159,7 @@ void Camera::Move()
         }
     }
 }
+
 
 float Camera::Lerp(const float& a, const float& b, float t) {
 	float result{};

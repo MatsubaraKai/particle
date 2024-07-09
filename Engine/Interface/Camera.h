@@ -49,12 +49,18 @@ private:
 	float asepectRatio_ = float(WinAPI::kClientWidth_) / float(WinAPI::kClientHeight_);
 	float nearClip_ = 0.1f;
 	float farClip_ = 100.0f;
+	//Move
+	const float Gravity = -0.01f;
+	const float GroundLevel = 1.0f;
 
 	float PlayerSpeed = 0.1f;
 	float angle_ = 0.0f;
+
 	float JumpSpeed = 0.2f;
 	bool isJumping = false;
 	float jumpVelocity = 0.0f;
-	const float Gravity = -0.01f;
-	const float GroundLevel = 1.0f;
+
+	float DashSpeed = 0.3f;
+	bool isDashing = false;
+	Vector3 dashDirection = { 0.0f, 0.0f, 0.0f };
 };
