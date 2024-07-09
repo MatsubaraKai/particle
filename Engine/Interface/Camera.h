@@ -6,12 +6,17 @@
 #include "Transform.h"
 #include "mathFunction.h"
 #include <numbers>
-
+#include "Input.h"
 class Camera
 {
 public:
 	void Initialize();
 	void Update();
+	void Move();
+	float Lerp(const float& a, const float& b, float t);
+	float LerpShortAngle(float a, float b, float t);
+	float LerpShortTranslate(float a, float b, float t);
+	float Length(const Vector3& v);
 
 public: //Getter
 	const Transform& GetTransform() const { return transform_; }
@@ -32,9 +37,9 @@ public: //Setter
 	void SetNearClip() {}
 	void SetFarClip() {}
 	void CameraDebug();
+	Transform transform_;
 
 private:
-	Transform transform_;
 	Matrix4x4 worldmatrix_;
 	Matrix4x4 cameraMatrix_;
 	Matrix4x4 viewMatrix_;
@@ -44,4 +49,12 @@ private:
 	float asepectRatio_ = float(WinAPI::kClientWidth_) / float(WinAPI::kClientHeight_);
 	float nearClip_ = 0.1f;
 	float farClip_ = 100.0f;
+
+	float PlayerSpeed = 0.1f;
+	float angle_ = 0.0f;
+	float JumpSpeed = 0.2f;
+	bool isJumping = false;
+	float jumpVelocity = 0.0f;
+	const float Gravity = -0.01f;
+	const float GroundLevel = 1.0f;
 };

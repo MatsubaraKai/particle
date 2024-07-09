@@ -23,6 +23,7 @@
 #include "DirectionLight.h"
 #include "WorldTransform.h"
 #include "TextureManager.h"
+#include "imgui.h"
 #pragma comment(lib,"d3d12.lib")
 #pragma comment(lib,"dxgi.lib")
 #pragma comment(lib,"dxcompiler.lib")
@@ -76,6 +77,8 @@ public:
 
 	std::list<ParticlePro> Emission(const Emitter& emitter, std::mt19937& randEngine, const Vector3& worldTransform, const RandRangePro& randRange);
 	D3D12_VERTEX_BUFFER_VIEW CreateBufferView();
+
+	void Particledebug(const char* name,WorldTransform &worldtransform);
 private:
 	const static uint32_t kNumMaxInstance = 10000; // インスタンス数
 	// Instancing用のTransformMatrixリソースを作る

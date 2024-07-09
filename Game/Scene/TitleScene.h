@@ -44,7 +44,7 @@ private:
 	float alpha = 0;
 	bool isFadingIn = false;
 	float time = 0.0f; // 時間の初期値
-	float deltaTime = 0.1f; // 時間の経過量 (例: 0.1秒ごとに色が更新される)
+	float deltaTime = 0.5f; // 時間の経過量 (例: 0.1秒ごとに色が更新される)
 };
 
 

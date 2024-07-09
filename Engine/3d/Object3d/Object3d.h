@@ -39,6 +39,7 @@ public: // Setter
 	void SetAnimationModel(const std::string& filePath);
 	void SetWorldTransform(const WorldTransform& worldtransform) { worldTransform_ = worldtransform; };
 	void SetTransform(Transform transform);
+
 public: // Getter
 	WorldTransform GetWorldTransform() { return worldTransform_; }
 	ModelData LoadObjFile(const std::string& directoryPath, const std::string& filename);

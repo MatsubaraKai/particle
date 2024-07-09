@@ -8,7 +8,7 @@
 #include "Object3d.h"
 #include "Model.h"
 #include "PostProcess.h"
-
+#include "Transform.h"
 class DemoScene : public IScene
 {
 public:
@@ -22,6 +22,9 @@ public:
 	void StartFadeOut();
 	void UpdateFadeIn();
 	void UpdateFadeOut();
+
+	WorldTransform worldTransform;
+	WorldTransform worldTransform2;
 private:
 	int sceneTime = 0;
 	Camera* camera = nullptr;
@@ -30,7 +33,7 @@ private:
 	Sprite* fadeSprite = nullptr;
 
 	std::vector<Object3d*> object3d_;
-	Object3d* object3d = nullptr;
+	Object3d* GridOBJ = nullptr;
 	Object3d* object3d2 = nullptr;
 
 	Particle* particle = nullptr;
@@ -46,8 +49,8 @@ private:
 	Material material;
 	Material material2;
 
-	WorldTransform worldTransform;
-	WorldTransform worldTransform2;
+	
+	WorldTransform GridTransform;
 
 	
 	Emitter demoEmitter_;

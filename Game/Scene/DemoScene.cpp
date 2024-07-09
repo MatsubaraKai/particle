@@ -26,11 +26,15 @@ void DemoScene::Init()
 	material.color = { 1.0f,1.0f,1.0f,1.0f };
 	material.enableLighting = false;
 	worldTransform.Initialize();
-	worldTransform.translation_.x = 0;
 	worldTransform2.Initialize();
+	GridTransform.Initialize();
+	worldTransform.translation_.x = 0;
 	worldTransform2.translation_.x = 5;
+	GridTransform.scale_.x = 20;
+	GridTransform.scale_.z = 20;
 	worldTransform.UpdateMatrix();
 	worldTransform2.UpdateMatrix();
+	GridTransform.UpdateMatrix();
 	postProcess_ = new PostProcess();
 	postProcess_->SetCamera(camera);
 	postProcess_->Init();
@@ -42,14 +46,15 @@ void DemoScene::Init()
 
 	Loder::LoadJsonFile("Resources", "TL", object3d_, camera);
 
-	object3d = new Object3d();
-	object3d->Init();
+	GridOBJ = new Object3d();
+	GridOBJ->Init();
 	object3d2 = new Object3d();
 	object3d2->Init();
 
 	//object3d->SetModel("sneakWalk.gltf");
 	//object3d->SetModel("ball.obj");
-	object3d->SetModel("grid.obj");
+	GridOBJ->SetModel("grid.obj");
+	GridOBJ->SetWorldTransform(GridTransform);
 	object3d2->SetModel("sneakWalk.gltf");
 
 	
@@ -86,6 +91,7 @@ void DemoScene::Update()
 	}
 	
 	camera->Update();
+	camera->Move();
 	fadeSprite->Update();
 	fadeSprite->SpriteDebug("1");
 	camera->CameraDebug();
@@ -97,43 +103,27 @@ void DemoScene::Update()
 	ImGui::Begin("Space:FadeIn");
 	ImGui::Checkbox("FadeIn", &isFadingIn);
 	ImGui::End();
-	XINPUT_STATE joyState{};
-	if (Input::GetInstance()->GetJoystickState(joyState)) {
-	}
-
-	short leftStickX = joyState.Gamepad.sThumbLX;
-	if (leftStickX < -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE) {
-		worldTransform.translation_.x -= 0.01f;
-		worldTransform.rotation_.y = -rotateSize_;
-	}
-	if (leftStickX > XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE) {
-		worldTransform.translation_.x += 0.01f;
-		worldTransform.rotation_.y = rotateSize_;
-	}
 
 	sceneTime++;
-	////カメラの更新
 	demoSprite->Update();
-
-	if (Input::GetInstance()->PushKey(DIK_A)) {
-		worldTransform.translation_.x -= 0.5f;
-	}
-	if (Input::GetInstance()->PushKey(DIK_D)) {
-		worldTransform.translation_.x += 0.5f;
-	}
 	for (std::vector<Object3d*>::iterator itr = object3d_.begin(); itr != object3d_.end(); itr++) {
 		(*itr)->Update();
-
 	}
+
+	GridOBJ->Update();
+	object3d2->Update();
+
 	object3d_[0]->ModelDebug("model");
 	object3d_[1]->ModelDebug("model2");
 	object3d_[2]->ModelDebug("model3");
 	object3d_[3]->ModelDebug("model4");
 
-	object3d->ModelDebug("modelaa");
+	GridOBJ->ModelDebug("modelaa");
 	object3d2->ModelDebug("modela");
-	object3d->Update();
-	object3d2->Update();
+
+	particle->Particledebug("1",worldTransform);
+	particle2->Particledebug("2",worldTransform2);
+	
 }
 void DemoScene::Draw()
 {
@@ -141,7 +131,7 @@ void DemoScene::Draw()
 		(*itr)->Draw(textureHandle, camera);
 	}
 	//demoSprite->Draw(textureHandle,{1.0f,1.0f,1.0f,1.0f});
-	object3d->Draw(textureHandle2,camera);
+	GridOBJ->Draw(textureHandle2,camera);
 	object3d2->Draw(textureHandle2, camera);
 	particle->Draw(demoEmitter_, { worldTransform.translation_.x,worldTransform.translation_.y,worldTransform.translation_.z + 5 }, textureHandle, camera, demoRandPro, false);
 	particle2->Draw(demoEmitter_, { worldTransform2.translation_.x,worldTransform2.translation_.y,worldTransform2.translation_.z + 5 }, textureHandle2, camera, demoRandPro, false);

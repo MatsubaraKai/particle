@@ -241,3 +241,19 @@ D3D12_VERTEX_BUFFER_VIEW Particle::CreateBufferView() {
 
 	return view;
 };
+
+void Particle::Particledebug(const char* name,WorldTransform &worldtransform)
+{
+	//#ifdef _DEBUG
+	ImGui::Begin("Particle");
+
+	if (ImGui::TreeNode(name))
+	{
+		float translate[3] = { worldtransform.translation_.x,worldtransform.translation_.y,worldtransform.translation_.z };
+		ImGui::DragFloat3("transform", translate, 0.01f);
+		ImGui::TreePop();
+		worldtransform.translation_ = { translate[0],translate[1],translate[2] };
+	}
+	ImGui::End();
+	//#endif // _DEBUG
+}
