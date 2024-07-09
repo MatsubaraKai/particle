@@ -2,7 +2,9 @@
 #include "ImGuiCommon.h"
 #include "TextureManager.h"
 #include "ModelManager.h"
-
+#include <iostream>
+#include <cmath>
+#define M_PI 3.141592
 void TitleScene::Init()
 {
 	camera = new Camera;
@@ -74,12 +76,15 @@ void TitleScene::Update()
 	{
 		UpdateFadeIn();
 	}
+
+	setRainbowColor(time, material.color.x, material.color.y, material.color.z);
+	time += deltaTime; // 時間を進める
 }
 void TitleScene::Draw()
 {
 	particle->Draw(Emitter_, { worldTransform.translation_.x,worldTransform.translation_.y,worldTransform.translation_.z + 5 }, textureHandle, camera, RandPro, false);
 	particle2->Draw(Emitter_, { worldTransform2.translation_.x,worldTransform2.translation_.y,worldTransform2.translation_.z + 5 }, textureHandle2, camera, RandPro, false);
-	fadeSprite->Draw(fadeTex, material.color);
+	fadeSprite->Draw(textureHandle2, material.color);
 }
 
 void TitleScene::PostDraw()
@@ -114,4 +119,12 @@ void TitleScene::UpdateFadeIn()
 		alpha = 0.0f;
 		sceneNo = 3;
 	}
+}
+void TitleScene::setRainbowColor(float time, float& red, float& green, float& blue) {
+	float frequency = 0.5f; // 色の変化の速度を調整するための周波数
+	float amplitude = 0.5f; // 色の振幅を調整する係数
+
+	red = amplitude * std::sin(frequency * time + 0) + 0.5f;
+	green = amplitude * std::sin(frequency * time + 2 * static_cast<float>(M_PI) / 3) + 0.5f;
+	blue = amplitude * std::sin(frequency * time + 4 * static_cast<float>(M_PI) / 3) + 0.5f;
 }

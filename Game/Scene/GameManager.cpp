@@ -144,11 +144,11 @@ int GameManager::Run() {
 			pSOPostEffect->CreatePipelineStateObjectRadialblur();
 			currentStatus = "Radial blur effect applied";
 		}
-		/*if (ImGui::Button("Depthbasedoutline")) {
+		if (ImGui::Button("Depthbasedoutline")) {
 			pSOPostEffect->CreatePipelineStateObjectDepthbasedoutline();
 			currentStatus = "Depth based outline effect applied";
 		}
-		if (ImGui::Button("Boxfilter")) {
+		/*if (ImGui::Button("Boxfilter")) {
 			pSOPostEffect->CreatePipelineStateObjectBoxfilter();
 			currentStatus = "Box filter effect applied";
 		}*/

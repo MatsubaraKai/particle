@@ -21,7 +21,7 @@ public:
 	int GameClose()override;
 	void StartFadeIn();
 	void UpdateFadeIn();
-
+	void setRainbowColor(float time, float& red, float& green, float& blue);
 	WorldTransform worldTransform;
 	WorldTransform worldTransform2;
 private:
@@ -43,6 +43,8 @@ private:
 	PostProcess* postProcess_ = nullptr;
 	float alpha = 0;
 	bool isFadingIn = false;
+	float time = 0.0f; // 時間の初期値
+	float deltaTime = 0.1f; // 時間の経過量 (例: 0.1秒ごとに色が更新される)
 };
 
 

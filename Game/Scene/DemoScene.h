@@ -41,7 +41,8 @@ private:
 	uint32_t fadeTex;
 	uint32_t textureHandle;
 	uint32_t textureHandle2;
-	
+	uint32_t textureHandle3;
+
 	Material material;
 	Material material2;
 
