@@ -442,6 +442,7 @@
     <FxCompile Include="Resources\shader\Fog.PS.hlsl" />
     <FxCompile Include="Resources\shader\RadialBlur.PS.hlsl" />
     <FxCompile Include="Resources\shader\Random.PS.hlsl" />
-    <FxCompile Include="Test.PS.hlsl" />
+    <FxCompile Include="Resources\shader\Test.PS.hlsl" />
+    <FxCompile Include="Resources\shader\Test2.PS.hlsl" />
   </ItemGroup>
 </Project>

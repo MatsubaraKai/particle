@@ -37,7 +37,8 @@ public:
 	void CreatePipelineStateObjectRadialblur();
 	void CreatePipelineStateObjectDepthbasedoutline();
 	void CreatePipelineStateObjectBoxfilter();
-
+	void CreatePipelineStateObjectTest();
+	void CreatePipelineStateObjectTest2();
 	/// <summary>
 	/// ShaderとResourceを関係のつけ方を決める関数
 	/// </summary>

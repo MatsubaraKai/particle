@@ -113,16 +113,16 @@ void DemoScene::Update()
 	GridOBJ->Update();
 	object3d2->Update();
 
-	object3d_[0]->ModelDebug("model");
-	object3d_[1]->ModelDebug("model2");
-	object3d_[2]->ModelDebug("model3");
-	object3d_[3]->ModelDebug("model4");
+	object3d_[0]->ModelDebug("JSONmodel");
+	object3d_[1]->ModelDebug("JSONmodel2");
+	object3d_[2]->ModelDebug("JSONmodel3");
+	object3d_[3]->ModelDebug("JSONmodel4");
 
-	GridOBJ->ModelDebug("modelaa");
-	object3d2->ModelDebug("modela");
+	GridOBJ->ModelDebug("grid");
+	object3d2->ModelDebug("chara");
 
-	particle->Particledebug("1",worldTransform);
-	particle2->Particledebug("2",worldTransform2);
+	particle->Particledebug("uv",worldTransform);
+	particle2->Particledebug("white",worldTransform2);
 	
 }
 void DemoScene::Draw()
@@ -132,7 +132,7 @@ void DemoScene::Draw()
 	}
 	//demoSprite->Draw(textureHandle,{1.0f,1.0f,1.0f,1.0f});
 	GridOBJ->Draw(textureHandle2,camera);
-	object3d2->Draw(textureHandle2, camera);
+	object3d2->Draw(textureHandle, camera);
 	particle->Draw(demoEmitter_, { worldTransform.translation_.x,worldTransform.translation_.y,worldTransform.translation_.z + 5 }, textureHandle, camera, demoRandPro, false);
 	particle2->Draw(demoEmitter_, { worldTransform2.translation_.x,worldTransform2.translation_.y,worldTransform2.translation_.z + 5 }, textureHandle2, camera, demoRandPro, false);
 	fadeSprite->Draw(fadeTex, material2.color);

@@ -143,17 +143,24 @@ int GameManager::Run() {
 		if (ImGui::Button("Radialblur")) {
 			pSOPostEffect->CreatePipelineStateObjectRadialblur();
 			currentStatus = "Radial blur effect applied";
-		}
+		}/*
 		if (ImGui::Button("Depthbasedoutline")) {
 			pSOPostEffect->CreatePipelineStateObjectDepthbasedoutline();
 			currentStatus = "Depth based outline effect applied";
-		}
+		}*/
 		/*if (ImGui::Button("Boxfilter")) {
 			pSOPostEffect->CreatePipelineStateObjectBoxfilter();
 			currentStatus = "Box filter effect applied";
 		}*/
+		if (ImGui::Button("Test")) {
+			pSOPostEffect->CreatePipelineStateObjectTest();
+			currentStatus = "Test effect applied";
+		}
+		if (ImGui::Button("Test2")) {
+			pSOPostEffect->CreatePipelineStateObjectTest2();
+			currentStatus = "Test2 effect applied";
+		}
 		ImGui::End();
-
 
 		// シーンのチェック
 		prevSceneNo_ = currentSceneNo_;
