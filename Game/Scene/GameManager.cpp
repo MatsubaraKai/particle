@@ -108,6 +108,7 @@ int GameManager::Run() {
 
 		ImGui::Begin("kadai");
 		ImGui::Text("Status: %s", currentStatus);
+		ImGui::Text("FPS : %f", ImGui::GetIO().Framerate);
 		if (ImGui::Button("Normal    ")) {
 			pSOPostEffect->CreatePipelineStateObject();
 			currentStatus = "Normal effect applied";
@@ -161,9 +162,8 @@ int GameManager::Run() {
 			currentStatus = "Test2 effect applied";
 		}
 		ImGui::End();
-		ImGui::Begin("FPS");
-		ImGui::Text("%f", ImGui::GetIO().Framerate);
-		ImGui::End();
+
+		
 
 		// シーンのチェック
 		prevSceneNo_ = currentSceneNo_;

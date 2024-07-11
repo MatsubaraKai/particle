@@ -637,8 +637,9 @@ void PSOPostEffect::CreatePipelineStateObjectTest2()
 		IID_PPV_ARGS(&property.graphicsPipelineState));
 	assert(SUCCEEDED(hr_));
 
-	DirectXCommon::GetInstance()->CrateRenderTexture();
+	//DirectXCommon::GetInstance()->ChangeDepthStatetoRender();
 }
+
 
 void PSOPostEffect::CreateRootSignature() {
 	// DirectXCommonのインスタンスを取得
