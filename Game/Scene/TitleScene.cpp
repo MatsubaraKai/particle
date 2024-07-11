@@ -59,6 +59,7 @@ void TitleScene::Update()
 	////カメラの更新
 	camera->Update();
 	camera->CameraDebug();
+	camera->Move();
 	fadeSprite->Update();
 	fadeSprite->SpriteDebug("1");
 	ImGui::Begin("color");

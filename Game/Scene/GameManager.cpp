@@ -106,7 +106,7 @@ int GameManager::Run() {
 
 		// 追跡するための変数
 
-		ImGui::Begin("kadai");
+		ImGui::Begin("PostEffect");
 		ImGui::Text("Status: %s", currentStatus);
 		ImGui::Text("FPS : %f", ImGui::GetIO().Framerate);
 		if (ImGui::Button("Normal    ")) {

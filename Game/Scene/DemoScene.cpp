@@ -93,8 +93,6 @@ void DemoScene::Update()
 	camera->Update();
 	camera->Move();
 	fadeSprite->Update();
-	fadeSprite->SpriteDebug("1");
-	camera->CameraDebug();
 	ImGui::Begin("color");
 	float color[4] = { material2.color.x,material2.color.y,material2.color.z,material2.color.w };
 	ImGui::DragFloat4("color", color, 0.01f);
@@ -113,10 +111,15 @@ void DemoScene::Update()
 	GridOBJ->Update();
 	object3d2->Update();
 
+	camera->CameraDebug();
+
 	object3d_[0]->ModelDebug("JSONmodel");
 	object3d_[1]->ModelDebug("JSONmodel2");
 	object3d_[2]->ModelDebug("JSONmodel3");
 	object3d_[3]->ModelDebug("JSONmodel4");
+
+	fadeSprite->SpriteDebug("fadesprite");
+
 
 	GridOBJ->ModelDebug("grid");
 	object3d2->ModelDebug("chara");
