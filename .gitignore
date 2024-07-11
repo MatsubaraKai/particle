@@ -98,6 +98,8 @@ StyleCopReport.xml
 *.svclog
 *.scc
 
+
+
 # Chutzpah Test files
 _Chutzpah*
 
@@ -361,3 +363,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+!Engine/Externals/assimp/build/lib/Debug
+!Engine/Externals/assimp/build/lib/Release
