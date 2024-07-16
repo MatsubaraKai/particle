@@ -3,7 +3,6 @@
 Texture2D<float4> gTexture : register(t0);
 SamplerState gSampler : register(s0);
 
-float gScanlineIntensity = 0.1f; // 走査線の強度
 
 struct PixelShaderOutput
 {
@@ -19,6 +18,7 @@ PixelShaderOutput main(VertexShaderOutput input)
 
     // 走査線の位置を計算する
     float scanline = frac(input.texcoord.y * 1000.0f); // 1000は走査線の間隔を調整する係数
+    float gScanlineIntensity = 0.5f; // 走査線の強度
 
     // 走査線のパターンを加える
     baseColor.rgb -= baseColor.rgb * scanline * gScanlineIntensity;
@@ -26,4 +26,4 @@ PixelShaderOutput main(VertexShaderOutput input)
     output.color = baseColor;
 
     return output;
-}
+};

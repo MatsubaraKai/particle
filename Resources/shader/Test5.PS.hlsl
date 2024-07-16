@@ -10,28 +10,13 @@ static const float32_t2 kIndex3x3[3][3] =
     { { -1.0f, -1.0f }, { 0.0f, -1.0f }, { 1.0f, -1.0f } },
     { { -1.0f, 0.0f }, { 0.0f, 0.0f }, { 1.0f, 0.0f } },
     { { -1.0f, 1.0f }, { 0.0f, 1.0f }, { 1.0f, 1.0f } },
-	   
 };
-
-static const float32_t2 kIndex5x5[5][5] =
-{
-    { { -2.0f, -2.0f }, { -1.0f, -2.0f }, { 0.0f, -2.0f }, { 1.0f, -2.0f }, { 2.0f, -2.0f } },
-    { { -2.0f, -1.0f }, { -1.0f, -1.0f }, { 0.0f, -1.0f }, { 1.0f, -1.0f }, { 2.0f, -1.0f } },
-    { { -2.0f, 0.0f }, { -1.0f, 0.0f }, { 0.0f, 0.0f }, { 1.0f, 0.0f }, { 2.0f, 0.0f } },
-    { { -2.0f, 1.0f }, { -1.0f, 1.0f }, { 0.0f, 1.0f }, { 1.0f, 1.0f }, { 2.0f, 1.0f } },
-    { { -2.0f, 2.0f }, { -1.0f, 2.0f }, { 0.0f, 2.0f }, { 1.0f, 2.0f }, { 2.0f, 2.0f } }
-	   
-};
-
-
-
 
 static const float32_t kPrewittHorizontalKernel[3][3] =
 {
     { -1.0f / 6.0f, 0.0f, 1.0f / 6.0f },
     { -1.0f / 6.0f, 0.0f, 1.0f / 6.0f },
     { -1.0f / 6.0f, 0.0f, 1.0f / 6.0f },
-    
 };
 
 static const float32_t kPrewittVerticalKernel[3][3] =
@@ -39,7 +24,6 @@ static const float32_t kPrewittVerticalKernel[3][3] =
     { -1.0f / 6.0f, -1.0f / 6.0f, -1.0f / 6.0f },
     { 0.0f, 0.0f, 0.0f },
     { 1.0f / 6.0f, 1.0f / 6.0f, 1.0f / 6.0f },
-    
 };
 
 float32_t Luminance(float32_t3 v)
@@ -54,35 +38,55 @@ struct PixelShaderOutput
 
 PixelShaderOutput main(VertexShaderOutput input)
 {
-    uint width, height; // 1. uvStepSizeの算出
+    uint width, height;
     gTexture.GetDimensions(width, height);
     float2 uvStepSize = float2(1.0f / width, 1.0f / height);
     
-    float2 difference = float2(0.0f, 0.0f); // 縦横それぞれの畳み込みの結果を格納する
+    float2 difference = float2(0.0f, 0.0f);
     
     for (int x = 0; x < KenelSize; ++x)
     {
         for (int y = 0; y < KenelSize; ++y)
         {
-            // 3. 現在のtexcoordを算出
             float2 texcoord = input.texcoord.xy + kIndex3x3[x][y] * uvStepSize;
-            // 4. 色に1/9掛けて足す
             float3 fetchColor = gTexture.Sample(gSampler, texcoord).rgb;
-            // 輝度を使う
             float luminance = Luminance(fetchColor);
             difference.x += luminance * kPrewittHorizontalKernel[x][y];
             difference.y += luminance * kPrewittVerticalKernel[x][y];
         }
     }
     
-    // 変化の長さをウェイトとして合成
     float weight = length(difference);
-    weight = saturate(weight * 100.0f); // ウェイトを調整
+    weight = saturate(weight * 100.0f);
     
+    // アウトラインは黒色
+    float4 outlineColor = float4(0.0f, 0.0f, 0.0f, 1.0f);
+    
+    // エッジの検出結果を取得
+    float3 edgeColor = lerp(outlineColor.rgb, float3(0.0f, 0.7f, 1.0f), weight);
+
+    // ブラー効果を適用する
+    const float2 kCenter = float2(0.5f, 0.5f); // 中心点。ここを基準に放射状にブラーがかかる
+    const int kNumSamples = 10; // サンプリング数。多いほど滑らかだが重い
+    const float kBlurWidth = 0.01f; // ぼかしの幅。大きいほど大きい
+
+    float2 direction = input.texcoord - kCenter;
+    float3 blurredColor = float3(0.0f, 0.7f, 1.0f);
+    float2 texcoord;
+
+    for (int sampleIndex = 0; sampleIndex < kNumSamples; ++sampleIndex)
+    {
+        texcoord = input.texcoord + direction * kBlurWidth * float(sampleIndex);
+        blurredColor += gTexture.Sample(gSampler, texcoord).rgb;
+    }
+
+    blurredColor /= kNumSamples;
+
     PixelShaderOutput output;
-    // weightが大きいほど青く表示するようにしている
-    output.color.rgb = (1.0f - weight) * float3(0.0f, 0.7f, 1.0f); // 青色に変更
-    output.color.a = 1.0f;
-  
+    
+    // エッジ部分にブラー効果を適用
+    output.color.rgb = lerp(edgeColor, blurredColor, weight);
+    output.color.a = 0.0f;
+
     return output;
-};
+}

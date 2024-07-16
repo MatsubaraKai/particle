@@ -153,13 +153,45 @@ int GameManager::Run() {
 			pSOPostEffect->CreatePipelineStateObjectBoxfilter();
 			currentStatus = "Box filter effect applied";
 		}*/
-		if (ImGui::Button("Test")) {
+		if (ImGui::Button("Outline Black")) {
 			pSOPostEffect->CreatePipelineStateObjectTest();
 			currentStatus = "Test effect applied";
 		}
-		if (ImGui::Button("Test2")) {
+		if (ImGui::Button("Outline Blue")) {
+			pSOPostEffect->CreatePipelineStateObjectTest3();
+			currentStatus = "Test3 effect applied";
+		}
+		if (ImGui::Button("Outline Test")) {
+			pSOPostEffect->CreatePipelineStateObjectTest4();
+			currentStatus = "Test4 effect applied";
+		}
+		if (ImGui::Button("TV")) {
 			pSOPostEffect->CreatePipelineStateObjectTest2();
 			currentStatus = "Test2 effect applied";
+		}
+		if (ImGui::Button("Test5")) {
+			pSOPostEffect->CreatePipelineStateObjectTest5();
+			currentStatus = "Test5 effect applied";
+		}
+		if (ImGui::Button("chromatic aberration")) {
+			pSOPostEffect->CreatePipelineStateObjectTest6();
+			currentStatus = "chromatic aberration effect applied";
+		}
+		if (ImGui::Button("Test7")) {
+			pSOPostEffect->CreatePipelineStateObjectTest7();
+			currentStatus = "Test7 effect applied";
+		}
+		if (ImGui::Button("Test8")) {
+			pSOPostEffect->CreatePipelineStateObjectTest8();
+			currentStatus = "Test8 effect applied";
+		}
+		if (ImGui::Button("Test9")) {
+			pSOPostEffect->CreatePipelineStateObjectTest9();
+			currentStatus = "Test9 effect applied";
+		}
+		if (ImGui::Button("Test10")) {
+			pSOPostEffect->CreatePipelineStateObjectTest10();
+			currentStatus = "Test10 effect applied";
 		}
 		ImGui::End();
 

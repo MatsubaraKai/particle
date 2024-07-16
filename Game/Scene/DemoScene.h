@@ -35,6 +35,7 @@ private:
 	std::vector<Object3d*> object3d_;
 	Object3d* GridOBJ = nullptr;
 	Object3d* object3d2 = nullptr;
+	Object3d* WallOBJ = nullptr;
 
 	Particle* particle = nullptr;
 	Particle* particle2 = nullptr;

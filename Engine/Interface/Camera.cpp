@@ -127,8 +127,8 @@ void Camera::Move()
         }
 
         // 右スティックによる視野の移動
-        const float lookSensitivity = 0.05f;
-        const float rightStickDeadZone = 0.2f;
+        const float lookSensitivity = 0.03f;
+        const float rightStickDeadZone = 0.1f;
         if (std::abs(joyState.Gamepad.sThumbRX) > rightStickDeadZone * SHRT_MAX ||
             std::abs(joyState.Gamepad.sThumbRY) > rightStickDeadZone * SHRT_MAX)
         {

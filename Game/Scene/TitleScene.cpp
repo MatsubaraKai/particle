@@ -61,7 +61,11 @@ void TitleScene::Update()
 	camera->CameraDebug();
 	camera->Move();
 	fadeSprite->Update();
+
+
 	fadeSprite->SpriteDebug("1");
+	particle->Particledebug("uv",worldTransform);
+	particle2->Particledebug("white",worldTransform2);
 	ImGui::Begin("color");
 	float color[4] = { material.color.x,material.color.y,material.color.z,material.color.w };
 	ImGui::DragFloat4("color", color, 0.01f);

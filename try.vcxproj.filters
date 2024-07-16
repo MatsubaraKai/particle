@@ -444,5 +444,13 @@
     <FxCompile Include="Resources\shader\Random.PS.hlsl" />
     <FxCompile Include="Resources\shader\Test.PS.hlsl" />
     <FxCompile Include="Resources\shader\Test2.PS.hlsl" />
+    <FxCompile Include="Resources\shader\Test3.PS.hlsl" />
+    <FxCompile Include="Resources\shader\Test4.PS.hlsl" />
+    <FxCompile Include="Resources\shader\Test5.PS.hlsl" />
+    <FxCompile Include="Resources\shader\Test6.PS.hlsl" />
+    <FxCompile Include="Resources\shader\Test7.PS.hlsl" />
+    <FxCompile Include="Resources\shader\Test8.PS.hlsl" />
+    <FxCompile Include="Resources\shader\Test9.PS.hlsl" />
+    <FxCompile Include="Resources\shader\Test10.PS.hlsl" />
   </ItemGroup>
 </Project>

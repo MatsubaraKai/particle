@@ -39,6 +39,14 @@ public:
 	void CreatePipelineStateObjectBoxfilter();
 	void CreatePipelineStateObjectTest();
 	void CreatePipelineStateObjectTest2();
+	void CreatePipelineStateObjectTest3();
+	void CreatePipelineStateObjectTest4();
+	void CreatePipelineStateObjectTest5();
+	void CreatePipelineStateObjectTest6();
+	void CreatePipelineStateObjectTest7();
+	void CreatePipelineStateObjectTest8();
+	void CreatePipelineStateObjectTest9();
+	void CreatePipelineStateObjectTest10();
 	/// <summary>
 	/// ShaderとResourceを関係のつけ方を決める関数
 	/// </summary>
