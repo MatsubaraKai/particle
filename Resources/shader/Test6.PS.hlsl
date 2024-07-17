@@ -32,7 +32,7 @@ PS_OUTPUT main(PS_INPUT input)
     float distanceFromCenter = distance(input.Tex, screenCenter);
 
     // 距離に基づいてエフェクトの強度を計算
-    float effectStrength = saturate((distanceFromCenter - edgeThreshold) / (60.0 - edgeThreshold));
+    float effectStrength = saturate((distanceFromCenter - edgeThreshold) / (10.0 - edgeThreshold));
 
     // テクスチャ座標の範囲をクリッピング
     float2 texCoordR = clamp(input.Tex + aberrationAmount * effectStrength, 0.0, 1.0);

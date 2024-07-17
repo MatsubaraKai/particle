@@ -437,16 +437,16 @@ void DirectXCommon::ViewportInit() {
 	//クライアント領域のサイズと一緒にして画面全体に表示
 	viewport.Width = WinAPI::kClientWidth_;
 	viewport.Height = WinAPI::kClientHeight_;
-	viewport.TopLeftX = 1;
-	viewport.TopLeftY = 1;
+	viewport.TopLeftX = 0;
+	viewport.TopLeftY = 0;
 	viewport.MinDepth = 0.0f;
 	viewport.MaxDepth = 1.0f;
 
 	//クライアント領域のサイズと一緒にして画面全体に表示
 	tmpViewport.Width = WinAPI::kClientWidth_;
 	tmpViewport.Height = WinAPI::kClientHeight_;
-	tmpViewport.TopLeftX = 1;
-	tmpViewport.TopLeftY = 1;
+	tmpViewport.TopLeftX = 0;
+	tmpViewport.TopLeftY = 0;
 	tmpViewport.MinDepth = 0.0f;
 	tmpViewport.MaxDepth = 1.0f;
 
