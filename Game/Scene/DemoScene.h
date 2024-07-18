@@ -26,6 +26,8 @@ public:
 	WorldTransform worldTransform;
 	WorldTransform worldTransform2;
 	Material material2;
+	WorldTransform TenQTransform;
+	Object3d* TenQOBJ = nullptr;
 private:
 	int sceneTime = 0;
 	Camera* camera = nullptr;
@@ -37,7 +39,7 @@ private:
 	Object3d* GridOBJ = nullptr;
 	Object3d* object3d2 = nullptr;
 	Object3d* WallOBJ = nullptr;
-	Object3d* TenQOBJ = nullptr;
+
 
 	Particle* particle = nullptr;
 	Particle* particle2 = nullptr;
@@ -55,7 +57,7 @@ private:
 
 	
 	WorldTransform GridTransform;
-	WorldTransform TenQTransform;
+	
 	
 	Emitter demoEmitter_;
 	RandRangePro demoRandPro;

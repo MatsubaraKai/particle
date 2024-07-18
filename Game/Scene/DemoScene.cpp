@@ -37,26 +37,6 @@ void DemoScene::Init()
 	material.color = { 1.0f,1.0f,1.0f,1.0f };
 	material.enableLighting = false;
 
-	worldTransform.Initialize();
-	worldTransform2.Initialize();
-	GridTransform.Initialize();
-	TenQTransform.Initialize();
-
-	worldTransform.translation_.x = 0;
-	worldTransform2.translation_.x = 5;
-
-	GridTransform.scale_.x = 20;
-	GridTransform.scale_.z = 20;
-
-	TenQTransform.scale_.x = -100;
-	TenQTransform.scale_.y = -100;
-	TenQTransform.scale_.z = -100;
-
-	worldTransform.UpdateMatrix();
-	worldTransform2.UpdateMatrix();
-	GridTransform.UpdateMatrix();
-	TenQTransform.UpdateMatrix();
-
 	postProcess_ = new PostProcess();
 	postProcess_->SetCamera(camera);
 	postProcess_->Init();
@@ -70,13 +50,38 @@ void DemoScene::Init()
 	TenQOBJ = new Object3d();
 	TenQOBJ->Init();
 
+	worldTransform.Initialize();
+	worldTransform2.Initialize();
+	GridTransform.Initialize();
+	TenQTransform.Initialize();
+
+	worldTransform.translation_.x = 0;
+	worldTransform2.translation_.x = 5;
+
+	GridTransform.scale_.x = 20;
+	GridTransform.scale_.z = 20;
+	GridTransform.UpdateMatrix();
+	GridOBJ->SetWorldTransform(GridTransform);
+	//忘れそうなのでメモ ドーナツ型のOBJを作って回転させればループするマップができる
+	TenQTransform.translation_.z = 100.0f;
+	TenQTransform.translation_.y = 80.0f;
+	TenQTransform.rotation_.x = 1.571f;
+	TenQTransform.scale_.x = -100;
+	TenQTransform.scale_.y = -2000;
+	TenQTransform.scale_.z = -100;
+	
+	TenQOBJ->SetWorldTransform(TenQTransform);
+
+	worldTransform.UpdateMatrix();
+	worldTransform2.UpdateMatrix();
+	
 	//object3d->SetModel("sneakWalk.gltf");
 	//object3d->SetModel("ball.obj");
 	GridOBJ->SetModel("grid.obj");
-	GridOBJ->SetWorldTransform(GridTransform);
+	
 	WallOBJ->SetModel("cone.obj");
 	TenQOBJ->SetModel("world.obj");
-	TenQOBJ->SetWorldTransform(TenQTransform);
+	
 	object3d2->SetModel("sneakWalk.gltf");
 
 	
@@ -100,7 +105,8 @@ void DemoScene::Init()
 
 void DemoScene::Update()
 {
-
+	TenQTransform.translation_.z -= 0.5f;
+	TenQOBJ->SetWorldTransform(TenQTransform);
 	if (isFadeOut == true)
 	{
 		UpdateFadeOut();
@@ -126,10 +132,9 @@ void DemoScene::Update()
 	WallOBJ->Update();
 	TenQOBJ->Update();
 	object3d2->Update();
-
+	
 
 	sceneTime++;
-
 	///////////////Debug///////////////
 
 	camera->CameraDebug();
@@ -144,6 +149,7 @@ void DemoScene::Update()
 	GridOBJ->ModelDebug("grid");
 	WallOBJ->ModelDebug("cone");
 	TenQOBJ->ModelDebug("TenQ");
+	
 	object3d2->ModelDebug("chara");
 
 	particle->Particledebug("uv",worldTransform);
@@ -157,7 +163,6 @@ void DemoScene::Update()
 	ImGui::Begin("Space:FadeIn");
 	ImGui::Checkbox("FadeIn", &isFadingIn);
 	ImGui::End();
-
 }
 void DemoScene::Draw()
 {
