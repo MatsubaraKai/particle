@@ -37,6 +37,7 @@ private:
 	Object3d* GridOBJ = nullptr;
 	Object3d* object3d2 = nullptr;
 	Object3d* WallOBJ = nullptr;
+	Object3d* TenQOBJ = nullptr;
 
 	Particle* particle = nullptr;
 	Particle* particle2 = nullptr;
@@ -47,13 +48,14 @@ private:
 	uint32_t textureHandle;
 	uint32_t textureHandle2;
 	uint32_t textureHandle3;
+	uint32_t textureHandle4;
 
 	Material material;
 	
 
 	
 	WorldTransform GridTransform;
-
+	WorldTransform TenQTransform;
 	
 	Emitter demoEmitter_;
 	RandRangePro demoRandPro;

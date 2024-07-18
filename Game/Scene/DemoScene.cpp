@@ -15,12 +15,14 @@ void DemoScene::Init()
 	textureHandle = TextureManager::StoreTexture("Resources/uvChecker.png");
 	textureHandle2 = TextureManager::StoreTexture("Resources/white.png");
 	textureHandle3 = TextureManager::StoreTexture("Resources/game/cone.png");
+	textureHandle4 = TextureManager::StoreTexture("Resources/game/world.png");
 	fadeTex = TextureManager::StoreTexture("Resources/black.png");
 
 	ModelManager::GetInstance()->LoadModel("Resources/human", "sneakWalk.gltf");
 	ModelManager::GetInstance()->LoadAnimationModel("Resources/AnimatedCube", "AnimatedCube.gltf");
 	ModelManager::GetInstance()->LoadModel("Resources/game", "grid.obj");
 	ModelManager::GetInstance()->LoadModel("Resources/game", "cone.obj");
+	ModelManager::GetInstance()->LoadModel("Resources/game", "world.obj");
 
 	Loder::LoadJsonFile("Resources", "TL", object3d_, camera);
 
@@ -38,15 +40,22 @@ void DemoScene::Init()
 	worldTransform.Initialize();
 	worldTransform2.Initialize();
 	GridTransform.Initialize();
+	TenQTransform.Initialize();
 
 	worldTransform.translation_.x = 0;
 	worldTransform2.translation_.x = 5;
+
 	GridTransform.scale_.x = 20;
 	GridTransform.scale_.z = 20;
+
+	TenQTransform.scale_.x = -100;
+	TenQTransform.scale_.y = -100;
+	TenQTransform.scale_.z = -100;
 
 	worldTransform.UpdateMatrix();
 	worldTransform2.UpdateMatrix();
 	GridTransform.UpdateMatrix();
+	TenQTransform.UpdateMatrix();
 
 	postProcess_ = new PostProcess();
 	postProcess_->SetCamera(camera);
@@ -58,12 +67,16 @@ void DemoScene::Init()
 	object3d2->Init();
 	WallOBJ = new Object3d();
 	WallOBJ->Init();
+	TenQOBJ = new Object3d();
+	TenQOBJ->Init();
 
 	//object3d->SetModel("sneakWalk.gltf");
 	//object3d->SetModel("ball.obj");
 	GridOBJ->SetModel("grid.obj");
 	GridOBJ->SetWorldTransform(GridTransform);
 	WallOBJ->SetModel("cone.obj");
+	TenQOBJ->SetModel("world.obj");
+	TenQOBJ->SetWorldTransform(TenQTransform);
 	object3d2->SetModel("sneakWalk.gltf");
 
 	
@@ -111,6 +124,7 @@ void DemoScene::Update()
 
 	GridOBJ->Update();
 	WallOBJ->Update();
+	TenQOBJ->Update();
 	object3d2->Update();
 
 
@@ -129,6 +143,7 @@ void DemoScene::Update()
 
 	GridOBJ->ModelDebug("grid");
 	WallOBJ->ModelDebug("cone");
+	TenQOBJ->ModelDebug("TenQ");
 	object3d2->ModelDebug("chara");
 
 	particle->Particledebug("uv",worldTransform);
@@ -152,6 +167,7 @@ void DemoScene::Draw()
 	//demoSprite->Draw(textureHandle,{1.0f,1.0f,1.0f,1.0f});
 	GridOBJ->Draw(textureHandle2, camera);
 	WallOBJ->Draw(textureHandle3, camera);
+	TenQOBJ->Draw(textureHandle4, camera);
 	object3d2->Draw(textureHandle, camera);
 	particle->Draw(demoEmitter_, { worldTransform.translation_.x,worldTransform.translation_.y,worldTransform.translation_.z + 5 }, textureHandle, camera, demoRandPro, false);
 	particle2->Draw(demoEmitter_, { worldTransform2.translation_.x,worldTransform2.translation_.y,worldTransform2.translation_.z + 5 }, textureHandle2, camera, demoRandPro, false);
