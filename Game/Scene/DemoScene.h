@@ -25,6 +25,7 @@ public:
 
 	WorldTransform worldTransform;
 	WorldTransform worldTransform2;
+	Material material2;
 private:
 	int sceneTime = 0;
 	Camera* camera = nullptr;
@@ -48,7 +49,7 @@ private:
 	uint32_t textureHandle3;
 
 	Material material;
-	Material material2;
+	
 
 	
 	WorldTransform GridTransform;

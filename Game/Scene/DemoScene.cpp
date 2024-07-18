@@ -137,7 +137,7 @@ void DemoScene::Update()
 	ImGui::Begin("color");
 	float color[4] = { material2.color.x,material2.color.y,material2.color.z,material2.color.w };
 	ImGui::DragFloat4("color", color, 0.01f);
-	material.color = { color[0],color[1],color[2],color[3] };
+	material2.color = { color[0],color[1],color[2],color[3] };
 	ImGui::End();
 	ImGui::Begin("Space:FadeIn");
 	ImGui::Checkbox("FadeIn", &isFadingIn);
