@@ -80,7 +80,7 @@ int GameManager::Run() {
 	psoParticle->CreatePipelineStateObject();
 
 	PSOPostEffect* pSOPostEffect = PSOPostEffect::GatInstance();
-	pSOPostEffect->CreatePipelineStateObject();
+	pSOPostEffect->CreatePipelineStateObjectTest3();
 
 
 	sceneArr_[currentSceneNo_]->Init();

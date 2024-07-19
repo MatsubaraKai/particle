@@ -3,25 +3,70 @@
     "objects": [
         {
             "type": "MESH",
+            "name": "Cube.001",
+            "transform": {
+                "translation": [
+                    -2.7,
+                    20.0,
+                    -3.5
+                ],
+                "rotation": [
+                    -0.0,
+                    -3.14,
+                    -2.6
+                ],
+                "scaling": [
+                    4.0,
+                    4.0,
+                    4.0
+                ]
+            },
+            "file_name": "cone"
+        },
+        {
+            "type": "MESH",
             "name": "Cube",
             "transform": {
                 "translation": [
-                    0.0,
-                    0.0,
-                    0.0
+                    -25.0,
+                    70.0,
+                    20.0
                 ],
                 "rotation": [
-                    0.0,
                     -0.0,
-                    0.0
+                    -0.0,
+                    -0.0
                 ],
                 "scaling": [
-                    1.0,
-                    1.0,
-                    1.0
+                    10.0,
+                    10.0,
+                    10.0
                 ]
             },
-            "file_name": "box"
+            "file_name": "cone"
+        },
+        
+        {
+            "type": "MESH",
+            "name": "Cube.002",
+            "transform": {
+                "translation": [
+                    25.0,
+                    70.0,
+                    20.0
+                ],
+                "rotation": [
+                    -0.0,
+                    -0.0,
+                    -0.0
+                ],
+                "scaling": [
+                    10.0,
+                    10.0,
+                    10.0
+                ]
+            },
+            "file_name": "cone"
         },
         {
             "type": "LIGHT",
@@ -63,52 +108,8 @@
                     1.0,
                     1.0
                 ]
-            },
-            "file_name": "box"
-        },
-        {
-            "type": "MESH",
-            "name": "Cube.001",
-            "transform": {
-                "translation": [
-                    -2.6399998664855957,
-                    0.0,
-                    0.0
-                ],
-                "rotation": [
-                    0.0,
-                    -0.0,
-                    0.0
-                ],
-                "scaling": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "file_name": "box"
-        },
-        {
-            "type": "MESH",
-            "name": "Cube.002",
-            "transform": {
-                "translation": [
-                    2.7799999713897705,
-                    0.0,
-                    0.0
-                ],
-                "rotation": [
-                    0.0,
-                    -0.0,
-                    0.0
-                ],
-                "scaling": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "file_name": "box"
+            }
+            
         }
     ]
 }

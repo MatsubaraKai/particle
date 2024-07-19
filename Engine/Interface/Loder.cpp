@@ -74,7 +74,7 @@ void Loder::LoadJsonFile(const std::string kDefaultBaseDirectory, const std::str
 			objectData.transform.scale.x = (float)transform["scaling"][0];
 			objectData.transform.scale.y = (float)transform["scaling"][2];
 			objectData.transform.scale.z = (float)transform["scaling"][1];
-			ModelManager::GetInstance()->LoadModel("Resources/box/", objectData.filename + ".obj");
+			ModelManager::GetInstance()->LoadModel("Resources/game/", objectData.filename + ".obj");
 
 		}
 
@@ -89,10 +89,10 @@ void Loder::LoadJsonFile(const std::string kDefaultBaseDirectory, const std::str
 			// 今追加した要素の参照を得る
 			LevelData::ObjectData& objectData = levelData->objects.back();
 
-			if (object.contains("file_name")) {
-				// ファイル名
-				objectData.filename = object["file_name"];
-			}
+			//if (object.contains("file_name")) {
+			//	// ファイル名
+			//	objectData.filename = object["file_name"];
+			//}
 
 			// トランスフォームのパラメータ読み込み
 			nlohmann::json& transform = object["transform"];
@@ -111,7 +111,7 @@ void Loder::LoadJsonFile(const std::string kDefaultBaseDirectory, const std::str
 
 			camera->SetTranslate(objectData.transform.translate);
 			camera->SetRotate(objectData.transform.rotate);
-			ModelManager::GetInstance()->LoadModel("Resources/box/", objectData.filename + ".obj");
+			//ModelManager::GetInstance()->LoadModel("Resources/box/", objectData.filename + ".obj");
 
 		}
 	}

@@ -19,7 +19,22 @@ public:
 	void PostDraw()override;
 	void Release()override;
 	int GameClose()override;
+	void StartFadeIn();
+	void StartFadeOut();
+	void UpdateFadeIn();
+	void UpdateFadeOut();
+	Material material;
 private:
+	int sceneTime = 0;
+	Camera *camera = nullptr;
+	Input *input = nullptr;
 
+	PostProcess *postProcess_ = nullptr;
+	Sprite *fadeSprite = nullptr;
+
+	uint32_t fadeTex;
+
+	float alpha = 0;
+	bool isFadeOut = false;
+	bool isFadingIn = false;
 };
-;

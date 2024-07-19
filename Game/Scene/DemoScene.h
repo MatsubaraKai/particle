@@ -38,26 +38,24 @@ private:
 	std::vector<Object3d*> object3d_;
 	Object3d* GridOBJ = nullptr;
 	Object3d* object3d2 = nullptr;
+	Object3d* ConeOBJ = nullptr;
 	Object3d* WallOBJ = nullptr;
-
 
 	Particle* particle = nullptr;
 	Particle* particle2 = nullptr;
 
 	PostProcess* postProcess_ = nullptr;
 	//変数
-	uint32_t fadeTex;
-	uint32_t textureHandle;
-	uint32_t textureHandle2;
-	uint32_t textureHandle3;
-	uint32_t textureHandle4;
+	uint32_t FADEtextureHandle;
+	uint32_t UVtextureHandle;
+	uint32_t WHITEtextureHandle;
+	uint32_t CONEtextureHandle;
+	uint32_t TENQtextureHandle;
+	uint32_t GRIDtextureHandle;
 
 	Material material;
 	
-
-	
 	WorldTransform GridTransform;
-	
 	
 	Emitter demoEmitter_;
 	RandRangePro demoRandPro;
@@ -65,7 +63,6 @@ private:
 	float alpha = 0;
 	bool isFadeOut = false;
 	bool isFadingIn = false;
-	int id = 0;
 	float rotateSize_ = 1.057f;
 };
 

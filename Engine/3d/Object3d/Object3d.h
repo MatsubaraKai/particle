@@ -44,6 +44,7 @@ public: // Getter
 	WorldTransform GetWorldTransform() { return worldTransform_; }
 	ModelData LoadObjFile(const std::string& directoryPath, const std::string& filename);
 	MaterialData LoadMaterialTemplateFile(const std::string& directoryPath, const std::string& filename);
+	WorldTransform worldTransform_;
 private:
 	Object3dCommon* objectCommon_ = nullptr;
 
@@ -65,7 +66,7 @@ private:
 	Microsoft::WRL::ComPtr < ID3D12Resource> cameraForGPUResource_;
 	CameraForGPU* cameraForGPUData_;
 	// データを書き込む
-	WorldTransform worldTransform_;
+	
 };
 
 

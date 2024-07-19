@@ -12,11 +12,12 @@ void DemoScene::Init()
 	camera->SetTranslate(cameraPos);
 	input = Input::GetInstance();
 
-	textureHandle = TextureManager::StoreTexture("Resources/uvChecker.png");
-	textureHandle2 = TextureManager::StoreTexture("Resources/white.png");
-	textureHandle3 = TextureManager::StoreTexture("Resources/game/cone.png");
-	textureHandle4 = TextureManager::StoreTexture("Resources/game/world.png");
-	fadeTex = TextureManager::StoreTexture("Resources/black.png");
+	UVtextureHandle = TextureManager::StoreTexture("Resources/uvChecker.png");
+	WHITEtextureHandle = TextureManager::StoreTexture("Resources/white.png");
+	CONEtextureHandle = TextureManager::StoreTexture("Resources/game/cone.png");
+	TENQtextureHandle = TextureManager::StoreTexture("Resources/game/world.png");
+	FADEtextureHandle = TextureManager::StoreTexture("Resources/black.png");
+	GRIDtextureHandle = TextureManager::StoreTexture("Resources/cian.png");
 
 	ModelManager::GetInstance()->LoadModel("Resources/human", "sneakWalk.gltf");
 	ModelManager::GetInstance()->LoadAnimationModel("Resources/AnimatedCube", "AnimatedCube.gltf");
@@ -45,8 +46,8 @@ void DemoScene::Init()
 	GridOBJ->Init();
 	object3d2 = new Object3d();
 	object3d2->Init();
-	WallOBJ = new Object3d();
-	WallOBJ->Init();
+	ConeOBJ = new Object3d();
+	ConeOBJ->Init();
 	TenQOBJ = new Object3d();
 	TenQOBJ->Init();
 
@@ -64,10 +65,11 @@ void DemoScene::Init()
 	GridOBJ->SetWorldTransform(GridTransform);
 	//忘れそうなのでメモ ドーナツ型のOBJを作って回転させればループするマップができる
 	TenQTransform.translation_.z = 100.0f;
-	TenQTransform.translation_.y = 80.0f;
-	TenQTransform.rotation_.x = 1.571f;
+	TenQTransform.translation_.y = 1.0f;
+	TenQTransform.rotation_.x = 1.57079632679f;
 	TenQTransform.scale_.x = -100;
-	TenQTransform.scale_.y = -2000;
+	TenQTransform.scale_.y = -20000
+		;
 	TenQTransform.scale_.z = -100;
 	
 	TenQOBJ->SetWorldTransform(TenQTransform);
@@ -78,12 +80,10 @@ void DemoScene::Init()
 	//object3d->SetModel("sneakWalk.gltf");
 	//object3d->SetModel("ball.obj");
 	GridOBJ->SetModel("grid.obj");
-	
-	WallOBJ->SetModel("cone.obj");
+	ConeOBJ->SetModel("cone.obj");
 	TenQOBJ->SetModel("world.obj");
 	
 	object3d2->SetModel("sneakWalk.gltf");
-
 	
 	particle = new Particle();
 	particle2 = new Particle();
@@ -105,8 +105,10 @@ void DemoScene::Init()
 
 void DemoScene::Update()
 {
-	TenQTransform.translation_.z -= 0.5f;
-	TenQOBJ->SetWorldTransform(TenQTransform);
+	TenQOBJ->worldTransform_.translation_.z -= 10.0f;
+	if (TenQOBJ->worldTransform_.translation_.z <= -11300.0f) {
+		TenQOBJ->worldTransform_.translation_.z = -100.0f;
+	}
 	if (isFadeOut == true)
 	{
 		UpdateFadeOut();
@@ -126,14 +128,21 @@ void DemoScene::Update()
 	demoSprite->Update();
 	for (std::vector<Object3d*>::iterator itr = object3d_.begin(); itr != object3d_.end(); itr++) {
 		(*itr)->Update();
+		
 	}
 
 	GridOBJ->Update();
-	WallOBJ->Update();
+	ConeOBJ->Update();
 	TenQOBJ->Update();
 	object3d2->Update();
 	
-
+	object3d_[0]->worldTransform_.rotation_.y += 0.001f;
+	object3d_[1]->worldTransform_.rotation_.x += 0.01f;
+	object3d_[1]->worldTransform_.rotation_.y += 0.01f;
+	object3d_[1]->worldTransform_.rotation_.z += 0.01f;
+	object3d_[2]->worldTransform_.rotation_.x += 0.01f;
+	object3d_[2]->worldTransform_.rotation_.y -= 0.01f;
+	object3d_[2]->worldTransform_.rotation_.z -= 0.01f;
 	sceneTime++;
 	///////////////Debug///////////////
 
@@ -142,12 +151,12 @@ void DemoScene::Update()
 	object3d_[0]->ModelDebug("JSONmodel");
 	object3d_[1]->ModelDebug("JSONmodel2");
 	object3d_[2]->ModelDebug("JSONmodel3");
-	object3d_[3]->ModelDebug("JSONmodel4");
+	//object3d_[3]->ModelDebug("JSONmodel4");
 
 	fadeSprite->SpriteDebug("fadesprite");
 
 	GridOBJ->ModelDebug("grid");
-	WallOBJ->ModelDebug("cone");
+	ConeOBJ->ModelDebug("cone");
 	TenQOBJ->ModelDebug("TenQ");
 	
 	object3d2->ModelDebug("chara");
@@ -167,16 +176,16 @@ void DemoScene::Update()
 void DemoScene::Draw()
 {
 	for (std::vector<Object3d*>::iterator itr = object3d_.begin(); itr != object3d_.end(); itr++) {
-		(*itr)->Draw(textureHandle, camera);
+		(*itr)->Draw(CONEtextureHandle, camera);
 	}
 	//demoSprite->Draw(textureHandle,{1.0f,1.0f,1.0f,1.0f});
-	GridOBJ->Draw(textureHandle2, camera);
-	WallOBJ->Draw(textureHandle3, camera);
-	TenQOBJ->Draw(textureHandle4, camera);
-	object3d2->Draw(textureHandle, camera);
-	particle->Draw(demoEmitter_, { worldTransform.translation_.x,worldTransform.translation_.y,worldTransform.translation_.z + 5 }, textureHandle, camera, demoRandPro, false);
-	particle2->Draw(demoEmitter_, { worldTransform2.translation_.x,worldTransform2.translation_.y,worldTransform2.translation_.z + 5 }, textureHandle2, camera, demoRandPro, false);
-	fadeSprite->Draw(fadeTex, material2.color);
+	GridOBJ->Draw(GRIDtextureHandle, camera);
+	ConeOBJ->Draw(CONEtextureHandle, camera);
+	TenQOBJ->Draw(TENQtextureHandle, camera);
+	object3d2->Draw(UVtextureHandle, camera);
+	particle->Draw(demoEmitter_, { worldTransform.translation_.x,worldTransform.translation_.y,worldTransform.translation_.z + 5 }, UVtextureHandle, camera, demoRandPro, false);
+	particle2->Draw(demoEmitter_, { worldTransform2.translation_.x,worldTransform2.translation_.y,worldTransform2.translation_.z + 5 }, WHITEtextureHandle, camera, demoRandPro, false);
+	fadeSprite->Draw(FADEtextureHandle, material2.color);
 }
 
 void DemoScene::PostDraw()
@@ -230,7 +239,7 @@ void DemoScene::UpdateFadeIn()
 		// フェードイン完了時の処理
 		isFadingIn = false;
 		alpha = 0.0f;
-		sceneNo = 0;
+		sceneNo = 1;
 	}
 }
 
