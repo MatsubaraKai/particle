@@ -177,9 +177,9 @@ int GameManager::Run() {
 			pSOPostEffect->CreatePipelineStateObjectTest6();
 			currentStatus = "chromatic aberration effect applied";
 		}
-		if (ImGui::Button("Test7")) {
+		if (ImGui::Button("HSV")) {
 			pSOPostEffect->CreatePipelineStateObjectTest7();
-			currentStatus = "Test7 effect applied";
+			currentStatus = "HSV effect applied";
 		}
 		if (ImGui::Button("Test8")) {
 			pSOPostEffect->CreatePipelineStateObjectTest8();
