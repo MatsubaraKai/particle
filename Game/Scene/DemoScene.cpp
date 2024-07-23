@@ -9,13 +9,15 @@ void DemoScene::Init()
 	camera = new Camera;
 	camera->Initialize();
 	Vector3 cameraPos = camera->GetTransform().translate;
+	cameraPos.y = 3.0f;
 	camera->SetTranslate(cameraPos);
 	input = Input::GetInstance();
 
 	UVtextureHandle = TextureManager::StoreTexture("Resources/uvChecker.png");
 	WHITEtextureHandle = TextureManager::StoreTexture("Resources/white.png");
 	CONEtextureHandle = TextureManager::StoreTexture("Resources/game/cone.png");
-	TENQtextureHandle = TextureManager::StoreTexture("Resources/game/world.png");
+	//TENQtextureHandle = TextureManager::StoreTexture("Resources/game/world.png");
+	TENQtextureHandle = TextureManager::StoreTexture("Resources/game/world2.png");
 	FADEtextureHandle = TextureManager::StoreTexture("Resources/black.png");
 	GRIDtextureHandle = TextureManager::StoreTexture("Resources/cian.png");
 
@@ -24,6 +26,7 @@ void DemoScene::Init()
 	ModelManager::GetInstance()->LoadModel("Resources/game", "grid.obj");
 	ModelManager::GetInstance()->LoadModel("Resources/game", "cone.obj");
 	ModelManager::GetInstance()->LoadModel("Resources/game", "world.obj");
+	ModelManager::GetInstance()->LoadModel("Resources/game", "world2.obj");
 
 	Loder::LoadJsonFile("Resources", "TL", object3d_, camera);
 
@@ -64,13 +67,11 @@ void DemoScene::Init()
 	GridTransform.UpdateMatrix();
 	GridOBJ->SetWorldTransform(GridTransform);
 	//忘れそうなのでメモ ドーナツ型のOBJを作って回転させればループするマップができる
-	TenQTransform.translation_.z = 100.0f;
-	TenQTransform.translation_.y = 1.0f;
-	TenQTransform.rotation_.x = 1.57079632679f;
-	TenQTransform.scale_.x = -100;
-	TenQTransform.scale_.y = -20000
-		;
-	TenQTransform.scale_.z = -100;
+	TenQTransform.translation_.y = 370.0f;
+	TenQTransform.translation_.z = 300.0f;
+	TenQTransform.scale_.x = -2.0f;
+	TenQTransform.scale_.y = 2.0f;
+	TenQTransform.scale_.z = 2.0f;
 	
 	TenQOBJ->SetWorldTransform(TenQTransform);
 
@@ -81,8 +82,7 @@ void DemoScene::Init()
 	//object3d->SetModel("ball.obj");
 	GridOBJ->SetModel("grid.obj");
 	ConeOBJ->SetModel("cone.obj");
-	TenQOBJ->SetModel("world.obj");
-	
+	TenQOBJ->SetModel("world2.obj");
 	object3d2->SetModel("sneakWalk.gltf");
 	
 	particle = new Particle();
@@ -105,10 +105,10 @@ void DemoScene::Init()
 
 void DemoScene::Update()
 {
-	TenQOBJ->worldTransform_.translation_.z -= 10.0f;
-	if (TenQOBJ->worldTransform_.translation_.z <= -11300.0f) {
-		TenQOBJ->worldTransform_.translation_.z = -100.0f;
-	}
+	TenQOBJ->worldTransform_.rotation_.x += 0.001f;
+	TenQOBJ->worldTransform_.translation_.x = Lerp(TenQOBJ->worldTransform_.translation_.x, camera->transform_.translate.x, 0.005f);
+	TenQOBJ->worldTransform_.translation_.z = Lerp(TenQOBJ->worldTransform_.translation_.z, camera->transform_.translate.z + 300, 0.005f);
+	//TenQOBJ->worldTransform_.translation_.z = camera->transform_.translate.z + 300;
 	if (isFadeOut == true)
 	{
 		UpdateFadeOut();

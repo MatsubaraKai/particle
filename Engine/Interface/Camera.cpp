@@ -24,7 +24,7 @@ void Camera::CameraDebug()
 {
     //#ifdef _DEBUG
     ImGui::Begin("camera");
-
+    ImGui::DragFloat("FOV", &fovY_, 0.01f);
     float translate[3] = { transform_.translate.x,transform_.translate.y,transform_.translate.z };
     ImGui::DragFloat3("transform", translate, 0.01f);
     float rotate[3] = { transform_.rotate.x,transform_.rotate.y,transform_.rotate.z };
@@ -157,6 +157,22 @@ void Camera::Move()
             isJumping = true;
             jumpVelocity = JumpSpeed;
         }
+#ifdef _DEBUG
+
+        if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_LEFT_SHOULDER)
+        {
+            transform_.translate.y += 0.1f;
+            isJumping = false;
+        }
+        if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_RIGHT_SHOULDER)
+        {
+            transform_.translate.y -= 0.1f;
+            isJumping = false;
+        }
+
+#endif // DEBUG
+
+        
     }
 }
 

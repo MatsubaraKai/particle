@@ -45,13 +45,13 @@ private:
 	Matrix4x4 viewMatrix_;
 	Matrix4x4 projectionMatrix_;
 	Matrix4x4 viewProjectionMatrix_;
-	float fovY_ = 0.45f;
+	float fovY_ = 0.8f;
 	float asepectRatio_ = float(WinAPI::kClientWidth_) / float(WinAPI::kClientHeight_);
 	float nearClip_ = 0.1f;
-	float farClip_ = 100.0f;
+	float farClip_ = 1000.0f;
 	//Move
 	const float Gravity = -0.01f;
-	const float GroundLevel = 1.0f;
+	const float GroundLevel = 3.0f;
 
 	float PlayerSpeed = 0.1f;
 	float angle_ = 0.0f;

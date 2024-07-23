@@ -4,6 +4,7 @@
 #include "ModelManager.h"
 #include <iostream>
 #include <cmath>
+#include "mathFunction.h"
 #define M_PI 3.141592
 void TitleScene::Init()
 {
@@ -11,7 +12,7 @@ void TitleScene::Init()
 	camera->Initialize();
 	Vector3 cameraPos = camera->GetTransform().translate;
 	cameraPos.x = 3.5f;
-	cameraPos.y = 1.0f;
+	cameraPos.y = 3.0f;
 	cameraPos.z = -15.0f;
 	camera->SetTranslate(cameraPos);
 	input = Input::GetInstance();
