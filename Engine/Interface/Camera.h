@@ -53,7 +53,7 @@ private:
 	const float Gravity = -0.01f;
 	const float GroundLevel = 3.0f;
 
-	float PlayerSpeed = 0.1f;
+	float PlayerSpeed = 0.3f;
 	float angle_ = 0.0f;
 
 	float JumpSpeed = 0.2f;

@@ -105,10 +105,9 @@ void DemoScene::Init()
 
 void DemoScene::Update()
 {
-	TenQOBJ->worldTransform_.rotation_.x += 0.001f;
+	TenQOBJ->worldTransform_.rotation_.x -= 0.003f;
 	TenQOBJ->worldTransform_.translation_.x = Lerp(TenQOBJ->worldTransform_.translation_.x, camera->transform_.translate.x, 0.005f);
 	TenQOBJ->worldTransform_.translation_.z = Lerp(TenQOBJ->worldTransform_.translation_.z, camera->transform_.translate.z + 300, 0.005f);
-	//TenQOBJ->worldTransform_.translation_.z = camera->transform_.translate.z + 300;
 	if (isFadeOut == true)
 	{
 		UpdateFadeOut();
