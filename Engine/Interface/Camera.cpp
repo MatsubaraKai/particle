@@ -23,6 +23,8 @@ void Camera::Update() {
 void Camera::CameraDebug()
 {
     //#ifdef _DEBUG
+    ImGui::PushStyleColor(ImGuiCol_TitleBgActive, ImVec4(0.2f, 0.0f, 0.7f, 0.8f));
+    ImGui::PushStyleColor(ImGuiCol_TitleBg, ImVec4(0.1f, 0.0f, 0.3f, 0.5f));
     ImGui::Begin("camera");
     ImGui::DragFloat("FOV", &fovY_, 0.01f);
     float translate[3] = { transform_.translate.x,transform_.translate.y,transform_.translate.z };
@@ -37,6 +39,8 @@ void Camera::CameraDebug()
     transform_.scale = { scale[0],scale[1],scale[2] };
 
     ImGui::End();
+    ImGui::PopStyleColor();
+    ImGui::PopStyleColor();
     //#endif // _DEBUG
 }
 

@@ -105,62 +105,85 @@ int GameManager::Run() {
 		sInput->Update();
 
 		// 追跡するための変数
+		ImGui::PushStyleColor(ImGuiCol_TitleBgActive, ImVec4(0.7f, 0.0f, 0.2f, 0.8f));
+		ImGui::PushStyleColor(ImGuiCol_TitleBg, ImVec4(0.3f, 0.0f, 0.1f, 0.5f));
+		ImGui::Begin("PostEffect", nullptr, ImGuiWindowFlags_MenuBar);
+		if (ImGui::BeginMenuBar()) {
+			if (ImGui::BeginMenu("PostEffect")) {
+				if (ImGui::MenuItem("Normal")) {
+					pSOPostEffect->CreatePipelineStateObject();
+					currentStatus = "Normal effect applied";
+				}
+				if (ImGui::MenuItem("Outline")) {
+					pSOPostEffect->CreatePipelineStateObjectLuminancebasedoutline();
+					currentStatus = "Outline effect applied";
+				}
+				if (ImGui::MenuItem("Grayscale")) {
+					pSOPostEffect->CreatePipelineStateObjectGrayscale();
+					currentStatus = "Grayscale effect applied";
+				}
+				if (ImGui::MenuItem("Fog")) {
+				    pSOPostEffect->CreatePipelineStateObjectFog();
+					currentStatus = "Fog effect applied";
+				}
+				if (ImGui::MenuItem("Dissololve")) {
+					pSOPostEffect->CreatePipelineStateObjectDissololve();
+					currentStatus = "Dissolve effect applied";
+				}
+				if (ImGui::MenuItem("Gaussian")) {
+					pSOPostEffect->CreatePipelineStateObjectGaussian();
+					currentStatus = "Gaussian blur effect applied";
+				}
+				if (ImGui::MenuItem("Vignett")) {
+					pSOPostEffect->CreatePipelineStateObjectVignett();
+					currentStatus = "Vignette effect applied";
+				}
+				if (ImGui::MenuItem("Random")) {
+					pSOPostEffect->CreatePipelineStateObjectRandom();
+					currentStatus = "Random effect applied";
+				}
+				if (ImGui::MenuItem("Radialblur")) {
+					pSOPostEffect->CreatePipelineStateObjectRadialblur();
+					currentStatus = "Radial blur effect applied";
+				}
+				if (ImGui::MenuItem("Outline Black")) {
+					
+				}
+				if (ImGui::MenuItem("Outline Blue")) {
+					
+				}
+				if (ImGui::MenuItem("Outline Blue")) {
 
-		ImGui::Begin("PostEffect");
+				}
+				if (ImGui::MenuItem("Outline Blue")) {
+
+				}
+				if (ImGui::MenuItem("Outline Blue")) {
+
+				}
+				if (ImGui::MenuItem("Outline Blue")) {
+
+				}
+				if (ImGui::MenuItem("Outline Blue")) {
+
+				}
+				if (ImGui::MenuItem("Outline Blue")) {
+
+				}
+				if (ImGui::MenuItem("Outline Blue")) {
+
+				}
+				if (ImGui::MenuItem("Outline Blue")) {
+
+				}
+
+				ImGui::EndMenu();
+			}
+			ImGui::EndMenuBar();
+		}
 		ImGui::Text("Status: %s", currentStatus);
 		ImGui::Text("FPS : %f", ImGui::GetIO().Framerate);
-		if (ImGui::Button("Normal    ")) {
-			pSOPostEffect->CreatePipelineStateObject();
-			currentStatus = "Normal effect applied";
-		}
-		if (ImGui::Button("Outline   ")) {
-			pSOPostEffect->CreatePipelineStateObjectLuminancebasedoutline();
-			currentStatus = "Outline effect applied";
-		}
-		if (ImGui::Button("Grayscale ")) {
-			pSOPostEffect->CreatePipelineStateObjectGrayscale();
-			currentStatus = "Grayscale effect applied";
-		}
-		if (ImGui::Button("Fog       ")) {
-			pSOPostEffect->CreatePipelineStateObjectFog();
-			currentStatus = "Fog effect applied";
-		}
-		if (ImGui::Button("Dissololve")) {
-			pSOPostEffect->CreatePipelineStateObjectDissololve();
-			currentStatus = "Dissolve effect applied";
-		}
-		if (ImGui::Button("Gaussian  ")) {
-			pSOPostEffect->CreatePipelineStateObjectGaussian();
-			currentStatus = "Gaussian blur effect applied";
-		}
-		if (ImGui::Button("Vignett   ")) {
-			pSOPostEffect->CreatePipelineStateObjectVignett();
-			currentStatus = "Vignette effect applied";
-		}
-		if (ImGui::Button("Random    ")) {
-			pSOPostEffect->CreatePipelineStateObjectRandom();
-			currentStatus = "Random effect applied";
-		}
-		if (ImGui::Button("Radialblur")) {
-			pSOPostEffect->CreatePipelineStateObjectRadialblur();
-			currentStatus = "Radial blur effect applied";
-		}/*
-		if (ImGui::Button("Depthbasedoutline")) {
-			pSOPostEffect->CreatePipelineStateObjectDepthbasedoutline();
-			currentStatus = "Depth based outline effect applied";
-		}*/
-		/*if (ImGui::Button("Boxfilter")) {
-			pSOPostEffect->CreatePipelineStateObjectBoxfilter();
-			currentStatus = "Box filter effect applied";
-		}*/
-		if (ImGui::Button("Outline Black")) {
-			pSOPostEffect->CreatePipelineStateObjectTest();
-			currentStatus = "Test effect applied";
-		}
-		if (ImGui::Button("Outline Blue")) {
-			pSOPostEffect->CreatePipelineStateObjectTest3();
-			currentStatus = "Test3 effect applied";
-		}
+		
 		if (ImGui::Button("Outline Test")) {
 			pSOPostEffect->CreatePipelineStateObjectTest4();
 			currentStatus = "Test4 effect applied";
@@ -194,7 +217,8 @@ int GameManager::Run() {
 			currentStatus = "Test10 effect applied";
 		}
 		ImGui::End();
-
+		ImGui::PopStyleColor();
+		ImGui::PopStyleColor();
 		
 
 		// シーンのチェック

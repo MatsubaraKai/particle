@@ -245,6 +245,8 @@ D3D12_VERTEX_BUFFER_VIEW Particle::CreateBufferView() {
 void Particle::Particledebug(const char* name,WorldTransform &worldtransform)
 {
 	//#ifdef _DEBUG
+	ImGui::PushStyleColor(ImGuiCol_TitleBgActive, ImVec4(0.0f, 0.7f, 0.2f, 0.8f));
+	ImGui::PushStyleColor(ImGuiCol_TitleBg, ImVec4(0.0f, 0.3f, 0.1f, 0.5f));
 	ImGui::Begin("Particle");
 
 	if (ImGui::TreeNode(name))
@@ -255,5 +257,7 @@ void Particle::Particledebug(const char* name,WorldTransform &worldtransform)
 		worldtransform.translation_ = { translate[0],translate[1],translate[2] };
 	}
 	ImGui::End();
+	ImGui::PopStyleColor();
+	ImGui::PopStyleColor();
 	//#endif // _DEBUG
 }

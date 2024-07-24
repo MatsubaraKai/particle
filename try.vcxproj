@@ -141,6 +141,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Interface\PSO\PSOProperty.cpp" />
     <ClCompile Include="Engine\Interface\PSO\PSOSprite.cpp" />
     <ClCompile Include="Engine\Interface\WorldTransform.cpp" />
+    <ClCompile Include="Engine\2d\Fade.cpp" />
     <ClCompile Include="Game\Collision\Collider.cpp" />
     <ClCompile Include="Game\Collision\CollisionManager.cpp" />
     <ClCompile Include="Game\Scene\DemoScene.cpp" />
@@ -200,6 +201,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Interface\PSO\PSOProperty.h" />
     <ClInclude Include="Engine\Interface\PSO\PSOSprite.h" />
     <ClInclude Include="Engine\Interface\WorldTransform.h" />
+    <ClInclude Include="Engine\2d\Fade.h" />
     <ClInclude Include="Game\Collision\Collider.h" />
     <ClInclude Include="Game\Collision\CollisionConfig.h" />
     <ClInclude Include="Game\Collision\CollisionManager.h" />

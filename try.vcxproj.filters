@@ -197,6 +197,7 @@
     <ClCompile Include="Engine\Interface\PSO\PSOAnimationModel.cpp">
       <Filter>Engine\Interface\PSO</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\2d\Fade.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Interface\DirectXCommon.h">
@@ -385,6 +386,7 @@
     <ClInclude Include="Engine\Interface\PSO\PSOAnimationModel.h">
       <Filter>Engine\Interface\PSO</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\2d\Fade.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui\imgui.ini">

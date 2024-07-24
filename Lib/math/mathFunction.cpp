@@ -597,3 +597,20 @@ Matrix4x4 Transpose(const Matrix4x4 m) {
 
 
 };
+
+// 最短角度補間
+float LerpShortAngle(float a, float b, float t)
+{
+	float diff = b - a;
+	diff = std::fmod(diff + (float)std::numbers::pi, 2 * (float)std::numbers::pi) - (float)std::numbers::pi;
+	return a + diff * t;
+}
+
+float LerpShortTranslate(float a, float b, float t) {
+	return a + t * (b - a);
+}
+
+// 長さ(ノルム)
+float Length(const Vector3 &v) {
+	return std::sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
+};

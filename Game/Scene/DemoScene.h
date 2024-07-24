@@ -9,6 +9,7 @@
 #include "Model.h"
 #include "PostProcess.h"
 #include "Transform.h"
+#include "Fade.h"
 class DemoScene : public IScene
 {
 public:
@@ -18,22 +19,16 @@ public:
 	void PostDraw()override;
 	void Release()override;
 	int GameClose()override;
-	void StartFadeIn();
-	void StartFadeOut();
-	void UpdateFadeIn();
-	void UpdateFadeOut();
 
 	WorldTransform worldTransform;
 	WorldTransform worldTransform2;
-	Material material2;
 	WorldTransform TenQTransform;
 	Object3d* TenQOBJ = nullptr;
 private:
 	int sceneTime = 0;
 	Camera* camera = nullptr;
 	Input* input = nullptr;
-	Sprite* demoSprite = nullptr;
-	Sprite* fadeSprite = nullptr;
+	Fade *fade = nullptr;
 
 	std::vector<Object3d*> object3d_;
 	Object3d* GridOBJ = nullptr;
@@ -52,17 +47,11 @@ private:
 	uint32_t CONEtextureHandle;
 	uint32_t TENQtextureHandle;
 	uint32_t GRIDtextureHandle;
-
-	Material material;
 	
 	WorldTransform GridTransform;
 	
 	Emitter demoEmitter_;
 	RandRangePro demoRandPro;
-
-	float alpha = 0;
-	bool isFadeOut = false;
-	bool isFadingIn = false;
 	float rotateSize_ = 1.057f;
 };
 

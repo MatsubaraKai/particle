@@ -5,7 +5,7 @@
 #include<cassert>
 #include <vector>
 #include <ModelData.h>
-
+#include <numbers>
 
 // ベクトル変換
 Vector3 TransformNormal(const Vector3& v, const Matrix4x4& m);
@@ -53,3 +53,7 @@ Matrix4x4 MakeRotateMatrix(const Quaternion& quaternion);
 Vector3 CalculateValue(const std::vector<KeyFrameVector3>& keyframes, float time);
 Quaternion CalculateValue(const std::vector<KeyFrameQuaternion>& keyframes, float time);
 Matrix4x4 Transpose(const Matrix4x4 m);
+
+float Length(const Vector3 &v);
+float LerpShortAngle(float a, float b, float t);
+float LerpShortTranslate(float a, float b, float t);
