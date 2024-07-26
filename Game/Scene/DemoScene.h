@@ -50,7 +50,7 @@ private:
 	
 	WorldTransform GridTransform;
 	
-	Emitter demoEmitter_;
+	Emitter ParticleEmitter_;
 	RandRangePro demoRandPro;
 	float rotateSize_ = 1.057f;
 };

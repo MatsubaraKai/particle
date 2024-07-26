@@ -1,6 +1,4 @@
 ﻿#include "Fade.h"
-#include "ImGuiCommon.h"
-#include "TextureManager.h"
 #define M_PI 3.141592
 void Fade::Init(uint32_t fadeTexture)
 {

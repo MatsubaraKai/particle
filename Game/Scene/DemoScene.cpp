@@ -70,12 +70,12 @@ void DemoScene::Init()
 		{0.0f,2.0f}
 	};
 
-	demoEmitter_.count = 6;
-	demoEmitter_.frequency = 0.02f;
-	demoEmitter_.frequencyTime = 0.0f;
-	demoEmitter_.transform.scale = { 0.5f,0.5f,0.5f };
-	particle->Initialize(demoEmitter_);
-	particle2->Initialize(demoEmitter_);
+	ParticleEmitter_.count = 6;
+	ParticleEmitter_.frequency = 0.02f;
+	ParticleEmitter_.frequencyTime = 0.0f;
+	ParticleEmitter_.transform.scale = { 0.5f,0.5f,0.5f };
+	particle->Initialize(ParticleEmitter_);
+	particle2->Initialize(ParticleEmitter_);
 
 	fade = new Fade();
 	fade->Init(FADEtextureHandle);
@@ -207,13 +207,12 @@ void DemoScene::Draw()
 	for (std::vector<Object3d*>::iterator itr = object3d_.begin(); itr != object3d_.end(); itr++) {
 		(*itr)->Draw(CONEtextureHandle, camera);
 	}
-	
 	GridOBJ->Draw(GRIDtextureHandle, camera);
 	ConeOBJ->Draw(CONEtextureHandle, camera);
 	TenQOBJ->Draw(TENQtextureHandle, camera);
 	object3d2->Draw(UVtextureHandle, camera);
-	particle->Draw(demoEmitter_, { worldTransform.translation_.x,worldTransform.translation_.y,worldTransform.translation_.z + 5 }, UVtextureHandle, camera, demoRandPro, false);
-	particle2->Draw(demoEmitter_, { worldTransform2.translation_.x,worldTransform2.translation_.y,worldTransform2.translation_.z + 5 }, WHITEtextureHandle, camera, demoRandPro, false);
+	particle->Draw(ParticleEmitter_, { worldTransform.translation_.x,worldTransform.translation_.y,worldTransform.translation_.z + 5 }, UVtextureHandle, camera, demoRandPro, false);
+	particle2->Draw(ParticleEmitter_, { worldTransform2.translation_.x,worldTransform2.translation_.y,worldTransform2.translation_.z + 5 }, WHITEtextureHandle, camera, demoRandPro, false);
 	fade->Draw();
 }
 
