@@ -158,15 +158,18 @@ void DemoScene::Update()
 		object3d_[2]->worldTransform_.rotation_.y -= 0.01f;
 		object3d_[2]->worldTransform_.rotation_.z -= 0.01f;
 		sceneTime++;
+
 		///////////////Debug///////////////
 
 		camera->CameraDebug();
 	
-		object3d_[0]->ModelDebug("JSONmodel");
-		object3d_[1]->ModelDebug("JSONmodel2");
-		object3d_[2]->ModelDebug("JSONmodel3");
+		object3d_[0]->ModelDebug("JSONmodel0");
+		object3d_[1]->ModelDebug("JSONmodel1");
+		object3d_[2]->ModelDebug("JSONmodel2");
+		object3d_[3]->ModelDebug("JSONmodel3");
+		object3d_[4]->ModelDebug("JSONmodel4");
 
-		GridOBJ->ModelDebug("grid");
+		GridOBJ->ModelDebug("grid");												
 		ConeOBJ->ModelDebug("cone");
 		TenQOBJ->ModelDebug("TenQ");
 

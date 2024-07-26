@@ -72,8 +72,8 @@ void Loder::LoadJsonFile(const std::string kDefaultBaseDirectory, const std::str
 			objectData.transform.rotate.z = -(float)transform["rotation"][1];
 			// スケーリングa
 			objectData.transform.scale.x = (float)transform["scaling"][0];
-			objectData.transform.scale.y = (float)transform["scaling"][2];
-			objectData.transform.scale.z = (float)transform["scaling"][1];
+			objectData.transform.scale.y = (float)transform["scaling"][1];
+			objectData.transform.scale.z = (float)transform["scaling"][2];
 			ModelManager::GetInstance()->LoadModel("Resources/game/", objectData.filename + ".obj");
 
 		}
@@ -106,8 +106,8 @@ void Loder::LoadJsonFile(const std::string kDefaultBaseDirectory, const std::str
 			objectData.transform.rotate.z = -(float)transform["rotation"][1];
 			// スケーリング
 			objectData.transform.scale.x = (float)transform["scaling"][0];
-			objectData.transform.scale.y = (float)transform["scaling"][2];
-			objectData.transform.scale.z = (float)transform["scaling"][1];
+			objectData.transform.scale.y = (float)transform["scaling"][1];
+			objectData.transform.scale.z = (float)transform["scaling"][2];
 
 			camera->SetTranslate(objectData.transform.translate);
 			camera->SetRotate(objectData.transform.rotate);

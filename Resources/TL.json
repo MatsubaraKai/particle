@@ -68,6 +68,30 @@
             },
             "file_name": "cone"
         },
+
+        {
+            "type": "MESH",
+            "name": "Cube.003",
+            "transform": {
+                "translation": [
+                   -30.0,
+                   100.0,
+                   -35.0
+                ],
+                "rotation": [
+                    -0.0,
+                    -0.0,
+                    -0.54
+                ],
+                "scaling": [
+                    10.0,
+                    50.0,
+                    10.0
+                ]
+            },
+            "file_name": "cone"
+        },
+
         {
             "type": "LIGHT",
             "name": "Light",
