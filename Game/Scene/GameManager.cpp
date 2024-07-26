@@ -147,34 +147,44 @@ int GameManager::Run() {
 					currentStatus = "Radial blur effect applied";
 				}
 				if (ImGui::MenuItem("Outline Black")) {
-					
+					pSOPostEffect->CreatePipelineStateObjectTest();
+					currentStatus = "Outline Black effect applied";
+				}
+				if (ImGui::MenuItem("TV")) {
+					pSOPostEffect->CreatePipelineStateObjectTest2();
+					currentStatus = "TV effect applied";
 				}
 				if (ImGui::MenuItem("Outline Blue")) {
-					
+					pSOPostEffect->CreatePipelineStateObjectTest3();
+					currentStatus = "Outline Blue effect applied";
 				}
-				if (ImGui::MenuItem("Outline Blue")) {
-
+				if (ImGui::MenuItem("Outline Test")) {
+					pSOPostEffect->CreatePipelineStateObjectTest4();
+					currentStatus = "Outline Test effect applied";
 				}
-				if (ImGui::MenuItem("Outline Blue")) {
-
+				if (ImGui::MenuItem("Test5")) {
+					pSOPostEffect->CreatePipelineStateObjectTest5();
+					currentStatus = "Test5 effect applied";
 				}
-				if (ImGui::MenuItem("Outline Blue")) {
-
+				if (ImGui::MenuItem("chromatic aberration")) {
+					pSOPostEffect->CreatePipelineStateObjectTest6();
+					currentStatus = "chromatic aberration effect applied";
 				}
-				if (ImGui::MenuItem("Outline Blue")) {
-
+				if (ImGui::MenuItem("HSV")) {
+					pSOPostEffect->CreatePipelineStateObjectTest7();
+					currentStatus = "HSV effect applied";
 				}
-				if (ImGui::MenuItem("Outline Blue")) {
-
+				if (ImGui::MenuItem("Test8")) {
+					pSOPostEffect->CreatePipelineStateObjectTest8();
+					currentStatus = "Test8 effect applied";
 				}
-				if (ImGui::MenuItem("Outline Blue")) {
-
+				if (ImGui::MenuItem("Test9")) {
+					pSOPostEffect->CreatePipelineStateObjectTest9();
+					currentStatus = "Test9 effect applied";
 				}
-				if (ImGui::MenuItem("Outline Blue")) {
-
-				}
-				if (ImGui::MenuItem("Outline Blue")) {
-
+				if (ImGui::MenuItem("Test10")) {
+					pSOPostEffect->CreatePipelineStateObjectTest10();
+					currentStatus = "Test10 effect applied";
 				}
 
 				ImGui::EndMenu();
@@ -182,40 +192,8 @@ int GameManager::Run() {
 			ImGui::EndMenuBar();
 		}
 		ImGui::Text("Status: %s", currentStatus);
+		ImGui::Text("Scene : %d", currentSceneNo_);
 		ImGui::Text("FPS : %f", ImGui::GetIO().Framerate);
-		
-		if (ImGui::Button("Outline Test")) {
-			pSOPostEffect->CreatePipelineStateObjectTest4();
-			currentStatus = "Test4 effect applied";
-		}
-		if (ImGui::Button("TV")) {
-			pSOPostEffect->CreatePipelineStateObjectTest2();
-			currentStatus = "Test2 effect applied";
-		}
-		if (ImGui::Button("Test5")) {
-			pSOPostEffect->CreatePipelineStateObjectTest5();
-			currentStatus = "Test5 effect applied";
-		}
-		if (ImGui::Button("chromatic aberration")) {
-			pSOPostEffect->CreatePipelineStateObjectTest6();
-			currentStatus = "chromatic aberration effect applied";
-		}
-		if (ImGui::Button("HSV")) {
-			pSOPostEffect->CreatePipelineStateObjectTest7();
-			currentStatus = "HSV effect applied";
-		}
-		if (ImGui::Button("Test8")) {
-			pSOPostEffect->CreatePipelineStateObjectTest8();
-			currentStatus = "Test8 effect applied";
-		}
-		if (ImGui::Button("Test9")) {
-			pSOPostEffect->CreatePipelineStateObjectTest9();
-			currentStatus = "Test9 effect applied";
-		}
-		if (ImGui::Button("Test10")) {
-			pSOPostEffect->CreatePipelineStateObjectTest10();
-			currentStatus = "Test10 effect applied";
-		}
 		ImGui::End();
 		ImGui::PopStyleColor();
 		ImGui::PopStyleColor();

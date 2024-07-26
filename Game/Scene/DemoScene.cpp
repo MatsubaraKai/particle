@@ -21,12 +21,6 @@ void DemoScene::Init()
 	FADEtextureHandle = TextureManager::StoreTexture("Resources/black.png");
 	GRIDtextureHandle = TextureManager::StoreTexture("Resources/cian.png");
 
-	ModelManager::GetInstance()->LoadModel("Resources/human", "sneakWalk.gltf");
-	ModelManager::GetInstance()->LoadAnimationModel("Resources/AnimatedCube", "AnimatedCube.gltf");
-	ModelManager::GetInstance()->LoadModel("Resources/game", "grid.obj");
-	ModelManager::GetInstance()->LoadModel("Resources/game", "cone.obj");
-	ModelManager::GetInstance()->LoadModel("Resources/game", "world.obj");
-	ModelManager::GetInstance()->LoadModel("Resources/game", "world2.obj");
 
 	Loder::LoadJsonFile("Resources", "TL", object3d_, camera);
 
@@ -53,22 +47,15 @@ void DemoScene::Init()
 
 	GridTransform.scale_.x = 20;
 	GridTransform.scale_.z = 20;
-	GridTransform.UpdateMatrix();
 	GridOBJ->SetWorldTransform(GridTransform);
-	//忘れそうなのでメモ ドーナツ型のOBJを作って回転させればループするマップができる
+
 	TenQTransform.translation_.y = 370.0f;
 	TenQTransform.translation_.z = 300.0f;
 	TenQTransform.scale_.x = -2.0f;
 	TenQTransform.scale_.y = 2.0f;
 	TenQTransform.scale_.z = 2.0f;
-	
 	TenQOBJ->SetWorldTransform(TenQTransform);
-
-	worldTransform.UpdateMatrix();
-	worldTransform2.UpdateMatrix();
 	
-	//object3d->SetModel("sneakWalk.gltf");
-	//object3d->SetModel("ball.obj");
 	GridOBJ->SetModel("grid.obj");
 	ConeOBJ->SetModel("cone.obj");
 	TenQOBJ->SetModel("world2.obj");
@@ -93,7 +80,6 @@ void DemoScene::Init()
 	fade = new Fade();
 	fade->Init(FADEtextureHandle);
 	fade->StartFadeOut();
-
 }
 
 void DemoScene::Update()
@@ -179,7 +165,6 @@ void DemoScene::Update()
 		object3d_[0]->ModelDebug("JSONmodel");
 		object3d_[1]->ModelDebug("JSONmodel2");
 		object3d_[2]->ModelDebug("JSONmodel3");
-		//object3d_[3]->ModelDebug("JSONmodel4");
 
 		GridOBJ->ModelDebug("grid");
 		ConeOBJ->ModelDebug("cone");

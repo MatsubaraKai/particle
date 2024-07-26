@@ -20,12 +20,17 @@ void TitleScene::Init()
 	textureHandle2 = TextureManager::StoreTexture("Resources/white.png");
 	fadeTex = TextureManager::StoreTexture("Resources/black.png");
 
+	ModelManager::GetInstance()->LoadModel("Resources/human", "sneakWalk.gltf");
+	ModelManager::GetInstance()->LoadAnimationModel("Resources/AnimatedCube", "AnimatedCube.gltf");
+	ModelManager::GetInstance()->LoadModel("Resources/game", "grid.obj");
+	ModelManager::GetInstance()->LoadModel("Resources/game", "cone.obj");
+	ModelManager::GetInstance()->LoadModel("Resources/game", "world.obj");
+	ModelManager::GetInstance()->LoadModel("Resources/game", "world2.obj");
+
 	worldTransform.Initialize();
 	worldTransform.translation_.x = 0;
 	worldTransform2.Initialize();
 	worldTransform2.translation_.x = 5;
-	worldTransform.UpdateMatrix();
-	worldTransform2.UpdateMatrix();
 
 	particle = new Particle();
 	particle2 = new Particle();
@@ -69,8 +74,6 @@ void TitleScene::Update()
 
 	particle->Particledebug("uv",worldTransform);
 	particle2->Particledebug("white",worldTransform2);
-
-	
 	
 	ImGui::Begin("color");
 	float color[4] = { fade->material.color.x,fade->material.color.y,fade->material.color.z,fade->material.color.w };
