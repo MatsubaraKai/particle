@@ -5,6 +5,7 @@
 #include <iostream>
 #include <cmath>
 #include "mathFunction.h"
+#include "PSOPostEffect.h"
 
 void TitleScene::Init()
 {
@@ -59,7 +60,17 @@ void TitleScene::Init()
 
 void TitleScene::Update()
 {
+	PSOPostEffect* pSOPostEffect = PSOPostEffect::GatInstance();
+
 	fade->UpdateFade();
+	if (input->TriggerKey(DIK_1)) {
+		pSOPostEffect->CreatePipelineStateObjectTest8();
+
+	}
+	if (input->TriggerKey(DIK_2)) {
+		pSOPostEffect->CreatePipelineStateObjectTest3();
+
+	}
 	if (input->TriggerKey(DIK_SPACE)) {
 		fade->StartFadeIn();
 	}

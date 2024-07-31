@@ -3,7 +3,7 @@
 #include "TextureManager.h"
 #include "ModelManager.h"
 #include "Loder.h"
-
+#include "PSOPostEffect.h"
 void DemoScene::Init()
 {
 	camera = new Camera;
@@ -84,7 +84,17 @@ void DemoScene::Init()
 
 void DemoScene::Update()
 {
+	PSOPostEffect* pSOPostEffect = PSOPostEffect::GatInstance();
+
 	fade->UpdateFade();
+	if (input->TriggerKey(DIK_1)) {
+		pSOPostEffect->CreatePipelineStateObjectTest8();
+
+	}
+	if (input->TriggerKey(DIK_2)) {
+		pSOPostEffect->CreatePipelineStateObjectTest3();
+
+	}
 	if (input->TriggerKey(DIK_SPACE)) {
 		fade->StartFadeIn();
 	}
