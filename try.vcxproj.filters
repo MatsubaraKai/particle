@@ -189,7 +189,7 @@
       <Filter>Engine\3d</Filter>
     </ClCompile>
     <ClCompile Include="Engine\2d\PostProcess.cpp" />
-    <ClCompile Include="Engine\Interface\PSO\PSOPostEffect.cpp" />
+    <ClCompile Include="Engine\2d\PostEffect\PSOPostEffect.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Engine\3d\Animation\Animation.cpp" />
     <ClCompile Include="Engine\3d\Model\AnimationModel.cpp" />
@@ -200,6 +200,16 @@
     <ClCompile Include="Engine\2d\Fade.cpp">
       <Filter>Engine\2d</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\2d\PostEffect\Effect\Bloom.cpp" />
+    <ClCompile Include="Engine\2d\PostEffect\Effect\DepthOutline.cpp" />
+    <ClCompile Include="Engine\2d\PostEffect\Effect\Dissolve.cpp" />
+    <ClCompile Include="Engine\2d\PostEffect\Effect\FullScreen.cpp" />
+    <ClCompile Include="Engine\2d\PostEffect\Effect\GaussianBlur.cpp" />
+    <ClCompile Include="Engine\2d\PostEffect\Effect\GrayScale.cpp" />
+    <ClCompile Include="Engine\2d\PostEffect\Effect\RadialBlur.cpp" />
+    <ClCompile Include="Engine\2d\PostEffect\Effect\Random.cpp" />
+    <ClCompile Include="Engine\2d\PostEffect\Effect\Vignette.cpp" />
+    <ClCompile Include="Engine\2d\PostEffect\IPostEffectState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Interface\DirectXCommon.h">
@@ -379,7 +389,7 @@
       <Filter>Engine\3d</Filter>
     </ClInclude>
     <ClInclude Include="Engine\2d\PostProcess.h" />
-    <ClInclude Include="Engine\Interface\PSO\PSOPostEffect.h" />
+    <ClInclude Include="Engine\2d\PostEffect\PSOPostEffect.h" />
     <ClInclude Include="Lib\math\Quaternion.h" />
     <ClInclude Include="Engine\3d\Animation\Animation.h" />
     <ClInclude Include="Engine\Externals\json.hpp" />
@@ -391,6 +401,16 @@
     <ClInclude Include="Engine\2d\Fade.h">
       <Filter>Engine\2d</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\2d\PostEffect\Effect\Bloom.h" />
+    <ClInclude Include="Engine\2d\PostEffect\Effect\DepthOutline.h" />
+    <ClInclude Include="Engine\2d\PostEffect\Effect\Dissolve.h" />
+    <ClInclude Include="Engine\2d\PostEffect\Effect\FullScreen.h" />
+    <ClInclude Include="Engine\2d\PostEffect\Effect\GaussianBlur.h" />
+    <ClInclude Include="Engine\2d\PostEffect\Effect\GrayScale.h" />
+    <ClInclude Include="Engine\2d\PostEffect\Effect\RadialBlur.h" />
+    <ClInclude Include="Engine\2d\PostEffect\Effect\Random.h" />
+    <ClInclude Include="Engine\2d\PostEffect\Effect\Vignette.h" />
+    <ClInclude Include="Engine\2d\PostEffect\IPostEffectState.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui\imgui.ini">
