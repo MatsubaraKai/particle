@@ -213,6 +213,13 @@
     <ClCompile Include="Engine\3d\Skybox\Skybox.cpp" />
     <ClCompile Include="Game\RailCamera\RailCamera.cpp" />
     <ClCompile Include="Engine\Interface\PSO\PSOSkybox.cpp" />
+    <ClCompile Include="Engine\2d\PostEffect\Effect\Fog.cpp" />
+    <ClCompile Include="Engine\2d\PostEffect\Effect\HSVFilter.cpp" />
+    <ClCompile Include="Engine\2d\PostEffect\Effect\LuminanceBasedOutline.cpp" />
+    <ClCompile Include="Engine\2d\PostEffect\Effect\OutlineBlack.cpp" />
+    <ClCompile Include="Engine\2d\PostEffect\Effect\OutlineBlue.cpp" />
+    <ClCompile Include="Engine\2d\PostEffect\Effect\TVEffect.cpp" />
+    <ClCompile Include="Engine\2d\PostEffect\Effect\OutlinePurple.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Interface\DirectXCommon.h">
@@ -417,6 +424,13 @@
     <ClInclude Include="Engine\3d\Skybox\Skybox.h" />
     <ClInclude Include="Game\RailCamera\RailCamera.h" />
     <ClInclude Include="Engine\Interface\PSO\PSOSkybox.h" />
+    <ClInclude Include="Engine\2d\PostEffect\Effect\Fog.h" />
+    <ClInclude Include="Engine\2d\PostEffect\Effect\HSVFilter.h" />
+    <ClInclude Include="Engine\2d\PostEffect\Effect\LuminanceBasedOutline.h" />
+    <ClInclude Include="Engine\2d\PostEffect\Effect\OutlineBlack.h" />
+    <ClInclude Include="Engine\2d\PostEffect\Effect\OutlineBlue.h" />
+    <ClInclude Include="Engine\2d\PostEffect\Effect\TVEffect.h" />
+    <ClInclude Include="Engine\2d\PostEffect\Effect\OutlinePurple.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui\imgui.ini">

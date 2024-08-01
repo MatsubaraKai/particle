@@ -112,7 +112,7 @@ int GameManager::Run() {
 		if (ImGui::BeginMenuBar()) {
 			if (ImGui::BeginMenu("PostEffect")) {
 				if (ImGui::MenuItem("Normal")) {
-					IPostEffectState::effectNo_ = kOutlineBlue;
+					IPostEffectState::SetEffectNo(kFullScreen);
 					currentStatus = "Normal effect applied";
 				}
 				/*if (ImGui::MenuItem("Outline")) {

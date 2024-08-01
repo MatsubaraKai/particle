@@ -4,7 +4,6 @@
 #include <PSOProperty.h>
 
 enum PostEffectMode {
-	kNormal,
 	kFullScreen,
 	kGrayscale,
 	kVignetting,

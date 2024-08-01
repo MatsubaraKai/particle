@@ -135,6 +135,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\3d\Triangle\Triangle.cpp" />
     <ClCompile Include="Engine\Interface\Camera.cpp" />
     <ClCompile Include="Engine\Interface\Heap\SRVManager.cpp" />
+    <ClCompile Include="Engine\2d\PostEffect\Effect\Fog.cpp" />
     <ClCompile Include="Game\Utilty\Loder.cpp" />
     <ClCompile Include="Engine\Interface\Mesh.cpp" />
     <ClCompile Include="Engine\Interface\PSO\PSOAnimationModel.cpp" />
@@ -162,6 +163,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Input\InputManager.cpp" />
     <ClCompile Include="Engine\2d\PostEffect\Effect\GaussianBlur.cpp" />
     <ClCompile Include="Engine\2d\PostEffect\Effect\GrayScale.cpp" />
+    <ClCompile Include="Engine\2d\PostEffect\Effect\HSVFilter.cpp" />
     <ClCompile Include="imgui\imgui.cpp" />
     <ClCompile Include="imgui\imgui_demo.cpp" />
     <ClCompile Include="imgui\imgui_draw.cpp" />
@@ -172,6 +174,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\2d\PostEffect\IPostEffectState.cpp" />
     <ClCompile Include="Lib\utility\function.cpp" />
     <ClCompile Include="Engine\2d\ImGuiCommon.cpp" />
+    <ClCompile Include="Engine\2d\PostEffect\Effect\LuminanceBasedOutline.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Engine\Interface\WinAPI.cpp" />
     <ClCompile Include="Lib\math\mathFunction.cpp" />
@@ -183,6 +186,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\3d\Skybox\Skybox.cpp" />
     <ClCompile Include="Game\RailCamera\RailCamera.cpp" />
     <ClCompile Include="Engine\Interface\PSO\PSOSkybox.cpp" />
+    <ClCompile Include="Engine\2d\PostEffect\Effect\OutlineBlack.cpp" />
+    <ClCompile Include="Engine\2d\PostEffect\Effect\OutlineBlue.cpp" />
+    <ClCompile Include="Engine\2d\PostEffect\Effect\OutlinePurple.cpp" />
+    <ClCompile Include="Engine\2d\PostEffect\Effect\TVEffect.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\2d\PostEffect\Effect\DepthOutline.h" />
@@ -208,6 +215,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Externals\json.hpp" />
     <ClInclude Include="Engine\Interface\Camera.h" />
     <ClInclude Include="Engine\Interface\Heap\SRVManager.h" />
+    <ClInclude Include="Engine\2d\PostEffect\Effect\Fog.h" />
     <ClInclude Include="Game\Utilty\Loder.h" />
     <ClInclude Include="Engine\Interface\Mesh.h" />
     <ClInclude Include="Engine\Interface\PSO\PSOAnimationModel.h" />
@@ -231,6 +239,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Input\InputManager.h" />
     <ClInclude Include="Engine\2d\PostEffect\Effect\GaussianBlur.h" />
     <ClInclude Include="Engine\2d\PostEffect\Effect\GrayScale.h" />
+    <ClInclude Include="Engine\2d\PostEffect\Effect\HSVFilter.h" />
     <ClInclude Include="imconfig.h" />
     <ClInclude Include="imgui\imconfig.h" />
     <ClInclude Include="imgui\imgui.h" />
@@ -267,6 +276,11 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\3d\Skybox\Skybox.h" />
     <ClInclude Include="Game\RailCamera\RailCamera.h" />
     <ClInclude Include="Engine\Interface\PSO\PSOSkybox.h" />
+    <ClInclude Include="Engine\2d\PostEffect\Effect\LuminanceBasedOutline.h" />
+    <ClInclude Include="Engine\2d\PostEffect\Effect\OutlineBlack.h" />
+    <ClInclude Include="Engine\2d\PostEffect\Effect\OutlineBlue.h" />
+    <ClInclude Include="Engine\2d\PostEffect\Effect\OutlinePurple.h" />
+    <ClInclude Include="Engine\2d\PostEffect\Effect\TVEffect.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".editorconfig" />
