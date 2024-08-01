@@ -85,7 +85,7 @@ void DemoScene::Update()
 	PSOPostEffect* pSOPostEffect = PSOPostEffect::GatInstance();
 
 	fade->UpdateFade();
-	/*if (sceneTime == 180) {
+	if (sceneTime == 180) {
 		effect = true;
 	}
 	else {
@@ -98,14 +98,14 @@ void DemoScene::Update()
 		effect2 = false;
 	}
 	if (effect == true) {
-		pSOPostEffect->CreatePipelineStateObjectTest8();
+		IPostEffectState::SetEffectNo(kOutlinePurple);
 	}
 	if (effect2 == true) {
-		pSOPostEffect->CreatePipelineStateObjectTest3();
+		IPostEffectState::SetEffectNo(kOutlineBlue);
 	}
 	if (sceneTime >= 360) {
 		sceneTime = 0;
-	}*/
+	}
 	if (input->TriggerKey(DIK_SPACE)) {
 		fade->StartFadeIn();
 	}

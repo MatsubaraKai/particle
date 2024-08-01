@@ -115,78 +115,63 @@ int GameManager::Run() {
 					IPostEffectState::SetEffectNo(kFullScreen);
 					currentStatus = "Normal effect applied";
 				}
-				/*if (ImGui::MenuItem("Outline")) {
-					pSOPostEffect->CreatePipelineStateObjectLuminancebasedoutline();
+				if (ImGui::MenuItem("Outline")) {
+					IPostEffectState::SetEffectNo(kLuminanceBasedOutline);
 					currentStatus = "Outline effect applied";
 				}
 				if (ImGui::MenuItem("Grayscale")) {
-					pSOPostEffect->CreatePipelineStateObjectGrayscale();
+					IPostEffectState::SetEffectNo(kGrayscale);
 					currentStatus = "Grayscale effect applied";
 				}
 				if (ImGui::MenuItem("Fog")) {
-				    pSOPostEffect->CreatePipelineStateObjectFog();
+					IPostEffectState::SetEffectNo(kFog);
 					currentStatus = "Fog effect applied";
 				}
 				if (ImGui::MenuItem("Dissololve")) {
-					pSOPostEffect->CreatePipelineStateObjectDissololve();
+					IPostEffectState::SetEffectNo(kDissolve);
 					currentStatus = "Dissolve effect applied";
 				}
 				if (ImGui::MenuItem("Gaussian")) {
-					pSOPostEffect->CreatePipelineStateObjectGaussian();
+					IPostEffectState::SetEffectNo(kGaussianFilter);
 					currentStatus = "Gaussian blur effect applied";
 				}
 				if (ImGui::MenuItem("Vignett")) {
-					pSOPostEffect->CreatePipelineStateObjectVignett();
+					IPostEffectState::SetEffectNo(kVignetting);
 					currentStatus = "Vignette effect applied";
 				}
 				if (ImGui::MenuItem("Random")) {
-					pSOPostEffect->CreatePipelineStateObjectRandom();
+					IPostEffectState::SetEffectNo(kRandom);
 					currentStatus = "Random effect applied";
 				}
 				if (ImGui::MenuItem("Radialblur")) {
-					pSOPostEffect->CreatePipelineStateObjectRadialblur();
+					IPostEffectState::SetEffectNo(kRadialBlur);
 					currentStatus = "Radial blur effect applied";
 				}
 				if (ImGui::MenuItem("Outline Black")) {
-					pSOPostEffect->CreatePipelineStateObjectTest();
+					IPostEffectState::SetEffectNo(kOutlineBlack);
 					currentStatus = "Outline Black effect applied";
 				}
-				if (ImGui::MenuItem("TV")) {
-					pSOPostEffect->CreatePipelineStateObjectTest2();
-					currentStatus = "TV effect applied";
-				}
+				
 				if (ImGui::MenuItem("Outline Blue")) {
-					pSOPostEffect->CreatePipelineStateObjectTest3();
+					IPostEffectState::SetEffectNo(kOutlineBlue);
 					currentStatus = "Outline Blue effect applied";
 				}
-				if (ImGui::MenuItem("Outline Test")) {
-					pSOPostEffect->CreatePipelineStateObjectTest4();
+				if (ImGui::MenuItem("Outline purple")) {
+					IPostEffectState::SetEffectNo(kOutlinePurple);
 					currentStatus = "Outline Test effect applied";
 				}
-				if (ImGui::MenuItem("Test5")) {
-					pSOPostEffect->CreatePipelineStateObjectTest5();
-					currentStatus = "Test5 effect applied";
+				if (ImGui::MenuItem("TV")) {
+					IPostEffectState::SetEffectNo(kTVEffect);
+					currentStatus = "TV effect applied";
 				}
 				if (ImGui::MenuItem("chromatic aberration")) {
-					pSOPostEffect->CreatePipelineStateObjectTest6();
+					IPostEffectState::SetEffectNo(kChromaticAberration);
 					currentStatus = "chromatic aberration effect applied";
 				}
 				if (ImGui::MenuItem("HSV")) {
-					pSOPostEffect->CreatePipelineStateObjectTest7();
+					IPostEffectState::SetEffectNo(kHSVFilter);
 					currentStatus = "HSV effect applied";
 				}
-				if (ImGui::MenuItem("Test8")) {
-					pSOPostEffect->CreatePipelineStateObjectTest8();
-					currentStatus = "Test8 effect applied";
-				}
-				if (ImGui::MenuItem("Test9")) {
-					pSOPostEffect->CreatePipelineStateObjectTest9();
-					currentStatus = "Test9 effect applied";
-				}
-				if (ImGui::MenuItem("Test10")) {
-					pSOPostEffect->CreatePipelineStateObjectTest10();
-					currentStatus = "Test10 effect applied";
-				}*/
 
 				ImGui::EndMenu();
 			}

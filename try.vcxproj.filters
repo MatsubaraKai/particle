@@ -220,6 +220,7 @@
     <ClCompile Include="Engine\2d\PostEffect\Effect\OutlineBlue.cpp" />
     <ClCompile Include="Engine\2d\PostEffect\Effect\TVEffect.cpp" />
     <ClCompile Include="Engine\2d\PostEffect\Effect\OutlinePurple.cpp" />
+    <ClCompile Include="Engine\2d\PostEffect\Effect\ChromaticAberration.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Interface\DirectXCommon.h">
@@ -431,6 +432,7 @@
     <ClInclude Include="Engine\2d\PostEffect\Effect\OutlineBlue.h" />
     <ClInclude Include="Engine\2d\PostEffect\Effect\TVEffect.h" />
     <ClInclude Include="Engine\2d\PostEffect\Effect\OutlinePurple.h" />
+    <ClInclude Include="Engine\2d\PostEffect\Effect\ChromaticAberration.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui\imgui.ini">
@@ -492,10 +494,10 @@
     <FxCompile Include="Resources\shader\TVEffect.PS.hlsl" />
     <FxCompile Include="Resources\shader\OutlineBlue.PS.hlsl" />
     <FxCompile Include="Resources\shader\OutlineTest.PS.hlsl" />
-    <FxCompile Include="Resources\shader\OutlinePurple.PS.hlsl" />
+    <FxCompile Include="Resources\shader\Test8.PS.hlsl" />
     <FxCompile Include="Resources\shader\ChromaticAberration.PS.hlsl" />
     <FxCompile Include="Resources\shader\HSVFilter.hlsl" />
-    <FxCompile Include="Resources\shader\Test8.PS.hlsl" />
+    <FxCompile Include="Resources\shader\OutlinePurple.PS.hlsl" />
     <FxCompile Include="Resources\shader\Test9.PS.hlsl" />
     <FxCompile Include="Resources\shader\Test10.PS.hlsl" />
     <FxCompile Include="Resources\shader\Bloom.PS.hlsl" />

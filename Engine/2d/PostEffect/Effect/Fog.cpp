@@ -8,7 +8,7 @@
 void Fog::Init()
 {
 	// 実際に頂点リソースを作る
-	depthOutlineResource_ = Mesh::CreateBufferResource(DirectXCommon::GetInstance()->GetDevice(), sizeof(BloomInfo));
+	depthOutlineResource_ = Mesh::CreateBufferResource(DirectXCommon::GetInstance()->GetDevice(), sizeof(FullScreenInfo));
 }
 
 PSOProperty Fog::CreatePipelineStateObject()
@@ -84,7 +84,7 @@ void Fog::CommandRootParameter(PostProcess* postProcess)
 {
 	DirectXCommon* sDirectXCommon = DirectXCommon::GetInstance();
 	Camera* camera = postProcess->GetCamera();
-	
+
 	// マテリアルCBufferの場所を設定
 	// SRV のDescriptorTableの先頭を設定。2はrootParameter[2]である。
 	sDirectXCommon->GetCommandList()->SetGraphicsRootDescriptorTable(0, SRVManager::GetInstance()->GetGPUDescriptorHandle(sDirectXCommon->GetRenderIndex()));
@@ -242,5 +242,3 @@ D3D12_DEPTH_STENCIL_DESC Fog::CreateDepth()
 	depthStencilDesc.DepthEnable = false;
 	return depthStencilDesc;
 }
-
-

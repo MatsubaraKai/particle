@@ -1,17 +1,18 @@
-﻿#include "LuminanceBasedOutline.h"
+﻿#include "ChromaticAberration.h"
 #include <function.h>
 #include <DirectXCommon.h>
 #include "PostProcess.h"
 #include "SRVManager.h"
 #include "Mesh.h"
 
-void LuminanceBasedOutline::Init()
+void ChromaticAberration::Init()
 {
 	// 実際に頂点リソースを作る
-	depthOutlineResource_ = Mesh::CreateBufferResource(DirectXCommon::GetInstance()->GetDevice(), sizeof(FullScreenInfo));
+	depthOutlineResource_ = Mesh::CreateBufferResource(DirectXCommon::GetInstance()->GetDevice(), sizeof(BloomInfo));
+
 }
 
-PSOProperty LuminanceBasedOutline::CreatePipelineStateObject()
+PSOProperty ChromaticAberration::CreatePipelineStateObject()
 {
 	PSOProperty property;
 	HRESULT hr;
@@ -44,7 +45,7 @@ PSOProperty LuminanceBasedOutline::CreatePipelineStateObject()
 		L"vs_6_0", sDirectXCommon->GetDxcUtils(), sDirectXCommon->GetDxcCompiler(), sDirectXCommon->GetIncludeHandler());
 	assert(property.vertexShaderBlob != nullptr);
 
-	property.pixelShaderBlob = CompileShader(L"Resources/shader/LuminanceBasedOutline.PS.hlsl",
+	property.pixelShaderBlob = CompileShader(L"Resources/shader/ChromaticAberration.PS.hlsl",
 		L"ps_6_0", sDirectXCommon->GetDxcUtils(), sDirectXCommon->GetDxcCompiler(), sDirectXCommon->GetIncludeHandler());
 	assert(property.pixelShaderBlob != nullptr);
 
@@ -80,11 +81,10 @@ PSOProperty LuminanceBasedOutline::CreatePipelineStateObject()
 }
 
 
-void LuminanceBasedOutline::CommandRootParameter(PostProcess* postProcess)
+void ChromaticAberration::CommandRootParameter(PostProcess* postProcess)
 {
 	DirectXCommon* sDirectXCommon = DirectXCommon::GetInstance();
 	Camera* camera = postProcess->GetCamera();
-
 	// マテリアルCBufferの場所を設定
 	// SRV のDescriptorTableの先頭を設定。2はrootParameter[2]である。
 	sDirectXCommon->GetCommandList()->SetGraphicsRootDescriptorTable(0, SRVManager::GetInstance()->GetGPUDescriptorHandle(sDirectXCommon->GetRenderIndex()));
@@ -96,7 +96,7 @@ void LuminanceBasedOutline::CommandRootParameter(PostProcess* postProcess)
 	sDirectXCommon->GetCommandList()->SetGraphicsRootConstantBufferView(3, depthOutlineResource_->GetGPUVirtualAddress());
 }
 
-std::vector<D3D12_DESCRIPTOR_RANGE> LuminanceBasedOutline::CreateDescriptorRange()
+std::vector<D3D12_DESCRIPTOR_RANGE> ChromaticAberration::CreateDescriptorRange()
 {
 	std::vector<D3D12_DESCRIPTOR_RANGE> descriptorRange(3);
 	descriptorRange[0].BaseShaderRegister = 0; // 0から始まる
@@ -116,7 +116,7 @@ std::vector<D3D12_DESCRIPTOR_RANGE> LuminanceBasedOutline::CreateDescriptorRange
 	return descriptorRange;
 }
 
-std::vector<D3D12_ROOT_PARAMETER> LuminanceBasedOutline::CreateRootParamerter(std::vector<D3D12_DESCRIPTOR_RANGE>& descriptorRange)
+std::vector<D3D12_ROOT_PARAMETER> ChromaticAberration::CreateRootParamerter(std::vector<D3D12_DESCRIPTOR_RANGE>& descriptorRange)
 {
 
 
@@ -143,7 +143,7 @@ std::vector<D3D12_ROOT_PARAMETER> LuminanceBasedOutline::CreateRootParamerter(st
 	return rootParamerters;
 }
 
-std::vector<D3D12_STATIC_SAMPLER_DESC> LuminanceBasedOutline::CreateSampler()
+std::vector<D3D12_STATIC_SAMPLER_DESC> ChromaticAberration::CreateSampler()
 {
 	std::vector<D3D12_STATIC_SAMPLER_DESC> staticSamplers(2);
 	staticSamplers[0].Filter = D3D12_FILTER_MIN_MAG_MIP_LINEAR; // バイナリフィルタ
@@ -167,7 +167,7 @@ std::vector<D3D12_STATIC_SAMPLER_DESC> LuminanceBasedOutline::CreateSampler()
 	return staticSamplers;
 }
 
-D3D12_ROOT_SIGNATURE_DESC LuminanceBasedOutline::CreateRootSignature(PSOProperty& pso, std::vector<D3D12_ROOT_PARAMETER>& rootParameters, std::vector<D3D12_STATIC_SAMPLER_DESC>& samplers)
+D3D12_ROOT_SIGNATURE_DESC ChromaticAberration::CreateRootSignature(PSOProperty& pso, std::vector<D3D12_ROOT_PARAMETER>& rootParameters, std::vector<D3D12_STATIC_SAMPLER_DESC>& samplers)
 {
 	HRESULT hr;
 	// RootSignature作成
@@ -194,7 +194,7 @@ D3D12_ROOT_SIGNATURE_DESC LuminanceBasedOutline::CreateRootSignature(PSOProperty
 	return descriptionRootSignature;
 }
 
-D3D12_INPUT_LAYOUT_DESC LuminanceBasedOutline::SetInputLayout()
+D3D12_INPUT_LAYOUT_DESC ChromaticAberration::SetInputLayout()
 {
 	// 頂点には何もデータを入力しないので、InputLayoutは利用しない。ドライバやGPUのやることが
 	// 少なくなりそうな気配を感じる
@@ -204,7 +204,7 @@ D3D12_INPUT_LAYOUT_DESC LuminanceBasedOutline::SetInputLayout()
 	return inputLayoutDesc;
 }
 
-D3D12_BLEND_DESC LuminanceBasedOutline::SetBlendState()
+D3D12_BLEND_DESC ChromaticAberration::SetBlendState()
 {
 	// blendStateの設定
 	//すべての色要素を書き込む
@@ -223,7 +223,7 @@ D3D12_BLEND_DESC LuminanceBasedOutline::SetBlendState()
 	return blendDesc;
 }
 
-D3D12_RASTERIZER_DESC LuminanceBasedOutline::SetRasterrizerState()
+D3D12_RASTERIZER_DESC ChromaticAberration::SetRasterrizerState()
 {
 	// RasiterzerStateの設定
 	D3D12_RASTERIZER_DESC rasterizerDesc{};
@@ -234,7 +234,7 @@ D3D12_RASTERIZER_DESC LuminanceBasedOutline::SetRasterrizerState()
 	return rasterizerDesc;
 }
 
-D3D12_DEPTH_STENCIL_DESC LuminanceBasedOutline::CreateDepth()
+D3D12_DEPTH_STENCIL_DESC ChromaticAberration::CreateDepth()
 {
 	// DepthStencilStateの設定
 	D3D12_DEPTH_STENCIL_DESC depthStencilDesc{};
@@ -242,3 +242,5 @@ D3D12_DEPTH_STENCIL_DESC LuminanceBasedOutline::CreateDepth()
 	depthStencilDesc.DepthEnable = false;
 	return depthStencilDesc;
 }
+
+

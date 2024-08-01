@@ -2,13 +2,12 @@
 #include "IPostEffectState.h"
 #include "PSOProperty.h"
 #include "Matrix4x4.h"
-struct HSVFilterInfo {
-	float hue;
-	float saturation;
-	float value;
+
+struct ChromaticAberrationInfo {
+
 };
 class PostProcess;
-class HSVFilter : public IPostEffectState
+class ChromaticAberration : public IPostEffectState
 {
 public:
 	void Init() override;
@@ -69,7 +68,5 @@ private:
 	// 頂点バッファビューを作成する
 	D3D12_VERTEX_BUFFER_VIEW materialBufferView{};
 	// 頂点リソースにデータを書き込む
-	HSVFilterInfo* HSVFilterData_;
-
 };
 

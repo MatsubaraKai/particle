@@ -15,6 +15,7 @@
 #include "OutlineBlue.h"
 #include "TVEffect.h"
 #include "OutlinePurple.h"
+#include "ChromaticAberration.h"
 #include <d3dx12.h>
 
 void PSOPostEffect::Init()
@@ -30,12 +31,13 @@ void PSOPostEffect::Init()
 	effectArr_[PostEffectMode::kRandom] = std::make_unique<Random>();
 	effectArr_[PostEffectMode::kBloom] = std::make_unique<Bloom>();
 	effectArr_[PostEffectMode::kFog] = std::make_unique<Fog>();
-	//effectArr_[PostEffectMode::kHSVFilter] = std::make_unique<HSVFilter>();
-	//effectArr_[PostEffectMode::kLuminanceBasedOutline] = std::make_unique<LuminaceBasedOutline>();
-	//effectArr_[PostEffectMode::kOutlineBlack] = std::make_unique<OutlineBlack>();
-	//effectArr_[PostEffectMode::kOutlineBlue] = std::make_unique<OutlineBlue>();
-	//effectArr_[PostEffectMode::kTVEffect] = std::make_unique<TVEffect>();
-	//effectArr_[PostEffectMode::kOutlinePurple] = std::make_unique<OutlinePurple>();
+	effectArr_[PostEffectMode::kHSVFilter] = std::make_unique<HSVFilter>();
+	effectArr_[PostEffectMode::kLuminanceBasedOutline] = std::make_unique<LuminanceBasedOutline>();
+	effectArr_[PostEffectMode::kOutlineBlack] = std::make_unique<OutlineBlack>();
+	effectArr_[PostEffectMode::kOutlineBlue] = std::make_unique<OutlineBlue>();
+	effectArr_[PostEffectMode::kTVEffect] = std::make_unique<TVEffect>();
+	effectArr_[PostEffectMode::kOutlinePurple] = std::make_unique<OutlinePurple>();
+	effectArr_[PostEffectMode::kChromaticAberration] = std::make_unique<ChromaticAberration>();
 	effectArr_[currentEffectNo_]->Init();
 	property = effectArr_[currentEffectNo_]->CreatePipelineStateObject();
 }

@@ -22,9 +22,22 @@
 #include "TextureManager.h"
 #include "Camera.h"
 #include "IPostEffectState.h"
-#include "Effect/Bloom.h"
-#include "Effect/DepthOutline.h"
-#include "Effect/FullScreen.h"
+#include "Bloom.h"
+#include "DepthOutline.h"
+#include "FullScreen.h"
+#include "GrayScale.h"
+#include "Vignette.h"
+#include "Dissolve.h"
+#include "GaussianBlur.h"
+#include "RadialBlur.h"
+#include "Random.h"
+#include "Fog.h"
+#include "HSVFilter.h"
+#include "LuminanceBasedOutline.h"
+#include "OutlineBlack.h"
+#include "OutlineBlue.h"
+#include "TVEffect.h"
+#include "OutlinePurple.h"
 #pragma comment(lib,"d3d12.lib")
 #pragma comment(lib,"dxgi.lib")
 #pragma comment(lib,"dxcompiler.lib")
@@ -56,6 +69,10 @@ public:
 	BloomInfo GetBloominfo() { return bloomInfo_; }
 	void SetBloomInfo(BloomInfo bloominfo) { bloomInfo_ = bloominfo; }
 
+	HSVFilterInfo GetHSVFilterinfo() { return hsvFilterInfo_; }
+	void setHSVFilterInfo(HSVFilterInfo hsvfilterinfo) { hsvFilterInfo_ = hsvfilterinfo; }
+
+	
 	FullScreenInfo GetHSVInfo() { return hsvInfo_; }
 	void SetHSVInfo(FullScreenInfo hsvInfo) { hsvInfo_ = hsvInfo; }
 
@@ -135,6 +152,7 @@ private:
 	Vector2 random_{ 16.0f,0.8f };
 	Vector3 valueColor = { 0.2125f, 0.7154f, 0.0721f };
 
+	HSVFilterInfo hsvFilterInfo_ = { 0.3f,0.5f,0.6f };
 	BloomInfo bloomInfo_ = { 10.0f,0.3f,1.0f, 1 };
 	DepthOutlineInfo depthOutlineInfo_;
 	FullScreenInfo hsvInfo_;

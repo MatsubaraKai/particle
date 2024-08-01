@@ -10,28 +10,13 @@ static const float32_t2 kIndex3x3[3][3] =
     { { -1.0f, -1.0f }, { 0.0f, -1.0f }, { 1.0f, -1.0f } },
     { { -1.0f, 0.0f }, { 0.0f, 0.0f }, { 1.0f, 0.0f } },
     { { -1.0f, 1.0f }, { 0.0f, 1.0f }, { 1.0f, 1.0f } },
-	   
 };
-
-static const float32_t2 kIndex5x5[5][5] =
-{
-    { { -2.0f, -2.0f }, { -1.0f, -2.0f }, { 0.0f, -2.0f }, { 1.0f, -2.0f }, { 2.0f, -2.0f } },
-    { { -2.0f, -1.0f }, { -1.0f, -1.0f }, { 0.0f, -1.0f }, { 1.0f, -1.0f }, { 2.0f, -1.0f } },
-    { { -2.0f, 0.0f }, { -1.0f, 0.0f }, { 0.0f, 0.0f }, { 1.0f, 0.0f }, { 2.0f, 0.0f } },
-    { { -2.0f, 1.0f }, { -1.0f, 1.0f }, { 0.0f, 1.0f }, { 1.0f, 1.0f }, { 2.0f, 1.0f } },
-    { { -2.0f, 2.0f }, { -1.0f, 2.0f }, { 0.0f, 2.0f }, { 1.0f, 2.0f }, { 2.0f, 2.0f } }
-	   
-};
-
-
-
 
 static const float32_t kPrewittHorizontalKernel[3][3] =
 {
     { -1.0f / 6.0f, 0.0f, 1.0f / 6.0f },
     { -1.0f / 6.0f, 0.0f, 1.0f / 6.0f },
     { -1.0f / 6.0f, 0.0f, 1.0f / 6.0f },
-    
 };
 
 static const float32_t kPrewittVerticalKernel[3][3] =
@@ -39,7 +24,6 @@ static const float32_t kPrewittVerticalKernel[3][3] =
     { -1.0f / 6.0f, -1.0f / 6.0f, -1.0f / 6.0f },
     { 0.0f, 0.0f, 0.0f },
     { 1.0f / 6.0f, 1.0f / 6.0f, 1.0f / 6.0f },
-    
 };
 
 float32_t Luminance(float32_t3 v)
@@ -75,14 +59,34 @@ PixelShaderOutput main(VertexShaderOutput input)
     float weight = length(difference);
     weight = saturate(weight * 100.0f);
     
-    PixelShaderOutput output;
-    
     // アウトラインは黒色
     float4 outlineColor = float4(0.0f, 0.0f, 0.0f, 1.0f);
     
-    // アウトライン部分を黒色にし、それ以外を青色に設定する
-    output.color.rgb = lerp(outlineColor.rgb, float3(0.8f, 0.0f, 0.8f), weight);
-    output.color.a = 1.0f;
-  
+    // エッジの検出結果を取得
+    float3 edgeColor = lerp(outlineColor.rgb, float3(0.0f, 0.7f, 1.0f), weight);
+
+    // ブラー効果を適用する
+    const float2 kCenter = float2(0.5f, 0.5f); // 中心点。ここを基準に放射状にブラーがかかる
+    const int kNumSamples = 10; // サンプリング数。多いほど滑らかだが重い
+    const float kBlurWidth = 0.01f; // ぼかしの幅。大きいほど大きい
+
+    float2 direction = input.texcoord - kCenter;
+    float3 blurredColor = float3(0.0f, 0.7f, 1.0f);
+    float2 texcoord;
+
+    for (int sampleIndex = 0; sampleIndex < kNumSamples; ++sampleIndex)
+    {
+        texcoord = input.texcoord + direction * kBlurWidth * float(sampleIndex);
+        blurredColor += gTexture.Sample(gSampler, texcoord).rgb;
+    }
+
+    blurredColor /= kNumSamples;
+
+    PixelShaderOutput output;
+    
+    // エッジ部分にブラー効果を適用
+    output.color.rgb = lerp(edgeColor, blurredColor, weight);
+    output.color.a = 0.0f;
+
     return output;
-};
+}
