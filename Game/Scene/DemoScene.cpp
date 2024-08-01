@@ -16,11 +16,9 @@ void DemoScene::Init()
 	UVtextureHandle = TextureManager::StoreTexture("Resources/uvChecker.png");
 	WHITEtextureHandle = TextureManager::StoreTexture("Resources/white.png");
 	CONEtextureHandle = TextureManager::StoreTexture("Resources/game/cone.png");
-	//TENQtextureHandle = TextureManager::StoreTexture("Resources/game/world.png");
 	TENQtextureHandle = TextureManager::StoreTexture("Resources/game/world2.png");
 	FADEtextureHandle = TextureManager::StoreTexture("Resources/black.png");
 	GRIDtextureHandle = TextureManager::StoreTexture("Resources/cian.png");
-
 
 	Loder::LoadJsonFile("Resources", "TL", object3d_, camera);
 
@@ -87,13 +85,26 @@ void DemoScene::Update()
 	PSOPostEffect* pSOPostEffect = PSOPostEffect::GatInstance();
 
 	fade->UpdateFade();
-	if (input->TriggerKey(DIK_1)) {
-		pSOPostEffect->CreatePipelineStateObjectTest8();
-
+	if (sceneTime == 180) {
+		effect = true;
 	}
-	if (input->TriggerKey(DIK_2)) {
+	else {
+		effect = false;
+	}
+	if (sceneTime == 360) {
+		effect2 = true;
+	}
+	else {
+		effect2 = false;
+	}
+	if (effect == true) {
+		pSOPostEffect->CreatePipelineStateObjectTest8();
+	}
+	if (effect2 == true) {
 		pSOPostEffect->CreatePipelineStateObjectTest3();
-
+	}
+	if (sceneTime >= 360) {
+		sceneTime = 0;
 	}
 	if (input->TriggerKey(DIK_SPACE)) {
 		fade->StartFadeIn();

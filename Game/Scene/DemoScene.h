@@ -53,6 +53,8 @@ private:
 	Emitter ParticleEmitter_;
 	RandRangePro demoRandPro;
 	float rotateSize_ = 1.057f;
+	bool effect = false;
+	bool effect2 = false;
 };
 
 
