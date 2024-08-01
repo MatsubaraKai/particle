@@ -151,7 +151,6 @@ int GameManager::Run() {
 					IPostEffectState::SetEffectNo(kOutlineBlack);
 					currentStatus = "Outline Black effect applied";
 				}
-				
 				if (ImGui::MenuItem("Outline Blue")) {
 					IPostEffectState::SetEffectNo(kOutlineBlue);
 					currentStatus = "Outline Blue effect applied";
@@ -167,6 +166,10 @@ int GameManager::Run() {
 				if (ImGui::MenuItem("chromatic aberration")) {
 					IPostEffectState::SetEffectNo(kChromaticAberration);
 					currentStatus = "chromatic aberration effect applied";
+				}
+				if (ImGui::MenuItem("bloom")) {
+					IPostEffectState::SetEffectNo(kBloom);
+					currentStatus = "bloom effect applied";
 				}
 				if (ImGui::MenuItem("HSV")) {
 					IPostEffectState::SetEffectNo(kHSVFilter);

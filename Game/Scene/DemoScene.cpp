@@ -113,13 +113,12 @@ void DemoScene::Update()
 		sceneNo = 1;
 	}
 
-	XINPUT_STATE joyState;
-
 	TenQOBJ->worldTransform_.rotation_.x += 0.001f;
 	TenQOBJ->worldTransform_.translation_.x = Lerp(TenQOBJ->worldTransform_.translation_.x, camera->transform_.translate.x, 0.005f);
 	TenQOBJ->worldTransform_.translation_.z = Lerp(TenQOBJ->worldTransform_.translation_.z, camera->transform_.translate.z + 300, 0.05f);
 
 	 // ゲームパッドの状態取得
+	XINPUT_STATE joyState;
 	if (Input::GetInstance()->GetJoystickState(joyState))
 	{
 		// 左スティックによる移動
