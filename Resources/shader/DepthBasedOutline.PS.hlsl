@@ -1,7 +1,8 @@
 #include "Fullscreen.hlsli"
 struct Material
 {
-    float32_t4 projectionInverse;
+    float32_t4x4 projectionInverse;
+    float32_t farClip;
 };
 
 
@@ -45,7 +46,7 @@ static const float32_t kPrewittHorizontalKernel[3][3] =
 static const float32_t kPrewittVerticalKernel[3][3] =
 {
     { -1.0f / 6.0f, -1.0f / 6.0f, -1.0f / 6.0f },
-    { 0.0f , 0.0f, 0.0f },
+    { 0.0f, 0.0f, 0.0f },
     { 1.0f / 6.0f, 1.0f / 6.0f, 1.0f / 6.0f },
     
 };
@@ -91,7 +92,29 @@ PixelShaderOutput main(VertexShaderOutput input)
     // 変化の長さをウェイトとして合成。ウェイトの決定方法も色々と考えられる。例えばdifference.xだけ使えば横方向のエッジが検出される
     float32_t weight = length(difference);
     // 差が小さい過ぎてわかりずらいので適当に6倍している。CBufferで調整パラメータとして送ったりすると良い
-    weight = saturate(weight * 6.0f);
+    
+    //if (weight >= 30.0f || (weight >= 0.5f && weight <= 1.0f))
+    //{
+    //    weight = saturate(weight);
+    //}
+    //else
+    //{
+    //    weight = 0.0f;
+
+    //}
+    float32_t ndcDepth = gDepthTexture.Sample(gSamplerPoint, input.texcoord);
+    float32_t4 viewSpace = mul(float32_t4(0.0f, 0.0f, ndcDepth, 1.0f), gMaterial.projectionInverse);
+    float32_t viewZ = viewSpace.z * rcp(viewSpace.w); // 同時座標系からデカルト座標系へ変換
+    float32_t ndcDepth1 = gDepthTexture.Sample(gSamplerPoint, input.texcoord);
+    if (length(difference) >= 0.5 && viewZ < 100)
+    {
+        weight = saturate(weight);
+    }
+    else
+    {
+        weight = 0.0f;
+
+    }
     
     PixelShaderOutput output;
     // weightが大きいほど暗く表示するようにしている。最もシンプルな合成方法

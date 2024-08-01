@@ -1,16 +1,15 @@
 ﻿#pragma once
-#include <DirectXTex.h>
+#include <d3d12.h>
 #include <string>
 #include <string>
 #include <format>
-#include <d3d12.h>
 #include <dxgi1_6.h>
 #include <cassert>
 #include <dxcapi.h>
 #include <wrl.h>
 #include "function.h"
 #include <unordered_map>
-
+#include <DirectXTex.h>
 #pragma comment(lib,"d3d12.lib")
 #pragma comment(lib,"dxgi.lib")
 #pragma comment(lib,"dxcompiler.lib")
@@ -48,7 +47,7 @@ public:
 	// DirectX12のTextureResourceを作る
 	static Microsoft::WRL::ComPtr <ID3D12Resource> CreateTextureResource(Microsoft::WRL::ComPtr <ID3D12Device> device, const DirectX::TexMetadata& matdata);
 
-	static void UploadTextureData(Microsoft::WRL::ComPtr <ID3D12Resource>, const DirectX::ScratchImage& mipImages);
+	static Microsoft::WRL::ComPtr <ID3D12Resource> UploadTextureData(Microsoft::WRL::ComPtr <ID3D12Resource>, const DirectX::ScratchImage& mipImages);
 
 
 
@@ -66,4 +65,6 @@ private:
 
 	// テクスチャデータ
 	static std::unordered_map<std::string, TextureData> textureDatas_;
+	static Microsoft::WRL::ComPtr<ID3D12Resource> intermediateResource_[kNumDescriptors];
 };
+

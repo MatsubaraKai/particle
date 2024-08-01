@@ -3,7 +3,7 @@
 #include "ModelData.h"
 #include "MaterialData.h"
 #include "vertexData.h"
-
+#include "PSOSkybox.h"
 #include<Windows.h>
 #include<d3d12.h>
 #include<dxgi1_6.h>
@@ -20,7 +20,6 @@
 #include "Object3dCommon.h"
 #include <PSOAnimationModel.h>
 
-
 #pragma comment(lib,"d3d12.lib")
 #pragma comment(lib,"dxgi.lib")
 #pragma comment(lib,"dxcompiler.lib")
@@ -32,18 +31,17 @@ public:
 	void Draw(uint32_t texture, Camera* camera);
 	void Release();
 	void ModelDebug(const char* name);
-
-public: // Setter
 	void SetModel(Model* model) { model_ = model; }
 	void SetModel(const std::string& filePath);
 	void SetAnimationModel(const std::string& filePath);
 	void SetWorldTransform(const WorldTransform& worldtransform) { worldTransform_ = worldtransform; };
 	void SetTransform(Transform transform);
-
+	void SetMapTexture(uint32_t maptexture) { mapTexture_ = maptexture; };
 public: // Getter
 	WorldTransform GetWorldTransform() { return worldTransform_; }
 	ModelData LoadObjFile(const std::string& directoryPath, const std::string& filename);
 	MaterialData LoadMaterialTemplateFile(const std::string& directoryPath, const std::string& filename);
+	// データを書き込む
 	WorldTransform worldTransform_;
 private:
 	Object3dCommon* objectCommon_ = nullptr;
@@ -52,7 +50,6 @@ private:
 	// RootSignature作成
 	Model* model_ = nullptr;
 	AnimationModel* animationModel_ = nullptr;
-
 
 	/*移動用*/
 	// WVP用のリソースを作る。Matrix4x4 1つ分のサイズを用意する
@@ -65,8 +62,8 @@ private:
 	/*カメラ用*/
 	Microsoft::WRL::ComPtr < ID3D12Resource> cameraForGPUResource_;
 	CameraForGPU* cameraForGPUData_;
-	// データを書き込む
-	
-};
 
+	// 環境マップ用Texture
+	uint32_t mapTexture_;
+};
 

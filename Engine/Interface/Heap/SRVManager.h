@@ -2,7 +2,7 @@
 #include <cstdint>
 #include <wrl.h>
 #include <d3d12.h>
-
+#include "TextureManager.h"
 /*----------------------------------------------------------
    このクラスはシングルトンパターンを元に設計する
 --------------------------------------------------------------*/
@@ -34,7 +34,7 @@ public:
 	static D3D12_GPU_DESCRIPTOR_HANDLE GetGPUDescriptorHandle(uint32_t index);
 
 	// SRV生成（テクスチャ用）
-	static void CreateSRVforTexture2D(uint32_t srvIndex, ID3D12Resource* pResource, DXGI_FORMAT Format, UINT MipLevels);
+	static void CreateSRVforTexture2D(const TextureData& textureData);
 	// SRV生成（Structured Buffer用）
 	static void CreateSRVforStructuredBuffer(uint32_t srvIndex, ID3D12Resource* pResource, UINT numElements, UINT structureByteStride);
 
@@ -48,3 +48,4 @@ public:
 
 
 };
+

@@ -1,14 +1,14 @@
-#include "IPostEffectState.h"
+ï»¿#include "IPostEffectState.h"
 
-// ƒ^ƒCƒgƒ‹ƒV[ƒ“‚Å‰Šú‰»
-int IPostEffectState::effectNo_ = kBloom;
+// ã‚¿ã‚¤ãƒˆãƒ«ã‚·ãƒ¼ãƒ³ã§åˆæœŸåŒ–
+int IPostEffectState::effectNo_ = kGrayscale;
 
-// ‰¼‘zƒfƒXƒgƒ‰ƒNƒ^‚Ì’è‹`
-// ƒˆ‰¼‘zŠÖ”‰»‚µ‚Ä‚¢‚È‚¢‚Ì‚ÅA‚±‚±‚Å’è‹`‚Å‚«‚é
+// ä»®æƒ³ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã®å®šç¾©
+// ç´”ç²‹ä»®æƒ³é–¢æ•°åŒ–ã—ã¦ã„ãªã„ã®ã§ã€ã“ã“ã§å®šç¾©ã§ãã‚‹
 IPostEffectState::~IPostEffectState() {}
 
-// ƒGƒtƒFƒNƒg”Ô†‚ÌƒQƒbƒ^[
+// ã‚¨ãƒ•ã‚§ã‚¯ãƒˆç•ªå·ã®ã‚²ãƒƒã‚¿ãƒ¼
 int IPostEffectState::GetEffectNo() { return effectNo_; }
 
-// ƒGƒtƒFƒNƒg”Ô†‚ÌƒZƒbƒ^[
+// ã‚¨ãƒ•ã‚§ã‚¯ãƒˆç•ªå·ã®ã‚»ãƒƒã‚¿ãƒ¼
 void IPostEffectState::SetEffectNo(int effectNo) { effectNo_ = effectNo; }

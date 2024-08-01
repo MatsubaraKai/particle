@@ -13,6 +13,7 @@
 #include <dxcapi.h>
 #include "ResourceObject.h"
 #include "Vector4.h"
+#include "TextureManager.h"
 
 #pragma comment(lib,"d3d12.lib")
 #pragma comment(lib,"dxgi.lib")
@@ -143,7 +144,7 @@ public: //Getter
 	D3D12_RENDER_TARGET_VIEW_DESC GetrtvDesc() { return rtvDesc_; };
 	D3D12_DEPTH_STENCIL_DESC GetDepthStencilDesc() { return depthStencilDesc_; };
 
-	uint32_t GetRenderIndex() { return renderindex_; }
+	uint32_t GetRenderIndex() { return renderTexData_.srvIndex; }
 	uint32_t GetDepthIndex() { return depthIndex_; }
 
 public:
@@ -268,7 +269,7 @@ private:
 	// シザー矩形
 	D3D12_RECT tmpScissorRect{};
 
-	uint32_t renderindex_;
+	TextureData renderTexData_;
 	uint32_t depthIndex_;
 
 

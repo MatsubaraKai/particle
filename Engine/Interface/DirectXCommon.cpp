@@ -413,11 +413,11 @@ void DirectXCommon::RTVInit() {
 
 void DirectXCommon::CrateRenderTexture()
 {
-	renderindex_ = SRVManager::GetInstance()->Allocate();
-	SRVManager::GetInstance()->CreateSRVforTexture2D(
-		renderindex_, renderTextureResource_.Get(),
-		DXGI_FORMAT_R8G8B8A8_UNORM_SRGB,
-		1);
+	renderTexData_.srvIndex = SRVManager::GetInstance()->Allocate();
+	renderTexData_.resource = renderTextureResource_;
+	renderTexData_.metaData.mipLevels = 1;
+	renderTexData_.metaData.format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+	SRVManager::GetInstance()->CreateSRVforTexture2D(renderTexData_);
 }
 
 void DirectXCommon::CreateFence() {
@@ -627,7 +627,7 @@ void DirectXCommon::InitializeFixFPS()
 void DirectXCommon::UpdateFixFPS()
 {
 	// 1/60秒ぴったりの時間
-	const std::chrono::microseconds kMinTime(uint64_t(1000000.f / 67.0f));
+	const std::chrono::microseconds kMinTime(uint64_t(1000000.f / 80.0f));
 	// 1/60秒よりわずかに短い時間
 	const std::chrono::microseconds kMinCheckTime(uint32_t(1000000.f / 65.0f));
 	// 現在時間を取得する

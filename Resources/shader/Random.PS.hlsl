@@ -1,5 +1,11 @@
 #include "Fullscreen.hlsli"
+struct Material
+{
+    float32_t2 projectionInverse;
+};
 
+
+ConstantBuffer<Material> gMaterial : register(b0);
 Texture2D<float32_t4> gTexture : register(t0);
 SamplerState gSampler : register(s0);
 
@@ -9,7 +15,7 @@ struct PixelShaderOutput
 };
 
 
-float32_t rand2dTo1d(float32_t2 input, float32_t2 dotDir = float32_t2(12.9898f, 78.233f))
+float32_t rand2dTo1d(float32_t2 input, float32_t2 dotDir = float32_t2(gMaterial.projectionInverse.x, gMaterial.projectionInverse.y))
 {
     float32_t2 smallValue = sin(input);
     float32_t random = dot(smallValue, dotDir);

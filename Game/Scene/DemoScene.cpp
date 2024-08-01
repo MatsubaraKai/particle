@@ -85,7 +85,7 @@ void DemoScene::Update()
 	PSOPostEffect* pSOPostEffect = PSOPostEffect::GatInstance();
 
 	fade->UpdateFade();
-	if (sceneTime == 180) {
+	/*if (sceneTime == 180) {
 		effect = true;
 	}
 	else {
@@ -105,7 +105,7 @@ void DemoScene::Update()
 	}
 	if (sceneTime >= 360) {
 		sceneTime = 0;
-	}
+	}*/
 	if (input->TriggerKey(DIK_SPACE)) {
 		fade->StartFadeIn();
 	}

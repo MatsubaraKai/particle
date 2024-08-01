@@ -1,21 +1,19 @@
-﻿#include "PSOModel.h"
-
-
-void PSO::CreatePipelineStateObject() {
+﻿#include "PSOSkybox.h"
+void PSOSkybox::CreatePipelineStateObject() {
 	// DirectXCommonのインスタンスを取得
 	DirectXCommon* sDirectXCommon = DirectXCommon::GetInstance();
 
-	PSO::CreateRootSignature();
-	PSO::SetInputLayout();
-	PSO::SetBlendState();
-	PSO::SetRasterrizerState();
-	PSO::CreateDepth();
+	PSOSkybox::CreateRootSignature();
+	PSOSkybox::SetInputLayout();
+	PSOSkybox::SetBlendState();
+	PSOSkybox::SetRasterrizerState();
+	PSOSkybox::CreateDepth();
 	// Shaderをコンパイルする
-	property.vertexShaderBlob = CompileShader(L"Resources/shader/Object3d.VS.hlsl",
+	property.vertexShaderBlob = CompileShader(L"Resources/shader/Skybox.VS.hlsl",
 		L"vs_6_0", sDirectXCommon->GetDxcUtils(), sDirectXCommon->GetDxcCompiler(), sDirectXCommon->GetIncludeHandler());
 	assert(property.vertexShaderBlob != nullptr);
 
-	property.pixelShaderBlob = CompileShader(L"Resources/shader/Object3d.PS.hlsl",
+	property.pixelShaderBlob = CompileShader(L"Resources/shader/Skybox.PS.hlsl",
 		L"ps_6_0", sDirectXCommon->GetDxcUtils(), sDirectXCommon->GetDxcCompiler(), sDirectXCommon->GetIncludeHandler());
 	assert(property.pixelShaderBlob != nullptr);
 
@@ -48,7 +46,7 @@ void PSO::CreatePipelineStateObject() {
 	assert(SUCCEEDED(hr_));
 }
 
-void PSO::CreateRootSignature() {
+void PSOSkybox::CreateRootSignature() {
 	// DirectXCommonのインスタンスを取得
 	DirectXCommon* sDirectXCommon = DirectXCommon::GetInstance();
 
@@ -74,8 +72,8 @@ void PSO::CreateRootSignature() {
 
 	rootParamerters[2].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE; // DescripterTableを使う
 	rootParamerters[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL; // PixelShaderで使う
-	rootParamerters[2].DescriptorTable.pDescriptorRanges = &descriptorRange_[0]; // Tableの中身の配列を指定
-	rootParamerters[2].DescriptorTable.NumDescriptorRanges = 1; // Tableで利用する数
+	rootParamerters[2].DescriptorTable.pDescriptorRanges = descriptorRange_; // Tableの中身の配列を指定
+	rootParamerters[2].DescriptorTable.NumDescriptorRanges = _countof(descriptorRange_); // Tableで利用する数
 
 	rootParamerters[3].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
 	rootParamerters[3].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
@@ -84,15 +82,6 @@ void PSO::CreateRootSignature() {
 	rootParamerters[4].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
 	rootParamerters[4].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
 	rootParamerters[4].Descriptor.ShaderRegister = 2;
-	descriptorRange_[1].BaseShaderRegister = 1; // 0から始まる
-	descriptorRange_[1].NumDescriptors = 1; // 数は1つ
-	descriptorRange_[1].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV; // SRVを使う
-	descriptorRange_[1].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND; // Offsetを自動計算
-
-	rootParamerters[5].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE; // DescripterTableを使う
-	rootParamerters[5].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL; // PixelShaderで使う
-	rootParamerters[5].DescriptorTable.pDescriptorRanges = &descriptorRange_[1]; // Tableの中身の配列を指定
-	rootParamerters[5].DescriptorTable.NumDescriptorRanges = 1; // Tableで利用する数
 
 	staticSamplers[0].Filter = D3D12_FILTER_MIN_MAG_MIP_LINEAR; // バイナリフィルタ
 	staticSamplers[0].AddressU = D3D12_TEXTURE_ADDRESS_MODE_WRAP; // 0~1の範囲外をリピート
@@ -122,7 +111,7 @@ void PSO::CreateRootSignature() {
 	assert(SUCCEEDED(hr_));
 }
 
-void PSO::SetInputLayout() {
+void PSOSkybox::SetInputLayout() {
 	inputElementDescs[0].SemanticName = "POSITION";
 	inputElementDescs[0].SemanticIndex = 0;
 	inputElementDescs[0].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
@@ -141,7 +130,7 @@ void PSO::SetInputLayout() {
 
 }
 
-void PSO::SetBlendState() {
+void PSOSkybox::SetBlendState() {
 	// blendStateの設定
 	//すべての色要素を書き込む
 	blendDesc.RenderTarget[0].RenderTargetWriteMask =
@@ -156,14 +145,14 @@ void PSO::SetBlendState() {
 	blendDesc.RenderTarget[0].DestBlendAlpha = D3D12_BLEND_ZERO;
 }
 
-void PSO::SetRasterrizerState() {
+void PSOSkybox::SetRasterrizerState() {
 	//裏面（時計回り）を表示しない
 	rasterizerDesc.CullMode = D3D12_CULL_MODE_BACK;
 	// 三角形の中を塗りつぶす
 	rasterizerDesc.FillMode = D3D12_FILL_MODE_SOLID;
 }
 
-void PSO::CreateDepth()
+void PSOSkybox::CreateDepth()
 {
 	// Depthの機能を有効化する
 	depthStencilDesc_.DepthEnable = true;
@@ -174,7 +163,7 @@ void PSO::CreateDepth()
 }
 
 
-PSO* PSO::GatInstance() {
-	static PSO instance;
+PSOSkybox* PSOSkybox::GatInstance() {
+	static PSOSkybox instance;
 	return &instance;
 }

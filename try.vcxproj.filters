@@ -67,7 +67,7 @@
     <ClCompile Include="Engine\Audio\Audio.cpp">
       <Filter>Engine\Interface</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Adapter\Engine.cpp">
+    <ClCompile Include="Engine\Audio\Adapter\Engine.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
     <ClCompile Include="Engine\2d\Sprite.cpp">
@@ -193,7 +193,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Engine\3d\Animation\Animation.cpp" />
     <ClCompile Include="Engine\3d\Model\AnimationModel.cpp" />
-    <ClCompile Include="Engine\Interface\Loder.cpp" />
+    <ClCompile Include="Game\Utilty\Loder.cpp" />
     <ClCompile Include="Engine\Interface\PSO\PSOAnimationModel.cpp">
       <Filter>Engine\Interface\PSO</Filter>
     </ClCompile>
@@ -210,6 +210,9 @@
     <ClCompile Include="Engine\2d\PostEffect\Effect\Random.cpp" />
     <ClCompile Include="Engine\2d\PostEffect\Effect\Vignette.cpp" />
     <ClCompile Include="Engine\2d\PostEffect\IPostEffectState.cpp" />
+    <ClCompile Include="Engine\3d\Skybox\Skybox.cpp" />
+    <ClCompile Include="Game\RailCamera\RailCamera.cpp" />
+    <ClCompile Include="Engine\Interface\PSO\PSOSkybox.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Interface\DirectXCommon.h">
@@ -233,7 +236,7 @@
     <ClInclude Include="Engine\Audio\Audio.h">
       <Filter>Engine\Interface</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Adapter\Engine.h">
+    <ClInclude Include="Engine\Audio\Adapter\Engine.h">
       <Filter>Engine</Filter>
     </ClInclude>
     <ClInclude Include="Lib\math\Matrix3x3.h">
@@ -394,7 +397,7 @@
     <ClInclude Include="Engine\3d\Animation\Animation.h" />
     <ClInclude Include="Engine\Externals\json.hpp" />
     <ClInclude Include="Engine\3d\Model\AnimationModel.h" />
-    <ClInclude Include="Engine\Interface\Loder.h" />
+    <ClInclude Include="Game\Utilty\Loder.h" />
     <ClInclude Include="Engine\Interface\PSO\PSOAnimationModel.h">
       <Filter>Engine\Interface\PSO</Filter>
     </ClInclude>
@@ -411,6 +414,9 @@
     <ClInclude Include="Engine\2d\PostEffect\Effect\Random.h" />
     <ClInclude Include="Engine\2d\PostEffect\Effect\Vignette.h" />
     <ClInclude Include="Engine\2d\PostEffect\IPostEffectState.h" />
+    <ClInclude Include="Engine\3d\Skybox\Skybox.h" />
+    <ClInclude Include="Game\RailCamera\RailCamera.h" />
+    <ClInclude Include="Engine\Interface\PSO\PSOSkybox.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui\imgui.ini">
@@ -468,15 +474,16 @@
     <FxCompile Include="Resources\shader\Fog.PS.hlsl" />
     <FxCompile Include="Resources\shader\RadialBlur.PS.hlsl" />
     <FxCompile Include="Resources\shader\Random.PS.hlsl" />
-    <FxCompile Include="Resources\shader\Test.PS.hlsl" />
-    <FxCompile Include="Resources\shader\Test2.PS.hlsl" />
-    <FxCompile Include="Resources\shader\Test3.PS.hlsl" />
-    <FxCompile Include="Resources\shader\Test4.PS.hlsl" />
-    <FxCompile Include="Resources\shader\Test5.PS.hlsl" />
-    <FxCompile Include="Resources\shader\Test6.PS.hlsl" />
-    <FxCompile Include="Resources\shader\Test7.PS.hlsl" />
+    <FxCompile Include="Resources\shader\OutlineBlack.PS.hlsl" />
+    <FxCompile Include="Resources\shader\TVEffect.PS.hlsl" />
+    <FxCompile Include="Resources\shader\OutlineBlue.PS.hlsl" />
+    <FxCompile Include="Resources\shader\OutlineTest.PS.hlsl" />
+    <FxCompile Include="Resources\shader\OutlinePurple.PS.hlsl" />
+    <FxCompile Include="Resources\shader\ChromaticAberration.PS.hlsl" />
+    <FxCompile Include="Resources\shader\HSVFilter.hlsl" />
     <FxCompile Include="Resources\shader\Test8.PS.hlsl" />
     <FxCompile Include="Resources\shader\Test9.PS.hlsl" />
     <FxCompile Include="Resources\shader\Test10.PS.hlsl" />
+    <FxCompile Include="Resources\shader\Bloom.PS.hlsl" />
   </ItemGroup>
 </Project>

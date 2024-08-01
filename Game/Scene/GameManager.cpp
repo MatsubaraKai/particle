@@ -4,8 +4,10 @@
 #include "DirectXCommon.h"
 #include "SRVManager.h"
 #include "PSOModel.h"
+#include "PSOAnimationModel.h"
 #include "PSOSprite.h"
 #include "PSOParticle.h"
+#include "PSOSkybox.h"
 #include "PSOPostEffect.h"
 #include "PostProcess.h"
 #include "Input.h"
@@ -80,8 +82,7 @@ int GameManager::Run() {
 	psoParticle->CreatePipelineStateObject();
 
 	PSOPostEffect* pSOPostEffect = PSOPostEffect::GatInstance();
-	pSOPostEffect->CreatePipelineStateObjectTest3();
-
+	pSOPostEffect->Init();
 
 	sceneArr_[currentSceneNo_]->Init();
 
@@ -111,10 +112,10 @@ int GameManager::Run() {
 		if (ImGui::BeginMenuBar()) {
 			if (ImGui::BeginMenu("PostEffect")) {
 				if (ImGui::MenuItem("Normal")) {
-					pSOPostEffect->CreatePipelineStateObject();
+					IPostEffectState::effectNo_ = kOutlineBlue;
 					currentStatus = "Normal effect applied";
 				}
-				if (ImGui::MenuItem("Outline")) {
+				/*if (ImGui::MenuItem("Outline")) {
 					pSOPostEffect->CreatePipelineStateObjectLuminancebasedoutline();
 					currentStatus = "Outline effect applied";
 				}
@@ -185,7 +186,7 @@ int GameManager::Run() {
 				if (ImGui::MenuItem("Test10")) {
 					pSOPostEffect->CreatePipelineStateObjectTest10();
 					currentStatus = "Test10 effect applied";
-				}
+				}*/
 
 				ImGui::EndMenu();
 			}

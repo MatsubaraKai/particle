@@ -1,5 +1,10 @@
 #include "Fullscreen.hlsli"
+struct Material
+{
+    float32_t projectionInverse;
+};
 
+ConstantBuffer<Material> gMaterial : register(b0);
 Texture2D<float32_t4> gTexture : register(t0);
 SamplerState gSampler : register(s0);
 
@@ -35,6 +40,7 @@ static const float32_t2 kIndex5x5[5][5] =
 
 
 
+
 struct PixelShaderOutput
 {
     float32_t4 color : SV_TARGET0;
@@ -47,13 +53,13 @@ PixelShaderOutput main(VertexShaderOutput input)
     float32_t2 uvStepSize = float32_t2(rcp(width), rcp(height));
     
     // kernelを求める weightは後で使う
-    uint32_t weight = 0.0f;
+    float32_t weight = 0.0f;
     float32_t kernel5x5[5][5];
     for (int32_t x = 0; x < KenelSize; ++x)
     {
         for (int32_t y = 0; y < KenelSize; ++y)
         {
-            kernel5x5[x][y] = gauss(kIndex5x5[x][y].x, kIndex5x5[x][y].y, 2.0f);
+            kernel5x5[x][y] = gauss(kIndex5x5[x][y].x, kIndex5x5[x][y].y, gMaterial.projectionInverse);
             weight += kernel5x5[x][y];
         }
     }
@@ -78,7 +84,8 @@ PixelShaderOutput main(VertexShaderOutput input)
     
     // 畳み込み後の値を正規化する。本来gauss関数は全体を合計すると（積分）になるように設計されている。しかし、無限の範囲は足せないので、kernel値
     // の合計であるweughtは1に満たない。なので、合計が1になるように逆数を掛けて全体を底上げして調整する
-    output.color.rgb = normalize(output.color.rgb);
+  
+    output.color.rgb *= rcp(weight);
     //output.color.rgb *= normalize(weight);
     
     return output;

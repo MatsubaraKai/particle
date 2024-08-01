@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <vector>
 #include <d3d12.h>
 #include <PSOProperty.h>
@@ -14,19 +14,26 @@ enum PostEffectMode {
 	kDissolve,
 	kRandom,
 	kBloom,
+	kFog,
+	kHSVFilter,
+	kLuminanceBasedOutline,
+	kOutlineBlack,
+	kOutlineBlue,
+	kTVEffect,
+	kOutlinePurple,
 	kNumPostEffect
 
 };
 class PostProcess;
-// ƒV[ƒ““à‚Å‚Ìˆ—‚ğs‚¤Šî’êƒNƒ‰ƒX
+// ã‚·ãƒ¼ãƒ³å†…ã§ã®å‡¦ç†ã‚’è¡Œã†åŸºåº•ã‚¯ãƒ©ã‚¹
 class IPostEffectState {
 protected:
-	// ƒV[ƒ“”Ô†‚ğŠÇ—‚·‚é•Ï”
+	// ã‚·ãƒ¼ãƒ³ç•ªå·ã‚’ç®¡ç†ã™ã‚‹å¤‰æ•°
 	static int effectNo_;
 public:
 
 	/// <summary>
-	/// •`‰æ‚ÉŠÖ‚·‚éİ’è‚ğ‚Ü‚Æ‚ß‚éŠÖ”
+	/// æç”»ã«é–¢ã™ã‚‹è¨­å®šã‚’ã¾ã¨ã‚ã‚‹é–¢æ•°
 	/// </summary>
 	virtual PSOProperty CreatePipelineStateObject() = 0;
 
@@ -34,53 +41,53 @@ public:
 	virtual void Init() = 0;
 
 	/// <summary>
-	/// Shader‚Ì”z—ñİ’è
+	/// Shaderã®é…åˆ—è¨­å®š
 	/// </summary>
 	/// <returns></returns>
 	virtual std::vector<D3D12_DESCRIPTOR_RANGE> CreateDescriptorRange() = 0;
 
 	/// <summary>
-	/// Shader‚É“n‚·’l‚ğŒˆ‚ß‚é
+	/// Shaderã«æ¸¡ã™å€¤ã‚’æ±ºã‚ã‚‹
 	/// </summary>
 	/// <returns></returns>
 	virtual std::vector<D3D12_ROOT_PARAMETER> CreateRootParamerter(std::vector<D3D12_DESCRIPTOR_RANGE>& descriptorRange) = 0;
 
 	/// <summary>
-	/// PS‚É‚Ì‘‚«‚İ•û‚Ìİ’è
+	/// PSã«ã®æ›¸ãè¾¼ã¿æ–¹ã®è¨­å®š
 	/// </summary>
 	/// <returns></returns>
 	virtual std::vector<D3D12_STATIC_SAMPLER_DESC> CreateSampler() = 0;
 
 	/// <summary>
-	/// Shader‚ÆResource‚ğŠÖŒW‚Ì‚Â‚¯•û‚ğŒˆ‚ß‚éŠÖ”
+	/// Shaderã¨Resourceã‚’é–¢ä¿‚ã®ã¤ã‘æ–¹ã‚’æ±ºã‚ã‚‹é–¢æ•°
 	/// </summary>
 	virtual D3D12_ROOT_SIGNATURE_DESC CreateRootSignature(PSOProperty& pso, std::vector<D3D12_ROOT_PARAMETER>& rootParameters, std::vector<D3D12_STATIC_SAMPLER_DESC>& samplers) = 0;
 
 	/// <summary>
-	/// VS‚Ö“n‚·’¸“_ƒf[ƒ^‚Ìw’è‚ğs‚¤ŠÖ”
+	/// VSã¸æ¸¡ã™é ‚ç‚¹ãƒ‡ãƒ¼ã‚¿ã®æŒ‡å®šã‚’è¡Œã†é–¢æ•°
 	/// </summary>
 	virtual D3D12_INPUT_LAYOUT_DESC SetInputLayout() = 0;
 
 	/// <summary>
-	/// PS‚©‚ç‚Ìo—Í‚ğ‚Ç‚¤‘‚«‚Ş‚©‚Ìİ’è‚ğs‚¤ŠÖ”
+	/// PSã‹ã‚‰ã®å‡ºåŠ›ã‚’ã©ã†æ›¸ãè¾¼ã‚€ã‹ã®è¨­å®šã‚’è¡Œã†é–¢æ•°
 	/// </summary>
 	virtual D3D12_BLEND_DESC SetBlendState() = 0;
 
 	/// <summary>
-	/// ƒ‰ƒXƒ^ƒ‰ƒCƒU[‚ÉŠÖ‚·‚éİ’è‚ÌŠÖ”
+	/// ãƒ©ã‚¹ã‚¿ãƒ©ã‚¤ã‚¶ãƒ¼ã«é–¢ã™ã‚‹è¨­å®šã®é–¢æ•°
 	/// </summary>
 	virtual D3D12_RASTERIZER_DESC SetRasterrizerState() = 0;
 
 	/// <summary>
-	/// DepthBuffer‚Ì¶¬
+	/// DepthBufferã®ç”Ÿæˆ
 	/// </summary>
 	virtual D3D12_DEPTH_STENCIL_DESC CreateDepth() = 0;
 
 
-	// ‰¼‘zƒfƒXƒgƒ‰ƒNƒ^‚ğ—pˆÓ‚µ‚È‚¢‚ÆŒx‚³‚ê‚é
+	// ä»®æƒ³ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã‚’ç”¨æ„ã—ãªã„ã¨è­¦å‘Šã•ã‚Œã‚‹
 	virtual ~IPostEffectState();
 
-	// ƒV[ƒ“”Ô†‚ÌƒQƒbƒ^[
+	// ã‚·ãƒ¼ãƒ³ç•ªå·ã®ã‚²ãƒƒã‚¿ãƒ¼
 	static int GetEffectNo();
 	static void SetEffectNo(int effectNo);
 

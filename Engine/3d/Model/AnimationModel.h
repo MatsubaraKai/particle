@@ -46,7 +46,7 @@ public:
 	~AnimationModel();
 	void Initialize(const std::string& directoryPath, const std::string& filePath, const Material& material);
 	void Update();
-	void Draw(uint32_t texture, const Material& material, const DirectionalLight& dire);
+	void Draw(uint32_t texture, const Material& material, const DirectionalLight& dire, uint32_t mapTexture);
 
 
 	void SetTextureManager(TextureManager* textureManager) {
@@ -85,7 +85,6 @@ private:
 	DirectXCommon* directXCommon_;
 	WinAPI* sWinAPI_;
 	TextureManager* textureManager_ = nullptr;
-	PSO* pso_ = nullptr;
 
 	Microsoft::WRL::ComPtr < ID3D12Resource> vertexResource_;
 	D3D12_VERTEX_BUFFER_VIEW vertexBufferView_;
@@ -120,6 +119,7 @@ private:
 
 	Matrix4x4 aniMatrix_;
 	Matrix4x4 skeMatrix_;
+	uint32_t mapTexture_;
 	float animationTime = 0.0f;
 };
 
