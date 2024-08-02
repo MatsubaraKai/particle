@@ -177,7 +177,9 @@ void DemoScene::Update()
 		object3d_[2]->worldTransform_.rotation_.x += 0.01f;
 		object3d_[2]->worldTransform_.rotation_.y -= 0.01f;
 		object3d_[2]->worldTransform_.rotation_.z -= 0.01f;
-		sceneTime++;
+		if (effectFlag == true) {
+			sceneTime++;
+		}
 
 		///////////////Debug///////////////
 
@@ -221,6 +223,7 @@ void DemoScene::Update()
 		if (ImGui::Button("FadeIn ")) {
 			fade->StartFadeIn();
 		}
+		ImGui::Checkbox("EffectFlag", &effectFlag);
 		ImGui::Text("Now Scene : %d", sceneNo);
 		ImGui::End();
 }
