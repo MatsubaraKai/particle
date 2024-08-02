@@ -46,8 +46,6 @@ void Skybox::Init(const Material& material)
 	modelData_.vertices[23].position = { -1.0f, -1.0f, 1.0f, 1.0f };
 
 
-
-
 	for (int i = 0; i < 24; ++i) {
 		modelData_.vertices[i].normal = {};
 		modelData_.vertices[i].texcorrd = {};

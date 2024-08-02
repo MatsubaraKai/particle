@@ -10,6 +10,7 @@
 #include "PostProcess.h"
 #include "Transform.h"
 #include "Fade.h"
+#include "Skybox.h"
 class DemoScene : public IScene
 {
 public:
@@ -22,6 +23,7 @@ public:
 
 	WorldTransform worldTransform;
 	WorldTransform worldTransform2;
+	WorldTransform worldTransformSKY;
 	WorldTransform TenQTransform;
 	Object3d* TenQOBJ = nullptr;
 private:
@@ -32,10 +34,12 @@ private:
 
 	std::vector<Object3d*> object3d_;
 	Object3d* GridOBJ = nullptr;
+	Object3d* object3d = nullptr;
 	Object3d* object3d2 = nullptr;
 	Object3d* ConeOBJ = nullptr;
 	Object3d* WallOBJ = nullptr;
-
+	Skybox* skybox_ = nullptr;
+	Material material;
 	Particle* particle = nullptr;
 	Particle* particle2 = nullptr;
 
@@ -47,6 +51,7 @@ private:
 	uint32_t CONEtextureHandle;
 	uint32_t TENQtextureHandle;
 	uint32_t GRIDtextureHandle;
+	uint32_t SKYtextureHandle;
 	
 	WorldTransform GridTransform;
 	

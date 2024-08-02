@@ -19,24 +19,37 @@ void DemoScene::Init()
 	TENQtextureHandle = TextureManager::StoreTexture("Resources/game/world2.png");
 	FADEtextureHandle = TextureManager::StoreTexture("Resources/black.png");
 	GRIDtextureHandle = TextureManager::StoreTexture("Resources/cian.png");
+	SKYtextureHandle = TextureManager::StoreTexture("Resources/game/rostock_laage_airport_4k.dds");
 
 	Loder::LoadJsonFile("Resources", "TL", object3d_, camera);
 
 	postProcess_ = new PostProcess();
 	postProcess_->SetCamera(camera);
 	postProcess_->Init();
+	skybox_ = new Skybox();
+	skybox_->Init(material);
+	material.color = { 1.0f,1.0f,1.0f,1.0f };
+	material.enableLighting = true;
 
 	GridOBJ = new Object3d();
 	GridOBJ->Init();
+	object3d = new Object3d();
+	object3d->Init();
 	object3d2 = new Object3d();
 	object3d2->Init();
 	ConeOBJ = new Object3d();
 	ConeOBJ->Init();
 	TenQOBJ = new Object3d();
 	TenQOBJ->Init();
-
+	
+	GridOBJ->SetMapTexture(SKYtextureHandle);
+	object3d2->SetMapTexture(SKYtextureHandle);
+	ConeOBJ->SetMapTexture(SKYtextureHandle);
+	TenQOBJ->SetMapTexture(SKYtextureHandle);
+	object3d->SetSkybox(skybox_);
 	worldTransform.Initialize();
 	worldTransform2.Initialize();
+	worldTransformSKY.Initialize();
 	GridTransform.Initialize();
 	TenQTransform.Initialize();
 
@@ -53,11 +66,16 @@ void DemoScene::Init()
 	TenQTransform.scale_.y = 2.0f;
 	TenQTransform.scale_.z = 2.0f;
 	TenQOBJ->SetWorldTransform(TenQTransform);
-	
+
+	worldTransformSKY.translation_.x = 0;
+	worldTransformSKY.scale_ = { 100,100,100 };
+	object3d->SetWorldTransform(worldTransformSKY);
+
 	GridOBJ->SetModel("grid.obj");
 	ConeOBJ->SetModel("cone.obj");
 	TenQOBJ->SetModel("world2.obj");
 	object3d2->SetModel("sneakWalk.gltf");
+	
 	
 	particle = new Particle();
 	particle2 = new Particle();
@@ -169,6 +187,7 @@ void DemoScene::Update()
 		ConeOBJ->Update();
 		TenQOBJ->Update();
 		object3d2->Update();
+		object3d->Update();
 
 		object3d_[0]->worldTransform_.rotation_.y += 0.001f;
 		object3d_[1]->worldTransform_.rotation_.x += 0.01f;
@@ -194,6 +213,7 @@ void DemoScene::Update()
 		GridOBJ->ModelDebug("grid");												
 		ConeOBJ->ModelDebug("cone");
 		TenQOBJ->ModelDebug("TenQ");
+		object3d->ModelDebug("SKY");
 
 		object3d2->ModelDebug("chara");
 
@@ -237,6 +257,7 @@ void DemoScene::Draw()
 	ConeOBJ->Draw(CONEtextureHandle, camera);
 	TenQOBJ->Draw(TENQtextureHandle, camera);
 	object3d2->Draw(UVtextureHandle, camera);
+	object3d->Draw(SKYtextureHandle, camera);
 	particle->Draw(ParticleEmitter_, { worldTransform.translation_.x,worldTransform.translation_.y,worldTransform.translation_.z + 5 }, UVtextureHandle, camera, demoRandPro, false);
 	particle2->Draw(ParticleEmitter_, { worldTransform2.translation_.x,worldTransform2.translation_.y,worldTransform2.translation_.z + 5 }, WHITEtextureHandle, camera, demoRandPro, false);
 	fade->Draw();

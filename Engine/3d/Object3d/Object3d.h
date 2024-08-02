@@ -19,7 +19,7 @@
 #include "AnimationModel.h"
 #include "Object3dCommon.h"
 #include <PSOAnimationModel.h>
-
+#include "Skybox.h"
 #pragma comment(lib,"d3d12.lib")
 #pragma comment(lib,"dxgi.lib")
 #pragma comment(lib,"dxcompiler.lib")
@@ -34,6 +34,7 @@ public:
 	void SetModel(Model* model) { model_ = model; }
 	void SetModel(const std::string& filePath);
 	void SetAnimationModel(const std::string& filePath);
+	void SetSkybox(Skybox* skybox) { skybox_ = skybox; }
 	void SetWorldTransform(const WorldTransform& worldtransform) { worldTransform_ = worldtransform; };
 	void SetTransform(Transform transform);
 	void SetMapTexture(uint32_t maptexture) { mapTexture_ = maptexture; };
@@ -50,6 +51,7 @@ private:
 	// RootSignature作成
 	Model* model_ = nullptr;
 	AnimationModel* animationModel_ = nullptr;
+	Skybox* skybox_ = nullptr;
 
 	/*移動用*/
 	// WVP用のリソースを作る。Matrix4x4 1つ分のサイズを用意する
