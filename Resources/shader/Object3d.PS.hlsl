@@ -83,11 +83,11 @@ PixelShaderOutput main(VertexShaderOutput input)
     {
         output.color = gMaterial.color * textureColor;
     }
-    float32_t3 cameraToPosition = normalize(input.worldPosition - gCamera.worldPosition);
-    float32_t3 reflectedVector = reflect(cameraToPosition, normalize(input.normal));
-    float32_t4 environmentColor = gEnvironmentTexture.Sample(gSampler, reflectedVector);
+    //float32_t3 cameraToPosition = normalize(input.worldPosition - gCamera.worldPosition);
+    //float32_t3 reflectedVector = reflect(cameraToPosition, normalize(input.normal));
+    //float32_t4 environmentColor = gEnvironmentTexture.Sample(gSampler, reflectedVector);
 
-    output.color.rgb = environmentColor.rgb;
+    //output.color.rgb = environmentColor.rgb;
     //output.color.a = 1.0f;
     return output;
 

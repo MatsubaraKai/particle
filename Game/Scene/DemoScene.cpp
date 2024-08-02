@@ -68,7 +68,7 @@ void DemoScene::Init()
 	TenQOBJ->SetWorldTransform(TenQTransform);
 
 	worldTransformSKY.translation_.x = 0;
-	worldTransformSKY.scale_ = { 100,100,100 };
+	worldTransformSKY.scale_ = { 1000,1000,1000 };
 	object3d->SetWorldTransform(worldTransformSKY);
 
 	GridOBJ->SetModel("grid.obj");
