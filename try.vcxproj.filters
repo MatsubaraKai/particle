@@ -454,6 +454,7 @@
       <Filter>Resource\Shader</Filter>
     </None>
     <None Include="Resources\shader\Fullscreen.hlsli" />
+    <None Include="Resources\shader\Skybox.hlsli" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="imgui\LICENSE.txt" />
@@ -496,10 +497,12 @@
     <FxCompile Include="Resources\shader\OutlineTest.PS.hlsl" />
     <FxCompile Include="Resources\shader\Test8.PS.hlsl" />
     <FxCompile Include="Resources\shader\ChromaticAberration.PS.hlsl" />
-    <FxCompile Include="Resources\shader\HSVFilter.hlsl" />
+    <FxCompile Include="Resources\shader\HSVFilter.PS.hlsl" />
     <FxCompile Include="Resources\shader\OutlinePurple.PS.hlsl" />
     <FxCompile Include="Resources\shader\Test9.PS.hlsl" />
     <FxCompile Include="Resources\shader\Test10.PS.hlsl" />
     <FxCompile Include="Resources\shader\Bloom.PS.hlsl" />
+    <FxCompile Include="Resources\shader\Skybox.VS.hlsl" />
+    <FxCompile Include="Resources\shader\Skybox.PS.hlsl" />
   </ItemGroup>
 </Project>
