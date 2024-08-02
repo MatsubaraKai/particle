@@ -18,9 +18,9 @@ struct VertexShaderInput
     float32_t3 normal : NORMAL0;
 };
 
-VertexShaderOutput main(VertexShaderInput input)
+VetexshaderOutput main(VertexShaderInput input)
 {
-    VertexShaderOutput output;
+    VetexshaderOutput output;
     output.position = mul(input.position, gTransformationMatrix.WVP).xyww;
     output.texcoord = input.position.xyz;
 

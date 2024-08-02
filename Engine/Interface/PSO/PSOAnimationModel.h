@@ -1,11 +1,8 @@
 ﻿#pragma once
-
-#pragma once
 #include <d3d12.h>
 #include "DirectXCommon.h"
 #include "PSOProperty.h"
 #include "Vector3.h"
-
 
 struct CameraForGPU {
 	Vector3 worldPosition;

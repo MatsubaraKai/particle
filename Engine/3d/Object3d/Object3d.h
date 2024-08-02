@@ -30,6 +30,7 @@ public:
 	void Update();
 	void Draw(uint32_t texture, Camera* camera);
 	void Release();
+
 	void ModelDebug(const char* name);
 	void SetModel(Model* model) { model_ = model; }
 	void SetModel(const std::string& filePath);
@@ -42,17 +43,17 @@ public: // Getter
 	WorldTransform GetWorldTransform() { return worldTransform_; }
 	ModelData LoadObjFile(const std::string& directoryPath, const std::string& filename);
 	MaterialData LoadMaterialTemplateFile(const std::string& directoryPath, const std::string& filename);
-	// データを書き込む
 	WorldTransform worldTransform_;
+
 private:
 	Object3dCommon* objectCommon_ = nullptr;
-
+	DirectionalLight* directionalLightData;
 	HRESULT hr;
 	// RootSignature作成
 	Model* model_ = nullptr;
 	AnimationModel* animationModel_ = nullptr;
 	Skybox* skybox_ = nullptr;
-
+	// データを書き込む
 	/*移動用*/
 	// WVP用のリソースを作る。Matrix4x4 1つ分のサイズを用意する
 	TransformationMatrix* wvpData;

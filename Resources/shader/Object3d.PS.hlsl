@@ -75,7 +75,7 @@ PixelShaderOutput main(VertexShaderOutput input)
         float32_t4 environmentColor = gEnvironmentTexture.Sample(gSampler, reflectedVector);
 
 		//// 拡散反射+鏡面反射
-        output.color.rgb = environmentColor.rgb + diffuse + specular;
+        output.color.rgb = environmentColor.rgb; // + diffuse + specular;
 		//// αは今まで通り
         output.color.a = gMaterial.color.a * textureColor.a;
     }
@@ -83,7 +83,12 @@ PixelShaderOutput main(VertexShaderOutput input)
     {
         output.color = gMaterial.color * textureColor;
     }
-	
+    float32_t3 cameraToPosition = normalize(input.worldPosition - gCamera.worldPosition);
+    float32_t3 reflectedVector = reflect(cameraToPosition, normalize(input.normal));
+    float32_t4 environmentColor = gEnvironmentTexture.Sample(gSampler, reflectedVector);
+
+    output.color.rgb = environmentColor.rgb;
+    //output.color.a = 1.0f;
     return output;
 
 };

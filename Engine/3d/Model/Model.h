@@ -47,7 +47,7 @@ public:
 	~Model();
 	void Initialize(const std::string& directoryPath, const std::string& filePath, const Material& material);
 	void Update();
-	void Draw(uint32_t texture, const Material& material, const DirectionalLight& dire);
+	void Draw(uint32_t texture, const Material& material, const DirectionalLight& dire, uint32_t mapTexture);
 
 
 	void SetTextureManager(TextureManager* textureManager) {

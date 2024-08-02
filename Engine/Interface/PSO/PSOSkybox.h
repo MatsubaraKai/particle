@@ -5,7 +5,6 @@
 #include "PSOProperty.h"
 
 
-
 class PSOSkybox : public PSOProperty
 {
 public:

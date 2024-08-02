@@ -193,6 +193,8 @@ ModelData Model::LoadGLTFFile(const std::string& directoryPath, const std::strin
 				jointWeightData.vertexWeights.push_back({ bone->mWeights[weightIndex].mWeight,bone->mWeights[weightIndex].mVertexId });
 			}
 		}
+
+
 	}
 
 	for (uint32_t materialIndex = 0; materialIndex < scene->mNumMaterials; ++materialIndex) {
@@ -206,6 +208,7 @@ ModelData Model::LoadGLTFFile(const std::string& directoryPath, const std::strin
 
 	modelData_.rootNode = ReadNode(scene->mRootNode);
 	return modelData_;
+
 }
 ;
 
@@ -227,6 +230,7 @@ MaterialData Model::LoadMaterialTemplateFile(const std::string& directoryPath, c
 			// 連結してファイルパスにする
 			materialData.textureFilePath = directoryPath + "/" + textureFilename;
 		}
+
 	}
 
 	return materialData;
@@ -314,6 +318,7 @@ void Model::ApplyAnimation(SkeletonData& skeleton, const AnimationData& animatio
 			joint.transform.translate = CalculateValue(rootNodeAnimation.translate.keyframes, animationTime);
 			joint.transform.rotate = CalculateValue(rootNodeAnimation.rotate.keyframes, animationTime);
 			joint.transform.scale = CalculateValue(rootNodeAnimation.scale.keyframes, animationTime);
+
 		}
 	}
 }
@@ -361,6 +366,8 @@ void Model::Initialize(const std::string& directoryPath, const std::string& file
 		{0.0f,0.0f,0.0f}
 	};
 
+
+
 	directionalLightData = nullptr;
 	directionalLightResource = Mesh::CreateBufferResource(directXCommon_->GetDevice(), sizeof(DirectionalLight));
 	// 書き込むためのアドレスを取得
@@ -381,6 +388,7 @@ void Model::Initialize(const std::string& directoryPath, const std::string& file
 
 	std::memcpy(indexDataSprite, modelData_.indices.data(), sizeof(uint32_t) * modelData_.indices.size());
 	//worldTransform_.Initialize();
+
 };
 
 void Model::Update() {
@@ -389,7 +397,7 @@ void Model::Update() {
 };
 
 
-void Model::Draw(uint32_t texture, const Material& material, const DirectionalLight& dire) {
+void Model::Draw(uint32_t texture, const Material& material, const DirectionalLight& dire, uint32_t mapTexture) {
 
 	pso_ = PSO::GatInstance();
 	vbvs[0] = vertexBufferView_;
@@ -421,6 +429,8 @@ void Model::Draw(uint32_t texture, const Material& material, const DirectionalLi
 	directXCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(2, SRVManager::GetGPUDescriptorHandle(texture));
 
 	directXCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(3, directionalLightResource->GetGPUVirtualAddress());
+	directXCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(5, SRVManager::GetGPUDescriptorHandle(mapTexture));
+
 	//directXCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(5, skinCluster_.paletteSrvHandle.second);
 	directXCommon_->GetCommandList()->DrawIndexedInstanced(static_cast<uint32_t>(modelData_.indices.size()), 1, 0, 0, 0);
 	//directXCommon_->GetCommandList()->DrawInstanced(UINT(modelData_.vertices.size()), 1, 0, 0);

@@ -46,20 +46,18 @@ void Object3d::Draw(uint32_t texture, Camera* camera)
 	DirectXCommon* directXCommon = DirectXCommon::GetInstance();
 	if (animationModel_) {
 		PSOAnimationModel* pso = PSOAnimationModel::GatInstance();
-		//directionalLightData->direction =  Normalize(directionalLightData->direction);
 		directXCommon->GetCommandList()->SetGraphicsRootSignature(pso->GetProperty().rootSignature.Get());
 		directXCommon->GetCommandList()->SetPipelineState(pso->GetProperty().graphicsPipelineState.Get());    //PSOを設定
-
 	}
 	else if (model_) {
 		PSO* pso = PSO::GatInstance();
-		//directionalLightData->direction =  Normalize(directionalLightData->direction);
+
 		directXCommon->GetCommandList()->SetGraphicsRootSignature(pso->GetProperty().rootSignature.Get());
 		directXCommon->GetCommandList()->SetPipelineState(pso->GetProperty().graphicsPipelineState.Get());    //PSOを設定
+		
 	}
 	else if (skybox_) {
 		PSOSkybox* pso = PSOSkybox::GatInstance();
-		//directionalLightData->direction =  Normalize(directionalLightData->direction);
 		directXCommon->GetCommandList()->SetGraphicsRootSignature(pso->GetProperty().rootSignature.Get());
 		directXCommon->GetCommandList()->SetPipelineState(pso->GetProperty().graphicsPipelineState.Get());    //PSOを設定
 	}
@@ -83,7 +81,7 @@ void Object3d::Draw(uint32_t texture, Camera* camera)
 		wvpData->WVP = worldViewProjectionMatrix;
 		wvpData->World = worldTransform_.matWorld_;
 		model_->Draw(texture, { { 1.0f,1.0f,1.0f,1.0f },false
-			}, { { 1.0f,1.0,1.0,1.0f } ,{ 0.0f,-1.0f,0.0f },0.5f });
+			}, { { 1.0f,1.0,1.0,1.0f } ,{ 0.0f,-1.0f,0.0f },0.5f }, mapTexture_);
 	}
 	else if (skybox_) {
 		wvpData->WVP = worldViewProjectionMatrix;

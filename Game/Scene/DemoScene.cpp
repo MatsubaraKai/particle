@@ -258,6 +258,7 @@ void DemoScene::Draw()
 	TenQOBJ->Draw(TENQtextureHandle, camera);
 	object3d2->Draw(UVtextureHandle, camera);
 	object3d->Draw(SKYtextureHandle, camera);
+
 	particle->Draw(ParticleEmitter_, { worldTransform.translation_.x,worldTransform.translation_.y,worldTransform.translation_.z + 5 }, UVtextureHandle, camera, demoRandPro, false);
 	particle2->Draw(ParticleEmitter_, { worldTransform2.translation_.x,worldTransform2.translation_.y,worldTransform2.translation_.z + 5 }, WHITEtextureHandle, camera, demoRandPro, false);
 	fade->Draw();

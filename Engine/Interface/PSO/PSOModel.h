@@ -3,8 +3,6 @@
 #include "DirectXCommon.h"
 #include "PSOProperty.h"
 
-
-
 class PSO : public PSOProperty
 {
 public:
