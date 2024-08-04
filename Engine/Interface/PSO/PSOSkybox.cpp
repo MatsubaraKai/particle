@@ -16,7 +16,7 @@ void PSOSkybox::CreatePipelineStateObject() {
 	property.pixelShaderBlob = CompileShader(L"Resources/shader/Skybox.PS.hlsl",
 		L"ps_6_0", sDirectXCommon->GetDxcUtils(), sDirectXCommon->GetDxcCompiler(), sDirectXCommon->GetIncludeHandler());
 	assert(property.pixelShaderBlob != nullptr);
-
+	D3D12_GRAPHICS_PIPELINE_STATE_DESC graphicsPipelineStateDesc{};
 	graphicsPipelineStateDesc.pRootSignature = property.rootSignature.Get(); // RootSignature
 	graphicsPipelineStateDesc.InputLayout = inputLayoutDesc; //InputLayout
 	graphicsPipelineStateDesc.VS = { property.vertexShaderBlob->GetBufferPointer(),
@@ -55,7 +55,7 @@ void PSOSkybox::CreateRootSignature() {
 
 	// シリアライズしてバイナリにする
 	property.signatureBlob = nullptr;
-
+	
 	// RootParmeter作成。複数でっていできるので配列。今回は結果１つだけなので長さ1の配列
 	rootParamerters[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;  // CBVを使う
 	rootParamerters[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;  // PixelShaderで使う
@@ -82,6 +82,20 @@ void PSOSkybox::CreateRootSignature() {
 	rootParamerters[4].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
 	rootParamerters[4].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
 	rootParamerters[4].Descriptor.ShaderRegister = 2;
+
+	D3D12_DESCRIPTOR_RANGE skyboxtex_[1] = {};
+
+	skyboxtex_[0].BaseShaderRegister = 1; // 0から始まる
+	skyboxtex_[0].NumDescriptors = 1; // 数は1つ
+	skyboxtex_[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV; // SRVを使う
+	skyboxtex_[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND; // Offsetを自動計算
+
+
+	rootParamerters[5].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE; // DescripterTableを使う
+	rootParamerters[5].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL; // PixelShaderで使う
+	rootParamerters[5].DescriptorTable.pDescriptorRanges = skyboxtex_; // Tableの中身の配列を指定
+	rootParamerters[5].DescriptorTable.NumDescriptorRanges = _countof(skyboxtex_); // Tableで利用する数
+
 
 	staticSamplers[0].Filter = D3D12_FILTER_MIN_MAG_MIP_LINEAR; // バイナリフィルタ
 	staticSamplers[0].AddressU = D3D12_TEXTURE_ADDRESS_MODE_WRAP; // 0~1の範囲外をリピート

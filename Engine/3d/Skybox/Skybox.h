@@ -30,7 +30,6 @@ private:
 
 
 
-
 	// 平行光源用
 	Microsoft::WRL::ComPtr < ID3D12Resource> directionalLightResource;
 

@@ -6,10 +6,7 @@ struct TransformationMatrix
     float32_t4x4 World;
 };
 
-
 ConstantBuffer<TransformationMatrix> gTransformationMatrix : register(b0);
-
-
 
 struct VertexShaderInput
 {
@@ -26,7 +23,3 @@ VetexshaderOutput main(VertexShaderInput input)
 
     return output;
 }
-//float4 main( float4 pos : POSITION ) : SV_POSITION
-//{
-//	return pos;
-//}

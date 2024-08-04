@@ -39,9 +39,9 @@ private:
 	Object3d* ConeOBJ = nullptr;
 	Object3d* WallOBJ = nullptr;
 	Skybox* skybox_ = nullptr;
-	Material material;
 	Particle* particle = nullptr;
 	Particle* particle2 = nullptr;
+	Material material;
 
 	PostProcess* postProcess_ = nullptr;
 	//変数

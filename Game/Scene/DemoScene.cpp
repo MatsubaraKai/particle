@@ -42,9 +42,9 @@ void DemoScene::Init()
 	TenQOBJ = new Object3d();
 	TenQOBJ->Init();
 	
-	GridOBJ->SetMapTexture(SKYtextureHandle);
+	/*GridOBJ->SetMapTexture(SKYtextureHandle);
 	object3d2->SetMapTexture(SKYtextureHandle);
-	ConeOBJ->SetMapTexture(SKYtextureHandle);
+	ConeOBJ->SetMapTexture(SKYtextureHandle);*/
 	TenQOBJ->SetMapTexture(SKYtextureHandle);
 	object3d->SetSkybox(skybox_);
 	worldTransform.Initialize();

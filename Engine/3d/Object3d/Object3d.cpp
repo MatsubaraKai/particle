@@ -81,7 +81,7 @@ void Object3d::Draw(uint32_t texture, Camera* camera)
 		wvpData->WVP = worldViewProjectionMatrix;
 		wvpData->World = worldTransform_.matWorld_;
 		model_->Draw(texture, { { 1.0f,1.0f,1.0f,1.0f },false
-			}, { { 1.0f,1.0,1.0,1.0f } ,{ 0.0f,-1.0f,0.0f },0.5f }, mapTexture_);
+			}, { { 1.0f,1.0,1.0,1.0f } ,{ 0.0f,-1.0f,0.0f },0.5f }, 13);
 	}
 	else if (skybox_) {
 		wvpData->WVP = worldViewProjectionMatrix;
@@ -113,6 +113,7 @@ void Object3d::SetTransform(Transform transform)
 	worldTransform_.scale_ = transform.scale;
 
 }
+
 
 ModelData Object3d::LoadObjFile(const std::string& directoryPath, const std::string& filename)
 {
