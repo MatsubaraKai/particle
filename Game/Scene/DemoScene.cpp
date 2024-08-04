@@ -33,20 +33,16 @@ void DemoScene::Init()
 
 	GridOBJ = new Object3d();
 	GridOBJ->Init();
-	object3d = new Object3d();
-	object3d->Init();
-	object3d2 = new Object3d();
-	object3d2->Init();
+	SkyBoxOBJ = new Object3d();
+	SkyBoxOBJ->Init();
+	PlayerOBJ = new Object3d();
+	PlayerOBJ->Init();
 	ConeOBJ = new Object3d();
 	ConeOBJ->Init();
 	TenQOBJ = new Object3d();
 	TenQOBJ->Init();
 	
-	/*GridOBJ->SetMapTexture(SKYtextureHandle);
-	object3d2->SetMapTexture(SKYtextureHandle);
-	ConeOBJ->SetMapTexture(SKYtextureHandle);*/
-	TenQOBJ->SetMapTexture(SKYtextureHandle);
-	object3d->SetSkybox(skybox_);
+	SkyBoxOBJ->SetSkybox(skybox_);
 	worldTransform.Initialize();
 	worldTransform2.Initialize();
 	worldTransformSKY.Initialize();
@@ -69,12 +65,16 @@ void DemoScene::Init()
 
 	worldTransformSKY.translation_.x = 0;
 	worldTransformSKY.scale_ = { 1000,1000,1000 };
-	object3d->SetWorldTransform(worldTransformSKY);
+	SkyBoxOBJ->SetWorldTransform(worldTransformSKY);
+
+	PlayerOBJ->worldTransform_.translation_ = { -2.12f,0.0f,-8.98f };
+	PlayerOBJ->worldTransform_.scale_ = { 3.0f,3.0f,3.0f };
+	PlayerOBJ->worldTransform_.rotation_ = { 0.0f,2.93f,0.0f };
 
 	GridOBJ->SetModel("grid.obj");
 	ConeOBJ->SetModel("cone.obj");
 	TenQOBJ->SetModel("world2.obj");
-	object3d2->SetModel("sneakWalk.gltf");
+	PlayerOBJ->SetModel("sneakWalk.gltf");
 	
 	
 	particle = new Particle();
@@ -103,27 +103,27 @@ void DemoScene::Update()
 	PSOPostEffect* pSOPostEffect = PSOPostEffect::GatInstance();
 
 	fade->UpdateFade();
-	if (sceneTime == 180) {
-		effect = true;
-	}
-	else {
-		effect = false;
-	}
-	if (sceneTime == 360) {
-		effect2 = true;
-	}
-	else {
-		effect2 = false;
-	}
-	if (effect == true) {
-		IPostEffectState::SetEffectNo(kOutlinePurple);
-	}
-	if (effect2 == true) {
-		IPostEffectState::SetEffectNo(kOutlineBlue);
-	}
-	if (sceneTime >= 360) {
-		sceneTime = 0;
-	}
+	//if (sceneTime == 180) {
+	//	effect = true;
+	//}
+	//else {
+	//	effect = false;
+	//}
+	//if (sceneTime == 360) {
+	//	effect2 = true;
+	//}
+	//else {
+	//	effect2 = false;
+	//}
+	//if (effect == true) {
+	//	IPostEffectState::SetEffectNo(kOutlinePurple);
+	//}
+	//if (effect2 == true) {
+	//	IPostEffectState::SetEffectNo(kOutlineBlue);
+	//}
+	//if (sceneTime >= 360) {
+	//	sceneTime = 0;
+	//}
 	if (input->TriggerKey(DIK_SPACE)) {
 		fade->StartFadeIn();
 	}
@@ -186,8 +186,8 @@ void DemoScene::Update()
 		GridOBJ->Update();
 		ConeOBJ->Update();
 		TenQOBJ->Update();
-		object3d2->Update();
-		object3d->Update();
+		PlayerOBJ->Update();
+		SkyBoxOBJ->Update();
 
 		object3d_[0]->worldTransform_.rotation_.y += 0.001f;
 		object3d_[1]->worldTransform_.rotation_.x += 0.01f;
@@ -213,9 +213,9 @@ void DemoScene::Update()
 		GridOBJ->ModelDebug("grid");												
 		ConeOBJ->ModelDebug("cone");
 		TenQOBJ->ModelDebug("TenQ");
-		object3d->ModelDebug("SKY");
+		SkyBoxOBJ->ModelDebug("SKY");
 
-		object3d2->ModelDebug("chara");
+		PlayerOBJ->ModelDebug("chara");
 
 		particle->Particledebug("uv", worldTransform);
 		particle2->Particledebug("white", worldTransform2);
@@ -256,8 +256,8 @@ void DemoScene::Draw()
 	GridOBJ->Draw(GRIDtextureHandle, camera);
 	ConeOBJ->Draw(CONEtextureHandle, camera);
 	TenQOBJ->Draw(TENQtextureHandle, camera);
-	object3d2->Draw(UVtextureHandle, camera);
-	object3d->Draw(SKYtextureHandle, camera);
+	PlayerOBJ->Draw(UVtextureHandle, camera);
+	SkyBoxOBJ->Draw(SKYtextureHandle, camera);
 
 	particle->Draw(ParticleEmitter_, { worldTransform.translation_.x,worldTransform.translation_.y,worldTransform.translation_.z + 5 }, UVtextureHandle, camera, demoRandPro, false);
 	particle2->Draw(ParticleEmitter_, { worldTransform2.translation_.x,worldTransform2.translation_.y,worldTransform2.translation_.z + 5 }, WHITEtextureHandle, camera, demoRandPro, false);

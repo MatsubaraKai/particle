@@ -17,7 +17,7 @@ private:
 	int currentSceneNo_ = 0;
 	int prevSceneNo_ = 0;
 public:
-	const char* currentStatus = "Outline Blue";
+	const char* currentStatus = "bloom effect applied";
 	GameManager();
 	~GameManager();
 

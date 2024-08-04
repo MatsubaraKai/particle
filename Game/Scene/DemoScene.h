@@ -34,8 +34,8 @@ private:
 
 	std::vector<Object3d*> object3d_;
 	Object3d* GridOBJ = nullptr;
-	Object3d* object3d = nullptr;
-	Object3d* object3d2 = nullptr;
+	Object3d* SkyBoxOBJ = nullptr;
+	Object3d* PlayerOBJ = nullptr;
 	Object3d* ConeOBJ = nullptr;
 	Object3d* WallOBJ = nullptr;
 	Skybox* skybox_ = nullptr;
