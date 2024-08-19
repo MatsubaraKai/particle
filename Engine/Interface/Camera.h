@@ -12,7 +12,8 @@ class Camera
 public:
 	void Initialize();
 	void Update();
-	void Move();
+	void Move(bool isOnFloor);
+	void Jump(bool isOnFloor);
 	float Lerp(const float& a, const float& b, float t);
 	float LerpShortAngle(float a, float b, float t);
 	float LerpShortTranslate(float a, float b, float t);
@@ -58,9 +59,6 @@ private:
 
 	float JumpSpeed = 0.2f;
 	bool isJumping = false;
+	bool isFalling = false;
 	float jumpVelocity = 0.0f;
-
-	float DashSpeed = 0.3f;
-	bool isDashing = false;
-	Vector3 dashDirection = { 0.0f, 0.0f, 0.0f };
 };

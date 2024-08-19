@@ -44,7 +44,7 @@ void Camera::CameraDebug()
     //#endif // _DEBUG
 }
 
-void Camera::Move()
+void Camera::Move(bool isOnFloor)
 {
     // ゲームパッドの状態を得る変数(XINPUT)
     XINPUT_STATE joyState;
@@ -74,21 +74,18 @@ void Camera::Move()
         angle_ = std::atan2(move.x, move.z);
         transform_.rotate.y = LerpShortAngle(transform_.rotate.y, angle_, 0.1f);
     }
-
     // キーボードによる移動量の更新
     transform_.translate.x += move.x;
     transform_.translate.z += move.z;
 
-    // ジャンプの処理
-    if (isJumping)
-    {
+    if (isOnFloor == false) {
         transform_.translate.y += jumpVelocity;
         jumpVelocity += Gravity;
-        if (transform_.translate.y <= GroundLevel)
-        {
-            transform_.translate.y = GroundLevel;
-            isJumping = false;
+        if (transform_.translate.y <= -10.0f) {
             jumpVelocity = 0.0f;
+            transform_.translate.x = 0.0f;
+            transform_.translate.y = 5.0f;
+            transform_.translate.z = 0.0f;
         }
     }
 
@@ -154,7 +151,39 @@ void Camera::Move()
                 transform_.rotate.x = minPitch;
             }
         }
+    }
+}
 
+void Camera::Jump(bool isOnFloor) {
+    XINPUT_STATE joyState;
+    // ジャンプ中の処理
+    if (isJumping) {
+        transform_.translate.y += jumpVelocity;
+        jumpVelocity += Gravity;
+
+        // 落下しすぎた場合の処理（リセット）
+        if (transform_.translate.y <= -10.0f) {
+            jumpVelocity = 0.0f;
+            transform_.translate.x = 0.0f;
+            transform_.translate.y = 5.0f;
+            transform_.translate.z = 0.0f;
+            isJumping = false;
+        }
+    }
+
+    // 地面にいる場合の処理
+    if (isOnFloor) {
+        isJumping = false;
+        jumpVelocity = 0.0f;
+    }
+    else if (!isJumping) {
+        // 落下中の処理（地面にいない場合かつジャンプ中でない場合）
+        transform_.translate.y += jumpVelocity;
+        jumpVelocity += Gravity;
+    }
+    // ゲームパッドの状態取得
+    if (Input::GetInstance()->GetJoystickState(joyState))
+    {
         // Aボタンでジャンプ
         if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A && !isJumping)
         {
@@ -176,10 +205,9 @@ void Camera::Move()
 
 #endif // DEBUG
 
-        
+
     }
 }
-
 
 float Camera::Lerp(const float& a, const float& b, float t) {
 	float result{};

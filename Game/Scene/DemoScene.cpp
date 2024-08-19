@@ -11,6 +11,7 @@ void DemoScene::Init()
 	Vector3 cameraPos = camera->GetTransform().translate;
 	cameraPos.y = 3.0f;
 	camera->SetTranslate(cameraPos);
+	
 	input = Input::GetInstance();
 
 	UVtextureHandle = TextureManager::StoreTexture("Resources/uvChecker.png");
@@ -100,6 +101,8 @@ void DemoScene::Init()
 
 void DemoScene::Update()
 {
+	// プレイヤーの座標
+	Vector3 playerPos = camera->transform_.translate;
 	PSOPostEffect* pSOPostEffect = PSOPostEffect::GatInstance();
 
 	fade->UpdateFade();
@@ -176,11 +179,26 @@ void DemoScene::Update()
 	}
 
 		camera->Update();
-		camera->Move();
+		camera->Jump(isOnFloor);
+		camera->Move(isOnFloor);
+		// 各床オブジェクトとの衝突判定
+		for (std::vector<Object3d*>::iterator itr = object3d_.begin(); itr != object3d_.end(); itr++) {
+			// 床の座標とサイズを取得
+			Vector3 floorPos = (*itr)->worldTransform_.translation_;
+			Vector3 floorSize = (*itr)->worldTransform_.scale_; // 床のサイズに応じて設定
 
-		for (std::vector<Object3d *>::iterator itr = object3d_.begin(); itr != object3d_.end(); itr++) {
+			// プレイヤーが床の上にいるか判定
+			if (playerPos.x >= floorPos.x - floorSize.x / 2 &&
+				playerPos.x <= floorPos.x + floorSize.x / 2 &&
+				playerPos.z >= floorPos.z - floorSize.z / 2 &&
+				playerPos.z <= floorPos.z + floorSize.z / 2 &&
+				playerPos.y == floorPos.y) {
+				isOnFloor = true;
+				break;
+			}
+		}
+		for (std::vector<Object3d*>::iterator itr = object3d_.begin(); itr != object3d_.end(); itr++) {
 			(*itr)->Update();
-
 		}
 
 		GridOBJ->Update();
@@ -219,7 +237,9 @@ void DemoScene::Update()
 
 		particle->Particledebug("uv", worldTransform);
 		particle2->Particledebug("white", worldTransform2);
-
+		ImGui::Begin("isOnFloor");
+		ImGui::Text("OnFloor", isOnFloor);
+		ImGui::End();
 		ImGui::Begin("color",nullptr,ImGuiWindowFlags_MenuBar);
 		float color[4] = { fade->material.color.x,fade->material.color.y,fade->material.color.z,fade->material.color.w };
 		ImGui::DragFloat4("color", color, 0.01f);
@@ -254,13 +274,13 @@ void DemoScene::Draw()
 		(*itr)->Draw(CONEtextureHandle, camera);
 	}
 	GridOBJ->Draw(GRIDtextureHandle, camera);
-	ConeOBJ->Draw(CONEtextureHandle, camera);
+	//ConeOBJ->Draw(CONEtextureHandle, camera);
 	TenQOBJ->Draw(TENQtextureHandle, camera);
-	object3d2->Draw(UVtextureHandle, camera);
+	//object3d2->Draw(UVtextureHandle, camera);
 	object3d->Draw(SKYtextureHandle, camera);
 
-	particle->Draw(ParticleEmitter_, { worldTransform.translation_.x,worldTransform.translation_.y,worldTransform.translation_.z + 5 }, UVtextureHandle, camera, demoRandPro, false);
-	particle2->Draw(ParticleEmitter_, { worldTransform2.translation_.x,worldTransform2.translation_.y,worldTransform2.translation_.z + 5 }, WHITEtextureHandle, camera, demoRandPro, false);
+	//particle->Draw(ParticleEmitter_, { worldTransform.translation_.x,worldTransform.translation_.y,worldTransform.translation_.z + 5 }, UVtextureHandle, camera, demoRandPro, false);
+	//particle2->Draw(ParticleEmitter_, { worldTransform2.translation_.x,worldTransform2.translation_.y,worldTransform2.translation_.z + 5 }, WHITEtextureHandle, camera, demoRandPro, false);
 	fade->Draw();
 }
 

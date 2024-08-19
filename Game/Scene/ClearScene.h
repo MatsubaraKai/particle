@@ -27,6 +27,7 @@ private:
 	Input *input = nullptr;
 	Fade *fade = nullptr;
 	PostProcess *postProcess_ = nullptr;
+	bool isOnFloor = false;
 
 	uint32_t fadeTex;
 };

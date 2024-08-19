@@ -31,7 +31,7 @@ void GameScene::Update()
 		sceneNo = 2;
 	}
 	camera->Update();
-	camera->Move();
+	camera->Move(isOnFloor);
 
 	sceneTime++;
 	///////////////Debug///////////////

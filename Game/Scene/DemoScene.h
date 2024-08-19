@@ -61,6 +61,8 @@ private:
 	bool effectFlag = true;
 	bool effect = false;
 	bool effect2 = false;
+	bool isOnFloor = false;
+
 };
 
 

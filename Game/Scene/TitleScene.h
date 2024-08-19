@@ -38,6 +38,7 @@ private:
 	Emitter Emitter_;
 	RandRangePro RandPro;
 	PostProcess* postProcess_ = nullptr;
+	bool isOnFloor = false;
 
 };
 

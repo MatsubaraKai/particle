@@ -81,7 +81,7 @@ void TitleScene::Update()
 	////カメラの更新
 	camera->Update();
 	camera->CameraDebug();
-	camera->Move();
+	camera->Move(isOnFloor);
 
 	particle->Particledebug("uv",worldTransform);
 	particle2->Particledebug("white",worldTransform2);
