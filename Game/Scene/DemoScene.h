@@ -11,6 +11,7 @@
 #include "Transform.h"
 #include "Fade.h"
 #include "Skybox.h"
+#include "DirectXMath.h"
 class DemoScene : public IScene
 {
 public:
@@ -28,6 +29,8 @@ public:
 	Object3d* TenQOBJ = nullptr;
 private:
 	int sceneTime = 0;
+	int sceneTime1 = 0;
+	int selectedIndex = 0;
 	Camera* camera = nullptr;
 	Input* input = nullptr;
 	Fade *fade = nullptr;
@@ -52,7 +55,6 @@ private:
 	uint32_t TENQtextureHandle;
 	uint32_t GRIDtextureHandle;
 	uint32_t SKYtextureHandle;
-	
 	WorldTransform GridTransform;
 	
 	Emitter ParticleEmitter_;

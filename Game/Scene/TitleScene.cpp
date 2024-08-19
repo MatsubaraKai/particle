@@ -60,20 +60,21 @@ void TitleScene::Init()
 
 void TitleScene::Update()
 {
+	XINPUT_STATE joyState;
+
 	PSOPostEffect* pSOPostEffect = PSOPostEffect::GatInstance();
 
 	fade->UpdateFade();
-	/*if (input->TriggerKey(DIK_1)) {
-		pSOPostEffect->CreatePipelineStateObjectTest8();
-
+	if (Input::GetInstance()->GetJoystickState(joyState))
+	{
+		if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A)
+		{
+			fade->StartFadeIn();
+		}
 	}
-	if (input->TriggerKey(DIK_2)) {
-		pSOPostEffect->CreatePipelineStateObjectTest3();
-
-	}*/
-	if (input->TriggerKey(DIK_SPACE)) {
+	/*if (input->TriggerKey(DIK_SPACE)) {
 		fade->StartFadeIn();
-	}
+	}*/
 	if (fade->IsFadeOutComplete()) {
 		sceneNo = 3;
 	}

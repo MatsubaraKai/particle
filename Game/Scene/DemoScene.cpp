@@ -4,14 +4,14 @@
 #include "ModelManager.h"
 #include "Loder.h"
 #include "PSOPostEffect.h"
+
+#include <DirectXMath.h>
+#include "Vector3.h"  // Vector3 が定義されているヘッダーファイルをインクルード
+
 void DemoScene::Init()
 {
 	camera = new Camera;
 	camera->Initialize();
-	Vector3 cameraPos = camera->GetTransform().translate;
-	cameraPos.y = 3.0f;
-	camera->SetTranslate(cameraPos);
-	
 	input = Input::GetInstance();
 
 	UVtextureHandle = TextureManager::StoreTexture("Resources/uvChecker.png");
@@ -55,7 +55,8 @@ void DemoScene::Init()
 	TenQTransform.Initialize();
 
 	worldTransform.translation_.x = 0;
-	worldTransform2.translation_.x = 5;
+	worldTransform2.translation_ = { -2.5f,7.5f,82.0f };
+	
 
 	GridTransform.scale_.x = 20;
 	GridTransform.scale_.z = 20;
@@ -84,7 +85,7 @@ void DemoScene::Init()
 	demoRandPro = {
 		{1.0f,4.0f},
 		{1.0f,4.0f},
-		{0.0f,2.0f}
+		{1.0f,4.0f}
 	};
 
 	ParticleEmitter_.count = 6;
@@ -125,8 +126,9 @@ void DemoScene::Update()
 	if (effect2 == true) {
 		IPostEffectState::SetEffectNo(kOutlineBlue);
 	}
-	if (sceneTime >= 360) {
+	if (sceneTime >= 360 || sceneTime1 >= 360) {
 		sceneTime = 0;
+		sceneTime1 = 0;
 	}
 	if (input->TriggerKey(DIK_SPACE)) {
 		fade->StartFadeIn();
@@ -182,7 +184,9 @@ void DemoScene::Update()
 		// オブジェクトの座標とサイズを取得
 		Vector3 floorPos = object3d_[i]->worldTransform_.translation_;
 		Vector3 floorSize = object3d_[i]->worldTransform_.scale_;
-		ImGui::Begin("aaa");
+		Vector3 floorRotation = object3d_[i]->worldTransform_.rotation_;
+
+		ImGui::Begin("OnFloorDebug");
 		ImGui::Text("player : %f %f %f", playerPos.x, playerPos.y, playerPos.z);
 		ImGui::Text("floor : %f %f %f", floorPos.x, floorPos.y, floorPos.z);
 		ImGui::Text("size : %f %f %f", floorSize.x, floorSize.y, floorSize.z);
@@ -190,55 +194,67 @@ void DemoScene::Update()
 		ImGui::Text("isOnx : %f %f", playerPos.x, floorPos.x + floorSize.x);
 		ImGui::Text("isOnz : %f %f", playerPos.z, floorPos.z - floorSize.z);
 		ImGui::Text("isOnz : %f %f", playerPos.z, floorPos.z + floorSize.z);
-		ImGui::Text("isOny : %f %f", playerPos.y, abs(playerPos.y - floorPos.y - 3.0f));
+		ImGui::Text("isOny : %f %f", playerPos.y, abs(floorPos.y + floorSize.y + 3.0f));
 		ImGui::End();
 		// プレイヤーがオブジェクトの上にいるか判定
 		if (playerPos.x >= floorPos.x - floorSize.x&&
 			playerPos.x <= floorPos.x + floorSize.x&&
 			playerPos.z >= floorPos.z - floorSize.z&&
-			playerPos.z <= floorPos.z + floorSize.z&&
-			abs(playerPos.y - (floorPos.y + 3.0f)) <= epsilon) {
+			playerPos.z <= floorPos.z + floorSize.z &&
+			abs(playerPos.y - (floorPos.y + floorSize.y + 3.0f)) <= epsilon) {
 			isOnFloor = true;
 			break;  // どれかのオブジェクト上にいる場合は判定を終了
 		}
 		else {
 			isOnFloor = false;
 		}
+		
 	}
-		camera->Update();
-		camera->Jump(isOnFloor);
-		camera->Move();
 	
 		for (std::vector<Object3d*>::iterator itr = object3d_.begin(); itr != object3d_.end(); itr++) {
 			(*itr)->Update();
 		}
-		
+		camera->Update();
+		camera->Jump(isOnFloor);
+		camera->Move();
 		GridOBJ->Update();
 		ConeOBJ->Update();
 		TenQOBJ->Update();
 		object3d2->Update();
 		object3d->Update();
 
-		//object3d_[0]->worldTransform_.rotation_.y += 0.001f;
 		object3d_[1]->worldTransform_.rotation_.x += 0.01f;
 		object3d_[1]->worldTransform_.rotation_.y += 0.01f;
 		object3d_[1]->worldTransform_.rotation_.z += 0.01f;
 		object3d_[2]->worldTransform_.rotation_.x += 0.01f;
 		object3d_[2]->worldTransform_.rotation_.y -= 0.01f;
 		object3d_[2]->worldTransform_.rotation_.z -= 0.01f;
+		if (sceneTime1 == 0) {
+			object3d_[4]->worldTransform_.scale_.x = 5.00f;
+			object3d_[4]->worldTransform_.scale_.z = 5.00f;
+		}
+		if (sceneTime1 < 180) {
+			object3d_[4]->worldTransform_.scale_.x += 0.07f;
+			object3d_[4]->worldTransform_.scale_.z += 0.02f;
+			object3d_[6]->worldTransform_.translation_.y = Lerp(object3d_[6]->worldTransform_.translation_.y, 10.0f, 0.1f);
+		}
+		if (sceneTime1 > 180 &&sceneTime1 < 360) {
+			object3d_[4]->worldTransform_.scale_.x -= 0.07f;
+			object3d_[4]->worldTransform_.scale_.z -= 0.02f;
+			object3d_[6]->worldTransform_.translation_.y = Lerp(object3d_[6]->worldTransform_.translation_.y, 4.0f, 0.1f);
+
+		}
+	
 		if (effectFlag == true) {
 			sceneTime++;
 		}
-
+		sceneTime1++;
 		///////////////Debug///////////////
 
 		camera->CameraDebug();
-	
-		object3d_[0]->ModelDebug("JSONmodel0");
-		object3d_[1]->ModelDebug("JSONmodel1");
-		object3d_[2]->ModelDebug("JSONmodel2");
-		/*object3d_[3]->ModelDebug("JSONmodel3");
-		object3d_[4]->ModelDebug("JSONmodel4");*/
+		// 選択されたインデックスに応じたモデルのデバッグを実行
+		std::string label = "JSONmodel" + std::to_string(selectedIndex);
+		object3d_[selectedIndex]->ModelDebug(label.c_str());
 
 		GridOBJ->ModelDebug("grid");												
 		ConeOBJ->ModelDebug("cone");
@@ -250,6 +266,7 @@ void DemoScene::Update()
 		particle->Particledebug("uv", worldTransform);
 		particle2->Particledebug("white", worldTransform2);
 		ImGui::Begin("isOnFloor");
+		ImGui::SliderInt("Select Model Index", &selectedIndex, 0, static_cast<int>(object3d_.size()) - 2);
 		ImGui::Text("OnFloor : %d", isOnFloor);
 		ImGui::Text("Player Pos : %f %f %f", playerPos.x, playerPos.y, playerPos.z);
 		ImGui::End();
@@ -292,8 +309,8 @@ void DemoScene::Draw()
 	//object3d2->Draw(UVtextureHandle, camera);
 	object3d->Draw(SKYtextureHandle, camera);
 
-	//particle->Draw(ParticleEmitter_, { worldTransform.translation_.x,worldTransform.translation_.y,worldTransform.translation_.z + 5 }, UVtextureHandle, camera, demoRandPro, false);
-	//particle2->Draw(ParticleEmitter_, { worldTransform2.translation_.x,worldTransform2.translation_.y,worldTransform2.translation_.z + 5 }, WHITEtextureHandle, camera, demoRandPro, false);
+	particle->Draw(ParticleEmitter_, { worldTransform.translation_.x,worldTransform.translation_.y,worldTransform.translation_.z }, WHITEtextureHandle, camera, demoRandPro, false);
+	particle2->Draw(ParticleEmitter_, { worldTransform2.translation_.x,worldTransform2.translation_.y,worldTransform2.translation_.z }, WHITEtextureHandle, camera, demoRandPro, false);
 	fade->Draw();
 }
 
