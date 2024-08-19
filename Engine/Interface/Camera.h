@@ -12,7 +12,10 @@ class Camera
 public:
 	void Initialize();
 	void Update();
-	void Move(bool isOnFloor);
+	void Move();
+	void HandleGamepadMovement();
+	void HandleRightStick(const XINPUT_STATE& joyState);
+	void HandleGamepadJump(bool isOnFloor);
 	void Jump(bool isOnFloor);
 	float Lerp(const float& a, const float& b, float t);
 	float LerpShortAngle(float a, float b, float t);

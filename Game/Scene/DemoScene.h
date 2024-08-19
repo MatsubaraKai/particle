@@ -62,7 +62,7 @@ private:
 	bool effect = false;
 	bool effect2 = false;
 	bool isOnFloor = false;
-
+	const float epsilon = 0.3f;  // 誤差範囲を定義
 };
 
 

@@ -22,7 +22,7 @@ void DemoScene::Init()
 	GRIDtextureHandle = TextureManager::StoreTexture("Resources/cian.png");
 	SKYtextureHandle = TextureManager::StoreTexture("Resources/game/rostock_laage_airport_4k.dds");
 
-	Loder::LoadJsonFile("Resources", "TL", object3d_, camera);
+	Loder::LoadJsonFile("Resources", "TL1", object3d_, camera);
 
 	postProcess_ = new PostProcess();
 	postProcess_->SetCamera(camera);
@@ -97,6 +97,7 @@ void DemoScene::Init()
 	fade = new Fade();
 	fade->Init(FADEtextureHandle);
 	fade->StartFadeOut();
+	isOnFloor = false;  // まずリセット
 }
 
 void DemoScene::Update()
@@ -177,35 +178,48 @@ void DemoScene::Update()
 			TenQOBJ->worldTransform_.rotation_.x += move.z;
 		}
 	}
-
+	for (size_t i = 0; i < object3d_.size() - 1; i++) {
+		// オブジェクトの座標とサイズを取得
+		Vector3 floorPos = object3d_[i]->worldTransform_.translation_;
+		Vector3 floorSize = object3d_[i]->worldTransform_.scale_;
+		ImGui::Begin("aaa");
+		ImGui::Text("player : %f %f %f", playerPos.x, playerPos.y, playerPos.z);
+		ImGui::Text("floor : %f %f %f", floorPos.x, floorPos.y, floorPos.z);
+		ImGui::Text("size : %f %f %f", floorSize.x, floorSize.y, floorSize.z);
+		ImGui::Text("isOnx : %f %f", playerPos.x, floorPos.x - floorSize.x);
+		ImGui::Text("isOnx : %f %f", playerPos.x, floorPos.x + floorSize.x);
+		ImGui::Text("isOnz : %f %f", playerPos.z, floorPos.z - floorSize.z);
+		ImGui::Text("isOnz : %f %f", playerPos.z, floorPos.z + floorSize.z);
+		ImGui::Text("isOny : %f %f", playerPos.y, abs(playerPos.y - floorPos.y - 3.0f));
+		ImGui::End();
+		// プレイヤーがオブジェクトの上にいるか判定
+		if (playerPos.x >= floorPos.x - floorSize.x&&
+			playerPos.x <= floorPos.x + floorSize.x&&
+			playerPos.z >= floorPos.z - floorSize.z&&
+			playerPos.z <= floorPos.z + floorSize.z&&
+			abs(playerPos.y - (floorPos.y + 3.0f)) <= epsilon) {
+			isOnFloor = true;
+			break;  // どれかのオブジェクト上にいる場合は判定を終了
+		}
+		else {
+			isOnFloor = false;
+		}
+	}
 		camera->Update();
 		camera->Jump(isOnFloor);
-		camera->Move(isOnFloor);
+		camera->Move();
 	
 		for (std::vector<Object3d*>::iterator itr = object3d_.begin(); itr != object3d_.end(); itr++) {
 			(*itr)->Update();
-			// 床の座標とサイズを取得
-			Vector3 floorPos = (*itr)->worldTransform_.translation_;
-			Vector3 floorSize = (*itr)->worldTransform_.scale_; // 床のサイズに応じて設定
-
-			// プレイヤーが床の上にいるか判定
-			if (playerPos.x >= floorPos.x - floorSize.x / 2 &&
-				playerPos.x <= floorPos.x + floorSize.x / 2 &&
-				playerPos.z >= floorPos.z - floorSize.z / 2 &&
-				playerPos.z <= floorPos.z + floorSize.z / 2 &&
-				playerPos.y == floorPos.y) {
-				isOnFloor = true;
-				break;
-			}
 		}
-
+		
 		GridOBJ->Update();
 		ConeOBJ->Update();
 		TenQOBJ->Update();
 		object3d2->Update();
 		object3d->Update();
 
-		object3d_[0]->worldTransform_.rotation_.y += 0.001f;
+		//object3d_[0]->worldTransform_.rotation_.y += 0.001f;
 		object3d_[1]->worldTransform_.rotation_.x += 0.01f;
 		object3d_[1]->worldTransform_.rotation_.y += 0.01f;
 		object3d_[1]->worldTransform_.rotation_.z += 0.01f;
@@ -223,8 +237,8 @@ void DemoScene::Update()
 		object3d_[0]->ModelDebug("JSONmodel0");
 		object3d_[1]->ModelDebug("JSONmodel1");
 		object3d_[2]->ModelDebug("JSONmodel2");
-		object3d_[3]->ModelDebug("JSONmodel3");
-		object3d_[4]->ModelDebug("JSONmodel4");
+		/*object3d_[3]->ModelDebug("JSONmodel3");
+		object3d_[4]->ModelDebug("JSONmodel4");*/
 
 		GridOBJ->ModelDebug("grid");												
 		ConeOBJ->ModelDebug("cone");
@@ -237,6 +251,7 @@ void DemoScene::Update()
 		particle2->Particledebug("white", worldTransform2);
 		ImGui::Begin("isOnFloor");
 		ImGui::Text("OnFloor : %d", isOnFloor);
+		ImGui::Text("Player Pos : %f %f %f", playerPos.x, playerPos.y, playerPos.z);
 		ImGui::End();
 		ImGui::Begin("color",nullptr,ImGuiWindowFlags_MenuBar);
 		float color[4] = { fade->material.color.x,fade->material.color.y,fade->material.color.z,fade->material.color.w };
@@ -271,7 +286,7 @@ void DemoScene::Draw()
 	for (std::vector<Object3d*>::iterator itr = object3d_.begin(); itr != object3d_.end(); itr++) {
 		(*itr)->Draw(CONEtextureHandle, camera);
 	}
-	GridOBJ->Draw(GRIDtextureHandle, camera);
+	//GridOBJ->Draw(GRIDtextureHandle, camera);
 	//ConeOBJ->Draw(CONEtextureHandle, camera);
 	TenQOBJ->Draw(TENQtextureHandle, camera);
 	//object3d2->Draw(UVtextureHandle, camera);

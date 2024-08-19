@@ -32,7 +32,7 @@ void ClearScene::Update()
 	}
 
 	camera->Update();
-	camera->Move(isOnFloor);
+	camera->Move();
 
 	sceneTime++;
 	///////////////Debug///////////////

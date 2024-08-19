@@ -1,22 +1,23 @@
 ﻿#include "Camera.h"
+#include <algorithm>
 
 
 void Camera::Initialize() {
-	transform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,-80.0f} };
-	//WinAPI* sWinAPI = WinAPI::GetInstance();
+    transform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,-80.0f} };
+    //WinAPI* sWinAPI = WinAPI::GetInstance();
 
-	cameraMatrix_ = MakeAffineMatrix(transform_.scale, transform_.rotate, transform_.translate);
-	viewMatrix_ = Inverse(cameraMatrix_);
-	projectionMatrix_ = MakePerspectiveFovMatrix(fovY_, asepectRatio_, nearClip_, farClip_);
-	//worldCameraMatrix = Multiply(worldmatrix, Multiply(viewMatrix, projectionMatrix));
-	viewProjectionMatrix_ = Multiply(viewMatrix_, projectionMatrix_);
+    cameraMatrix_ = MakeAffineMatrix(transform_.scale, transform_.rotate, transform_.translate);
+    viewMatrix_ = Inverse(cameraMatrix_);
+    projectionMatrix_ = MakePerspectiveFovMatrix(fovY_, asepectRatio_, nearClip_, farClip_);
+    //worldCameraMatrix = Multiply(worldmatrix, Multiply(viewMatrix, projectionMatrix));
+    viewProjectionMatrix_ = Multiply(viewMatrix_, projectionMatrix_);
 }
 
 void Camera::Update() {
-	cameraMatrix_ = MakeAffineMatrix(transform_.scale, transform_.rotate, transform_.translate);
-	viewMatrix_ = Inverse(cameraMatrix_);
-	projectionMatrix_ = MakePerspectiveFovMatrix(fovY_, asepectRatio_, nearClip_, farClip_);
-	viewProjectionMatrix_ = Multiply(viewMatrix_, projectionMatrix_);
+    cameraMatrix_ = MakeAffineMatrix(transform_.scale, transform_.rotate, transform_.translate);
+    viewMatrix_ = Inverse(cameraMatrix_);
+    projectionMatrix_ = MakePerspectiveFovMatrix(fovY_, asepectRatio_, nearClip_, farClip_);
+    viewProjectionMatrix_ = Multiply(viewMatrix_, projectionMatrix_);
 
 
 }
@@ -44,13 +45,10 @@ void Camera::CameraDebug()
     //#endif // _DEBUG
 }
 
-void Camera::Move(bool isOnFloor)
+void Camera::Move()
 {
-    // ゲームパッドの状態を得る変数(XINPUT)
-    XINPUT_STATE joyState;
-    Vector3 move = { 0.0f, 0.0f, 0.0f };
-
     // キーボードによる移動
+    Vector3 move = { 0.0f, 0.0f, 0.0f };
     if (Input::GetInstance()->PushKey(DIK_W))
     {
         move.z = PlayerSpeed;
@@ -68,28 +66,24 @@ void Camera::Move(bool isOnFloor)
         move.x = PlayerSpeed;
     }
 
-    // 目標角度の算出（キーボード）
+    // 目標角度の算出
     if (move.x != 0.0f || move.z != 0.0f)
     {
         angle_ = std::atan2(move.x, move.z);
         transform_.rotate.y = LerpShortAngle(transform_.rotate.y, angle_, 0.1f);
     }
+
     // キーボードによる移動量の更新
     transform_.translate.x += move.x;
     transform_.translate.z += move.z;
 
-    if (isOnFloor == false) {
-        transform_.translate.y += jumpVelocity;
-        jumpVelocity += Gravity;
-        if (transform_.translate.y <= -10.0f) {
-            jumpVelocity = 0.0f;
-            transform_.translate.x = 0.0f;
-            transform_.translate.y = 5.0f;
-            transform_.translate.z = 0.0f;
-        }
-    }
+    // ゲームパッドの処理
+    HandleGamepadMovement();
+}
 
-    // ゲームパッドの状態取得
+void Camera::HandleGamepadMovement()
+{
+    XINPUT_STATE joyState;
     if (Input::GetInstance()->GetJoystickState(joyState))
     {
         // 左スティックによる移動
@@ -115,10 +109,9 @@ void Camera::Move(bool isOnFloor)
         // カメラの向きに基づく移動方向の調整
         if (moveLeftStick.x != 0.0f || moveLeftStick.z != 0.0f)
         {
-            // 移動ベクトルをカメラの向きに合わせる
             float cosY = cosf(transform_.rotate.y);
             float sinY = sinf(transform_.rotate.y);
-            move = {
+            Vector3 move = {
                 moveLeftStick.x * cosY + moveLeftStick.z * sinY,
                 0.0f,
                 moveLeftStick.z * cosY - moveLeftStick.x * sinY
@@ -128,86 +121,96 @@ void Camera::Move(bool isOnFloor)
         }
 
         // 右スティックによる視野の移動
-        const float lookSensitivity = 0.03f;
-        const float rightStickDeadZone = 0.1f;
-        if (std::abs(joyState.Gamepad.sThumbRX) > rightStickDeadZone * SHRT_MAX ||
-            std::abs(joyState.Gamepad.sThumbRY) > rightStickDeadZone * SHRT_MAX)
-        {
-            float rightStickX = (float)joyState.Gamepad.sThumbRX / SHRT_MAX * lookSensitivity;
-            float rightStickY = (float)joyState.Gamepad.sThumbRY / SHRT_MAX * lookSensitivity;
-
-            transform_.rotate.y += rightStickX;  // Yaw (水平回転)
-
-            // ピッチに制限をつける (-45度から45度の範囲)
-            transform_.rotate.x -= rightStickY;  // Pitch (垂直回転)
-            const float maxPitch = 45.0f * (float)std::numbers::pi / 180.0f;
-            const float minPitch = -45.0f * (float)std::numbers::pi / 180.0f;
-            if (transform_.rotate.x > maxPitch)
-            {
-                transform_.rotate.x = maxPitch;
-            }
-            else if (transform_.rotate.x < minPitch)
-            {
-                transform_.rotate.x = minPitch;
-            }
-        }
+        HandleRightStick(joyState);
     }
 }
 
-void Camera::Jump(bool isOnFloor) {
-    XINPUT_STATE joyState;
-    // ジャンプ中の処理
+void Camera::HandleRightStick(const XINPUT_STATE& joyState)
+{
+    const float lookSensitivity = 0.03f;
+    const float rightStickDeadZone = 0.1f;
+    if (std::abs(joyState.Gamepad.sThumbRX) > rightStickDeadZone * SHRT_MAX ||
+        std::abs(joyState.Gamepad.sThumbRY) > rightStickDeadZone * SHRT_MAX)
+    {
+        float rightStickX = (float)joyState.Gamepad.sThumbRX / SHRT_MAX * lookSensitivity;
+        float rightStickY = (float)joyState.Gamepad.sThumbRY / SHRT_MAX * lookSensitivity;
+
+        transform_.rotate.y += rightStickX;  // Yaw (水平回転)
+        transform_.rotate.x -= rightStickY;  // Pitch (垂直回転)
+
+        // ピッチの制限
+        const float maxPitch = 45.0f * (float)std::numbers::pi / 180.0f;
+        const float minPitch = -45.0f * (float)std::numbers::pi / 180.0f;
+        transform_.rotate.x = std::clamp(transform_.rotate.x, minPitch, maxPitch);
+    }
+}
+
+void Camera::Jump(bool isOnFloor)
+{
     if (isJumping) {
+        // ジャンプ中の処理
         transform_.translate.y += jumpVelocity;
         jumpVelocity += Gravity;
 
-        // 落下しすぎた場合の処理（リセット）
         if (transform_.translate.y <= -10.0f) {
+            // 落下しすぎた場合のリセット処理
             jumpVelocity = 0.0f;
-            transform_.translate.x = 0.0f;
-            transform_.translate.y = 5.0f;
-            transform_.translate.z = 0.0f;
+            transform_.translate = { 0.0f, 3.0f, -15.0f };
+            transform_.rotate = { 0.0f, 0.0f, 0.0f };
             isJumping = false;
         }
     }
-
-    // 地面にいる場合の処理
-    if (isOnFloor) {
+    else if (!isOnFloor) {
+        // 地面にいない場合の処理
+        transform_.translate.y += jumpVelocity;
+        jumpVelocity += Gravity;
+        if (transform_.translate.y <= -10.0f) {
+            // 落下しすぎた場合のリセット処理
+            jumpVelocity = 0.0f;
+            transform_.translate = { 0.0f, 3.0f, -15.0f };
+            transform_.rotate = { 0.0f, 0.0f, 0.0f };
+            isJumping = false;
+        }
+    }
+    if(isOnFloor) {
+        // 地面にいる場合
         isJumping = false;
         jumpVelocity = 0.0f;
     }
-    else if (!isJumping) {
-        // 落下中の処理（地面にいない場合かつジャンプ中でない場合）
-        transform_.translate.y += jumpVelocity;
-        jumpVelocity += Gravity;
-    }
-    // ゲームパッドの状態取得
+
+    // ゲームパッドでジャンプ
+    HandleGamepadJump(isOnFloor);
+}
+
+void Camera::HandleGamepadJump(bool isOnFloor)
+{
+    XINPUT_STATE joyState;
     if (Input::GetInstance()->GetJoystickState(joyState))
     {
-        // Aボタンでジャンプ
-        if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A && !isJumping)
+        if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A && isOnFloor && !isJumping)
         {
+            // 地面にいるときのみジャンプを許可
             isJumping = true;
             jumpVelocity = JumpSpeed;
         }
-#ifdef _DEBUG
 
+#ifdef _DEBUG
         if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_LEFT_SHOULDER)
         {
-            transform_.translate.y += 0.1f;
+            // デバッグ用に地面の上昇
+            transform_.translate.y += 1.0f;
             isJumping = false;
         }
         if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_RIGHT_SHOULDER)
         {
-            transform_.translate.y -= 0.1f;
+            // デバッグ用に地面の下降
+            transform_.translate.y -= 1.0f;
             isJumping = false;
         }
-
-#endif // DEBUG
-
-
+#endif
     }
 }
+
 
 float Camera::Lerp(const float& a, const float& b, float t) {
 	float result{};
