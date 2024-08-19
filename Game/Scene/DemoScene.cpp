@@ -181,8 +181,9 @@ void DemoScene::Update()
 		camera->Update();
 		camera->Jump(isOnFloor);
 		camera->Move(isOnFloor);
-		// 各床オブジェクトとの衝突判定
+	
 		for (std::vector<Object3d*>::iterator itr = object3d_.begin(); itr != object3d_.end(); itr++) {
+			(*itr)->Update();
 			// 床の座標とサイズを取得
 			Vector3 floorPos = (*itr)->worldTransform_.translation_;
 			Vector3 floorSize = (*itr)->worldTransform_.scale_; // 床のサイズに応じて設定
@@ -196,9 +197,6 @@ void DemoScene::Update()
 				isOnFloor = true;
 				break;
 			}
-		}
-		for (std::vector<Object3d*>::iterator itr = object3d_.begin(); itr != object3d_.end(); itr++) {
-			(*itr)->Update();
 		}
 
 		GridOBJ->Update();
@@ -238,7 +236,7 @@ void DemoScene::Update()
 		particle->Particledebug("uv", worldTransform);
 		particle2->Particledebug("white", worldTransform2);
 		ImGui::Begin("isOnFloor");
-		ImGui::Text("OnFloor", isOnFloor);
+		ImGui::Text("OnFloor : %d", isOnFloor);
 		ImGui::End();
 		ImGui::Begin("color",nullptr,ImGuiWindowFlags_MenuBar);
 		float color[4] = { fade->material.color.x,fade->material.color.y,fade->material.color.z,fade->material.color.w };
