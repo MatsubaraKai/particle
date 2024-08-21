@@ -170,7 +170,7 @@ void Particle::Draw(Emitter emitter, const Vector3& worldTransform, uint32_t tex
 		}
 		++numInstance; // 生きているparticluの数を1使うんとする
 		++particleIterator;
-
+		
 	}
 	textureManager_ = TextureManager::GetInstance();
 	sDirectXCommon->GetCommandList()->SetGraphicsRootSignature(pso_->GetProperty().rootSignature.Get());

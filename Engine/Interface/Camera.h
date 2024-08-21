@@ -36,20 +36,19 @@ public: //Setter
 	void SetTranslate(const Vector3& translate) { transform_.translate = translate; }
 	void SetRotate(const Vector3& rotate) { transform_.rotate = rotate; }
 	void SetScale(const Vector3& scale) { transform_.scale = scale; }
-	void SetFovY() {}
+	void SetFOV(float fovY);
 	void SetAspectRario() {}
 	void SetNearClip() {}
 	void SetFarClip() {}
 	void CameraDebug();
 	Transform transform_;
-
+	float fovY_ = 0.8f;
 private:
 	Matrix4x4 worldmatrix_;
 	Matrix4x4 cameraMatrix_;
 	Matrix4x4 viewMatrix_;
 	Matrix4x4 projectionMatrix_;
 	Matrix4x4 viewProjectionMatrix_;
-	float fovY_ = 0.8f;
 	float asepectRatio_ = float(WinAPI::kClientWidth_) / float(WinAPI::kClientHeight_);
 	float nearClip_ = 0.1f;
 	float farClip_ = 1000.0f;

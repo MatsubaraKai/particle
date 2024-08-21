@@ -16,6 +16,7 @@ void DemoScene::Init()
 
 	UVtextureHandle = TextureManager::StoreTexture("Resources/uvChecker.png");
 	WHITEtextureHandle = TextureManager::StoreTexture("Resources/white.png");
+	BLUEtextureHandle = TextureManager::StoreTexture("Resources/blue.png");
 	CONEtextureHandle = TextureManager::StoreTexture("Resources/game/cone.png");
 	TENQtextureHandle = TextureManager::StoreTexture("Resources/game/world2.png");
 	FADEtextureHandle = TextureManager::StoreTexture("Resources/black.png");
@@ -98,7 +99,6 @@ void DemoScene::Init()
 	fade = new Fade();
 	fade->Init(FADEtextureHandle);
 	fade->StartFadeOut();
-	isOnFloor = false;  // まずリセット
 }
 
 void DemoScene::Update()
@@ -139,7 +139,8 @@ void DemoScene::Update()
 
 	TenQOBJ->worldTransform_.rotation_.x += 0.001f;
 	TenQOBJ->worldTransform_.translation_.x = Lerp(TenQOBJ->worldTransform_.translation_.x, camera->transform_.translate.x, 0.005f);
-	TenQOBJ->worldTransform_.translation_.z = Lerp(TenQOBJ->worldTransform_.translation_.z, camera->transform_.translate.z + 300, 0.05f);
+	TenQOBJ->worldTransform_.translation_.y = Lerp(TenQOBJ->worldTransform_.translation_.y, camera->transform_.translate.y + 370.0f, 0.005f);
+	TenQOBJ->worldTransform_.translation_.z = Lerp(TenQOBJ->worldTransform_.translation_.z, camera->transform_.translate.z + 300.0f, 0.05f);
 
 	 // ゲームパッドの状態取得
 	XINPUT_STATE joyState;
@@ -165,7 +166,19 @@ void DemoScene::Update()
 				moveLeftStick.z *= 0.004f;
 			}
 		}
+		float desiredFOV = camera->fovY_;  // 現在のFOVを基準にする
 
+		if (moveLeftStick.z > 0.00001f) {  // スティックがある程度前に倒されたとき
+			desiredFOV = 1.4f;  // 前進時のFOV
+		}
+		else {
+			desiredFOV = 0.8f;  // デフォルトのFOV
+		}
+
+		// 現在のFOVと目的のFOVが異なる場合のみLerpを行う
+		if (camera->fovY_ != desiredFOV) {
+			camera->SetFOV(Lerp(camera->fovY_, desiredFOV, 0.1f));
+		}
 		// カメラの向きに基づく移動方向の調整
 		if (moveLeftStick.x != 0.0f || moveLeftStick.z != 0.0f)
 		{
@@ -181,13 +194,15 @@ void DemoScene::Update()
 		}
 	}
 	for (size_t i = 0; i < object3d_.size() - 1; i++) {
+		float previousFloorHeight = playerPos.y; // 初期化しておく
 		// オブジェクトの座標とサイズを取得
 		Vector3 floorPos = object3d_[i]->worldTransform_.translation_;
 		Vector3 floorSize = object3d_[i]->worldTransform_.scale_;
 		Vector3 floorRotation = object3d_[i]->worldTransform_.rotation_;
+		std::string label = "JSONmodel" + std::to_string(i);
 
 		ImGui::Begin("OnFloorDebug");
-		ImGui::Text("player : %f %f %f", playerPos.x, playerPos.y, playerPos.z);
+		ImGui::Text(label.c_str());
 		ImGui::Text("floor : %f %f %f", floorPos.x, floorPos.y, floorPos.z);
 		ImGui::Text("size : %f %f %f", floorSize.x, floorSize.y, floorSize.z);
 		ImGui::Text("isOnx : %f %f", playerPos.x, floorPos.x - floorSize.x);
@@ -195,21 +210,30 @@ void DemoScene::Update()
 		ImGui::Text("isOnz : %f %f", playerPos.z, floorPos.z - floorSize.z);
 		ImGui::Text("isOnz : %f %f", playerPos.z, floorPos.z + floorSize.z);
 		ImGui::Text("isOny : %f %f", playerPos.y, abs(floorPos.y + floorSize.y + 3.0f));
+		ImGui::Text("isOnyy : %f", abs(playerPos.y - (floorPos.y + floorSize.y + 3.0f)));
 		ImGui::End();
 		// プレイヤーがオブジェクトの上にいるか判定
 		if (playerPos.x >= floorPos.x - floorSize.x&&
 			playerPos.x <= floorPos.x + floorSize.x&&
 			playerPos.z >= floorPos.z - floorSize.z&&
 			playerPos.z <= floorPos.z + floorSize.z &&
-			abs(playerPos.y - (floorPos.y + floorSize.y + 3.0f)) <= epsilon) {
+			playerPos.y >= floorPos.y + floorSize.y - 2.0f &&
+			playerPos.y <= floorPos.y + floorSize.y + 3.0f
+			) {
+
+			// 床の上昇分を計算
+			float floorHeightChange = floorPos.y + floorSize.y - previousFloorHeight;
+			camera->transform_.translate.y = playerPos.y += floorHeightChange + 3.0f;  // プレイヤーの高さを更新
+			previousFloorHeight = floorPos.y + floorSize.y; // 次フレームのために保存
+
 			isOnFloor = true;
 			break;  // どれかのオブジェクト上にいる場合は判定を終了
 		}
 		else {
 			isOnFloor = false;
 		}
-		
 	}
+	
 	
 		for (std::vector<Object3d*>::iterator itr = object3d_.begin(); itr != object3d_.end(); itr++) {
 			(*itr)->Update();
@@ -307,7 +331,7 @@ void DemoScene::Draw()
 	//ConeOBJ->Draw(CONEtextureHandle, camera);
 	TenQOBJ->Draw(TENQtextureHandle, camera);
 	//object3d2->Draw(UVtextureHandle, camera);
-	object3d->Draw(SKYtextureHandle, camera);
+	//object3d->Draw(SKYtextureHandle, camera);
 
 	particle->Draw(ParticleEmitter_, { worldTransform.translation_.x,worldTransform.translation_.y,worldTransform.translation_.z }, WHITEtextureHandle, camera, demoRandPro, false);
 	particle2->Draw(ParticleEmitter_, { worldTransform2.translation_.x,worldTransform2.translation_.y,worldTransform2.translation_.z }, WHITEtextureHandle, camera, demoRandPro, false);

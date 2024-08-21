@@ -51,6 +51,7 @@ private:
 	uint32_t FADEtextureHandle;
 	uint32_t UVtextureHandle;
 	uint32_t WHITEtextureHandle;
+	uint32_t BLUEtextureHandle;
 	uint32_t CONEtextureHandle;
 	uint32_t TENQtextureHandle;
 	uint32_t GRIDtextureHandle;
@@ -64,7 +65,6 @@ private:
 	bool effect = false;
 	bool effect2 = false;
 	bool isOnFloor = false;
-	const float epsilon = 0.3f;  // 誤差範囲を定義
 };
 
 

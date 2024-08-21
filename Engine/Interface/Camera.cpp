@@ -23,7 +23,6 @@ void Camera::Update() {
 }
 void Camera::CameraDebug()
 {
-    //#ifdef _DEBUG
     ImGui::PushStyleColor(ImGuiCol_TitleBgActive, ImVec4(0.2f, 0.0f, 0.7f, 0.8f));
     ImGui::PushStyleColor(ImGuiCol_TitleBg, ImVec4(0.1f, 0.0f, 0.3f, 0.5f));
     ImGui::Begin("camera");
@@ -42,7 +41,6 @@ void Camera::CameraDebug()
     ImGui::End();
     ImGui::PopStyleColor();
     ImGui::PopStyleColor();
-    //#endif // _DEBUG
 }
 
 void Camera::Move()
@@ -72,7 +70,7 @@ void Camera::Move()
         angle_ = std::atan2(move.x, move.z);
         transform_.rotate.y = LerpShortAngle(transform_.rotate.y, angle_, 0.1f);
     }
-
+   
     // キーボードによる移動量の更新
     transform_.translate.x += move.x;
     transform_.translate.z += move.z;
@@ -104,6 +102,7 @@ void Camera::HandleGamepadMovement()
                 moveLeftStick.x *= PlayerSpeed;
                 moveLeftStick.z *= PlayerSpeed;
             }
+            
         }
 
         // カメラの向きに基づく移動方向の調整
@@ -123,6 +122,10 @@ void Camera::HandleGamepadMovement()
         // 右スティックによる視野の移動
         HandleRightStick(joyState);
     }
+}
+
+void Camera::SetFOV(float fovY) {
+    fovY_ = fovY;
 }
 
 void Camera::HandleRightStick(const XINPUT_STATE& joyState)
@@ -199,12 +202,14 @@ void Camera::HandleGamepadJump(bool isOnFloor)
         {
             // デバッグ用に地面の上昇
             transform_.translate.y += 1.0f;
+            jumpVelocity = 0.0f;
             isJumping = false;
         }
         if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_RIGHT_SHOULDER)
         {
             // デバッグ用に地面の下降
             transform_.translate.y -= 1.0f;
+            jumpVelocity = 0.0f;
             isJumping = false;
         }
 #endif
