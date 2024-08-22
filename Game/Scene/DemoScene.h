@@ -48,6 +48,7 @@ private:
 	Object3d* TextOBJ3 = nullptr;
 	Object3d* TextOBJ4 = nullptr;
 	Object3d* TextOBJ5 = nullptr;
+	Object3d* TextOBJ6 = nullptr;
 	Object3d* Number = nullptr;
 
 

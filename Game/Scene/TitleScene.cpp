@@ -32,6 +32,7 @@ void TitleScene::Init()
 	ModelManager::GetInstance()->LoadModel("Resources/game/Text", "text3.obj");
 	ModelManager::GetInstance()->LoadModel("Resources/game/Text", "text4.obj");
 	ModelManager::GetInstance()->LoadModel("Resources/game/Text", "text5.obj");
+	ModelManager::GetInstance()->LoadModel("Resources/game/Text", "text6.obj");
 	ModelManager::GetInstance()->LoadModel("Resources/game/Number", "0.obj");
 	ModelManager::GetInstance()->LoadModel("Resources/game/Number", "1.obj");
 	ModelManager::GetInstance()->LoadModel("Resources/game/Number", "2.obj");

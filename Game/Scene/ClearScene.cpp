@@ -28,6 +28,7 @@ void ClearScene::Update()
 		fade->StartFadeIn();
 	}
 	if (fade->IsFadeOutComplete()) {
+		GameRoop = true;
 		sceneNo = 0;
 	}
 

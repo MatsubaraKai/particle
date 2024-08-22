@@ -10,6 +10,7 @@
 #include "Model.h"
 #include "PostProcess.h"
 #include "Fade.h"
+#include "GameManager.h"
 
 class ClearScene : public IScene
 {

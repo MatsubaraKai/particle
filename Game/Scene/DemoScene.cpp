@@ -24,9 +24,13 @@ void DemoScene::Init()
 	STARtextureHandle = TextureManager::StoreTexture("Resources/game/star.png");
 	SKYtextureHandle = TextureManager::StoreTexture("Resources/game/rostock_laage_airport_4k.dds");
 
-	Loder::LoadJsonFile("Resources", "DemoCone", ConeObject_, camera);
-	Loder::LoadJsonFile2("Resources", "DemoStar", StarObject_);
-
+	if (GameRoop == false) {
+		Loder::LoadJsonFile2("Resources", "DemoCone", ConeObject_);
+		Loder::LoadJsonFile2("Resources", "DemoStar", StarObject_);
+	}
+	for (size_t i = 0; i < StarObject_.size() - 1; i++) {
+		StarObject_[i]->isVisible = true;
+	}
 	postProcess_ = new PostProcess();
 	postProcess_->SetCamera(camera);
 	postProcess_->Init();
@@ -55,8 +59,11 @@ void DemoScene::Init()
 	TextOBJ4->Init();
 	TextOBJ5 = new Object3d();
 	TextOBJ5->Init();
+	TextOBJ6 = new Object3d();
+	TextOBJ6->Init();
 	Number = new Object3d();
 	Number->Init();
+	starCount = 2;
 
 	object3d->SetSkybox(skybox_);
 	worldTransform.Initialize();
@@ -80,14 +87,17 @@ void DemoScene::Init()
 	TenQTransform.scale_.z = 2.0f;
 	TenQOBJ->SetWorldTransform(TenQTransform);
 
+	camera->transform_.translate = { 0.0f,15.0f,-15.0f };
+
 	TextOBJ->worldTransform_.translation_.y = 7.0f;
 	TextOBJ2->worldTransform_.translation_.y = 8.11f;
 	TextOBJ2->worldTransform_.translation_.z = -30.0f;
 	TextOBJ3->worldTransform_.translation_ = { -10.0f,4.0f,-30.0f };
 	TextOBJ4->worldTransform_.translation_ = { 10.0f,4.0f,-30.0f };
+	TextOBJ5->worldTransform_.rotation_.x = 0.43f;
 	TextOBJ5->worldTransform_.translation_.y = 0.0f;
 	TextOBJ5->worldTransform_.translation_.z = -30.0f;
-	TextOBJ5->worldTransform_.rotation_.x = 0.43f;
+	TextOBJ6->worldTransform_.translation_.y = 2.35f;
 	Number->worldTransform_.translation_ = { 0.0f,13.0f,84.5f };
 	Number->worldTransform_.scale_ = { 2.0f,2.0f,2.0f };
 
@@ -103,6 +113,7 @@ void DemoScene::Init()
 	TextOBJ3->SetModel("text3.obj");
 	TextOBJ4->SetModel("text4.obj");
 	TextOBJ5->SetModel("text5.obj");
+	TextOBJ6->SetModel("text6.obj");
 	object3d2->SetModel("sneakWalk.gltf");
 	
 	particle = new Particle();
@@ -120,10 +131,10 @@ void DemoScene::Init()
 	ParticleEmitter_.transform.scale = { 0.5f,0.5f,0.5f };
 	particle->Initialize(ParticleEmitter_);
 	particle2->Initialize(ParticleEmitter_);
-
 	fade = new Fade();
 	fade->Init(FADEtextureHandle);
 	fade->StartFadeOut();
+
 }
 
 void DemoScene::Update()
@@ -169,6 +180,7 @@ void DemoScene::Update()
 	TextOBJ3->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, TextOBJ3->worldTransform_.translation_) + 3.14f;
 	TextOBJ4->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, TextOBJ4->worldTransform_.translation_) + 3.14f;
 	TextOBJ5->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, TextOBJ5->worldTransform_.translation_) + 3.14f;
+	TextOBJ6->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, TextOBJ6->worldTransform_.translation_) + 3.14f;
 	Number->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, Number->worldTransform_.translation_) + 3.14f;
 	TenQOBJ->worldTransform_.rotation_.x += 0.001f;
 	TenQOBJ->worldTransform_.translation_.x = Lerp(TenQOBJ->worldTransform_.translation_.x, camera->transform_.translate.x, 0.005f);
@@ -322,6 +334,7 @@ void DemoScene::Update()
 		TextOBJ3->Update();
 		TextOBJ4->Update();
 		TextOBJ5->Update();
+		TextOBJ6->Update();
 		Number->Update();
 		object3d2->Update();
 		object3d->Update();
@@ -378,6 +391,7 @@ void DemoScene::Update()
 		TextOBJ3->ModelDebug("text3");
 		TextOBJ4->ModelDebug("text4");
 		TextOBJ5->ModelDebug("text5");
+		TextOBJ6->ModelDebug("text6");
 		Number->ModelDebug("num");
 		object3d->ModelDebug("SKY");
 		object3d2->ModelDebug("chara");
@@ -417,11 +431,13 @@ void DemoScene::Update()
 		}
 		ImGui::Checkbox("EffectFlag", &effectFlag);
 		ImGui::Text("Now Scene : %d", sceneNo);
+		ImGui::Text("roop : %d", GameRoop);
 		ImGui::End();
 }
 
 void DemoScene::Draw()
 {
+
 	for (std::vector<Object3d*>::iterator itr1 = ConeObject_.begin(); itr1 != ConeObject_.end(); itr1++) {
 		if ((*itr1)->isVisible) {
 			(*itr1)->Draw(CONEtextureHandle, camera);
@@ -441,6 +457,7 @@ void DemoScene::Draw()
 	TextOBJ3->Draw(GRIDtextureHandle, camera);
 	TextOBJ4->Draw(GRIDtextureHandle, camera);
 	TextOBJ5->Draw(GRIDtextureHandle, camera);
+	TextOBJ6->Draw(GRIDtextureHandle, camera);
 	Number->Draw(GRIDtextureHandle, camera);
 	//object3d2->Draw(UVtextureHandle, camera);
 	//object3d->Draw(SKYtextureHandle, camera);

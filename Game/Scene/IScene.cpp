@@ -2,6 +2,7 @@
 
 // タイトルシーンで初期化
 int IScene::sceneNo = TITLE;
+bool IScene::GameRoop = false;
 
 // 仮想デストラクタの定義
 // 純粋仮想関数化していないので、ここで定義できる
