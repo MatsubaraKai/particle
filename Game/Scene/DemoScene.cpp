@@ -21,9 +21,11 @@ void DemoScene::Init()
 	TENQtextureHandle = TextureManager::StoreTexture("Resources/game/world2.png");
 	FADEtextureHandle = TextureManager::StoreTexture("Resources/black.png");
 	GRIDtextureHandle = TextureManager::StoreTexture("Resources/cian.png");
+	STARtextureHandle = TextureManager::StoreTexture("Resources/game/star.png");
 	SKYtextureHandle = TextureManager::StoreTexture("Resources/game/rostock_laage_airport_4k.dds");
 
-	Loder::LoadJsonFile("Resources", "TL1", object3d_, camera);
+	Loder::LoadJsonFile("Resources", "DemoCone", ConeObject_, camera);
+	Loder::LoadJsonFile2("Resources", "DemoStar", StarObject_);
 
 	postProcess_ = new PostProcess();
 	postProcess_->SetCamera(camera);
@@ -43,11 +45,19 @@ void DemoScene::Init()
 	ConeOBJ->Init();
 	TenQOBJ = new Object3d();
 	TenQOBJ->Init();
-	
-	GridOBJ->SetMapTexture(SKYtextureHandle);
-	object3d2->SetMapTexture(SKYtextureHandle);
-	ConeOBJ->SetMapTexture(SKYtextureHandle);
-	TenQOBJ->SetMapTexture(SKYtextureHandle);
+	TextOBJ = new Object3d();
+	TextOBJ->Init();
+	TextOBJ2 = new Object3d();
+	TextOBJ2->Init();
+	TextOBJ3 = new Object3d();
+	TextOBJ3->Init();
+	TextOBJ4 = new Object3d();
+	TextOBJ4->Init();
+	TextOBJ5 = new Object3d();
+	TextOBJ5->Init();
+	Number = new Object3d();
+	Number->Init();
+
 	object3d->SetSkybox(skybox_);
 	worldTransform.Initialize();
 	worldTransform2.Initialize();
@@ -55,7 +65,7 @@ void DemoScene::Init()
 	GridTransform.Initialize();
 	TenQTransform.Initialize();
 
-	worldTransform.translation_.x = 0;
+	worldTransform.translation_ = { -2.5f,1.5f,-32.35f };
 	worldTransform2.translation_ = { -2.5f,7.5f,82.0f };
 	
 
@@ -70,6 +80,17 @@ void DemoScene::Init()
 	TenQTransform.scale_.z = 2.0f;
 	TenQOBJ->SetWorldTransform(TenQTransform);
 
+	TextOBJ->worldTransform_.translation_.y = 7.0f;
+	TextOBJ2->worldTransform_.translation_.y = 8.11f;
+	TextOBJ2->worldTransform_.translation_.z = -30.0f;
+	TextOBJ3->worldTransform_.translation_ = { -10.0f,4.0f,-30.0f };
+	TextOBJ4->worldTransform_.translation_ = { 10.0f,4.0f,-30.0f };
+	TextOBJ5->worldTransform_.translation_.y = 0.0f;
+	TextOBJ5->worldTransform_.translation_.z = -30.0f;
+	TextOBJ5->worldTransform_.rotation_.x = 0.43f;
+	Number->worldTransform_.translation_ = { 0.0f,13.0f,84.5f };
+	Number->worldTransform_.scale_ = { 2.0f,2.0f,2.0f };
+
 	worldTransformSKY.translation_.x = 0;
 	worldTransformSKY.scale_ = { 1000,1000,1000 };
 	object3d->SetWorldTransform(worldTransformSKY);
@@ -77,8 +98,12 @@ void DemoScene::Init()
 	GridOBJ->SetModel("grid.obj");
 	ConeOBJ->SetModel("cone.obj");
 	TenQOBJ->SetModel("world2.obj");
+	TextOBJ->SetModel("text.obj");
+	TextOBJ2->SetModel("text2.obj");
+	TextOBJ3->SetModel("text3.obj");
+	TextOBJ4->SetModel("text4.obj");
+	TextOBJ5->SetModel("text5.obj");
 	object3d2->SetModel("sneakWalk.gltf");
-	
 	
 	particle = new Particle();
 	particle2 = new Particle();
@@ -104,6 +129,8 @@ void DemoScene::Init()
 void DemoScene::Update()
 {
 	// プレイヤーの座標
+	std::string modelFileName = std::to_string(starCount) + ".obj";
+	Number->SetModel(modelFileName.c_str());
 	Vector3 playerPos = camera->transform_.translate;
 	PSOPostEffect* pSOPostEffect = PSOPostEffect::GatInstance();
 
@@ -137,6 +164,12 @@ void DemoScene::Update()
 		sceneNo = 1;
 	}
 
+	TextOBJ->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, TextOBJ->worldTransform_.translation_) + 3.14f;
+	TextOBJ2->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, TextOBJ2->worldTransform_.translation_) + 3.14f;
+	TextOBJ3->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, TextOBJ3->worldTransform_.translation_) + 3.14f;
+	TextOBJ4->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, TextOBJ4->worldTransform_.translation_) + 3.14f;
+	TextOBJ5->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, TextOBJ5->worldTransform_.translation_) + 3.14f;
+	Number->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, Number->worldTransform_.translation_) + 3.14f;
 	TenQOBJ->worldTransform_.rotation_.x += 0.001f;
 	TenQOBJ->worldTransform_.translation_.x = Lerp(TenQOBJ->worldTransform_.translation_.x, camera->transform_.translate.x, 0.005f);
 	TenQOBJ->worldTransform_.translation_.y = Lerp(TenQOBJ->worldTransform_.translation_.y, camera->transform_.translate.y + 370.0f, 0.005f);
@@ -193,80 +226,135 @@ void DemoScene::Update()
 			TenQOBJ->worldTransform_.rotation_.x += move.z;
 		}
 	}
-	for (size_t i = 0; i < object3d_.size() - 1; i++) {
-		float previousFloorHeight = playerPos.y; // 初期化しておく
-		// オブジェクトの座標とサイズを取得
-		Vector3 floorPos = object3d_[i]->worldTransform_.translation_;
-		Vector3 floorSize = object3d_[i]->worldTransform_.scale_;
-		Vector3 floorRotation = object3d_[i]->worldTransform_.rotation_;
-		std::string label = "JSONmodel" + std::to_string(i);
+	for (size_t i = 0; i < ConeObject_.size() - 1; i++) {
+		if (ConeObject_[i]->isVisible) {
+			float previousFloorHeight = playerPos.y; // 初期化しておく
+			// オブジェクトの座標とサイズを取得
+			Vector3 floorPos = ConeObject_[i]->worldTransform_.translation_;
+			Vector3 floorSize = ConeObject_[i]->worldTransform_.scale_;
+			std::string label = "JSONmodel" + std::to_string(i);
 
-		ImGui::Begin("OnFloorDebug");
-		ImGui::Text(label.c_str());
-		ImGui::Text("floor : %f %f %f", floorPos.x, floorPos.y, floorPos.z);
-		ImGui::Text("size : %f %f %f", floorSize.x, floorSize.y, floorSize.z);
-		ImGui::Text("isOnx : %f %f", playerPos.x, floorPos.x - floorSize.x);
-		ImGui::Text("isOnx : %f %f", playerPos.x, floorPos.x + floorSize.x);
-		ImGui::Text("isOnz : %f %f", playerPos.z, floorPos.z - floorSize.z);
-		ImGui::Text("isOnz : %f %f", playerPos.z, floorPos.z + floorSize.z);
-		ImGui::Text("isOny : %f %f", playerPos.y, abs(floorPos.y + floorSize.y + 3.0f));
-		ImGui::Text("isOnyy : %f", abs(playerPos.y - (floorPos.y + floorSize.y + 3.0f)));
-		ImGui::End();
-		// プレイヤーがオブジェクトの上にいるか判定
-		if (playerPos.x >= floorPos.x - floorSize.x&&
-			playerPos.x <= floorPos.x + floorSize.x&&
-			playerPos.z >= floorPos.z - floorSize.z&&
-			playerPos.z <= floorPos.z + floorSize.z &&
-			playerPos.y >= floorPos.y + floorSize.y - 2.0f &&
-			playerPos.y <= floorPos.y + floorSize.y + 3.0f
-			) {
+			ImGui::Begin("OnFloorDebug");
+			ImGui::Text(label.c_str());
+			ImGui::Text("floor : %f %f %f", floorPos.x, floorPos.y, floorPos.z);
+			ImGui::Text("size : %f %f %f", floorSize.x, floorSize.y, floorSize.z);
+			ImGui::Text("isOnx : %f %f", playerPos.x, floorPos.x - floorSize.x);
+			ImGui::Text("isOnx : %f %f", playerPos.x, floorPos.x + floorSize.x);
+			ImGui::Text("isOnz : %f %f", playerPos.z, floorPos.z - floorSize.z);
+			ImGui::Text("isOnz : %f %f", playerPos.z, floorPos.z + floorSize.z);
+			ImGui::Text("isOny : %f %f", playerPos.y, abs(floorPos.y + floorSize.y + 3.0f));
+			ImGui::Text("isOnyy : %f", abs(playerPos.y - (floorPos.y + floorSize.y + 3.0f)));
+			ImGui::End();
+			// プレイヤーがオブジェクトの上にいるか判定
+			if (playerPos.x >= floorPos.x - floorSize.x &&
+				playerPos.x <= floorPos.x + floorSize.x &&
+				playerPos.z >= floorPos.z - floorSize.z &&
+				playerPos.z <= floorPos.z + floorSize.z &&
+				playerPos.y >= floorPos.y + floorSize.y - 1.0f &&
+				playerPos.y <= floorPos.y + floorSize.y + 3.0f) {
 
-			// 床の上昇分を計算
-			float floorHeightChange = floorPos.y + floorSize.y - previousFloorHeight;
-			camera->transform_.translate.y = playerPos.y += floorHeightChange + 3.0f;  // プレイヤーの高さを更新
-			previousFloorHeight = floorPos.y + floorSize.y; // 次フレームのために保存
+				// 床の上昇分を計算
+				float floorHeightChange = floorPos.y + floorSize.y - previousFloorHeight;
+				camera->transform_.translate.y = playerPos.y += floorHeightChange + 3.0f;  // プレイヤーの高さを更新
+				previousFloorHeight = floorPos.y + floorSize.y; // 次フレームのために保存
 
-			isOnFloor = true;
-			break;  // どれかのオブジェクト上にいる場合は判定を終了
+				isOnFloor = true;
+				//ConeObject_[i]->isVisible = false;  // 該当オブジェクトの描画を停止
+				break;  // どれかのオブジェクト上にいる場合は判定を終了
+			}
+			else {
+				isOnFloor = false;
+			}
 		}
 		else {
 			isOnFloor = false;
 		}
 	}
-	
-	
-		for (std::vector<Object3d*>::iterator itr = object3d_.begin(); itr != object3d_.end(); itr++) {
-			(*itr)->Update();
+
+	for (size_t i = 0; i < StarObject_.size() - 1; i++) {
+		if (StarObject_[i]->isVisible) {
+			// オブジェクトの座標とサイズを取得
+			Vector3 floorPos = StarObject_[i]->worldTransform_.translation_;
+			Vector3 floorSize = StarObject_[i]->worldTransform_.scale_;
+
+			// プレイヤーがオブジェクトに当たっているか判定
+			if (playerPos.x >= floorPos.x - floorSize.x &&
+				playerPos.x <= floorPos.x + floorSize.x &&
+				playerPos.z >= floorPos.z - floorSize.z &&
+				playerPos.z <= floorPos.z + floorSize.z &&
+				playerPos.y >= floorPos.y + floorSize.y - 3.0f &&
+				playerPos.y <= floorPos.y + floorSize.y + 3.0f) {
+				isGetStar = true;
+				StarObject_[i]->isVisible = false;  // 該当オブジェクトの描画を停止
+				break;  // 判定を終了
+			}
+			else {
+				isGetStar = false;
+			}
 		}
+		else {
+			isGetStar = false;
+		}
+	}
+	if (isGetStar) {
+		starCount--;
+
+	}
+	for (std::vector<Object3d*>::iterator itr1 = ConeObject_.begin(); itr1 != ConeObject_.end(); itr1++) {
+		if ((*itr1)->isVisible) {
+			(*itr1)->Update();
+		}
+	}
+	for (std::vector<Object3d*>::iterator itr2 = StarObject_.begin(); itr2 != StarObject_.end(); itr2++) {
+		if ((*itr2)->isVisible) {
+			(*itr2)->Update();
+			(*itr2)->worldTransform_.rotation_.y += 0.02f;
+		}
+	}
 		camera->Update();
 		camera->Jump(isOnFloor);
 		camera->Move();
 		GridOBJ->Update();
 		ConeOBJ->Update();
 		TenQOBJ->Update();
+		TextOBJ->Update();
+		TextOBJ2->Update();
+		TextOBJ3->Update();
+		TextOBJ4->Update();
+		TextOBJ5->Update();
+		Number->Update();
 		object3d2->Update();
 		object3d->Update();
 
-		object3d_[1]->worldTransform_.rotation_.x += 0.01f;
-		object3d_[1]->worldTransform_.rotation_.y += 0.01f;
-		object3d_[1]->worldTransform_.rotation_.z += 0.01f;
-		object3d_[2]->worldTransform_.rotation_.x += 0.01f;
-		object3d_[2]->worldTransform_.rotation_.y -= 0.01f;
-		object3d_[2]->worldTransform_.rotation_.z -= 0.01f;
+		ConeObject_[1]->worldTransform_.rotation_.x += 0.01f;
+		ConeObject_[1]->worldTransform_.rotation_.y += 0.01f;
+		ConeObject_[1]->worldTransform_.rotation_.z += 0.01f;
+		ConeObject_[2]->worldTransform_.rotation_.x += 0.01f;
+		ConeObject_[2]->worldTransform_.rotation_.y -= 0.01f;
+		ConeObject_[2]->worldTransform_.rotation_.z -= 0.01f;
 		if (sceneTime1 == 0) {
-			object3d_[4]->worldTransform_.scale_.x = 5.00f;
-			object3d_[4]->worldTransform_.scale_.z = 5.00f;
+			ConeObject_[4]->worldTransform_.scale_.x = 5.00f;
+			ConeObject_[4]->worldTransform_.scale_.z = 5.00f;
 		}
 		if (sceneTime1 < 180) {
-			object3d_[4]->worldTransform_.scale_.x += 0.07f;
-			object3d_[4]->worldTransform_.scale_.z += 0.02f;
-			object3d_[6]->worldTransform_.translation_.y = Lerp(object3d_[6]->worldTransform_.translation_.y, 10.0f, 0.1f);
+			ConeObject_[4]->worldTransform_.scale_.x += 0.06f;
+			ConeObject_[4]->worldTransform_.scale_.z += 0.02f;
+			ConeObject_[6]->worldTransform_.translation_.y = Lerp(ConeObject_[6]->worldTransform_.translation_.y, 30.0f, 0.1f);
+			TextOBJ->worldTransform_.translation_.y = Lerp(TextOBJ->worldTransform_.translation_.y, 8.00f, 0.01f);
+			TextOBJ2->worldTransform_.translation_.y = Lerp(TextOBJ2->worldTransform_.translation_.y, 8.61f, 0.01f);
+			TextOBJ3->worldTransform_.translation_.y = Lerp(TextOBJ3->worldTransform_.translation_.y, 4.5f, 0.01f);
+			TextOBJ4->worldTransform_.translation_.y = Lerp(TextOBJ4->worldTransform_.translation_.y, 4.5f, 0.01f);
+			TextOBJ5->worldTransform_.translation_.y = Lerp(TextOBJ5->worldTransform_.translation_.y, 0.5f, 0.01f);
 		}
 		if (sceneTime1 > 180 &&sceneTime1 < 360) {
-			object3d_[4]->worldTransform_.scale_.x -= 0.07f;
-			object3d_[4]->worldTransform_.scale_.z -= 0.02f;
-			object3d_[6]->worldTransform_.translation_.y = Lerp(object3d_[6]->worldTransform_.translation_.y, 4.0f, 0.1f);
-
+			ConeObject_[4]->worldTransform_.scale_.x -= 0.06f;
+			ConeObject_[4]->worldTransform_.scale_.z -= 0.02f;
+			ConeObject_[6]->worldTransform_.translation_.y = Lerp(ConeObject_[6]->worldTransform_.translation_.y, 4.0f, 0.1f);
+			TextOBJ->worldTransform_.translation_.y = Lerp(TextOBJ->worldTransform_.translation_.y, 6.00f, 0.01f);
+			TextOBJ2->worldTransform_.translation_.y = Lerp(TextOBJ2->worldTransform_.translation_.y, 7.61f, 0.01f);
+			TextOBJ3->worldTransform_.translation_.y = Lerp(TextOBJ3->worldTransform_.translation_.y, 3.5f, 0.01f);
+			TextOBJ4->worldTransform_.translation_.y = Lerp(TextOBJ4->worldTransform_.translation_.y, 3.5f, 0.01f);
+			TextOBJ5->worldTransform_.translation_.y = Lerp(TextOBJ5->worldTransform_.translation_.y, -0.5f, 0.01f);
 		}
 	
 		if (effectFlag == true) {
@@ -277,21 +365,31 @@ void DemoScene::Update()
 
 		camera->CameraDebug();
 		// 選択されたインデックスに応じたモデルのデバッグを実行
-		std::string label = "JSONmodel" + std::to_string(selectedIndex);
-		object3d_[selectedIndex]->ModelDebug(label.c_str());
+		std::string label1 = "JSONConemodel" + std::to_string(selectedIndex1);
+		std::string label2 = "JSONStarmodel" + std::to_string(selectedIndex2);
+		ConeObject_[selectedIndex1]->ModelDebug(label1.c_str());
+		StarObject_[selectedIndex2]->ModelDebug(label2.c_str());
 
 		GridOBJ->ModelDebug("grid");												
 		ConeOBJ->ModelDebug("cone");
 		TenQOBJ->ModelDebug("TenQ");
+		TextOBJ->ModelDebug("text");
+		TextOBJ2->ModelDebug("text2");
+		TextOBJ3->ModelDebug("text3");
+		TextOBJ4->ModelDebug("text4");
+		TextOBJ5->ModelDebug("text5");
+		Number->ModelDebug("num");
 		object3d->ModelDebug("SKY");
-
 		object3d2->ModelDebug("chara");
 
 		particle->Particledebug("uv", worldTransform);
 		particle2->Particledebug("white", worldTransform2);
 		ImGui::Begin("isOnFloor");
-		ImGui::SliderInt("Select Model Index", &selectedIndex, 0, static_cast<int>(object3d_.size()) - 2);
+		ImGui::SliderInt("Select Model Index", &selectedIndex1, 0, static_cast<int>(ConeObject_.size()) - 2);
+		ImGui::SliderInt("Select Model Index", &selectedIndex2, 0, static_cast<int>(StarObject_.size()) - 2);
+		ImGui::Text("starcount: %d", starCount);
 		ImGui::Text("OnFloor : %d", isOnFloor);
+		ImGui::Text("GetStar : %d", isGetStar);
 		ImGui::Text("Player Pos : %f %f %f", playerPos.x, playerPos.y, playerPos.z);
 		ImGui::End();
 		ImGui::Begin("color",nullptr,ImGuiWindowFlags_MenuBar);
@@ -324,15 +422,28 @@ void DemoScene::Update()
 
 void DemoScene::Draw()
 {
-	for (std::vector<Object3d*>::iterator itr = object3d_.begin(); itr != object3d_.end(); itr++) {
-		(*itr)->Draw(CONEtextureHandle, camera);
+	for (std::vector<Object3d*>::iterator itr1 = ConeObject_.begin(); itr1 != ConeObject_.end(); itr1++) {
+		if ((*itr1)->isVisible) {
+			(*itr1)->Draw(CONEtextureHandle, camera);
+
+		}
+	}
+	for (std::vector<Object3d*>::iterator itr2 = StarObject_.begin(); itr2 != StarObject_.end(); itr2++) {
+		if ((*itr2)->isVisible) {
+			(*itr2)->Draw(STARtextureHandle, camera);
+		}
 	}
 	//GridOBJ->Draw(GRIDtextureHandle, camera);
 	//ConeOBJ->Draw(CONEtextureHandle, camera);
 	TenQOBJ->Draw(TENQtextureHandle, camera);
+	TextOBJ->Draw(GRIDtextureHandle, camera);
+	TextOBJ2->Draw(GRIDtextureHandle, camera);
+	TextOBJ3->Draw(GRIDtextureHandle, camera);
+	TextOBJ4->Draw(GRIDtextureHandle, camera);
+	TextOBJ5->Draw(GRIDtextureHandle, camera);
+	Number->Draw(GRIDtextureHandle, camera);
 	//object3d2->Draw(UVtextureHandle, camera);
 	//object3d->Draw(SKYtextureHandle, camera);
-
 	particle->Draw(ParticleEmitter_, { worldTransform.translation_.x,worldTransform.translation_.y,worldTransform.translation_.z }, WHITEtextureHandle, camera, demoRandPro, false);
 	particle2->Draw(ParticleEmitter_, { worldTransform2.translation_.x,worldTransform2.translation_.y,worldTransform2.translation_.z }, WHITEtextureHandle, camera, demoRandPro, false);
 	fade->Draw();
@@ -344,6 +455,7 @@ void DemoScene::PostDraw()
 }
 
 void DemoScene::Release() {
+	
 }
 
 // ゲームを終了

@@ -30,17 +30,27 @@ public:
 private:
 	int sceneTime = 0;
 	int sceneTime1 = 0;
-	int selectedIndex = 0;
+	int selectedIndex1 = 0;
+	int selectedIndex2 = 0;
 	Camera* camera = nullptr;
 	Input* input = nullptr;
 	Fade *fade = nullptr;
 
-	std::vector<Object3d*> object3d_;
+	std::vector<Object3d*> ConeObject_;
+	std::vector<Object3d*> StarObject_;
 	Object3d* GridOBJ = nullptr;
 	Object3d* object3d = nullptr;
 	Object3d* object3d2 = nullptr;
 	Object3d* ConeOBJ = nullptr;
 	Object3d* WallOBJ = nullptr;
+	Object3d* TextOBJ = nullptr;
+	Object3d* TextOBJ2 = nullptr;
+	Object3d* TextOBJ3 = nullptr;
+	Object3d* TextOBJ4 = nullptr;
+	Object3d* TextOBJ5 = nullptr;
+	Object3d* Number = nullptr;
+
+
 	Skybox* skybox_ = nullptr;
 	Material material;
 	Particle* particle = nullptr;
@@ -56,6 +66,7 @@ private:
 	uint32_t TENQtextureHandle;
 	uint32_t GRIDtextureHandle;
 	uint32_t SKYtextureHandle;
+	uint32_t STARtextureHandle;
 	WorldTransform GridTransform;
 	
 	Emitter ParticleEmitter_;
@@ -65,6 +76,8 @@ private:
 	bool effect = false;
 	bool effect2 = false;
 	bool isOnFloor = false;
+	bool isGetStar = false;
+	int starCount = 2;
 };
 
 

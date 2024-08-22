@@ -216,6 +216,13 @@ void Camera::HandleGamepadJump(bool isOnFloor)
     }
 }
 
+float Camera::Face2Face(const Vector3& playerPosition, const Vector3 objectPosition){
+    // Y軸の回転角度を計算
+    float deltaX = playerPosition.x - objectPosition.x;
+    float deltaZ = playerPosition.z - objectPosition.z;
+    float rotationY = atan2f(deltaX, deltaZ);
+    return rotationY;
+}
 
 float Camera::Lerp(const float& a, const float& b, float t) {
 	float result{};

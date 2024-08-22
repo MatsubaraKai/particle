@@ -27,6 +27,17 @@ void TitleScene::Init()
 	ModelManager::GetInstance()->LoadModel("Resources/game", "cone.obj");
 	ModelManager::GetInstance()->LoadModel("Resources/game", "world.obj");
 	ModelManager::GetInstance()->LoadModel("Resources/game", "world2.obj");
+	ModelManager::GetInstance()->LoadModel("Resources/game/Text", "text.obj");
+	ModelManager::GetInstance()->LoadModel("Resources/game/Text", "text2.obj");
+	ModelManager::GetInstance()->LoadModel("Resources/game/Text", "text3.obj");
+	ModelManager::GetInstance()->LoadModel("Resources/game/Text", "text4.obj");
+	ModelManager::GetInstance()->LoadModel("Resources/game/Text", "text5.obj");
+	ModelManager::GetInstance()->LoadModel("Resources/game/Number", "0.obj");
+	ModelManager::GetInstance()->LoadModel("Resources/game/Number", "1.obj");
+	ModelManager::GetInstance()->LoadModel("Resources/game/Number", "2.obj");
+	ModelManager::GetInstance()->LoadModel("Resources/game/Number", "3.obj");
+	ModelManager::GetInstance()->LoadModel("Resources/game/Number", "4.obj");
+	ModelManager::GetInstance()->LoadModel("Resources/game/Number", "5.obj");
 
 	worldTransform.Initialize();
 	worldTransform.translation_.x = 0;

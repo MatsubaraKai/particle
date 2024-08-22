@@ -44,7 +44,7 @@ public: // Getter
 	ModelData LoadObjFile(const std::string& directoryPath, const std::string& filename);
 	MaterialData LoadMaterialTemplateFile(const std::string& directoryPath, const std::string& filename);
 	WorldTransform worldTransform_;
-
+	bool isVisible = true;  // デフォルトで描画する
 private:
 	Object3dCommon* objectCommon_ = nullptr;
 	DirectionalLight* directionalLightData;
