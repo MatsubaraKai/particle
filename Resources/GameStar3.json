@@ -1,0 +1,102 @@
+{
+    "name": "scene",
+    "objects": [
+        {
+            "type": "MESH",
+            "name": "1",
+            "transform": {
+                "translation": [
+                    28.0,
+                    15.0,
+                    6.0
+                ],
+                "rotation": [
+                    -0.0,
+                    -0.0,
+                    -0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "star"
+        },
+
+        {
+            "type": "MESH",
+            "name": "2",
+            "transform": {
+                "translation": [
+                    0.0,
+                    60.0,
+                    9.0
+                ],
+                "rotation": [
+                    -0.0,
+                    -0.0,
+                    -0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "star"
+        },
+
+
+
+
+
+
+
+
+
+        {
+            "type": "LIGHT",
+            "name": "Light",
+            "transform": {
+                "translation": [
+                    4.076245307922363,
+                    1.0054539442062378,
+                    5.903861999511719
+                ],
+                "rotation": [
+                    0.6503279805183411,
+                    0.055217139422893524,
+                    1.8663909435272217
+                ],
+                "scaling": [
+                    1.0,
+                    0.9999999403953552,
+                    1.0
+                ]
+            }
+        },
+        {
+            "type": "CAMERA",
+            "name": "Camera",
+            "transform": {
+                "translation": [
+                    0.0,
+                    -15.0,
+                    15.0
+                ],
+                "rotation": [
+                    1.5707,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            }
+            
+        }
+    ]
+}

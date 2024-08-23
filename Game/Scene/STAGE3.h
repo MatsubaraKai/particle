@@ -12,7 +12,7 @@
 #include "Fade.h"
 #include "GameManager.h"
 
-class ClearScene : public IScene
+class STAGE3 : public IScene
 {
 public:
 	void Init() override;
@@ -23,8 +23,10 @@ public:
 	int GameClose()override;
 
 	WorldTransform worldTransformPa;
+	WorldTransform worldTransformPa2;
 	WorldTransform TenQTransform;
 	Object3d* TenQOBJ = nullptr;
+	Object3d* TextOBJ = nullptr;
 private:
 	int sceneTime = 0;
 	int sceneTime1 = 0;
@@ -38,6 +40,7 @@ private:
 	std::vector<Object3d*> StarObject_;
 	Object3d* Number = nullptr;
 	Particle* particle = nullptr;
+	Particle* particle2 = nullptr;
 
 	PostProcess* postProcess_ = nullptr;
 	//変数
@@ -58,6 +61,7 @@ private:
 	bool isOnFloor = false;
 	bool isGetStar = false;
 	bool isClear = false;
+	bool isTitle = false;
 	bool isFadeInStarted = false;
 	int starCount = 5;
 };

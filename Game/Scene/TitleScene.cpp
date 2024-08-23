@@ -32,12 +32,15 @@ void TitleScene::Init()
 	ModelManager::GetInstance()->LoadModel("Resources/game/Text", "text4.obj");
 	ModelManager::GetInstance()->LoadModel("Resources/game/Text", "text5.obj");
 	ModelManager::GetInstance()->LoadModel("Resources/game/Text", "text6.obj");
+	ModelManager::GetInstance()->LoadModel("Resources/game/Text", "text7.obj");
 	ModelManager::GetInstance()->LoadModel("Resources/game/Text", "Titletext.obj");
 	ModelManager::GetInstance()->LoadModel("Resources/game/Text", "Titletext2.obj");
 	ModelManager::GetInstance()->LoadModel("Resources/game/Text", "Titletext3.obj");
 	ModelManager::GetInstance()->LoadModel("Resources/game/Text", "Titletext4.obj");
 	ModelManager::GetInstance()->LoadModel("Resources/game/Text", "Titletext5.obj");
 	ModelManager::GetInstance()->LoadModel("Resources/game/Text", "Titletext6.obj");
+	ModelManager::GetInstance()->LoadModel("Resources/game/Text", "Titletext7.obj");
+	ModelManager::GetInstance()->LoadModel("Resources/game/Text", "Titletext8.obj");
 	ModelManager::GetInstance()->LoadModel("Resources/game/Number", "0.obj");
 	ModelManager::GetInstance()->LoadModel("Resources/game/Number", "1.obj");
 	ModelManager::GetInstance()->LoadModel("Resources/game/Number", "2.obj");
@@ -68,6 +71,11 @@ void TitleScene::Init()
 	TextOBJ5->Init();
 	TextOBJ6 = new Object3d();
 	TextOBJ6->Init();
+	TextOBJ7 = new Object3d();
+	TextOBJ7->Init();
+	TextOBJ8 = new Object3d();
+	TextOBJ8->Init();
+
 	isFadeInStarted = false;
 
 	TenQTransform.Initialize();
@@ -86,6 +94,8 @@ void TitleScene::Init()
 	TextOBJ3->worldTransform_.translation_ = { -22.5f,7.0f,15.0f };
 	TextOBJ4->worldTransform_.translation_ = { 27.5f,7.0f,15.0f };
 	TextOBJ5->worldTransform_.translation_ = { 27.5f,7.0f,2.5f };
+	TextOBJ6->worldTransform_.translation_ = { 27.5f,7.0f,-10.0f };
+	TextOBJ8->worldTransform_.translation_ = { -22.5f,2.0f,12.5f };
 
 	worldTransformPa.Initialize();
 	worldTransformPa.translation_ = { -25.0f,1.5f,12.5f };//チュートリアルポータル
@@ -93,6 +103,8 @@ void TitleScene::Init()
 	worldTransformPa1.translation_ = { 25.0f,1.5f,12.5f };//ゲームシーンポータル
 	worldTransformPa2.Initialize();
 	worldTransformPa2.translation_ = { 25.0f,1.5f,0.0f };//ゲームシーン２ポータル
+	worldTransformPa3.Initialize();
+	worldTransformPa3.translation_ = { 25.0f,1.5f,-12.5f };//ゲームシーン３ポータル
 
 	camera->transform_.translate = { 0.0f,15.0f,-15.0f };
 	camera->transform_.rotate = { -0.2f, 0.0f, 0.0f };
@@ -104,6 +116,8 @@ void TitleScene::Init()
 	TextOBJ4->SetModel("Titletext4.obj");
 	TextOBJ5->SetModel("Titletext5.obj");
 	TextOBJ6->SetModel("Titletext6.obj");
+	TextOBJ7->SetModel("Titletext7.obj");
+	TextOBJ8->SetModel("Titletext8.obj");
 
 	particle = new Particle();
 	particle1 = new Particle();
@@ -138,22 +152,28 @@ void TitleScene::Update()
 	Vector3 particlePos = worldTransformPa.translation_;
 	Vector3 particlePos1 = worldTransformPa1.translation_;
 	Vector3 particlePos2 = worldTransformPa2.translation_;
+	Vector3 particlePos3 = worldTransformPa3.translation_;
 	// パーティクルとカメラの距離を計算
 	float dx = (particlePos.x + 2.5f) - playerPos.x;
-	float dy = (particlePos.y + 2.5f) - playerPos.y;
+	float dy = (particlePos.y + 4.0f) - playerPos.y;
 	float dz = (particlePos.z + 2.5f) - playerPos.z;
 
 	float dx1 = (particlePos1.x + 2.5f) - playerPos.x;
-	float dy1 = (particlePos1.y + 2.5f) - playerPos.y;
+	float dy1 = (particlePos1.y + 4.0f) - playerPos.y;
 	float dz1 = (particlePos1.z + 2.5f) - playerPos.z;
 
 	float dx2 = (particlePos2.x + 2.5f) - playerPos.x;
-	float dy2 = (particlePos2.y + 2.5f) - playerPos.y;
+	float dy2 = (particlePos2.y + 4.0f) - playerPos.y;
 	float dz2 = (particlePos2.z + 2.5f) - playerPos.z;
+
+	float dx3 = (particlePos3.x + 2.5f) - playerPos.x;
+	float dy3 = (particlePos3.y + 4.0f) - playerPos.y;
+	float dz3 = (particlePos3.z + 2.5f) - playerPos.z;
 
 	float distance = std::sqrt(dx * dx + dy * dy + dz * dz);
 	float distance1 = std::sqrt(dx1 * dx1 + dy1 * dy1 + dz1 * dz1);
 	float distance2 = std::sqrt(dx2 * dx2 + dy2 * dy2 + dz2 * dz2);
+	float distance3 = std::sqrt(dx3 * dx3 + dy3 * dy3 + dz3 * dz3);
 	// 衝突判定
 	float collisionDistance = 2.0f; // 任意の衝突距離 (調整可能)
 
@@ -181,6 +201,14 @@ void TitleScene::Update()
 	else {
 		isGame2 = false;
 	}
+	if (distance3 < collisionDistance) {
+		// 衝突している
+		isGame3 = true;
+		isClear = true;
+	}
+	else {
+		isGame3 = false;
+	}
 	if (sceneTime == 180) {
 		effect = true;
 	}else {
@@ -205,20 +233,26 @@ void TitleScene::Update()
 		fade->StartFadeIn();
 	}
 	if (fade->IsFadeOutComplete() && isDemo) {
-		sceneNo = 3;
-	}
-	if (fade->IsFadeOutComplete() && isGame) {
 		sceneNo = 1;
 	}
-	if (fade->IsFadeOutComplete() && isGame2) {
+	if (fade->IsFadeOutComplete() && isGame) {
 		sceneNo = 2;
 	}
+	if (fade->IsFadeOutComplete() && isGame2) {
+		sceneNo = 3;
+	}
+	if (fade->IsFadeOutComplete() && isGame3) {
+		sceneNo = 4;
+	}
+	TenQOBJ->worldTransform_.rotation_.y += 0.0005f;
 	TitleOBJ->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, TitleOBJ->worldTransform_.translation_) + 3.14f;
 	TitleOBJ2->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, TitleOBJ2->worldTransform_.translation_) + 3.14f;
 	TextOBJ3->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, TextOBJ3->worldTransform_.translation_) + 3.14f;
 	TextOBJ4->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, TextOBJ4->worldTransform_.translation_) + 3.14f;
 	TextOBJ5->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, TextOBJ5->worldTransform_.translation_) + 3.14f;
 	TextOBJ6->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, TextOBJ6->worldTransform_.translation_) + 3.14f;
+	TextOBJ7->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, TextOBJ7->worldTransform_.translation_) + 3.14f;
+	TextOBJ8->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, TextOBJ8->worldTransform_.translation_) + 3.14f;
 
 	// ゲームパッドの状態取得
 	XINPUT_STATE joyState;
@@ -259,7 +293,6 @@ void TitleScene::Update()
 		}
 	}
 	for (size_t i = 0; i < ConeObject_.size() - 1; i++) {
-		if (ConeObject_[i]->isVisible) {
 			float previousFloorHeight = playerPos.y; // 初期化しておく
 			// オブジェクトの座標とサイズを取得
 			Vector3 floorPos = ConeObject_[i]->worldTransform_.translation_;
@@ -291,22 +324,15 @@ void TitleScene::Update()
 				previousFloorHeight = floorPos.y + floorSize.y; // 次フレームのために保存
 
 				isOnFloor = true;
-				//ConeObject_[i]->isVisible = false;  // 該当オブジェクトの描画を停止
 				break;  // どれかのオブジェクト上にいる場合は判定を終了
 			}
 			else {
 				isOnFloor = false;
 			}
-		}
-		else {
-			isOnFloor = false;
-		}
 	}
 
 	for (std::vector<Object3d*>::iterator itr1 = ConeObject_.begin(); itr1 != ConeObject_.end(); itr1++) {
-		if ((*itr1)->isVisible) {
-			(*itr1)->Update();
-		}
+		(*itr1)->Update();
 	}
 	if (isClear == false) {
 		camera->Jump(isOnFloor);
@@ -325,13 +351,38 @@ void TitleScene::Update()
 	TextOBJ4->Update();
 	TextOBJ5->Update();
 	TextOBJ6->Update();
+	TextOBJ7->Update();
+	TextOBJ8->Update();
+
+	if (playerPos.x >= -20.0f &&
+		playerPos.x <= 20.0f &&
+		playerPos.z >= -20.0f &&
+		playerPos.z <= 20.0f && DemoRoop == false
+		) {
+		TextOBJ7->worldTransform_.translation_.y = Lerp(TextOBJ7->worldTransform_.translation_.y, 1.3f, 0.1f);
+	}
+	else {
+		TextOBJ7->worldTransform_.translation_.y = Lerp(TextOBJ7->worldTransform_.translation_.y, 0.0f, 0.1f);
+	}
 	if (sceneTime1 == 0) {
 
 	}
 	if (sceneTime1 < 180) {
+		TitleOBJ->worldTransform_.translation_.y = Lerp(TitleOBJ->worldTransform_.translation_.y, 25.0f, 0.01f);
+		TitleOBJ2->worldTransform_.translation_.y = Lerp(TitleOBJ2->worldTransform_.translation_.y, 12.5f, 0.01f);
+		TextOBJ3->worldTransform_.translation_.y = Lerp(TextOBJ3->worldTransform_.translation_.y, 7.5f, 0.01f);
+		TextOBJ4->worldTransform_.translation_.y = Lerp(TextOBJ4->worldTransform_.translation_.y, 7.5f, 0.01f);
+		TextOBJ5->worldTransform_.translation_.y = Lerp(TextOBJ5->worldTransform_.translation_.y, 7.5f, 0.01f);
+		TextOBJ6->worldTransform_.translation_.y = Lerp(TextOBJ6->worldTransform_.translation_.y, 7.5f, 0.01f);
 
 	}
 	if (sceneTime1 > 180 && sceneTime1 < 360) {
+		TitleOBJ->worldTransform_.translation_.y = Lerp(TitleOBJ->worldTransform_.translation_.y, 20.0f, 0.01f);
+		TitleOBJ2->worldTransform_.translation_.y = Lerp(TitleOBJ2->worldTransform_.translation_.y, 7.5f, 0.01f);
+		TextOBJ3->worldTransform_.translation_.y = Lerp(TextOBJ3->worldTransform_.translation_.y, 6.5f, 0.01f);
+		TextOBJ4->worldTransform_.translation_.y = Lerp(TextOBJ4->worldTransform_.translation_.y, 6.5f, 0.01f);
+		TextOBJ5->worldTransform_.translation_.y = Lerp(TextOBJ5->worldTransform_.translation_.y, 6.5f, 0.01f);
+		TextOBJ6->worldTransform_.translation_.y = Lerp(TextOBJ6->worldTransform_.translation_.y, 6.5f, 0.01f);
 
 	}
 	if (effectFlag == true) {
@@ -352,9 +403,12 @@ void TitleScene::Update()
 	TextOBJ4->ModelDebug("text4");
 	TextOBJ5->ModelDebug("text5");
 	TextOBJ6->ModelDebug("text6");
+	TextOBJ7->ModelDebug("text7");
+	TextOBJ8->ModelDebug("text8");
 	particle->Particledebug("white", worldTransformPa);
 	particle1->Particledebug("white1", worldTransformPa1);
 	particle2->Particledebug("white2", worldTransformPa2);
+	particle3->Particledebug("white3", worldTransformPa3);
 	ImGui::Begin("isOnFloor");
 	ImGui::SliderInt("Select Model Index", &selectedIndex1, 0, static_cast<int>(ConeObject_.size()) - 2);
 	ImGui::Text("OnFloor : %d", isOnFloor);
@@ -398,15 +452,18 @@ void TitleScene::Draw()
 		}
 	}
 	TenQOBJ->Draw(TENQtextureHandle, camera);
-	TitleOBJ->Draw(GRIDtextureHandle, camera);
-	TitleOBJ2->Draw(GRIDtextureHandle, camera);
+	TitleOBJ->Draw(BLUEtextureHandle, camera);
+	TitleOBJ2->Draw(BLUEtextureHandle, camera);
 	TextOBJ3->Draw(GRIDtextureHandle, camera);
 	TextOBJ4->Draw(GRIDtextureHandle, camera);
 	TextOBJ5->Draw(GRIDtextureHandle, camera);
 	TextOBJ6->Draw(GRIDtextureHandle, camera);
+	TextOBJ7->Draw(GRIDtextureHandle, camera);
+	TextOBJ8->Draw(GRIDtextureHandle, camera);
 	particle->Draw(ParticleEmitter_, { worldTransformPa.translation_.x,worldTransformPa.translation_.y,worldTransformPa.translation_.z }, WHITEtextureHandle, camera, demoRandPro, false);
 	particle1->Draw(ParticleEmitter_, { worldTransformPa1.translation_.x,worldTransformPa1.translation_.y,worldTransformPa1.translation_.z }, WHITEtextureHandle, camera, demoRandPro, false);
 	particle2->Draw(ParticleEmitter_, { worldTransformPa2.translation_.x,worldTransformPa2.translation_.y,worldTransformPa2.translation_.z }, WHITEtextureHandle, camera, demoRandPro, false);
+	particle3->Draw(ParticleEmitter_, { worldTransformPa3.translation_.x,worldTransformPa3.translation_.y,worldTransformPa3.translation_.z }, WHITEtextureHandle, camera, demoRandPro, false);
 	fade->Draw();
 }
 

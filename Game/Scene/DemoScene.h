@@ -24,6 +24,7 @@ public:
 
 	WorldTransform worldTransformPa;
 	WorldTransform worldTransformPa2;
+	WorldTransform worldTransformPa3;
 	WorldTransform TenQTransform;
 	Object3d* TenQOBJ = nullptr;
 private:
@@ -43,10 +44,12 @@ private:
 	Object3d* TextOBJ4 = nullptr;
 	Object3d* TextOBJ5 = nullptr;
 	Object3d* TextOBJ6 = nullptr;
+	Object3d* TextOBJ7 = nullptr;
 	Object3d* Number = nullptr;
 
 	Particle* particle = nullptr;
 	Particle* particle2 = nullptr;
+	Particle* particle3 = nullptr;
 
 	PostProcess* postProcess_ = nullptr;
 	//変数
@@ -69,6 +72,7 @@ private:
 	bool isOnFloor = false;
 	bool isGetStar = false;
 	bool isClear = false;
+	bool isTitle = false;
 	bool isFadeInStarted = false;
 	int starCount = 2;
 };

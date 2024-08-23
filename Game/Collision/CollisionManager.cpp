@@ -1,5 +1,5 @@
 ﻿#include "CollisionManager.h"
-#include "GameScene.h"
+#include "STAGE1.h"
 //#include "Enemy.h"
 //#include "Player.h"
 //#include "AxisIndicator.h"

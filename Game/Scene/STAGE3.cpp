@@ -1,4 +1,4 @@
-﻿#include "DemoScene.h"
+﻿#include "STAGE3.h"
 #include "ImGuiCommon.h"
 #include "TextureManager.h"
 #include "ModelManager.h"
@@ -8,12 +8,11 @@
 #include <DirectXMath.h>
 #include "Vector3.h"
 
-void DemoScene::Init()
+void STAGE3::Init()
 {
 	camera = new Camera;
 	camera->Initialize();
 	input = Input::GetInstance();
-	UVtextureHandle = TextureManager::StoreTexture("Resources/uvChecker.png");
 	WHITEtextureHandle = TextureManager::StoreTexture("Resources/white.png");
 	BLUEtextureHandle = TextureManager::StoreTexture("Resources/blue.png");
 	CONEtextureHandle = TextureManager::StoreTexture("Resources/game/cone.png");
@@ -21,12 +20,11 @@ void DemoScene::Init()
 	FADEtextureHandle = TextureManager::StoreTexture("Resources/black.png");
 	GRIDtextureHandle = TextureManager::StoreTexture("Resources/cian.png");
 	STARtextureHandle = TextureManager::StoreTexture("Resources/game/star.png");
-	SKYtextureHandle = TextureManager::StoreTexture("Resources/game/rostock_laage_airport_4k.dds");
-	
-	if (DemoRoop == false) {
-		Loder::LoadJsonFile2("Resources", "DemoCone", ConeObject_);
-		Loder::LoadJsonFile2("Resources", "DemoStar", StarObject_);
-		DemoRoop = true;
+
+	if (Game3Roop == false) {
+		Loder::LoadJsonFile2("Resources", "GameCone3", ConeObject_);
+		Loder::LoadJsonFile2("Resources", "GameStar3", StarObject_);
+		Game3Roop = true;
 	}
 	for (size_t i = 0; i < StarObject_.size() - 1; i++) {
 		StarObject_[i]->isVisible = true;
@@ -34,23 +32,10 @@ void DemoScene::Init()
 	postProcess_ = new PostProcess();
 	postProcess_->SetCamera(camera);
 	postProcess_->Init();
-	
 	TenQOBJ = new Object3d();
 	TenQOBJ->Init();
 	TextOBJ = new Object3d();
 	TextOBJ->Init();
-	TextOBJ2 = new Object3d();
-	TextOBJ2->Init();
-	TextOBJ3 = new Object3d();
-	TextOBJ3->Init();
-	TextOBJ4 = new Object3d();
-	TextOBJ4->Init();
-	TextOBJ5 = new Object3d();
-	TextOBJ5->Init();
-	TextOBJ6 = new Object3d();
-	TextOBJ6->Init();
-	TextOBJ7 = new Object3d();
-	TextOBJ7->Init();
 	Number = new Object3d();
 	Number->Init();
 	starCount = 2;
@@ -58,12 +43,10 @@ void DemoScene::Init()
 
 	worldTransformPa.Initialize();
 	worldTransformPa2.Initialize();
-	worldTransformPa3.Initialize();
 	TenQTransform.Initialize();
 
-	worldTransformPa.translation_ = { -2.5f,1.5f,-32.35f };
-	worldTransformPa2.translation_ = { -2.5f,7.5f,82.0f };
-	worldTransformPa3.translation_ = { -20.0f,1.5f,-17.5f };
+	worldTransformPa.translation_ = { -2.5f,7.5f,82.0f };
+	worldTransformPa2.translation_ = { -20.0f,1.5f,-17.5f };
 
 	TenQTransform.translation_.y = 370.0f;
 	TenQTransform.translation_.z = 270.0f;
@@ -71,35 +54,15 @@ void DemoScene::Init()
 	TenQTransform.scale_.y = 2.0f;
 	TenQTransform.scale_.z = 2.0f;
 	TenQOBJ->SetWorldTransform(TenQTransform);
-
+	TextOBJ->worldTransform_.translation_ = { -17.5f,7.0f,-15.0f };
 	camera->transform_.translate = { 0.0f,15.0f,-15.0f };
 
-	TextOBJ->worldTransform_.translation_.y = 7.0f;
-	TextOBJ2->worldTransform_.translation_.y = 8.11f;
-	TextOBJ2->worldTransform_.translation_.z = -30.0f;
-	TextOBJ3->worldTransform_.translation_ = { -10.0f,4.0f,-30.0f };
-	TextOBJ4->worldTransform_.translation_ = { 10.0f,4.0f,-30.0f };
-	TextOBJ5->worldTransform_.rotation_.x = 0.43f;
-	TextOBJ5->worldTransform_.translation_.y = 0.0f;
-	TextOBJ5->worldTransform_.translation_.z = -30.0f;
-	TextOBJ6->worldTransform_.translation_.y = 2.35f;
-	TextOBJ7->worldTransform_.translation_ = { -17.5f,7.0f,-15.0f };
 	Number->worldTransform_.translation_ = { 0.0f,13.0f,84.5f };
 	Number->worldTransform_.scale_ = { 2.0f,2.0f,2.0f };
-
 	TenQOBJ->SetModel("world2.obj");
-	TextOBJ->SetModel("text.obj");
-	TextOBJ2->SetModel("text2.obj");
-	TextOBJ3->SetModel("text3.obj");
-	TextOBJ4->SetModel("text4.obj");
-	TextOBJ5->SetModel("text5.obj");
-	TextOBJ6->SetModel("text6.obj");
-	TextOBJ7->SetModel("text7.obj");
-
+	TextOBJ->SetModel("text7.obj");
 	particle = new Particle();
 	particle2 = new Particle();
-	particle3 = new Particle();
-
 	demoRandPro = {
 		{1.0f,4.0f},
 		{1.0f,4.0f},
@@ -112,14 +75,11 @@ void DemoScene::Init()
 	ParticleEmitter_.transform.scale = { 0.5f,0.5f,0.5f };
 	particle->Initialize(ParticleEmitter_);
 	particle2->Initialize(ParticleEmitter_);
-	particle3->Initialize(ParticleEmitter_);
 	fade = new Fade();
 	fade->Init(FADEtextureHandle);
 	fade->StartFadeOut();
-	
 }
-
-void DemoScene::Update()
+void STAGE3::Update()
 {
 	fade->UpdateFade();
 	PSOPostEffect* pSOPostEffect = PSOPostEffect::GatInstance();
@@ -127,8 +87,8 @@ void DemoScene::Update()
 	std::string modelFileName = std::to_string(starCount) + ".obj";
 	Number->SetModel(modelFileName.c_str());
 	Vector3 playerPos = camera->transform_.translate;
-	Vector3 particlePos = worldTransformPa2.translation_;
-	Vector3 particlePos2 = worldTransformPa3.translation_;
+	Vector3 particlePos = worldTransformPa.translation_;
+	Vector3 particlePos2 = worldTransformPa2.translation_;
 	// パーティクルとカメラの距離を計算
 	float dx = (particlePos.x + 2.5f) - playerPos.x;
 	float dy = (particlePos.y + 4.0f) - playerPos.y;
@@ -137,10 +97,10 @@ void DemoScene::Update()
 	float dx2 = (particlePos2.x + 2.5f) - playerPos.x;
 	float dy2 = (particlePos2.y + 4.0f) - playerPos.y;
 	float dz2 = (particlePos2.z + 2.5f) - playerPos.z;
-	// 衝突判定
+
 	float distance = std::sqrt(dx * dx + dy * dy + dz * dz);
 	float distance2 = std::sqrt(dx2 * dx2 + dy2 * dy2 + dz2 * dz2);
-
+	// 衝突判定
 	float collisionDistance = 2.0f; // 任意の衝突距離 (調整可能)
 
 	if (distance < collisionDistance && starCount == 0) {
@@ -149,6 +109,7 @@ void DemoScene::Update()
 	}
 	else {
 		isClear = false;
+
 	}
 	if (distance2 < collisionDistance) {
 		// 衝突している
@@ -181,27 +142,20 @@ void DemoScene::Update()
 		sceneTime = 0;
 		sceneTime1 = 0;
 	}
+	if (input->TriggerKey(DIK_SPACE)) {
+		fade->StartFadeIn();
+	}
 	if (fade->IsFadeOutComplete()) {
 		sceneNo = 0;
 	}
-	if (fade->IsFadeOutComplete() && isTitle) {
-		sceneNo = 0;
-	}
-
-	TextOBJ->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, TextOBJ->worldTransform_.translation_) + 3.14f;
-	TextOBJ2->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, TextOBJ2->worldTransform_.translation_) + 3.14f;
-	TextOBJ3->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, TextOBJ3->worldTransform_.translation_) + 3.14f;
-	TextOBJ4->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, TextOBJ4->worldTransform_.translation_) + 3.14f;
-	TextOBJ5->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, TextOBJ5->worldTransform_.translation_) + 3.14f;
-	TextOBJ6->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, TextOBJ6->worldTransform_.translation_) + 3.14f;
-	TextOBJ7->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, TextOBJ7->worldTransform_.translation_) + 3.14f;
 	Number->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, Number->worldTransform_.translation_) + 3.14f;
+	TextOBJ->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, TextOBJ->worldTransform_.translation_) + 3.14f;
 	TenQOBJ->worldTransform_.rotation_.x += 0.001f;
 	TenQOBJ->worldTransform_.translation_.x = Lerp(TenQOBJ->worldTransform_.translation_.x, camera->transform_.translate.x, 0.005f);
 	TenQOBJ->worldTransform_.translation_.y = Lerp(TenQOBJ->worldTransform_.translation_.y, camera->transform_.translate.y + 370.0f, 0.005f);
 	TenQOBJ->worldTransform_.translation_.z = Lerp(TenQOBJ->worldTransform_.translation_.z, camera->transform_.translate.z + 270.0f, 0.05f);
 
-	 // ゲームパッドの状態取得
+	// ゲームパッドの状態取得
 	XINPUT_STATE joyState;
 	if (Input::GetInstance()->GetJoystickState(joyState))
 	{
@@ -253,6 +207,7 @@ void DemoScene::Update()
 		}
 	}
 	for (size_t i = 0; i < ConeObject_.size() - 1; i++) {
+		if (ConeObject_[i]->isVisible) {
 			float previousFloorHeight = playerPos.y; // 初期化しておく
 			// オブジェクトの座標とサイズを取得
 			Vector3 floorPos = ConeObject_[i]->worldTransform_.translation_;
@@ -284,11 +239,16 @@ void DemoScene::Update()
 				previousFloorHeight = floorPos.y + floorSize.y; // 次フレームのために保存
 
 				isOnFloor = true;
+				//ConeObject_[i]->isVisible = false;  // 該当オブジェクトの描画を停止
 				break;  // どれかのオブジェクト上にいる場合は判定を終了
 			}
 			else {
 				isOnFloor = false;
 			}
+		}
+		else {
+			isOnFloor = false;
+		}
 	}
 
 	for (size_t i = 0; i < StarObject_.size() - 1; i++) {
@@ -339,117 +299,81 @@ void DemoScene::Update()
 			isFadeInStarted = true; // フラグを立てて一度だけ実行されるようにする
 		}
 	}
-		camera->Update();
-		TenQOBJ->Update();
-		TextOBJ->Update();
-		TextOBJ2->Update();
-		TextOBJ3->Update();
-		TextOBJ4->Update();
-		TextOBJ5->Update();
-		TextOBJ6->Update();
-		TextOBJ7->Update();
-		Number->Update();
+	camera->Update();
+	TenQOBJ->Update();
+	Number->Update();
+	TextOBJ->Update();
 
-		ConeObject_[1]->worldTransform_.rotation_.x += 0.01f;
-		ConeObject_[1]->worldTransform_.rotation_.y += 0.01f;
-		ConeObject_[1]->worldTransform_.rotation_.z += 0.01f;
-		ConeObject_[2]->worldTransform_.rotation_.x += 0.01f;
-		ConeObject_[2]->worldTransform_.rotation_.y -= 0.01f;
-		ConeObject_[2]->worldTransform_.rotation_.z -= 0.01f;
-		if (sceneTime1 == 0) {
-			ConeObject_[4]->worldTransform_.scale_.x = 5.00f;
-			ConeObject_[4]->worldTransform_.scale_.z = 5.00f;
-		}
-		if (sceneTime1 < 180) {
-			ConeObject_[4]->worldTransform_.scale_.x += 0.06f;
-			ConeObject_[4]->worldTransform_.scale_.z += 0.02f;
-			ConeObject_[6]->worldTransform_.translation_.y = Lerp(ConeObject_[6]->worldTransform_.translation_.y, 30.0f, 0.1f);
-			TextOBJ->worldTransform_.translation_.y = Lerp(TextOBJ->worldTransform_.translation_.y, 8.00f, 0.01f);
-			TextOBJ2->worldTransform_.translation_.y = Lerp(TextOBJ2->worldTransform_.translation_.y, 8.61f, 0.01f);
-			TextOBJ3->worldTransform_.translation_.y = Lerp(TextOBJ3->worldTransform_.translation_.y, 4.5f, 0.01f);
-			TextOBJ4->worldTransform_.translation_.y = Lerp(TextOBJ4->worldTransform_.translation_.y, 4.5f, 0.01f);
-			TextOBJ5->worldTransform_.translation_.y = Lerp(TextOBJ5->worldTransform_.translation_.y, 0.5f, 0.01f);
-			TextOBJ7->worldTransform_.translation_.y = Lerp(TextOBJ7->worldTransform_.translation_.y, 7.5f, 0.01f);
 
-		}
-		if (sceneTime1 > 180 &&sceneTime1 < 360) {
-			ConeObject_[4]->worldTransform_.scale_.x -= 0.06f;
-			ConeObject_[4]->worldTransform_.scale_.z -= 0.02f;
-			ConeObject_[6]->worldTransform_.translation_.y = Lerp(ConeObject_[6]->worldTransform_.translation_.y, 4.0f, 0.1f);
-			TextOBJ->worldTransform_.translation_.y = Lerp(TextOBJ->worldTransform_.translation_.y, 6.00f, 0.01f);
-			TextOBJ2->worldTransform_.translation_.y = Lerp(TextOBJ2->worldTransform_.translation_.y, 7.61f, 0.01f);
-			TextOBJ3->worldTransform_.translation_.y = Lerp(TextOBJ3->worldTransform_.translation_.y, 3.5f, 0.01f);
-			TextOBJ4->worldTransform_.translation_.y = Lerp(TextOBJ4->worldTransform_.translation_.y, 3.5f, 0.01f);
-			TextOBJ5->worldTransform_.translation_.y = Lerp(TextOBJ5->worldTransform_.translation_.y, -0.5f, 0.01f);
-			TextOBJ7->worldTransform_.translation_.y = Lerp(TextOBJ7->worldTransform_.translation_.y, 6.5f, 0.01f);
-		}
-	
-		if (effectFlag == true) {
-			sceneTime++;
-		}
-		sceneTime1++;
-		///////////////Debug///////////////
+	if (sceneTime1 == 0) {
 
-		camera->CameraDebug();
-		// 選択されたインデックスに応じたモデルのデバッグを実行
-		std::string label1 = "JSONConemodel" + std::to_string(selectedIndex1);
-		std::string label2 = "JSONStarmodel" + std::to_string(selectedIndex2);
-		ConeObject_[selectedIndex1]->ModelDebug(label1.c_str());
-		StarObject_[selectedIndex2]->ModelDebug(label2.c_str());
+	}
+	if (sceneTime1 < 180) {
+		TextOBJ->worldTransform_.translation_.y = Lerp(TextOBJ->worldTransform_.translation_.y, 7.5f, 0.01f);
 
-		TenQOBJ->ModelDebug("TenQ");
-		TextOBJ->ModelDebug("text");
-		TextOBJ2->ModelDebug("text2");
-		TextOBJ3->ModelDebug("text3");
-		TextOBJ4->ModelDebug("text4");
-		TextOBJ5->ModelDebug("text5");
-		TextOBJ6->ModelDebug("text6");
-		TextOBJ7->ModelDebug("text7");
-		Number->ModelDebug("num");
+	}
+	if (sceneTime1 > 180 && sceneTime1 < 360) {
+		TextOBJ->worldTransform_.translation_.y = Lerp(TextOBJ->worldTransform_.translation_.y, 6.5f, 0.01f);
 
-		particle->Particledebug("white", worldTransformPa);
-		particle2->Particledebug("white2", worldTransformPa2);
-		particle3->Particledebug("white3", worldTransformPa3);
-		ImGui::Begin("isOnFloor");
-		ImGui::SliderInt("Select Model Index", &selectedIndex1, 0, static_cast<int>(ConeObject_.size()) - 2);
-		ImGui::SliderInt("Select Model Index", &selectedIndex2, 0, static_cast<int>(StarObject_.size()) - 2);
-		ImGui::Text("starcount: %d", starCount);
-		ImGui::Text("OnFloor : %d", isOnFloor);
-		ImGui::Text("GetStar : %d", isGetStar);
-		ImGui::Text("Player Pos : %f %f %f", playerPos.x, playerPos.y, playerPos.z);
-		ImGui::End();
-		ImGui::Begin("color",nullptr,ImGuiWindowFlags_MenuBar);
-		float color[4] = { fade->material.color.x,fade->material.color.y,fade->material.color.z,fade->material.color.w };
-		ImGui::DragFloat4("color", color, 0.01f);
-		fade->material.color = { color[0],color[1],color[2],color[3] };
-		//いつか使う用に↓
-		if (ImGui::BeginMenuBar()) {
-			if (ImGui::BeginMenu("File")) {
-				if (ImGui::MenuItem("Save")) {
+	}
+	if (effectFlag == true) {
+		sceneTime++;
+	}
+	sceneTime1++;
+	///////////////Debug///////////////
 
-				}
-				if (ImGui::MenuItem("Load")) {
+	camera->CameraDebug();
+	// 選択されたインデックスに応じたモデルのデバッグを実行
+	std::string label1 = "JSONConemodel" + std::to_string(selectedIndex1);
+	std::string label2 = "JSONStarmodel" + std::to_string(selectedIndex2);
+	ConeObject_[selectedIndex1]->ModelDebug(label1.c_str());
+	StarObject_[selectedIndex2]->ModelDebug(label2.c_str());
 
-				}
+	TenQOBJ->ModelDebug("TenQ");
+	Number->ModelDebug("num");
+	TextOBJ->ModelDebug("text7");
 
-				ImGui::EndMenu();
+	particle->Particledebug("white", worldTransformPa);
+	particle2->Particledebug("white2", worldTransformPa2);
+	ImGui::Begin("isOnFloor");
+	ImGui::SliderInt("Select Model Index", &selectedIndex1, 0, static_cast<int>(ConeObject_.size()) - 2);
+	ImGui::SliderInt("Select Model Index", &selectedIndex2, 0, static_cast<int>(StarObject_.size()) - 2);
+	ImGui::Text("starcount: %d", starCount);
+	ImGui::Text("OnFloor : %d", isOnFloor);
+	ImGui::Text("GetStar : %d", isGetStar);
+	ImGui::Text("Player Pos : %f %f %f", playerPos.x, playerPos.y, playerPos.z);
+	ImGui::End();
+	ImGui::Begin("color", nullptr, ImGuiWindowFlags_MenuBar);
+	float color[4] = { fade->material.color.x,fade->material.color.y,fade->material.color.z,fade->material.color.w };
+	ImGui::DragFloat4("color", color, 0.01f);
+	fade->material.color = { color[0],color[1],color[2],color[3] };
+	//いつか使う用に↓
+	if (ImGui::BeginMenuBar()) {
+		if (ImGui::BeginMenu("File")) {
+			if (ImGui::MenuItem("Save")) {
+
 			}
-			ImGui::EndMenuBar();
+			if (ImGui::MenuItem("Load")) {
+
+			}
+
+			ImGui::EndMenu();
 		}
-		ImGui::End();
-		ImGui::Begin("Space:FadeIn");
-		if (ImGui::Button("FadeIn ")) {
-			fade->StartFadeIn();
-		}
-		ImGui::Checkbox("EffectFlag", &effectFlag);
-		ImGui::Text("Now Scene : %d", sceneNo);
-		ImGui::Text("roop : %d", DemoRoop);
-		ImGui::End();
+		ImGui::EndMenuBar();
+	}
+	ImGui::End();
+	ImGui::Begin("Space:FadeIn");
+	if (ImGui::Button("FadeIn ")) {
+		fade->StartFadeIn();
+	}
+	ImGui::Checkbox("EffectFlag", &effectFlag);
+	ImGui::Text("Now Scene : %d", sceneNo);
+	ImGui::Text("roop : %d", GameRoop);
+	ImGui::End();
+
 }
-
-void DemoScene::Draw()
+void STAGE3::Draw()
 {
-
 	for (std::vector<Object3d*>::iterator itr1 = ConeObject_.begin(); itr1 != ConeObject_.end(); itr1++) {
 		if ((*itr1)->isVisible) {
 			(*itr1)->Draw(CONEtextureHandle, camera);
@@ -462,32 +386,24 @@ void DemoScene::Draw()
 		}
 	}
 	TenQOBJ->Draw(TENQtextureHandle, camera);
-	TextOBJ->Draw(GRIDtextureHandle, camera);
-	TextOBJ2->Draw(GRIDtextureHandle, camera);
-	TextOBJ3->Draw(GRIDtextureHandle, camera);
-	TextOBJ4->Draw(GRIDtextureHandle, camera);
-	TextOBJ5->Draw(GRIDtextureHandle, camera);
-	TextOBJ6->Draw(GRIDtextureHandle, camera);
-	TextOBJ7->Draw(GRIDtextureHandle, camera);
-	Number->Draw(GRIDtextureHandle, camera);
 	particle->Draw(ParticleEmitter_, { worldTransformPa.translation_.x,worldTransformPa.translation_.y,worldTransformPa.translation_.z }, WHITEtextureHandle, camera, demoRandPro, false);
 	particle2->Draw(ParticleEmitter_, { worldTransformPa2.translation_.x,worldTransformPa2.translation_.y,worldTransformPa2.translation_.z }, WHITEtextureHandle, camera, demoRandPro, false);
-	particle3->Draw(ParticleEmitter_, { worldTransformPa3.translation_.x,worldTransformPa3.translation_.y,worldTransformPa3.translation_.z }, WHITEtextureHandle, camera, demoRandPro, false);
+	Number->Draw(GRIDtextureHandle, camera);
+	TextOBJ->Draw(GRIDtextureHandle, camera);
 	fade->Draw();
 }
 
-void DemoScene::PostDraw()
+void STAGE3::PostDraw()
 {
 	postProcess_->Draw();
 }
 
-void DemoScene::Release() {
-	
+void STAGE3::Release() {
+
 }
 
 // ゲームを終了
-int DemoScene::GameClose()
+int STAGE3::GameClose()
 {
 	return false;
 }
-

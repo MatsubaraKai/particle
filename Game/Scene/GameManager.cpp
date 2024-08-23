@@ -35,13 +35,10 @@
 GameManager::GameManager() {
 	// 各シーンの排列
 	sceneArr_[TITLE] = std::make_unique<TitleScene>();
-	sceneArr_[STAGE] = std::make_unique<GameScene>();
-	sceneArr_[CLEAR] = std::make_unique<ClearScene>();
 	sceneArr_[DEMO] = std::make_unique<DemoScene>();
-
-	// 初期シーンの設定
-	//sceneNo_ = TITLE; //GameManagerのクラスにISceneを継承させて触れるようにしているため正しいかは怪しい
-	//input_ = Input::GetInstance();
+	sceneArr_[Stage1] = std::make_unique<STAGE1>();
+	sceneArr_[Stage2] = std::make_unique<STAGE2>();
+	sceneArr_[Stage3] = std::make_unique<STAGE3>();
 }
 
 GameManager::~GameManager() {}
@@ -52,7 +49,7 @@ int GameManager::Run() {
 	//DirectXCommon::D3DResourceLeakChecker leakCheck;
 
 	WinAPI* sWinAPI = WinAPI::GetInstance();
-	sWinAPI->Initialize(L"Game");
+	sWinAPI->Initialize(L"NeonDash");
 
 	DirectXCommon* sDirctX = DirectXCommon::GetInstance();
 	sDirctX->Initialize();

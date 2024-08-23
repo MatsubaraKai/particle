@@ -10,10 +10,9 @@
 #include "Model.h"
 #include "PostProcess.h"
 #include "Fade.h"
-#include "DirectXMath.h"
+#include "GameManager.h"
 
-
-class TitleScene : public IScene
+class STAGE2 : public IScene
 {
 public:
 	void Init() override;
@@ -24,34 +23,24 @@ public:
 	int GameClose()override;
 
 	WorldTransform worldTransformPa;
-	WorldTransform worldTransformPa1;
 	WorldTransform worldTransformPa2;
-	WorldTransform worldTransformPa3;
 	WorldTransform TenQTransform;
+	Object3d* TenQOBJ = nullptr;
+	Object3d* TextOBJ = nullptr;
 private:
 	int sceneTime = 0;
 	int sceneTime1 = 0;
 	int selectedIndex1 = 0;
+	int selectedIndex2 = 0;
 	Camera* camera = nullptr;
 	Input* input = nullptr;
 	Fade* fade = nullptr;
 
 	std::vector<Object3d*> ConeObject_;
-
-	Object3d* TenQOBJ = nullptr;
-	Object3d* TitleOBJ = nullptr;
-	Object3d* TitleOBJ2 = nullptr;
-	Object3d* TextOBJ3 = nullptr;
-	Object3d* TextOBJ4 = nullptr;
-	Object3d* TextOBJ5 = nullptr;
-	Object3d* TextOBJ6 = nullptr;
-	Object3d* TextOBJ7 = nullptr;
-	Object3d* TextOBJ8 = nullptr;
-
+	std::vector<Object3d*> StarObject_;
+	Object3d* Number = nullptr;
 	Particle* particle = nullptr;
-	Particle* particle1 = nullptr;
 	Particle* particle2 = nullptr;
-	Particle* particle3 = nullptr;
 
 	PostProcess* postProcess_ = nullptr;
 	//変数
@@ -59,8 +48,9 @@ private:
 	uint32_t WHITEtextureHandle;
 	uint32_t BLUEtextureHandle;
 	uint32_t CONEtextureHandle;
-	uint32_t GRIDtextureHandle;
 	uint32_t TENQtextureHandle;
+	uint32_t GRIDtextureHandle;
+	uint32_t STARtextureHandle;
 
 	Emitter ParticleEmitter_;
 	RandRangePro demoRandPro;
@@ -69,13 +59,10 @@ private:
 	bool effect = false;
 	bool effect2 = false;
 	bool isOnFloor = false;
-	bool isDemo = false;//1
-	bool isGame = false;//2
-	bool isGame2 = false;//3
-	bool isGame3 = false;//4
+	bool isGetStar = false;
 	bool isClear = false;
+	bool isTitle = false;
 	bool isFadeInStarted = false;
-
+	int starCount = 5;
 };
-
 

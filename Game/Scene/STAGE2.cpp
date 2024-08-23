@@ -1,4 +1,4 @@
-#include "GameScene.h"
+#include "STAGE2.h"
 #include "ImGuiCommon.h"
 #include "TextureManager.h"
 #include "ModelManager.h"
@@ -8,7 +8,7 @@
 #include <DirectXMath.h>
 #include "Vector3.h"
 
-void GameScene::Init()
+void STAGE2::Init()
 {
 	camera = new Camera;
 	camera->Initialize();
@@ -21,10 +21,10 @@ void GameScene::Init()
 	GRIDtextureHandle = TextureManager::StoreTexture("Resources/cian.png");
 	STARtextureHandle = TextureManager::StoreTexture("Resources/game/star.png");
 
-	if (GameRoop == false) {
-		Loder::LoadJsonFile2("Resources", "GameCone", ConeObject_);
-		Loder::LoadJsonFile2("Resources", "GameStar", StarObject_);
-		GameRoop = true;
+	if (Game2Roop == false) {
+		Loder::LoadJsonFile2("Resources", "GameCone2", ConeObject_);
+		Loder::LoadJsonFile2("Resources", "GameStar2", StarObject_);
+		Game2Roop = true;
 	}
 	for (size_t i = 0; i < StarObject_.size() - 1; i++) {
 		StarObject_[i]->isVisible = true;
@@ -34,15 +34,19 @@ void GameScene::Init()
 	postProcess_->Init();
 	TenQOBJ = new Object3d();
 	TenQOBJ->Init();
+	TextOBJ = new Object3d();
+	TextOBJ->Init();
 	Number = new Object3d();
 	Number->Init();
 	starCount = 2;
 	isFadeInStarted = false;
 
 	worldTransformPa.Initialize();
+	worldTransformPa2.Initialize();
 	TenQTransform.Initialize();
 
 	worldTransformPa.translation_ = { -2.5f,7.5f,82.0f };
+	worldTransformPa2.translation_ = { -20.0f,1.5f,-17.5f };
 
 	TenQTransform.translation_.y = 370.0f;
 	TenQTransform.translation_.z = 270.0f;
@@ -50,13 +54,15 @@ void GameScene::Init()
 	TenQTransform.scale_.y = 2.0f;
 	TenQTransform.scale_.z = 2.0f;
 	TenQOBJ->SetWorldTransform(TenQTransform);
-
+	TextOBJ->worldTransform_.translation_ = { -17.5f,7.0f,-15.0f };
 	camera->transform_.translate = { 0.0f,15.0f,-15.0f };
 
 	Number->worldTransform_.translation_ = { 0.0f,13.0f,84.5f };
 	Number->worldTransform_.scale_ = { 2.0f,2.0f,2.0f };
 	TenQOBJ->SetModel("world2.obj");
+	TextOBJ->SetModel("text7.obj");
 	particle = new Particle();
+	particle2 = new Particle();
 	demoRandPro = {
 		{1.0f,4.0f},
 		{1.0f,4.0f},
@@ -68,12 +74,13 @@ void GameScene::Init()
 	ParticleEmitter_.frequencyTime = 0.0f;
 	ParticleEmitter_.transform.scale = { 0.5f,0.5f,0.5f };
 	particle->Initialize(ParticleEmitter_);
+	particle2->Initialize(ParticleEmitter_);
 	fade = new Fade();
 	fade->Init(FADEtextureHandle);
 	fade->StartFadeOut();
+	
 }
-
-void GameScene::Update()
+void STAGE2::Update()
 {
 	fade->UpdateFade();
 	PSOPostEffect* pSOPostEffect = PSOPostEffect::GatInstance();
@@ -82,11 +89,18 @@ void GameScene::Update()
 	Number->SetModel(modelFileName.c_str());
 	Vector3 playerPos = camera->transform_.translate;
 	Vector3 particlePos = worldTransformPa.translation_;
+	Vector3 particlePos2 = worldTransformPa2.translation_;
 	// パーティクルとカメラの距離を計算
 	float dx = (particlePos.x + 2.5f) - playerPos.x;
-	float dy = (particlePos.y + 2.5f) - playerPos.y;
+	float dy = (particlePos.y + 4.0f) - playerPos.y;
 	float dz = (particlePos.z + 2.5f) - playerPos.z;
+
+	float dx2 = (particlePos2.x + 2.5f) - playerPos.x;
+	float dy2 = (particlePos2.y + 4.0f) - playerPos.y;
+	float dz2 = (particlePos2.z + 2.5f) - playerPos.z;
+
 	float distance = std::sqrt(dx * dx + dy * dy + dz * dz);
+	float distance2 = std::sqrt(dx2 * dx2 + dy2 * dy2 + dz2 * dz2);
 	// 衝突判定
 	float collisionDistance = 2.0f; // 任意の衝突距離 (調整可能)
 
@@ -97,6 +111,14 @@ void GameScene::Update()
 	else {
 		isClear = false;
 
+	}
+	if (distance2 < collisionDistance) {
+		// 衝突している
+		isTitle = true;
+		isClear = true;
+	}
+	else {
+		isTitle = false;
 	}
 	if (sceneTime == 180) {
 		effect = true;
@@ -127,6 +149,7 @@ void GameScene::Update()
 		sceneNo = 0;
 	}
 	Number->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, Number->worldTransform_.translation_) + 3.14f;
+	TextOBJ->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, TextOBJ->worldTransform_.translation_) + 3.14f;
 	TenQOBJ->worldTransform_.rotation_.x += 0.001f;
 	TenQOBJ->worldTransform_.translation_.x = Lerp(TenQOBJ->worldTransform_.translation_.x, camera->transform_.translate.x, 0.005f);
 	TenQOBJ->worldTransform_.translation_.y = Lerp(TenQOBJ->worldTransform_.translation_.y, camera->transform_.translate.y + 370.0f, 0.005f);
@@ -258,9 +281,7 @@ void GameScene::Update()
 
 	}
 	for (std::vector<Object3d*>::iterator itr1 = ConeObject_.begin(); itr1 != ConeObject_.end(); itr1++) {
-		if ((*itr1)->isVisible) {
 			(*itr1)->Update();
-		}
 	}
 	for (std::vector<Object3d*>::iterator itr2 = StarObject_.begin(); itr2 != StarObject_.end(); itr2++) {
 		if ((*itr2)->isVisible) {
@@ -281,15 +302,18 @@ void GameScene::Update()
 	camera->Update();
 	TenQOBJ->Update();
 	Number->Update();
+	TextOBJ->Update();
 
-	
+
 	if (sceneTime1 == 0) {
 
 	}
 	if (sceneTime1 < 180) {
+		TextOBJ->worldTransform_.translation_.y = Lerp(TextOBJ->worldTransform_.translation_.y, 7.5f, 0.01f);
 
 	}
 	if (sceneTime1 > 180 && sceneTime1 < 360) {
+		TextOBJ->worldTransform_.translation_.y = Lerp(TextOBJ->worldTransform_.translation_.y, 6.5f, 0.01f);
 
 	}
 	if (effectFlag == true) {
@@ -307,8 +331,10 @@ void GameScene::Update()
 
 	TenQOBJ->ModelDebug("TenQ");
 	Number->ModelDebug("num");
+	TextOBJ->ModelDebug("text7");
 
 	particle->Particledebug("white", worldTransformPa);
+	particle2->Particledebug("white2", worldTransformPa2);
 	ImGui::Begin("isOnFloor");
 	ImGui::SliderInt("Select Model Index", &selectedIndex1, 0, static_cast<int>(ConeObject_.size()) - 2);
 	ImGui::SliderInt("Select Model Index", &selectedIndex2, 0, static_cast<int>(StarObject_.size()) - 2);
@@ -344,8 +370,9 @@ void GameScene::Update()
 	ImGui::Text("Now Scene : %d", sceneNo);
 	ImGui::Text("roop : %d", GameRoop);
 	ImGui::End();
+
 }
-void GameScene::Draw()
+void STAGE2::Draw()
 {
 	for (std::vector<Object3d*>::iterator itr1 = ConeObject_.begin(); itr1 != ConeObject_.end(); itr1++) {
 		if ((*itr1)->isVisible) {
@@ -360,20 +387,23 @@ void GameScene::Draw()
 	}
 	TenQOBJ->Draw(TENQtextureHandle, camera);
 	particle->Draw(ParticleEmitter_, { worldTransformPa.translation_.x,worldTransformPa.translation_.y,worldTransformPa.translation_.z }, WHITEtextureHandle, camera, demoRandPro, false);
+	particle2->Draw(ParticleEmitter_, { worldTransformPa2.translation_.x,worldTransformPa2.translation_.y,worldTransformPa2.translation_.z }, WHITEtextureHandle, camera, demoRandPro, false);
 	Number->Draw(GRIDtextureHandle, camera);
+	TextOBJ->Draw(GRIDtextureHandle, camera);
 	fade->Draw();
 }
 
-void GameScene::PostDraw()
+void STAGE2::PostDraw()
 {
 	postProcess_->Draw();
 }
 
-void GameScene::Release() {
+void STAGE2::Release() {
 
 }
+
 // ゲームを終了
-int GameScene::GameClose()
+int STAGE2::GameClose()
 {
 	return false;
 }
