@@ -2,7 +2,7 @@
 #define M_PI 3.141592
 void Fade::Init(uint32_t fadeTexture)
 {
-	fadeTex = fadeTexture;
+	FADEtextureHandle = fadeTexture;
 	fadeSprite = new Sprite();
 	fadeSprite->Init({ 0.0f,0.0f }, { 1280.0f,720.0f }, { 0.0f,0.0f }, { 1.0f,1.0f,1.0f,1.0f }, "Resources/black.png");
 	fadeSprite->SetTextureSize({ 1280.0f,720.0f });
@@ -12,7 +12,7 @@ void Fade::Init(uint32_t fadeTexture)
 
 void Fade::Draw() {
 
-    fadeSprite->Draw(fadeTex, material.color);
+    fadeSprite->Draw(FADEtextureHandle, material.color);
 }
 void Fade::StartFadeOut()
 {

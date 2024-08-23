@@ -22,8 +22,8 @@ public:
 	void Release()override;
 	int GameClose()override;
 
-	WorldTransform worldTransform;
-	WorldTransform worldTransform2;
+	WorldTransform worldTransformPa;
+	WorldTransform worldTransformPa2;
 	WorldTransform worldTransformSKY;
 	WorldTransform TenQTransform;
 	Object3d* TenQOBJ = nullptr;
@@ -78,6 +78,8 @@ private:
 	bool effect2 = false;
 	bool isOnFloor = false;
 	bool isGetStar = false;
+	bool isClear = false;
+	bool isFadeInStarted = false;
 	int starCount = 2;
 };
 

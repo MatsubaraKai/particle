@@ -68,14 +68,14 @@ public:
 
 	void Initialize(Emitter emitter);
 	//void Update();
-	void Draw(Emitter emitter, const Vector3& worldTransform, uint32_t texture, Camera* camera, const RandRangePro& randRange, bool scaleAddFlag);
+	void Draw(Emitter emitter, const Vector3& worldTransformPa, uint32_t texture, Camera* camera, const RandRangePro& randRange, bool scaleAddFlag);
 	void Release();
 	void SetTextureManager(TextureManager* textureManager) {
 		textureManager_ = textureManager;
 	}
 	ParticlePro MakeNewParticle(std::mt19937& randomEngine, const Vector3& scale, const Vector3& translate, const RandRangePro& randRange);
 
-	std::list<ParticlePro> Emission(const Emitter& emitter, std::mt19937& randEngine, const Vector3& worldTransform, const RandRangePro& randRange);
+	std::list<ParticlePro> Emission(const Emitter& emitter, std::mt19937& randEngine, const Vector3& worldTransformPa, const RandRangePro& randRange);
 	D3D12_VERTEX_BUFFER_VIEW CreateBufferView();
 
 	void Particledebug(const char* name,WorldTransform &worldtransform);

@@ -10,6 +10,8 @@
 #include "Model.h"
 #include "PostProcess.h"
 #include "Fade.h"
+#include "DirectXMath.h"
+
 
 class TitleScene : public IScene
 {
@@ -20,25 +22,45 @@ public:
 	void PostDraw()override;
 	void Release()override;
 	int GameClose()override;
-	
-	WorldTransform worldTransform;
-	WorldTransform worldTransform2;
+
+	WorldTransform worldTransformPa;
+	WorldTransform worldTransformPa1;
+	WorldTransform worldTransformPa2;
 private:
-	
 	int sceneTime = 0;
+	int sceneTime1 = 0;
+	int selectedIndex1 = 0;
+	int selectedIndex2 = 0;
 	Camera* camera = nullptr;
 	Input* input = nullptr;
-	Fade *fade = nullptr;
-	//変数
-	uint32_t fadeTex;
-	uint32_t textureHandle;
-	uint32_t textureHandle2;
+	Fade* fade = nullptr;
+
+	std::vector<Object3d*> ConeObject_;
 	Particle* particle = nullptr;
+	Particle* particle1 = nullptr;
 	Particle* particle2 = nullptr;
-	Emitter Emitter_;
-	RandRangePro RandPro;
+	Particle* particle3 = nullptr;
+
 	PostProcess* postProcess_ = nullptr;
+	//変数
+	uint32_t FADEtextureHandle;
+	uint32_t WHITEtextureHandle;
+	uint32_t BLUEtextureHandle;
+	uint32_t CONEtextureHandle;
+	uint32_t GRIDtextureHandle;
+
+	Emitter ParticleEmitter_;
+	RandRangePro demoRandPro;
+	float rotateSize_ = 1.057f;
+	bool effectFlag = true;
+	bool effect = false;
+	bool effect2 = false;
 	bool isOnFloor = false;
+	bool isDemo = false;//3
+	bool isGame = false;//1
+	bool isGame2 = false;//2
+	bool isClear = false;
+	bool isFadeInStarted = false;
 
 };
 

@@ -6,14 +6,13 @@
 #include "PSOPostEffect.h"
 
 #include <DirectXMath.h>
-#include "Vector3.h"  // Vector3 が定義されているヘッダーファイルをインクルード
+#include "Vector3.h"
 
 void DemoScene::Init()
 {
 	camera = new Camera;
 	camera->Initialize();
 	input = Input::GetInstance();
-
 	UVtextureHandle = TextureManager::StoreTexture("Resources/uvChecker.png");
 	WHITEtextureHandle = TextureManager::StoreTexture("Resources/white.png");
 	BLUEtextureHandle = TextureManager::StoreTexture("Resources/blue.png");
@@ -23,7 +22,7 @@ void DemoScene::Init()
 	GRIDtextureHandle = TextureManager::StoreTexture("Resources/cian.png");
 	STARtextureHandle = TextureManager::StoreTexture("Resources/game/star.png");
 	SKYtextureHandle = TextureManager::StoreTexture("Resources/game/rostock_laage_airport_4k.dds");
-
+	
 	if (GameRoop == false) {
 		Loder::LoadJsonFile2("Resources", "DemoCone", ConeObject_);
 		Loder::LoadJsonFile2("Resources", "DemoStar", StarObject_);
@@ -64,24 +63,25 @@ void DemoScene::Init()
 	Number = new Object3d();
 	Number->Init();
 	starCount = 2;
+	isFadeInStarted = false;
 
 	object3d->SetSkybox(skybox_);
-	worldTransform.Initialize();
-	worldTransform2.Initialize();
+	worldTransformPa.Initialize();
+	worldTransformPa2.Initialize();
 	worldTransformSKY.Initialize();
 	GridTransform.Initialize();
 	TenQTransform.Initialize();
 
-	worldTransform.translation_ = { -2.5f,1.5f,-32.35f };
-	worldTransform2.translation_ = { -2.5f,7.5f,82.0f };
-	
+	worldTransformPa.translation_ = { -2.5f,1.5f,-32.35f };
+	worldTransformPa2.translation_ = { -2.5f,7.5f,82.0f };
+
 
 	GridTransform.scale_.x = 20;
 	GridTransform.scale_.z = 20;
 	GridOBJ->SetWorldTransform(GridTransform);
 
 	TenQTransform.translation_.y = 370.0f;
-	TenQTransform.translation_.z = 300.0f;
+	TenQTransform.translation_.z = 270.0f;
 	TenQTransform.scale_.x = -2.0f;
 	TenQTransform.scale_.y = 2.0f;
 	TenQTransform.scale_.z = 2.0f;
@@ -139,13 +139,29 @@ void DemoScene::Init()
 
 void DemoScene::Update()
 {
+	fade->UpdateFade();
+	PSOPostEffect* pSOPostEffect = PSOPostEffect::GatInstance();
 	// プレイヤーの座標
 	std::string modelFileName = std::to_string(starCount) + ".obj";
 	Number->SetModel(modelFileName.c_str());
 	Vector3 playerPos = camera->transform_.translate;
-	PSOPostEffect* pSOPostEffect = PSOPostEffect::GatInstance();
+	Vector3 particlePos = worldTransformPa2.translation_;
+	// パーティクルとカメラの距離を計算
+	float dx = (particlePos.x + 2.5f) - playerPos.x;
+	float dy = (particlePos.y + 2.5f) - playerPos.y;
+	float dz = (particlePos.z + 2.5f) - playerPos.z;
+	float distance = std::sqrt(dx * dx + dy * dy + dz * dz);
+	// 衝突判定
+	float collisionDistance = 2.0f; // 任意の衝突距離 (調整可能)
 
-	fade->UpdateFade();
+	if (distance < collisionDistance && starCount == 0) {
+		// 衝突している
+		isClear = true;
+	}
+	else {
+		isClear = false;
+		
+	}
 	if (sceneTime == 180) {
 		effect = true;
 	}
@@ -185,7 +201,7 @@ void DemoScene::Update()
 	TenQOBJ->worldTransform_.rotation_.x += 0.001f;
 	TenQOBJ->worldTransform_.translation_.x = Lerp(TenQOBJ->worldTransform_.translation_.x, camera->transform_.translate.x, 0.005f);
 	TenQOBJ->worldTransform_.translation_.y = Lerp(TenQOBJ->worldTransform_.translation_.y, camera->transform_.translate.y + 370.0f, 0.005f);
-	TenQOBJ->worldTransform_.translation_.z = Lerp(TenQOBJ->worldTransform_.translation_.z, camera->transform_.translate.z + 300.0f, 0.05f);
+	TenQOBJ->worldTransform_.translation_.z = Lerp(TenQOBJ->worldTransform_.translation_.z, camera->transform_.translate.z + 270.0f, 0.05f);
 
 	 // ゲームパッドの状態取得
 	XINPUT_STATE joyState;
@@ -323,9 +339,17 @@ void DemoScene::Update()
 			(*itr2)->worldTransform_.rotation_.y += 0.02f;
 		}
 	}
-		camera->Update();
+	if (isClear == false) {
 		camera->Jump(isOnFloor);
 		camera->Move();
+	}
+	else {
+		if (!isFadeInStarted) {
+			fade->StartFadeIn();    // FadeInを開始
+			isFadeInStarted = true; // フラグを立てて一度だけ実行されるようにする
+		}
+	}
+		camera->Update();
 		GridOBJ->Update();
 		ConeOBJ->Update();
 		TenQOBJ->Update();
@@ -396,8 +420,8 @@ void DemoScene::Update()
 		object3d->ModelDebug("SKY");
 		object3d2->ModelDebug("chara");
 
-		particle->Particledebug("uv", worldTransform);
-		particle2->Particledebug("white", worldTransform2);
+		particle->Particledebug("white", worldTransformPa);
+		particle2->Particledebug("white2", worldTransformPa2);
 		ImGui::Begin("isOnFloor");
 		ImGui::SliderInt("Select Model Index", &selectedIndex1, 0, static_cast<int>(ConeObject_.size()) - 2);
 		ImGui::SliderInt("Select Model Index", &selectedIndex2, 0, static_cast<int>(StarObject_.size()) - 2);
@@ -461,8 +485,8 @@ void DemoScene::Draw()
 	Number->Draw(GRIDtextureHandle, camera);
 	//object3d2->Draw(UVtextureHandle, camera);
 	//object3d->Draw(SKYtextureHandle, camera);
-	particle->Draw(ParticleEmitter_, { worldTransform.translation_.x,worldTransform.translation_.y,worldTransform.translation_.z }, WHITEtextureHandle, camera, demoRandPro, false);
-	particle2->Draw(ParticleEmitter_, { worldTransform2.translation_.x,worldTransform2.translation_.y,worldTransform2.translation_.z }, WHITEtextureHandle, camera, demoRandPro, false);
+	particle->Draw(ParticleEmitter_, { worldTransformPa.translation_.x,worldTransformPa.translation_.y,worldTransformPa.translation_.z }, WHITEtextureHandle, camera, demoRandPro, false);
+	particle2->Draw(ParticleEmitter_, { worldTransformPa2.translation_.x,worldTransformPa2.translation_.y,worldTransformPa2.translation_.z }, WHITEtextureHandle, camera, demoRandPro, false);
 	fade->Draw();
 }
 

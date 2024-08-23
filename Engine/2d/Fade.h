@@ -14,7 +14,7 @@ public:
     Material material;
 private:
     Sprite *fadeSprite = nullptr;
-    uint32_t fadeTex;
+    uint32_t FADEtextureHandle;
     
     float alpha = 0;
 

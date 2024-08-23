@@ -111,11 +111,11 @@ void Particle::Initialize(Emitter emitter) {
 //
 //};
 
-void Particle::Draw(Emitter emitter, const Vector3& worldTransform, uint32_t texture, Camera* camera, const RandRangePro& randRange, bool scaleAddFlag) {
+void Particle::Draw(Emitter emitter, const Vector3& worldTransformPa, uint32_t texture, Camera* camera, const RandRangePro& randRange, bool scaleAddFlag) {
 	pso_ = PSOParticle::GatInstance();
 
 	emitter_.count = emitter.count;
-	emitter_.transform = { emitter.transform.scale,{0.0f,0.0f,0.0f},worldTransform };
+	emitter_.transform = { emitter.transform.scale,{0.0f,0.0f,0.0f},worldTransformPa };
 	randRange_ = randRange;
 
 	randRange_ =
@@ -136,7 +136,7 @@ void Particle::Draw(Emitter emitter, const Vector3& worldTransform, uint32_t tex
 
 	emitter_.frequencyTime += kDeltaTime;// 時刻を進める
 	if (emitter_.frequency <= emitter_.frequencyTime) {// 頻度より大きいなら発生
-		particles_.splice(particles_.end(), particle->Emission(emitter_, randomEngine, worldTransform, randRange));
+		particles_.splice(particles_.end(), particle->Emission(emitter_, randomEngine, worldTransformPa, randRange));
 		emitter_.frequencyTime -= emitter_.frequency;// 余計に過ぎた時間も加味して頻度計算する
 
 	}
@@ -218,7 +218,7 @@ Particle::ParticlePro Particle::MakeNewParticle(std::mt19937& randomEngine, cons
 	return particle;
 }
 
-std::list<Particle::ParticlePro> Particle::Emission(const Emitter& emitter, std::mt19937& randEngine, const Vector3& worldTransform, const RandRangePro& randRange)
+std::list<Particle::ParticlePro> Particle::Emission(const Emitter& emitter, std::mt19937& randEngine, const Vector3& worldTransformPa, const RandRangePro& randRange)
 {
 	std::list<Particle::ParticlePro> particles;
 	for (uint32_t count = 0; count < emitter.count; ++count) {
