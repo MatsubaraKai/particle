@@ -19,14 +19,11 @@ void TitleScene::Init()
 	input = Input::GetInstance();
 	WHITEtextureHandle = TextureManager::StoreTexture("Resources/white.png");
 	BLUEtextureHandle = TextureManager::StoreTexture("Resources/blue.png");
-	CONEtextureHandle = TextureManager::StoreTexture("Resources/game/cone.png");
 	FADEtextureHandle = TextureManager::StoreTexture("Resources/black.png");
 	GRIDtextureHandle = TextureManager::StoreTexture("Resources/cian.png");
+	CONEtextureHandle = TextureManager::StoreTexture("Resources/game/cone.png");
+	TENQtextureHandle = TextureManager::StoreTexture("Resources/game/world.png");
 
-	ModelManager::GetInstance()->LoadModel("Resources/human", "sneakWalk.gltf");
-	ModelManager::GetInstance()->LoadAnimationModel("Resources/AnimatedCube", "AnimatedCube.gltf");
-	ModelManager::GetInstance()->LoadModel("Resources/game", "grid.obj");
-	ModelManager::GetInstance()->LoadModel("Resources/game", "cone.obj");
 	ModelManager::GetInstance()->LoadModel("Resources/game", "world.obj");
 	ModelManager::GetInstance()->LoadModel("Resources/game", "world2.obj");
 	ModelManager::GetInstance()->LoadModel("Resources/game/Text", "text.obj");
@@ -35,6 +32,12 @@ void TitleScene::Init()
 	ModelManager::GetInstance()->LoadModel("Resources/game/Text", "text4.obj");
 	ModelManager::GetInstance()->LoadModel("Resources/game/Text", "text5.obj");
 	ModelManager::GetInstance()->LoadModel("Resources/game/Text", "text6.obj");
+	ModelManager::GetInstance()->LoadModel("Resources/game/Text", "Titletext.obj");
+	ModelManager::GetInstance()->LoadModel("Resources/game/Text", "Titletext2.obj");
+	ModelManager::GetInstance()->LoadModel("Resources/game/Text", "Titletext3.obj");
+	ModelManager::GetInstance()->LoadModel("Resources/game/Text", "Titletext4.obj");
+	ModelManager::GetInstance()->LoadModel("Resources/game/Text", "Titletext5.obj");
+	ModelManager::GetInstance()->LoadModel("Resources/game/Text", "Titletext6.obj");
 	ModelManager::GetInstance()->LoadModel("Resources/game/Number", "0.obj");
 	ModelManager::GetInstance()->LoadModel("Resources/game/Number", "1.obj");
 	ModelManager::GetInstance()->LoadModel("Resources/game/Number", "2.obj");
@@ -42,24 +45,65 @@ void TitleScene::Init()
 	ModelManager::GetInstance()->LoadModel("Resources/game/Number", "4.obj");
 	ModelManager::GetInstance()->LoadModel("Resources/game/Number", "5.obj");
 
-	if (GameRoop == false) {
+	if (TitleRoop == false) {
 		Loder::LoadJsonFile2("Resources", "TitleCone", ConeObject_);
+		TitleRoop = true;
 	}
 	
 	postProcess_ = new PostProcess();
 	postProcess_->SetCamera(camera);
 	postProcess_->Init();
-	
+
+	TenQOBJ = new Object3d();
+	TenQOBJ->Init();
+	TitleOBJ = new Object3d();
+	TitleOBJ->Init();
+	TitleOBJ2 = new Object3d();
+	TitleOBJ2->Init();
+	TextOBJ3 = new Object3d();
+	TextOBJ3->Init();
+	TextOBJ4 = new Object3d();
+	TextOBJ4->Init();
+	TextOBJ5 = new Object3d();
+	TextOBJ5->Init();
+	TextOBJ6 = new Object3d();
+	TextOBJ6->Init();
 	isFadeInStarted = false;
 
+	TenQTransform.Initialize();
+
+	TenQTransform.scale_.x = -100.0f;
+	TenQTransform.scale_.y = 100.0f;
+	TenQTransform.scale_.z = 100.0f;
+	TenQOBJ->SetWorldTransform(TenQTransform);
+
+
+	TitleOBJ->worldTransform_.translation_ = { -12.0f,22.5f,30.0f };
+	TitleOBJ->worldTransform_.rotation_.x = -0.2f;
+	TitleOBJ->worldTransform_.scale_ = { 20.0f,20.0f,20.0f };
+	TitleOBJ2->worldTransform_.translation_ = { 12.0f,10.0f,30.0f };
+	TitleOBJ2->worldTransform_.scale_ = { 20.0f,20.0f,20.0f };
+	TextOBJ3->worldTransform_.translation_ = { -22.5f,7.0f,15.0f };
+	TextOBJ4->worldTransform_.translation_ = { 27.5f,7.0f,15.0f };
+	TextOBJ5->worldTransform_.translation_ = { 27.5f,7.0f,2.5f };
+
 	worldTransformPa.Initialize();
-	worldTransformPa.translation_ = { -2.5f,7.5f,60.0f };//チュートリアルポータル
+	worldTransformPa.translation_ = { -25.0f,1.5f,12.5f };//チュートリアルポータル
 	worldTransformPa1.Initialize();
-	worldTransformPa1.translation_ = { -2.5f,7.5f,82.0f };//ゲームシーンポータル
+	worldTransformPa1.translation_ = { 25.0f,1.5f,12.5f };//ゲームシーンポータル
 	worldTransformPa2.Initialize();
-	worldTransformPa2.translation_ = { -2.5f,7.5f,82.0f };//ゲームシーン２ポータル
+	worldTransformPa2.translation_ = { 25.0f,1.5f,0.0f };//ゲームシーン２ポータル
 
 	camera->transform_.translate = { 0.0f,15.0f,-15.0f };
+	camera->transform_.rotate = { -0.2f, 0.0f, 0.0f };
+
+	TenQOBJ->SetModel("world.obj");
+	TitleOBJ->SetModel("Titletext.obj");
+	TitleOBJ2->SetModel("Titletext2.obj");
+	TextOBJ3->SetModel("Titletext3.obj");
+	TextOBJ4->SetModel("Titletext4.obj");
+	TextOBJ5->SetModel("Titletext5.obj");
+	TextOBJ6->SetModel("Titletext6.obj");
 
 	particle = new Particle();
 	particle1 = new Particle();
@@ -169,7 +213,13 @@ void TitleScene::Update()
 	if (fade->IsFadeOutComplete() && isGame2) {
 		sceneNo = 2;
 	}
-	
+	TitleOBJ->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, TitleOBJ->worldTransform_.translation_) + 3.14f;
+	TitleOBJ2->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, TitleOBJ2->worldTransform_.translation_) + 3.14f;
+	TextOBJ3->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, TextOBJ3->worldTransform_.translation_) + 3.14f;
+	TextOBJ4->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, TextOBJ4->worldTransform_.translation_) + 3.14f;
+	TextOBJ5->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, TextOBJ5->worldTransform_.translation_) + 3.14f;
+	TextOBJ6->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, TextOBJ6->worldTransform_.translation_) + 3.14f;
+
 	// ゲームパッドの状態取得
 	XINPUT_STATE joyState;
 	if (Input::GetInstance()->GetJoystickState(joyState))
@@ -268,7 +318,13 @@ void TitleScene::Update()
 		}
 	}
 	camera->Update();
-
+	TenQOBJ->Update();
+	TitleOBJ->Update();
+	TitleOBJ2->Update();
+	TextOBJ3->Update();
+	TextOBJ4->Update();
+	TextOBJ5->Update();
+	TextOBJ6->Update();
 	if (sceneTime1 == 0) {
 
 	}
@@ -289,6 +345,13 @@ void TitleScene::Update()
 	std::string label1 = "JSONConemodel" + std::to_string(selectedIndex1);
 	ConeObject_[selectedIndex1]->ModelDebug(label1.c_str());
 
+	TenQOBJ->ModelDebug("TenQ");
+	TitleOBJ->ModelDebug("text");
+	TitleOBJ2->ModelDebug("text2");
+	TextOBJ3->ModelDebug("text3");
+	TextOBJ4->ModelDebug("text4");
+	TextOBJ5->ModelDebug("text5");
+	TextOBJ6->ModelDebug("text6");
 	particle->Particledebug("white", worldTransformPa);
 	particle1->Particledebug("white1", worldTransformPa1);
 	particle2->Particledebug("white2", worldTransformPa2);
@@ -322,7 +385,7 @@ void TitleScene::Update()
 	}
 	ImGui::Checkbox("EffectFlag", &effectFlag);
 	ImGui::Text("Now Scene : %d", sceneNo);
-	ImGui::Text("roop : %d", GameRoop);
+	ImGui::Text("roop : %d", TitleRoop);
 	ImGui::End();
 	
 }
@@ -334,6 +397,13 @@ void TitleScene::Draw()
 
 		}
 	}
+	TenQOBJ->Draw(TENQtextureHandle, camera);
+	TitleOBJ->Draw(GRIDtextureHandle, camera);
+	TitleOBJ2->Draw(GRIDtextureHandle, camera);
+	TextOBJ3->Draw(GRIDtextureHandle, camera);
+	TextOBJ4->Draw(GRIDtextureHandle, camera);
+	TextOBJ5->Draw(GRIDtextureHandle, camera);
+	TextOBJ6->Draw(GRIDtextureHandle, camera);
 	particle->Draw(ParticleEmitter_, { worldTransformPa.translation_.x,worldTransformPa.translation_.y,worldTransformPa.translation_.z }, WHITEtextureHandle, camera, demoRandPro, false);
 	particle1->Draw(ParticleEmitter_, { worldTransformPa1.translation_.x,worldTransformPa1.translation_.y,worldTransformPa1.translation_.z }, WHITEtextureHandle, camera, demoRandPro, false);
 	particle2->Draw(ParticleEmitter_, { worldTransformPa2.translation_.x,worldTransformPa2.translation_.y,worldTransformPa2.translation_.z }, WHITEtextureHandle, camera, demoRandPro, false);

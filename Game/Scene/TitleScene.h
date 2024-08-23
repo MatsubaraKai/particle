@@ -26,6 +26,7 @@ public:
 	WorldTransform worldTransformPa;
 	WorldTransform worldTransformPa1;
 	WorldTransform worldTransformPa2;
+	WorldTransform TenQTransform;
 private:
 	int sceneTime = 0;
 	int sceneTime1 = 0;
@@ -36,6 +37,15 @@ private:
 	Fade* fade = nullptr;
 
 	std::vector<Object3d*> ConeObject_;
+
+	Object3d* TenQOBJ = nullptr;
+	Object3d* TitleOBJ = nullptr;
+	Object3d* TitleOBJ2 = nullptr;
+	Object3d* TextOBJ3 = nullptr;
+	Object3d* TextOBJ4 = nullptr;
+	Object3d* TextOBJ5 = nullptr;
+	Object3d* TextOBJ6 = nullptr;
+
 	Particle* particle = nullptr;
 	Particle* particle1 = nullptr;
 	Particle* particle2 = nullptr;
@@ -48,6 +58,7 @@ private:
 	uint32_t BLUEtextureHandle;
 	uint32_t CONEtextureHandle;
 	uint32_t GRIDtextureHandle;
+	uint32_t TENQtextureHandle;
 
 	Emitter ParticleEmitter_;
 	RandRangePro demoRandPro;

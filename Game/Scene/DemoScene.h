@@ -24,7 +24,6 @@ public:
 
 	WorldTransform worldTransformPa;
 	WorldTransform worldTransformPa2;
-	WorldTransform worldTransformSKY;
 	WorldTransform TenQTransform;
 	Object3d* TenQOBJ = nullptr;
 private:
@@ -38,11 +37,6 @@ private:
 
 	std::vector<Object3d*> ConeObject_;
 	std::vector<Object3d*> StarObject_;
-	Object3d* GridOBJ = nullptr;
-	Object3d* object3d = nullptr;
-	Object3d* object3d2 = nullptr;
-	Object3d* ConeOBJ = nullptr;
-	Object3d* WallOBJ = nullptr;
 	Object3d* TextOBJ = nullptr;
 	Object3d* TextOBJ2 = nullptr;
 	Object3d* TextOBJ3 = nullptr;
@@ -51,9 +45,6 @@ private:
 	Object3d* TextOBJ6 = nullptr;
 	Object3d* Number = nullptr;
 
-
-	Skybox* skybox_ = nullptr;
-	Material material;
 	Particle* particle = nullptr;
 	Particle* particle2 = nullptr;
 
@@ -68,7 +59,6 @@ private:
 	uint32_t GRIDtextureHandle;
 	uint32_t SKYtextureHandle;
 	uint32_t STARtextureHandle;
-	WorldTransform GridTransform;
 	
 	Emitter ParticleEmitter_;
 	RandRangePro demoRandPro;

@@ -21,9 +21,10 @@ void ClearScene::Init()
 	GRIDtextureHandle = TextureManager::StoreTexture("Resources/cian.png");
 	STARtextureHandle = TextureManager::StoreTexture("Resources/game/star.png");
 
-	if (GameRoop == false) {
+	if (Game2Roop == false) {
 		Loder::LoadJsonFile2("Resources", "GameCone2", ConeObject_);
 		Loder::LoadJsonFile2("Resources", "GameStar2", StarObject_);
+		Game2Roop = true;
 	}
 	for (size_t i = 0; i < StarObject_.size() - 1; i++) {
 		StarObject_[i]->isVisible = true;
@@ -120,7 +121,6 @@ void ClearScene::Update()
 		fade->StartFadeIn();
 	}
 	if (fade->IsFadeOutComplete()) {
-		GameRoop = true;
 		sceneNo = 0;
 	}
 	Number->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, Number->worldTransform_.translation_) + 3.14f;
@@ -338,7 +338,7 @@ void ClearScene::Update()
 	}
 	ImGui::Checkbox("EffectFlag", &effectFlag);
 	ImGui::Text("Now Scene : %d", sceneNo);
-	ImGui::Text("roop : %d", GameRoop);
+	ImGui::Text("roop : %d", Game2Roop);
 	ImGui::End();
 
 }

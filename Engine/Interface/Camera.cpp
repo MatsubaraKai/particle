@@ -159,7 +159,7 @@ void Camera::Jump(bool isOnFloor)
             // 落下しすぎた場合のリセット処理
             jumpVelocity = 0.0f;
             transform_.translate = { 0.0f, 15.0f, -15.0f };
-            transform_.rotate = { 0.0f, 0.0f, 0.0f };
+            transform_.rotate = { -0.2f, 0.0f, 0.0f };
             isJumping = false;
         }
     }

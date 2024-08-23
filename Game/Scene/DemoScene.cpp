@@ -23,9 +23,10 @@ void DemoScene::Init()
 	STARtextureHandle = TextureManager::StoreTexture("Resources/game/star.png");
 	SKYtextureHandle = TextureManager::StoreTexture("Resources/game/rostock_laage_airport_4k.dds");
 	
-	if (GameRoop == false) {
+	if (DemoRoop == false) {
 		Loder::LoadJsonFile2("Resources", "DemoCone", ConeObject_);
 		Loder::LoadJsonFile2("Resources", "DemoStar", StarObject_);
+		DemoRoop = true;
 	}
 	for (size_t i = 0; i < StarObject_.size() - 1; i++) {
 		StarObject_[i]->isVisible = true;
@@ -33,19 +34,7 @@ void DemoScene::Init()
 	postProcess_ = new PostProcess();
 	postProcess_->SetCamera(camera);
 	postProcess_->Init();
-	skybox_ = new Skybox();
-	skybox_->Init(material);
-	material.color = { 1.0f,1.0f,1.0f,1.0f };
-	material.enableLighting = true;
-
-	GridOBJ = new Object3d();
-	GridOBJ->Init();
-	object3d = new Object3d();
-	object3d->Init();
-	object3d2 = new Object3d();
-	object3d2->Init();
-	ConeOBJ = new Object3d();
-	ConeOBJ->Init();
+	
 	TenQOBJ = new Object3d();
 	TenQOBJ->Init();
 	TextOBJ = new Object3d();
@@ -65,20 +54,12 @@ void DemoScene::Init()
 	starCount = 2;
 	isFadeInStarted = false;
 
-	object3d->SetSkybox(skybox_);
 	worldTransformPa.Initialize();
 	worldTransformPa2.Initialize();
-	worldTransformSKY.Initialize();
-	GridTransform.Initialize();
 	TenQTransform.Initialize();
 
 	worldTransformPa.translation_ = { -2.5f,1.5f,-32.35f };
 	worldTransformPa2.translation_ = { -2.5f,7.5f,82.0f };
-
-
-	GridTransform.scale_.x = 20;
-	GridTransform.scale_.z = 20;
-	GridOBJ->SetWorldTransform(GridTransform);
 
 	TenQTransform.translation_.y = 370.0f;
 	TenQTransform.translation_.z = 270.0f;
@@ -101,12 +82,6 @@ void DemoScene::Init()
 	Number->worldTransform_.translation_ = { 0.0f,13.0f,84.5f };
 	Number->worldTransform_.scale_ = { 2.0f,2.0f,2.0f };
 
-	worldTransformSKY.translation_.x = 0;
-	worldTransformSKY.scale_ = { 1000,1000,1000 };
-	object3d->SetWorldTransform(worldTransformSKY);
-
-	GridOBJ->SetModel("grid.obj");
-	ConeOBJ->SetModel("cone.obj");
 	TenQOBJ->SetModel("world2.obj");
 	TextOBJ->SetModel("text.obj");
 	TextOBJ2->SetModel("text2.obj");
@@ -114,8 +89,7 @@ void DemoScene::Init()
 	TextOBJ4->SetModel("text4.obj");
 	TextOBJ5->SetModel("text5.obj");
 	TextOBJ6->SetModel("text6.obj");
-	object3d2->SetModel("sneakWalk.gltf");
-	
+
 	particle = new Particle();
 	particle2 = new Particle();
 
@@ -188,7 +162,7 @@ void DemoScene::Update()
 		fade->StartFadeIn();
 	}
 	if (fade->IsFadeOutComplete()) {
-		sceneNo = 1;
+		sceneNo = 0;
 	}
 
 	TextOBJ->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, TextOBJ->worldTransform_.translation_) + 3.14f;
@@ -350,8 +324,6 @@ void DemoScene::Update()
 		}
 	}
 		camera->Update();
-		GridOBJ->Update();
-		ConeOBJ->Update();
 		TenQOBJ->Update();
 		TextOBJ->Update();
 		TextOBJ2->Update();
@@ -360,8 +332,6 @@ void DemoScene::Update()
 		TextOBJ5->Update();
 		TextOBJ6->Update();
 		Number->Update();
-		object3d2->Update();
-		object3d->Update();
 
 		ConeObject_[1]->worldTransform_.rotation_.x += 0.01f;
 		ConeObject_[1]->worldTransform_.rotation_.y += 0.01f;
@@ -407,8 +377,6 @@ void DemoScene::Update()
 		ConeObject_[selectedIndex1]->ModelDebug(label1.c_str());
 		StarObject_[selectedIndex2]->ModelDebug(label2.c_str());
 
-		GridOBJ->ModelDebug("grid");												
-		ConeOBJ->ModelDebug("cone");
 		TenQOBJ->ModelDebug("TenQ");
 		TextOBJ->ModelDebug("text");
 		TextOBJ2->ModelDebug("text2");
@@ -417,8 +385,6 @@ void DemoScene::Update()
 		TextOBJ5->ModelDebug("text5");
 		TextOBJ6->ModelDebug("text6");
 		Number->ModelDebug("num");
-		object3d->ModelDebug("SKY");
-		object3d2->ModelDebug("chara");
 
 		particle->Particledebug("white", worldTransformPa);
 		particle2->Particledebug("white2", worldTransformPa2);
@@ -455,7 +421,7 @@ void DemoScene::Update()
 		}
 		ImGui::Checkbox("EffectFlag", &effectFlag);
 		ImGui::Text("Now Scene : %d", sceneNo);
-		ImGui::Text("roop : %d", GameRoop);
+		ImGui::Text("roop : %d", DemoRoop);
 		ImGui::End();
 }
 
@@ -473,8 +439,6 @@ void DemoScene::Draw()
 			(*itr2)->Draw(STARtextureHandle, camera);
 		}
 	}
-	//GridOBJ->Draw(GRIDtextureHandle, camera);
-	//ConeOBJ->Draw(CONEtextureHandle, camera);
 	TenQOBJ->Draw(TENQtextureHandle, camera);
 	TextOBJ->Draw(GRIDtextureHandle, camera);
 	TextOBJ2->Draw(GRIDtextureHandle, camera);
@@ -483,8 +447,6 @@ void DemoScene::Draw()
 	TextOBJ5->Draw(GRIDtextureHandle, camera);
 	TextOBJ6->Draw(GRIDtextureHandle, camera);
 	Number->Draw(GRIDtextureHandle, camera);
-	//object3d2->Draw(UVtextureHandle, camera);
-	//object3d->Draw(SKYtextureHandle, camera);
 	particle->Draw(ParticleEmitter_, { worldTransformPa.translation_.x,worldTransformPa.translation_.y,worldTransformPa.translation_.z }, WHITEtextureHandle, camera, demoRandPro, false);
 	particle2->Draw(ParticleEmitter_, { worldTransformPa2.translation_.x,worldTransformPa2.translation_.y,worldTransformPa2.translation_.z }, WHITEtextureHandle, camera, demoRandPro, false);
 	fade->Draw();

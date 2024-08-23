@@ -24,6 +24,7 @@ void GameScene::Init()
 	if (GameRoop == false) {
 		Loder::LoadJsonFile2("Resources", "GameCone", ConeObject_);
 		Loder::LoadJsonFile2("Resources", "GameStar", StarObject_);
+		GameRoop = true;
 	}
 	for (size_t i = 0; i < StarObject_.size() - 1; i++) {
 		StarObject_[i]->isVisible = true;
@@ -123,7 +124,7 @@ void GameScene::Update()
 		fade->StartFadeIn();
 	}
 	if (fade->IsFadeOutComplete()) {
-		sceneNo = 2;
+		sceneNo = 0;
 	}
 	Number->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, Number->worldTransform_.translation_) + 3.14f;
 	TenQOBJ->worldTransform_.rotation_.x += 0.001f;
