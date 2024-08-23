@@ -22,8 +22,8 @@ void GameScene::Init()
 	STARtextureHandle = TextureManager::StoreTexture("Resources/game/star.png");
 
 	if (GameRoop == false) {
-		Loder::LoadJsonFile2("Resources", "DemoCone", ConeObject_);
-		Loder::LoadJsonFile2("Resources", "DemoStar", StarObject_);
+		Loder::LoadJsonFile2("Resources", "GameCone", ConeObject_);
+		Loder::LoadJsonFile2("Resources", "GameStar", StarObject_);
 	}
 	for (size_t i = 0; i < StarObject_.size() - 1; i++) {
 		StarObject_[i]->isVisible = true;

@@ -22,8 +22,8 @@ void ClearScene::Init()
 	STARtextureHandle = TextureManager::StoreTexture("Resources/game/star.png");
 
 	if (GameRoop == false) {
-		Loder::LoadJsonFile2("Resources", "DemoCone", ConeObject_);
-		Loder::LoadJsonFile2("Resources", "DemoStar", StarObject_);
+		Loder::LoadJsonFile2("Resources", "GameCone2", ConeObject_);
+		Loder::LoadJsonFile2("Resources", "GameStar2", StarObject_);
 	}
 	for (size_t i = 0; i < StarObject_.size() - 1; i++) {
 		StarObject_[i]->isVisible = true;
@@ -35,8 +35,9 @@ void ClearScene::Init()
 	TenQOBJ->Init();
 	Number = new Object3d();
 	Number->Init();
-	starCount = 0;
+	starCount = 2;
 	isFadeInStarted = false;
+	
 
 	worldTransformPa.Initialize();
 	TenQTransform.Initialize();

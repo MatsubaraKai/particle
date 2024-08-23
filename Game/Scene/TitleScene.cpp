@@ -43,7 +43,7 @@ void TitleScene::Init()
 	ModelManager::GetInstance()->LoadModel("Resources/game/Number", "5.obj");
 
 	if (GameRoop == false) {
-		Loder::LoadJsonFile2("Resources", "DemoCone", ConeObject_);
+		Loder::LoadJsonFile2("Resources", "TitleCone", ConeObject_);
 	}
 	
 	postProcess_ = new PostProcess();
@@ -53,11 +53,11 @@ void TitleScene::Init()
 	isFadeInStarted = false;
 
 	worldTransformPa.Initialize();
-	worldTransformPa.translation_ = { -2.5f,7.5f,60.0f };
+	worldTransformPa.translation_ = { -2.5f,7.5f,60.0f };//チュートリアルポータル
 	worldTransformPa1.Initialize();
-	worldTransformPa1.translation_ = { -2.5f,7.5f,82.0f };
+	worldTransformPa1.translation_ = { -2.5f,7.5f,82.0f };//ゲームシーンポータル
 	worldTransformPa2.Initialize();
-	worldTransformPa2.translation_ = { -2.5f,7.5f,82.0f };
+	worldTransformPa2.translation_ = { -2.5f,7.5f,82.0f };//ゲームシーン２ポータル
 
 	camera->transform_.translate = { 0.0f,15.0f,-15.0f };
 
