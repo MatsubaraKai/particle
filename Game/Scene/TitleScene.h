@@ -11,6 +11,7 @@
 #include "PostProcess.h"
 #include "Fade.h"
 #include "DirectXMath.h"
+#include "Timer.h"
 
 
 class TitleScene : public IScene
@@ -32,21 +33,15 @@ private:
 	int sceneTime = 0;
 	int sceneTime1 = 0;
 	int selectedIndex1 = 0;
+	int selectedIndex2 = 0;
 	Camera* camera = nullptr;
 	Input* input = nullptr;
 	Fade* fade = nullptr;
-
-	std::vector<Object3d*> ConeObject_;
-
+	Timer timer;
 	Object3d* TenQOBJ = nullptr;
-	Object3d* TitleOBJ = nullptr;
-	Object3d* TitleOBJ2 = nullptr;
-	Object3d* TextOBJ3 = nullptr;
-	Object3d* TextOBJ4 = nullptr;
-	Object3d* TextOBJ5 = nullptr;
-	Object3d* TextOBJ6 = nullptr;
-	Object3d* TextOBJ7 = nullptr;
-	Object3d* TextOBJ8 = nullptr;
+	std::vector<Object3d*> ConeObject_;
+	std::vector<Object3d*> TitleObject_;
+	std::vector<Object3d*> TitleTextObject_;
 
 	Particle* particle = nullptr;
 	Particle* particle1 = nullptr;
@@ -75,6 +70,7 @@ private:
 	bool isGame3 = false;//4
 	bool isClear = false;
 	bool isFadeInStarted = false;
+
 
 };
 

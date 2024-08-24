@@ -7,6 +7,11 @@ bool IScene::DemoRoop = false;
 bool IScene::GameRoop = false;
 bool IScene::Game2Roop = false;
 bool IScene::Game3Roop = false;
+int IScene::DemoTime[5] = { 0,0,0,0,0 };
+int IScene::SCENE1Time[5] = { 0,0,0,0,0 };
+int IScene::SCENE2Time[5] = { 0,0,0,0,0 };
+int IScene::SCENE3Time[5] = { 0,0,0,0,0 };
+int IScene::SCENE4Time[5] = { 0,0,0,0,0 };
 // 仮想デストラクタの定義
 // 純粋仮想関数化していないので、ここで定義できる
 IScene::~IScene() {}

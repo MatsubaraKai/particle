@@ -26,55 +26,29 @@ void TitleScene::Init()
 
 	ModelManager::GetInstance()->LoadModel("Resources/game", "world.obj");
 	ModelManager::GetInstance()->LoadModel("Resources/game", "world2.obj");
-	ModelManager::GetInstance()->LoadModel("Resources/game/Text", "text.obj");
-	ModelManager::GetInstance()->LoadModel("Resources/game/Text", "text2.obj");
-	ModelManager::GetInstance()->LoadModel("Resources/game/Text", "text3.obj");
-	ModelManager::GetInstance()->LoadModel("Resources/game/Text", "text4.obj");
-	ModelManager::GetInstance()->LoadModel("Resources/game/Text", "text5.obj");
-	ModelManager::GetInstance()->LoadModel("Resources/game/Text", "text6.obj");
-	ModelManager::GetInstance()->LoadModel("Resources/game/Text", "text7.obj");
-	ModelManager::GetInstance()->LoadModel("Resources/game/Text", "Titletext.obj");
-	ModelManager::GetInstance()->LoadModel("Resources/game/Text", "Titletext2.obj");
-	ModelManager::GetInstance()->LoadModel("Resources/game/Text", "Titletext3.obj");
-	ModelManager::GetInstance()->LoadModel("Resources/game/Text", "Titletext4.obj");
-	ModelManager::GetInstance()->LoadModel("Resources/game/Text", "Titletext5.obj");
-	ModelManager::GetInstance()->LoadModel("Resources/game/Text", "Titletext6.obj");
-	ModelManager::GetInstance()->LoadModel("Resources/game/Text", "Titletext7.obj");
-	ModelManager::GetInstance()->LoadModel("Resources/game/Text", "Titletext8.obj");
 	ModelManager::GetInstance()->LoadModel("Resources/game/Number", "0.obj");
 	ModelManager::GetInstance()->LoadModel("Resources/game/Number", "1.obj");
 	ModelManager::GetInstance()->LoadModel("Resources/game/Number", "2.obj");
 	ModelManager::GetInstance()->LoadModel("Resources/game/Number", "3.obj");
 	ModelManager::GetInstance()->LoadModel("Resources/game/Number", "4.obj");
 	ModelManager::GetInstance()->LoadModel("Resources/game/Number", "5.obj");
+	ModelManager::GetInstance()->LoadModel("Resources/game/Number", "6.obj");
+	ModelManager::GetInstance()->LoadModel("Resources/game/Number", "7.obj");
+	ModelManager::GetInstance()->LoadModel("Resources/game/Number", "8.obj");
+	ModelManager::GetInstance()->LoadModel("Resources/game/Number", "9.obj");
 
 	if (TitleRoop == false) {
 		Loder::LoadJsonFile2("Resources", "TitleCone", ConeObject_);
+		Loder::LoadJsonFileText("Resources", "TitleText", TitleTextObject_);
 		TitleRoop = true;
 	}
-	
+			
 	postProcess_ = new PostProcess();
 	postProcess_->SetCamera(camera);
 	postProcess_->Init();
 
 	TenQOBJ = new Object3d();
 	TenQOBJ->Init();
-	TitleOBJ = new Object3d();
-	TitleOBJ->Init();
-	TitleOBJ2 = new Object3d();
-	TitleOBJ2->Init();
-	TextOBJ3 = new Object3d();
-	TextOBJ3->Init();
-	TextOBJ4 = new Object3d();
-	TextOBJ4->Init();
-	TextOBJ5 = new Object3d();
-	TextOBJ5->Init();
-	TextOBJ6 = new Object3d();
-	TextOBJ6->Init();
-	TextOBJ7 = new Object3d();
-	TextOBJ7->Init();
-	TextOBJ8 = new Object3d();
-	TextOBJ8->Init();
 
 	isFadeInStarted = false;
 
@@ -84,18 +58,6 @@ void TitleScene::Init()
 	TenQTransform.scale_.y = 100.0f;
 	TenQTransform.scale_.z = 100.0f;
 	TenQOBJ->SetWorldTransform(TenQTransform);
-
-
-	TitleOBJ->worldTransform_.translation_ = { -12.0f,22.5f,30.0f };
-	TitleOBJ->worldTransform_.rotation_.x = -0.2f;
-	TitleOBJ->worldTransform_.scale_ = { 20.0f,20.0f,20.0f };
-	TitleOBJ2->worldTransform_.translation_ = { 12.0f,10.0f,30.0f };
-	TitleOBJ2->worldTransform_.scale_ = { 20.0f,20.0f,20.0f };
-	TextOBJ3->worldTransform_.translation_ = { -22.5f,7.0f,15.0f };
-	TextOBJ4->worldTransform_.translation_ = { 27.5f,7.0f,15.0f };
-	TextOBJ5->worldTransform_.translation_ = { 27.5f,7.0f,2.5f };
-	TextOBJ6->worldTransform_.translation_ = { 27.5f,7.0f,-10.0f };
-	TextOBJ8->worldTransform_.translation_ = { -22.5f,2.0f,12.5f };
 
 	worldTransformPa.Initialize();
 	worldTransformPa.translation_ = { -25.0f,1.5f,12.5f };//チュートリアルポータル
@@ -110,14 +72,6 @@ void TitleScene::Init()
 	camera->transform_.rotate = { -0.2f, 0.0f, 0.0f };
 
 	TenQOBJ->SetModel("world.obj");
-	TitleOBJ->SetModel("Titletext.obj");
-	TitleOBJ2->SetModel("Titletext2.obj");
-	TextOBJ3->SetModel("Titletext3.obj");
-	TextOBJ4->SetModel("Titletext4.obj");
-	TextOBJ5->SetModel("Titletext5.obj");
-	TextOBJ6->SetModel("Titletext6.obj");
-	TextOBJ7->SetModel("Titletext7.obj");
-	TextOBJ8->SetModel("Titletext8.obj");
 
 	particle = new Particle();
 	particle1 = new Particle();
@@ -245,14 +199,14 @@ void TitleScene::Update()
 		sceneNo = 4;
 	}
 	TenQOBJ->worldTransform_.rotation_.y += 0.0005f;
-	TitleOBJ->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, TitleOBJ->worldTransform_.translation_) + 3.14f;
-	TitleOBJ2->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, TitleOBJ2->worldTransform_.translation_) + 3.14f;
-	TextOBJ3->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, TextOBJ3->worldTransform_.translation_) + 3.14f;
-	TextOBJ4->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, TextOBJ4->worldTransform_.translation_) + 3.14f;
-	TextOBJ5->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, TextOBJ5->worldTransform_.translation_) + 3.14f;
-	TextOBJ6->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, TextOBJ6->worldTransform_.translation_) + 3.14f;
-	TextOBJ7->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, TextOBJ7->worldTransform_.translation_) + 3.14f;
-	TextOBJ8->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, TextOBJ8->worldTransform_.translation_) + 3.14f;
+	TitleTextObject_[0]->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, TitleTextObject_[0]->worldTransform_.translation_) + 3.14f;
+	TitleTextObject_[1]->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, TitleTextObject_[1]->worldTransform_.translation_) + 3.14f;
+	TitleTextObject_[2]->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, TitleTextObject_[2]->worldTransform_.translation_) + 3.14f;
+	TitleTextObject_[3]->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, TitleTextObject_[3]->worldTransform_.translation_) + 3.14f;
+	TitleTextObject_[4]->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, TitleTextObject_[4]->worldTransform_.translation_) + 3.14f;
+	TitleTextObject_[5]->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, TitleTextObject_[5]->worldTransform_.translation_) + 3.14f;
+	TitleTextObject_[6]->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, TitleTextObject_[6]->worldTransform_.translation_) + 3.14f;
+	TitleTextObject_[7]->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, TitleTextObject_[7]->worldTransform_.translation_) + 3.14f;
 
 	// ゲームパッドの状態取得
 	XINPUT_STATE joyState;
@@ -331,8 +285,11 @@ void TitleScene::Update()
 			}
 	}
 
-	for (std::vector<Object3d*>::iterator itr1 = ConeObject_.begin(); itr1 != ConeObject_.end(); itr1++) {
-		(*itr1)->Update();
+	for (std::vector<Object3d*>::iterator itr = ConeObject_.begin(); itr != ConeObject_.end(); itr++) {
+		(*itr)->Update();
+	}
+	for (std::vector<Object3d*>::iterator itr = TitleTextObject_.begin(); itr != TitleTextObject_.end(); itr++) {
+		(*itr)->Update();
 	}
 	if (isClear == false) {
 		camera->Jump(isOnFloor);
@@ -345,49 +302,41 @@ void TitleScene::Update()
 	}
 	camera->Update();
 	TenQOBJ->Update();
-	TitleOBJ->Update();
-	TitleOBJ2->Update();
-	TextOBJ3->Update();
-	TextOBJ4->Update();
-	TextOBJ5->Update();
-	TextOBJ6->Update();
-	TextOBJ7->Update();
-	TextOBJ8->Update();
 
 	if (playerPos.x >= -20.0f &&
 		playerPos.x <= 20.0f &&
 		playerPos.z >= -20.0f &&
 		playerPos.z <= 20.0f && DemoRoop == false
 		) {
-		TextOBJ7->worldTransform_.translation_.y = Lerp(TextOBJ7->worldTransform_.translation_.y, 1.3f, 0.1f);
+		TitleTextObject_[6]->worldTransform_.translation_.y = Lerp(TitleTextObject_[6]->worldTransform_.translation_.y, 1.3f, 0.1f);
 	}else {
-		TextOBJ7->worldTransform_.translation_.y = Lerp(TextOBJ7->worldTransform_.translation_.y, 0.0f, 0.1f);
+		TitleTextObject_[6]->worldTransform_.translation_.y = Lerp(TitleTextObject_[6]->worldTransform_.translation_.y, 0.0f, 0.1f);
 	}
 	if (DemoRoop == false) {
-		TextOBJ8->worldTransform_.translation_.y = Lerp(TextOBJ8->worldTransform_.translation_.y, 2.0f, 0.1f);
+		TitleTextObject_[7]->worldTransform_.translation_.y = Lerp(TitleTextObject_[7]->worldTransform_.translation_.y, 2.0f, 0.1f);
 	}
 	else {
-		TextOBJ8->worldTransform_.translation_.y = Lerp(TextOBJ8->worldTransform_.translation_.y, 0.0f, 0.1f);
+		TitleTextObject_[7]->worldTransform_.translation_.y = Lerp(TitleTextObject_[7]->worldTransform_.translation_.y, 0.0f, 0.1f);
 	}
 	if (sceneTime1 == 0) {
 
 	}
 	if (sceneTime1 < 180) {
-		TitleOBJ->worldTransform_.translation_.y = Lerp(TitleOBJ->worldTransform_.translation_.y, 25.0f, 0.01f);
-		TitleOBJ2->worldTransform_.translation_.y = Lerp(TitleOBJ2->worldTransform_.translation_.y, 12.5f, 0.01f);
-		TextOBJ3->worldTransform_.translation_.y = Lerp(TextOBJ3->worldTransform_.translation_.y, 7.5f, 0.01f);
-		TextOBJ4->worldTransform_.translation_.y = Lerp(TextOBJ4->worldTransform_.translation_.y, 7.5f, 0.01f);
-		TextOBJ5->worldTransform_.translation_.y = Lerp(TextOBJ5->worldTransform_.translation_.y, 7.5f, 0.01f);
-		TextOBJ6->worldTransform_.translation_.y = Lerp(TextOBJ6->worldTransform_.translation_.y, 7.5f, 0.01f);
+		TitleTextObject_[0]->worldTransform_.translation_.y = Lerp(TitleTextObject_[0]->worldTransform_.translation_.y, 25.0f, 0.01f);
+		TitleTextObject_[1]->worldTransform_.translation_.y = Lerp(TitleTextObject_[1]->worldTransform_.translation_.y, 12.5f, 0.01f);
+		TitleTextObject_[2]->worldTransform_.translation_.y = Lerp(TitleTextObject_[2]->worldTransform_.translation_.y, 7.5f, 0.01f);
+		TitleTextObject_[3]->worldTransform_.translation_.y = Lerp(TitleTextObject_[3]->worldTransform_.translation_.y, 7.5f, 0.01f);
+		TitleTextObject_[4]->worldTransform_.translation_.y = Lerp(TitleTextObject_[4]->worldTransform_.translation_.y, 7.5f, 0.01f);
+		TitleTextObject_[5]->worldTransform_.translation_.y = Lerp(TitleTextObject_[5]->worldTransform_.translation_.y, 7.5f, 0.01f);
 
 	}
 	if (sceneTime1 > 180 && sceneTime1 < 360) {
-		TitleOBJ->worldTransform_.translation_.y = Lerp(TitleOBJ->worldTransform_.translation_.y, 20.0f, 0.01f);
-		TitleOBJ2->worldTransform_.translation_.y = Lerp(TitleOBJ2->worldTransform_.translation_.y, 7.5f, 0.01f);
-		TextOBJ3->worldTransform_.translation_.y = Lerp(TextOBJ3->worldTransform_.translation_.y, 6.5f, 0.01f);
-		TextOBJ4->worldTransform_.translation_.y = Lerp(TextOBJ4->worldTransform_.translation_.y, 6.5f, 0.01f);
-		TextOBJ5->worldTransform_.translation_.y = Lerp(TextOBJ5->worldTransform_.translation_.y, 6.5f, 0.01f);
-		TextOBJ6->worldTransform_.translation_.y = Lerp(TextOBJ6->worldTransform_.translation_.y, 6.5f, 0.01f);
+		TitleTextObject_[0]->worldTransform_.translation_.y = Lerp(TitleTextObject_[0]->worldTransform_.translation_.y, 20.0f, 0.01f);
+		TitleTextObject_[1]->worldTransform_.translation_.y = Lerp(TitleTextObject_[1]->worldTransform_.translation_.y, 7.5f, 0.01f);
+		TitleTextObject_[2]->worldTransform_.translation_.y = Lerp(TitleTextObject_[2]->worldTransform_.translation_.y, 6.5f, 0.01f);
+		TitleTextObject_[3]->worldTransform_.translation_.y = Lerp(TitleTextObject_[3]->worldTransform_.translation_.y, 6.5f, 0.01f);
+		TitleTextObject_[4]->worldTransform_.translation_.y = Lerp(TitleTextObject_[4]->worldTransform_.translation_.y, 6.5f, 0.01f);
+		TitleTextObject_[5]->worldTransform_.translation_.y = Lerp(TitleTextObject_[5]->worldTransform_.translation_.y, 6.5f, 0.01f);
 
 	}
 	if (effectFlag == true) {
@@ -399,23 +348,34 @@ void TitleScene::Update()
 	camera->CameraDebug();
 	// 選択されたインデックスに応じたモデルのデバッグを実行
 	std::string label1 = "JSONConemodel" + std::to_string(selectedIndex1);
+	std::string label2 = "JSONTextmodel" + std::to_string(selectedIndex2);
 	ConeObject_[selectedIndex1]->ModelDebug(label1.c_str());
+	TitleTextObject_[selectedIndex2]->ModelDebug(label2.c_str());
 
 	TenQOBJ->ModelDebug("TenQ");
-	TitleOBJ->ModelDebug("text");
-	TitleOBJ2->ModelDebug("text2");
-	TextOBJ3->ModelDebug("text3");
-	TextOBJ4->ModelDebug("text4");
-	TextOBJ5->ModelDebug("text5");
-	TextOBJ6->ModelDebug("text6");
-	TextOBJ7->ModelDebug("text7");
-	TextOBJ8->ModelDebug("text8");
+
 	particle->Particledebug("white", worldTransformPa);
 	particle1->Particledebug("white1", worldTransformPa1);
 	particle2->Particledebug("white2", worldTransformPa2);
 	particle3->Particledebug("white3", worldTransformPa3);
+	ImGui::Begin("Time");
+	ImGui::Text("Time : %f", timer.elapsedSeconds());
+	ImGui::Text("Time : %d", timer.elapsedSecondsOnly());//一秒単位
+	ImGui::Text("Time : %d", timer.elapsedTensOfSeconds());//十秒単位
+	ImGui::Text("Time : %d", timer.elapsedMinutesOnly());//一分単位
+	ImGui::Text("Time : %d", timer.elapsedTensOfMinutes());//十分単位
+	ImGui::Text("Time : %d%d:%d%d", DemoTime[0],DemoTime[1],DemoTime[2],DemoTime[3]);
+
+	if (ImGui::Button("start")) {
+		timer.start();
+	}
+	if (ImGui::Button("stop")) {
+		timer.stop();
+	}
+	ImGui::End();
 	ImGui::Begin("isOnFloor");
-	ImGui::SliderInt("Select Model Index", &selectedIndex1, 0, static_cast<int>(ConeObject_.size()) - 2);
+	ImGui::SliderInt("Select Model Index1", &selectedIndex1, 0, static_cast<int>(ConeObject_.size()) - 2);
+	ImGui::SliderInt("Select Model Index2", &selectedIndex2, 0, static_cast<int>(TitleTextObject_.size()) - 2);
 	ImGui::Text("OnFloor : %d", isOnFloor);
 	ImGui::Text("Player Pos : %f %f %f", playerPos.x, playerPos.y, playerPos.z);
 	ImGui::End();
@@ -450,21 +410,19 @@ void TitleScene::Update()
 }
 void TitleScene::Draw()
 {
-	for (std::vector<Object3d*>::iterator itr1 = ConeObject_.begin(); itr1 != ConeObject_.end(); itr1++) {
-		if ((*itr1)->isVisible) {
-			(*itr1)->Draw(CONEtextureHandle, camera);
+	for (std::vector<Object3d*>::iterator itr = ConeObject_.begin(); itr != ConeObject_.end(); itr++) {
+		if ((*itr)->isVisible) {
+			(*itr)->Draw(CONEtextureHandle, camera);
 
 		}
 	}
+	for (std::vector<Object3d*>::iterator itr = TitleTextObject_.begin(); itr != TitleTextObject_.end(); itr++) {
+		(*itr)->Draw(GRIDtextureHandle, camera);
+		TitleTextObject_[0]->Draw(BLUEtextureHandle, camera);
+		TitleTextObject_[1]->Draw(BLUEtextureHandle, camera);
+	}
 	TenQOBJ->Draw(TENQtextureHandle, camera);
-	TitleOBJ->Draw(BLUEtextureHandle, camera);
-	TitleOBJ2->Draw(BLUEtextureHandle, camera);
-	TextOBJ3->Draw(GRIDtextureHandle, camera);
-	TextOBJ4->Draw(GRIDtextureHandle, camera);
-	TextOBJ5->Draw(GRIDtextureHandle, camera);
-	TextOBJ6->Draw(GRIDtextureHandle, camera);
-	TextOBJ7->Draw(GRIDtextureHandle, camera);
-	TextOBJ8->Draw(GRIDtextureHandle, camera);
+
 	particle->Draw(ParticleEmitter_, { worldTransformPa.translation_.x,worldTransformPa.translation_.y,worldTransformPa.translation_.z }, WHITEtextureHandle, camera, demoRandPro, false);
 	particle1->Draw(ParticleEmitter_, { worldTransformPa1.translation_.x,worldTransformPa1.translation_.y,worldTransformPa1.translation_.z }, WHITEtextureHandle, camera, demoRandPro, false);
 	particle2->Draw(ParticleEmitter_, { worldTransformPa2.translation_.x,worldTransformPa2.translation_.y,worldTransformPa2.translation_.z }, WHITEtextureHandle, camera, demoRandPro, false);

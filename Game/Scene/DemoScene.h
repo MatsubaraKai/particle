@@ -12,6 +12,7 @@
 #include "Fade.h"
 #include "Skybox.h"
 #include "DirectXMath.h"
+#include "Timer.h"
 class DemoScene : public IScene
 {
 public:
@@ -32,19 +33,16 @@ private:
 	int sceneTime1 = 0;
 	int selectedIndex1 = 0;
 	int selectedIndex2 = 0;
+	int selectedIndex3 = 0;
 	Camera* camera = nullptr;
 	Input* input = nullptr;
 	Fade *fade = nullptr;
+	Timer timer;
 
 	std::vector<Object3d*> ConeObject_;
 	std::vector<Object3d*> StarObject_;
-	Object3d* TextOBJ = nullptr;
-	Object3d* TextOBJ2 = nullptr;
-	Object3d* TextOBJ3 = nullptr;
-	Object3d* TextOBJ4 = nullptr;
-	Object3d* TextOBJ5 = nullptr;
-	Object3d* TextOBJ6 = nullptr;
-	Object3d* TextOBJ7 = nullptr;
+	std::vector<Object3d*> TextObject_;
+
 	Object3d* Number = nullptr;
 
 	Particle* particle = nullptr;

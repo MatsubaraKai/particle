@@ -26,6 +26,7 @@ void DemoScene::Init()
 	if (DemoRoop == false) {
 		Loder::LoadJsonFile2("Resources", "DemoCone", ConeObject_);
 		Loder::LoadJsonFile2("Resources", "DemoStar", StarObject_);
+		Loder::LoadJsonFileText("Resources", "DemoText", TextObject_);
 		DemoRoop = true;
 	}
 	for (size_t i = 0; i < StarObject_.size() - 1; i++) {
@@ -37,20 +38,7 @@ void DemoScene::Init()
 	
 	TenQOBJ = new Object3d();
 	TenQOBJ->Init();
-	TextOBJ = new Object3d();
-	TextOBJ->Init();
-	TextOBJ2 = new Object3d();
-	TextOBJ2->Init();
-	TextOBJ3 = new Object3d();
-	TextOBJ3->Init();
-	TextOBJ4 = new Object3d();
-	TextOBJ4->Init();
-	TextOBJ5 = new Object3d();
-	TextOBJ5->Init();
-	TextOBJ6 = new Object3d();
-	TextOBJ6->Init();
-	TextOBJ7 = new Object3d();
-	TextOBJ7->Init();
+	
 	Number = new Object3d();
 	Number->Init();
 	starCount = 2;
@@ -74,29 +62,11 @@ void DemoScene::Init()
 
 	camera->transform_.translate = { 0.0f,15.0f,-15.0f };
 	camera->transform_.rotate = { -0.2f, 0.0f, 0.0f };
-
-
-	TextOBJ->worldTransform_.translation_.y = 7.0f;
-	TextOBJ2->worldTransform_.translation_.y = 8.11f;
-	TextOBJ2->worldTransform_.translation_.z = -30.0f;
-	TextOBJ3->worldTransform_.translation_ = { -10.0f,4.0f,-30.0f };
-	TextOBJ4->worldTransform_.translation_ = { 10.0f,4.0f,-30.0f };
-	TextOBJ5->worldTransform_.rotation_.x = 0.43f;
-	TextOBJ5->worldTransform_.translation_.y = 0.0f;
-	TextOBJ5->worldTransform_.translation_.z = -30.0f;
-	TextOBJ6->worldTransform_.translation_.y = 2.35f;
-	TextOBJ7->worldTransform_.translation_ = { -17.5f,7.0f,-15.0f };
+	
 	Number->worldTransform_.translation_ = { 0.0f,13.0f,84.5f };
 	Number->worldTransform_.scale_ = { 2.0f,2.0f,2.0f };
 
 	TenQOBJ->SetModel("world2.obj");
-	TextOBJ->SetModel("text.obj");
-	TextOBJ2->SetModel("text2.obj");
-	TextOBJ3->SetModel("text3.obj");
-	TextOBJ4->SetModel("text4.obj");
-	TextOBJ5->SetModel("text5.obj");
-	TextOBJ6->SetModel("text6.obj");
-	TextOBJ7->SetModel("text7.obj");
 
 	particle = new Particle();
 	particle2 = new Particle();
@@ -118,7 +88,7 @@ void DemoScene::Init()
 	fade = new Fade();
 	fade->Init(FADEtextureHandle);
 	fade->StartFadeOut();
-	
+	timer.start();
 }
 
 void DemoScene::Update()
@@ -147,6 +117,21 @@ void DemoScene::Update()
 
 	if (distance < collisionDistance && starCount == 0) {
 		// 衝突している
+		if (DemoTime[4] == 0) {
+			DemoTime[0] = timer.elapsedTensOfMinutes();
+			DemoTime[1] = timer.elapsedMinutesOnly();
+			DemoTime[2] = timer.elapsedTensOfSeconds();
+			DemoTime[3] = timer.elapsedSecondsOnly();
+			DemoTime[4] = static_cast<int>(timer.elapsedSeconds());
+		}
+		if (static_cast<int>(timer.elapsedSeconds()) < DemoTime[4]) {
+			DemoTime[0] = timer.elapsedTensOfMinutes();
+			DemoTime[1] = timer.elapsedMinutesOnly();
+			DemoTime[2] = timer.elapsedTensOfSeconds();
+			DemoTime[3] = timer.elapsedSecondsOnly();
+			DemoTime[4] = static_cast<int>(timer.elapsedSeconds());
+		}
+		timer.stop();
 		isClear = true;
 	}
 	else {
@@ -190,13 +175,13 @@ void DemoScene::Update()
 		sceneNo = 0;
 	}
 
-	TextOBJ->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, TextOBJ->worldTransform_.translation_) + 3.14f;
-	TextOBJ2->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, TextOBJ2->worldTransform_.translation_) + 3.14f;
-	TextOBJ3->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, TextOBJ3->worldTransform_.translation_) + 3.14f;
-	TextOBJ4->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, TextOBJ4->worldTransform_.translation_) + 3.14f;
-	TextOBJ5->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, TextOBJ5->worldTransform_.translation_) + 3.14f;
-	TextOBJ6->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, TextOBJ6->worldTransform_.translation_) + 3.14f;
-	TextOBJ7->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, TextOBJ7->worldTransform_.translation_) + 3.14f;
+	TextObject_[0]->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, TextObject_[0]->worldTransform_.translation_) + 3.14f;
+	TextObject_[1]->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, TextObject_[1]->worldTransform_.translation_) + 3.14f;
+	TextObject_[2]->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, TextObject_[2]->worldTransform_.translation_) + 3.14f;
+	TextObject_[3]->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, TextObject_[3]->worldTransform_.translation_) + 3.14f;
+	TextObject_[4]->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, TextObject_[4]->worldTransform_.translation_) + 3.14f;
+	TextObject_[5]->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, TextObject_[5]->worldTransform_.translation_) + 3.14f;
+	TextObject_[6]->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, TextObject_[6]->worldTransform_.translation_) + 3.14f;
 	Number->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, Number->worldTransform_.translation_) + 3.14f;
 	TenQOBJ->worldTransform_.rotation_.x += 0.001f;
 	TenQOBJ->worldTransform_.translation_.x = Lerp(TenQOBJ->worldTransform_.translation_.x, camera->transform_.translate.x, 0.005f);
@@ -322,13 +307,16 @@ void DemoScene::Update()
 		starCount--;
 
 	}
-	for (std::vector<Object3d*>::iterator itr1 = ConeObject_.begin(); itr1 != ConeObject_.end(); itr1++) {
-		(*itr1)->Update();
+	for (std::vector<Object3d*>::iterator itr = ConeObject_.begin(); itr != ConeObject_.end(); itr++) {
+		(*itr)->Update();
 	}
-	for (std::vector<Object3d*>::iterator itr2 = StarObject_.begin(); itr2 != StarObject_.end(); itr2++) {
-		if ((*itr2)->isVisible) {
-			(*itr2)->Update();
-			(*itr2)->worldTransform_.rotation_.y += 0.02f;
+	for (std::vector<Object3d*>::iterator itr = TextObject_.begin(); itr != TextObject_.end(); itr++) {
+		(*itr)->Update();
+	}
+	for (std::vector<Object3d*>::iterator itr = StarObject_.begin(); itr != StarObject_.end(); itr++) {
+		if ((*itr)->isVisible) {
+			(*itr)->Update();
+			(*itr)->worldTransform_.rotation_.y += 0.02f;
 		}
 	}
 	if (isClear == false) {
@@ -343,13 +331,6 @@ void DemoScene::Update()
 	}
 		camera->Update();
 		TenQOBJ->Update();
-		TextOBJ->Update();
-		TextOBJ2->Update();
-		TextOBJ3->Update();
-		TextOBJ4->Update();
-		TextOBJ5->Update();
-		TextOBJ6->Update();
-		TextOBJ7->Update();
 		Number->Update();
 
 		ConeObject_[1]->worldTransform_.rotation_.x += 0.01f;
@@ -366,24 +347,24 @@ void DemoScene::Update()
 			ConeObject_[4]->worldTransform_.scale_.x += 0.06f;
 			ConeObject_[4]->worldTransform_.scale_.z += 0.02f;
 			ConeObject_[6]->worldTransform_.translation_.y = Lerp(ConeObject_[6]->worldTransform_.translation_.y, 30.0f, 0.1f);
-			TextOBJ->worldTransform_.translation_.y = Lerp(TextOBJ->worldTransform_.translation_.y, 8.00f, 0.01f);
-			TextOBJ2->worldTransform_.translation_.y = Lerp(TextOBJ2->worldTransform_.translation_.y, 8.61f, 0.01f);
-			TextOBJ3->worldTransform_.translation_.y = Lerp(TextOBJ3->worldTransform_.translation_.y, 4.5f, 0.01f);
-			TextOBJ4->worldTransform_.translation_.y = Lerp(TextOBJ4->worldTransform_.translation_.y, 4.5f, 0.01f);
-			TextOBJ5->worldTransform_.translation_.y = Lerp(TextOBJ5->worldTransform_.translation_.y, 0.5f, 0.01f);
-			TextOBJ7->worldTransform_.translation_.y = Lerp(TextOBJ7->worldTransform_.translation_.y, 7.5f, 0.01f);
+			TextObject_[0]->worldTransform_.translation_.y = Lerp(TextObject_[0]->worldTransform_.translation_.y, 8.00f, 0.01f);
+			TextObject_[1]->worldTransform_.translation_.y = Lerp(TextObject_[1]->worldTransform_.translation_.y, 8.61f, 0.01f);
+			TextObject_[2]->worldTransform_.translation_.y = Lerp(TextObject_[2]->worldTransform_.translation_.y, 4.5f, 0.01f);
+			TextObject_[3]->worldTransform_.translation_.y = Lerp(TextObject_[3]->worldTransform_.translation_.y, 4.5f, 0.01f);
+			TextObject_[4]->worldTransform_.translation_.y = Lerp(TextObject_[4]->worldTransform_.translation_.y, 0.5f, 0.01f);
+			TextObject_[6]->worldTransform_.translation_.y = Lerp(TextObject_[6]->worldTransform_.translation_.y, 7.5f, 0.01f);
 
 		}
 		if (sceneTime1 > 180 &&sceneTime1 < 360) {
 			ConeObject_[4]->worldTransform_.scale_.x -= 0.06f;
 			ConeObject_[4]->worldTransform_.scale_.z -= 0.02f;
 			ConeObject_[6]->worldTransform_.translation_.y = Lerp(ConeObject_[6]->worldTransform_.translation_.y, 4.0f, 0.1f);
-			TextOBJ->worldTransform_.translation_.y = Lerp(TextOBJ->worldTransform_.translation_.y, 6.00f, 0.01f);
-			TextOBJ2->worldTransform_.translation_.y = Lerp(TextOBJ2->worldTransform_.translation_.y, 7.61f, 0.01f);
-			TextOBJ3->worldTransform_.translation_.y = Lerp(TextOBJ3->worldTransform_.translation_.y, 3.5f, 0.01f);
-			TextOBJ4->worldTransform_.translation_.y = Lerp(TextOBJ4->worldTransform_.translation_.y, 3.5f, 0.01f);
-			TextOBJ5->worldTransform_.translation_.y = Lerp(TextOBJ5->worldTransform_.translation_.y, -0.5f, 0.01f);
-			TextOBJ7->worldTransform_.translation_.y = Lerp(TextOBJ7->worldTransform_.translation_.y, 6.5f, 0.01f);
+			TextObject_[0]->worldTransform_.translation_.y = Lerp(TextObject_[0]->worldTransform_.translation_.y, 6.00f, 0.01f);
+			TextObject_[1]->worldTransform_.translation_.y = Lerp(TextObject_[1]->worldTransform_.translation_.y, 7.61f, 0.01f);
+			TextObject_[2]->worldTransform_.translation_.y = Lerp(TextObject_[2]->worldTransform_.translation_.y, 3.5f, 0.01f);
+			TextObject_[3]->worldTransform_.translation_.y = Lerp(TextObject_[3]->worldTransform_.translation_.y, 3.5f, 0.01f);
+			TextObject_[4]->worldTransform_.translation_.y = Lerp(TextObject_[4]->worldTransform_.translation_.y, -0.5f, 0.01f);
+			TextObject_[6]->worldTransform_.translation_.y = Lerp(TextObject_[6]->worldTransform_.translation_.y, 6.5f, 0.01f);
 		}
 	
 		if (effectFlag == true) {
@@ -396,25 +377,36 @@ void DemoScene::Update()
 		// 選択されたインデックスに応じたモデルのデバッグを実行
 		std::string label1 = "JSONConemodel" + std::to_string(selectedIndex1);
 		std::string label2 = "JSONStarmodel" + std::to_string(selectedIndex2);
+		std::string label3 = "JSONTextmodel" + std::to_string(selectedIndex3);
 		ConeObject_[selectedIndex1]->ModelDebug(label1.c_str());
 		StarObject_[selectedIndex2]->ModelDebug(label2.c_str());
+		TextObject_[selectedIndex3]->ModelDebug(label2.c_str());
 
 		TenQOBJ->ModelDebug("TenQ");
-		TextOBJ->ModelDebug("text");
-		TextOBJ2->ModelDebug("text2");
-		TextOBJ3->ModelDebug("text3");
-		TextOBJ4->ModelDebug("text4");
-		TextOBJ5->ModelDebug("text5");
-		TextOBJ6->ModelDebug("text6");
-		TextOBJ7->ModelDebug("text7");
 		Number->ModelDebug("num");
 
 		particle->Particledebug("white", worldTransformPa);
 		particle2->Particledebug("white2", worldTransformPa2);
 		particle3->Particledebug("white3", worldTransformPa3);
+		ImGui::Begin("Time");
+		ImGui::Text("Time : %f", timer.elapsedSeconds());
+		ImGui::Text("Time : %d", timer.elapsedSecondsOnly());
+		ImGui::Text("Time : %d", timer.elapsedTensOfSeconds());
+		ImGui::Text("Time : %d", timer.elapsedMinutesOnly());
+		ImGui::Text("Time : %d", timer.elapsedTensOfMinutes());
+		
+		if (ImGui::Button("start")) {
+			timer.start();
+		}
+		if (ImGui::Button("stop")) {
+			timer.stop();
+		}
+		
+		ImGui::End();
 		ImGui::Begin("isOnFloor");
-		ImGui::SliderInt("Select Model Index", &selectedIndex1, 0, static_cast<int>(ConeObject_.size()) - 2);
-		ImGui::SliderInt("Select Model Index", &selectedIndex2, 0, static_cast<int>(StarObject_.size()) - 2);
+		ImGui::SliderInt("Select Model Index1", &selectedIndex1, 0, static_cast<int>(ConeObject_.size()) - 2);
+		ImGui::SliderInt("Select Model Index2", &selectedIndex2, 0, static_cast<int>(StarObject_.size()) - 2);
+		ImGui::SliderInt("Select Model Index3", &selectedIndex2, 0, static_cast<int>(TextObject_.size()) - 2);
 		ImGui::Text("starcount: %d", starCount);
 		ImGui::Text("OnFloor : %d", isOnFloor);
 		ImGui::Text("GetStar : %d", isGetStar);
@@ -452,25 +444,20 @@ void DemoScene::Update()
 void DemoScene::Draw()
 {
 
-	for (std::vector<Object3d*>::iterator itr1 = ConeObject_.begin(); itr1 != ConeObject_.end(); itr1++) {
-		if ((*itr1)->isVisible) {
-			(*itr1)->Draw(CONEtextureHandle, camera);
-
+	for (std::vector<Object3d*>::iterator itr = ConeObject_.begin(); itr != ConeObject_.end(); itr++) {
+		if ((*itr)->isVisible) {
+			(*itr)->Draw(CONEtextureHandle, camera);
 		}
 	}
-	for (std::vector<Object3d*>::iterator itr2 = StarObject_.begin(); itr2 != StarObject_.end(); itr2++) {
-		if ((*itr2)->isVisible) {
-			(*itr2)->Draw(STARtextureHandle, camera);
+	for (std::vector<Object3d*>::iterator itr = StarObject_.begin(); itr != StarObject_.end(); itr++) {
+		if ((*itr)->isVisible) {
+			(*itr)->Draw(STARtextureHandle, camera);
 		}
+	}
+	for (std::vector<Object3d*>::iterator itr = TextObject_.begin(); itr != TextObject_.end(); itr++) {
+		(*itr)->Draw(GRIDtextureHandle, camera);
 	}
 	TenQOBJ->Draw(TENQtextureHandle, camera);
-	TextOBJ->Draw(GRIDtextureHandle, camera);
-	TextOBJ2->Draw(GRIDtextureHandle, camera);
-	TextOBJ3->Draw(GRIDtextureHandle, camera);
-	TextOBJ4->Draw(GRIDtextureHandle, camera);
-	TextOBJ5->Draw(GRIDtextureHandle, camera);
-	TextOBJ6->Draw(GRIDtextureHandle, camera);
-	TextOBJ7->Draw(GRIDtextureHandle, camera);
 	Number->Draw(GRIDtextureHandle, camera);
 	particle->Draw(ParticleEmitter_, { worldTransformPa.translation_.x,worldTransformPa.translation_.y,worldTransformPa.translation_.z }, WHITEtextureHandle, camera, demoRandPro, false);
 	particle2->Draw(ParticleEmitter_, { worldTransformPa2.translation_.x,worldTransformPa2.translation_.y,worldTransformPa2.translation_.z }, WHITEtextureHandle, camera, demoRandPro, false);

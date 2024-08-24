@@ -192,6 +192,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\2d\PostEffect\Effect\OutlinePurple.cpp" />
     <ClCompile Include="Engine\2d\PostEffect\Effect\TVEffect.cpp" />
     <ClCompile Include="Game\Scene\STAGE3.cpp" />
+    <ClCompile Include="Game\Utilty\Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\2d\PostEffect\Effect\ChromaticAberration.h" />
@@ -285,6 +286,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\2d\PostEffect\Effect\OutlinePurple.h" />
     <ClInclude Include="Engine\2d\PostEffect\Effect\TVEffect.h" />
     <ClInclude Include="Game\Scene\STAGE3.h" />
+    <ClInclude Include="Game\Utilty\Timer.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".editorconfig" />
