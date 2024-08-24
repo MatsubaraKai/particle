@@ -360,9 +360,14 @@ void TitleScene::Update()
 		playerPos.z <= 20.0f && DemoRoop == false
 		) {
 		TextOBJ7->worldTransform_.translation_.y = Lerp(TextOBJ7->worldTransform_.translation_.y, 1.3f, 0.1f);
+	}else {
+		TextOBJ7->worldTransform_.translation_.y = Lerp(TextOBJ7->worldTransform_.translation_.y, 0.0f, 0.1f);
+	}
+	if (DemoRoop == false) {
+		TextOBJ8->worldTransform_.translation_.y = Lerp(TextOBJ8->worldTransform_.translation_.y, 2.0f, 0.1f);
 	}
 	else {
-		TextOBJ7->worldTransform_.translation_.y = Lerp(TextOBJ7->worldTransform_.translation_.y, 0.0f, 0.1f);
+		TextOBJ8->worldTransform_.translation_.y = Lerp(TextOBJ8->worldTransform_.translation_.y, 0.0f, 0.1f);
 	}
 	if (sceneTime1 == 0) {
 

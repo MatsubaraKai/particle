@@ -73,6 +73,8 @@ void DemoScene::Init()
 	TenQOBJ->SetWorldTransform(TenQTransform);
 
 	camera->transform_.translate = { 0.0f,15.0f,-15.0f };
+	camera->transform_.rotate = { -0.2f, 0.0f, 0.0f };
+
 
 	TextOBJ->worldTransform_.translation_.y = 7.0f;
 	TextOBJ2->worldTransform_.translation_.y = 8.11f;

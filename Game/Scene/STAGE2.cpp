@@ -56,6 +56,8 @@ void STAGE2::Init()
 	TenQOBJ->SetWorldTransform(TenQTransform);
 	TextOBJ->worldTransform_.translation_ = { -17.5f,7.0f,-15.0f };
 	camera->transform_.translate = { 0.0f,15.0f,-15.0f };
+	camera->transform_.rotate = { -0.2f, 0.0f, 0.0f };
+
 
 	Number->worldTransform_.translation_ = { 0.0f,13.0f,84.5f };
 	Number->worldTransform_.scale_ = { 2.0f,2.0f,2.0f };
