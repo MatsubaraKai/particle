@@ -12,7 +12,7 @@
 #include "Fade.h"
 #include "DirectXMath.h"
 #include "Timer.h"
-
+#include "Collider.h"
 
 class TitleScene : public IScene
 {
@@ -34,14 +34,22 @@ private:
 	int sceneTime1 = 0;
 	int selectedIndex1 = 0;
 	int selectedIndex2 = 0;
+	int selectedIndex3 = 0;
+	int indices[4] = { 0, 1, 3, 4 };
+	float Textlerpindices[6] = { 25.0f, 12.5f, 7.5f, 7.5f, 7.5f, 7.5f };
+	float textlerpindices[6] = { 20.0f, 7.5f, 6.5f, 6.5f, 6.5f, 6.5f };
+	Vector3 previousPos[99];
+
 	Camera* camera = nullptr;
 	Input* input = nullptr;
 	Fade* fade = nullptr;
 	Timer timer;
+	Collider* collider = nullptr;
 	Object3d* TenQOBJ = nullptr;
 	std::vector<Object3d*> ConeObject_;
 	std::vector<Object3d*> TitleObject_;
 	std::vector<Object3d*> TitleTextObject_;
+	std::vector<Object3d*> TitleNumberObject_;
 
 	Particle* particle = nullptr;
 	Particle* particle1 = nullptr;

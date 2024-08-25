@@ -106,6 +106,8 @@ int GameManager::Run() {
 		sInput->Update();
 
 		// 追跡するための変数
+#ifdef _DEBUG
+
 		ImGui::PushStyleColor(ImGuiCol_TitleBgActive, ImVec4(0.7f, 0.0f, 0.2f, 0.8f));
 		ImGui::PushStyleColor(ImGuiCol_TitleBg, ImVec4(0.3f, 0.0f, 0.1f, 0.5f));
 		ImGui::Begin("PostEffect", nullptr, ImGuiWindowFlags_MenuBar);
@@ -186,7 +188,7 @@ int GameManager::Run() {
 		ImGui::End();
 		ImGui::PopStyleColor();
 		ImGui::PopStyleColor();
-		
+#endif
 
 		// シーンのチェック
 		prevSceneNo_ = currentSceneNo_;

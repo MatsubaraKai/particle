@@ -26,6 +26,7 @@ void TitleScene::Init()
 
 	ModelManager::GetInstance()->LoadModel("Resources/game", "world.obj");
 	ModelManager::GetInstance()->LoadModel("Resources/game", "world2.obj");
+	ModelManager::GetInstance()->LoadModel("Resources/game/Text", "text7.obj");
 	ModelManager::GetInstance()->LoadModel("Resources/game/Number", "0.obj");
 	ModelManager::GetInstance()->LoadModel("Resources/game/Number", "1.obj");
 	ModelManager::GetInstance()->LoadModel("Resources/game/Number", "2.obj");
@@ -36,13 +37,17 @@ void TitleScene::Init()
 	ModelManager::GetInstance()->LoadModel("Resources/game/Number", "7.obj");
 	ModelManager::GetInstance()->LoadModel("Resources/game/Number", "8.obj");
 	ModelManager::GetInstance()->LoadModel("Resources/game/Number", "9.obj");
+	ModelManager::GetInstance()->LoadModel("Resources/game/Number", "colon.obj");
 
 	if (TitleRoop == false) {
 		Loder::LoadJsonFile2("Resources", "TitleCone", ConeObject_);
 		Loder::LoadJsonFileText("Resources", "TitleText", TitleTextObject_);
+		Loder::LoadJsonFileNumber("Resources", "TitleNumber", TitleNumberObject_);
 		TitleRoop = true;
+	}	
+	for (size_t i = 0; i < ConeObject_.size() - 1; i++) {
+		previousPos[i] = ConeObject_[i]->worldTransform_.translation_;
 	}
-			
 	postProcess_ = new PostProcess();
 	postProcess_->SetCamera(camera);
 	postProcess_->Init();
@@ -83,7 +88,7 @@ void TitleScene::Init()
 		{1.0f,4.0f}
 	};
 	isClear = false;
-
+	
 	ParticleEmitter_.count = 6;
 	ParticleEmitter_.frequency = 0.02f;
 	ParticleEmitter_.frequencyTime = 0.0f;
@@ -101,37 +106,11 @@ void TitleScene::Update()
 {
 	fade->UpdateFade();
 	PSOPostEffect* pSOPostEffect = PSOPostEffect::GatInstance();
+
 	// プレイヤーの座標
 	Vector3 playerPos = camera->transform_.translate;
-	Vector3 particlePos = worldTransformPa.translation_;
-	Vector3 particlePos1 = worldTransformPa1.translation_;
-	Vector3 particlePos2 = worldTransformPa2.translation_;
-	Vector3 particlePos3 = worldTransformPa3.translation_;
-	// パーティクルとカメラの距離を計算
-	float dx = (particlePos.x + 2.5f) - playerPos.x;
-	float dy = (particlePos.y + 4.0f) - playerPos.y;
-	float dz = (particlePos.z + 2.5f) - playerPos.z;
 
-	float dx1 = (particlePos1.x + 2.5f) - playerPos.x;
-	float dy1 = (particlePos1.y + 4.0f) - playerPos.y;
-	float dz1 = (particlePos1.z + 2.5f) - playerPos.z;
-
-	float dx2 = (particlePos2.x + 2.5f) - playerPos.x;
-	float dy2 = (particlePos2.y + 4.0f) - playerPos.y;
-	float dz2 = (particlePos2.z + 2.5f) - playerPos.z;
-
-	float dx3 = (particlePos3.x + 2.5f) - playerPos.x;
-	float dy3 = (particlePos3.y + 4.0f) - playerPos.y;
-	float dz3 = (particlePos3.z + 2.5f) - playerPos.z;
-
-	float distance = std::sqrt(dx * dx + dy * dy + dz * dz);
-	float distance1 = std::sqrt(dx1 * dx1 + dy1 * dy1 + dz1 * dz1);
-	float distance2 = std::sqrt(dx2 * dx2 + dy2 * dy2 + dz2 * dz2);
-	float distance3 = std::sqrt(dx3 * dx3 + dy3 * dy3 + dz3 * dz3);
-	// 衝突判定
-	float collisionDistance = 2.0f; // 任意の衝突距離 (調整可能)
-
-	if (distance < collisionDistance) {
+	if (collider->CheckCollision(camera->transform_.translate, worldTransformPa.translation_, 2.5f, 4.0f, 2.5f, 2.0f)) {
 		// 衝突している
 		isDemo = true;
 		isClear = true;
@@ -139,7 +118,7 @@ void TitleScene::Update()
 	else {
 		isDemo = false;
 	}
-	if (distance1 < collisionDistance) {
+	if (collider->CheckCollision(camera->transform_.translate, worldTransformPa1.translation_, 2.5f, 4.0f, 2.5f, 2.0f)) {
 		// 衝突している
 		isGame = true;
 		isClear = true;
@@ -147,7 +126,7 @@ void TitleScene::Update()
 	else {
 		isGame = false;
 	}
-	if (distance2 < collisionDistance) {
+	if (collider->CheckCollision(camera->transform_.translate, worldTransformPa2.translation_, 2.5f, 4.0f, 2.5f, 2.0f)) {
 		// 衝突している
 		isGame2 = true;
 		isClear = true;
@@ -155,7 +134,7 @@ void TitleScene::Update()
 	else {
 		isGame2 = false;
 	}
-	if (distance3 < collisionDistance) {
+	if (collider->CheckCollision(camera->transform_.translate, worldTransformPa3.translation_, 2.5f, 4.0f, 2.5f, 2.0f)) {
 		// 衝突している
 		isGame3 = true;
 		isClear = true;
@@ -198,16 +177,27 @@ void TitleScene::Update()
 	if (fade->IsFadeOutComplete() && isGame3) {
 		sceneNo = 4;
 	}
-	TenQOBJ->worldTransform_.rotation_.y += 0.0005f;
-	TitleTextObject_[0]->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, TitleTextObject_[0]->worldTransform_.translation_) + 3.14f;
-	TitleTextObject_[1]->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, TitleTextObject_[1]->worldTransform_.translation_) + 3.14f;
-	TitleTextObject_[2]->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, TitleTextObject_[2]->worldTransform_.translation_) + 3.14f;
-	TitleTextObject_[3]->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, TitleTextObject_[3]->worldTransform_.translation_) + 3.14f;
-	TitleTextObject_[4]->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, TitleTextObject_[4]->worldTransform_.translation_) + 3.14f;
-	TitleTextObject_[5]->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, TitleTextObject_[5]->worldTransform_.translation_) + 3.14f;
-	TitleTextObject_[6]->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, TitleTextObject_[6]->worldTransform_.translation_) + 3.14f;
-	TitleTextObject_[7]->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, TitleTextObject_[7]->worldTransform_.translation_) + 3.14f;
 
+	TenQOBJ->worldTransform_.rotation_.y += 0.0005f;
+	
+	//各ステージのクリアタイムのNumModelをSet
+	for (int i = 0; i < 4; ++i) {
+		std::string modelFileName = std::to_string(DemoTime[i]) + ".obj";
+		TitleNumberObject_[indices[i]]->SetModel(modelFileName.c_str());
+		std::string modelFileName1 = std::to_string(SCENE1Time[i]) + ".obj";
+		TitleNumberObject_[indices[i] + 5]->SetModel(modelFileName1.c_str());
+		std::string modelFileName2 = std::to_string(SCENE2Time[i]) + ".obj";
+		TitleNumberObject_[indices[i] + 10]->SetModel(modelFileName2.c_str());
+		std::string modelFileName3 = std::to_string(SCENE3Time[i]) + ".obj";
+		TitleNumberObject_[indices[i] + 15]->SetModel(modelFileName3.c_str());
+	}
+	//各オブジェクトをカメラに向ける
+	for (std::vector<Object3d*>::iterator itr = TitleTextObject_.begin(); itr != TitleTextObject_.end(); itr++) {
+		(*itr)->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, (*itr)->worldTransform_.translation_) + 3.14f;
+	}
+	for (std::vector<Object3d*>::iterator itr = TitleNumberObject_.begin(); itr != TitleNumberObject_.end(); itr++) {
+		(*itr)->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, (*itr)->worldTransform_.translation_) + 3.14f;
+	}
 	// ゲームパッドの状態取得
 	XINPUT_STATE joyState;
 	if (Input::GetInstance()->GetJoystickState(joyState))
@@ -247,12 +237,13 @@ void TitleScene::Update()
 		}
 	}
 	for (size_t i = 0; i < ConeObject_.size() - 1; i++) {
-			float previousFloorHeight = playerPos.y; // 初期化しておく
+		float previousFloorHeight = playerPos.y; // 初期化しておく
 			// オブジェクトの座標とサイズを取得
 			Vector3 floorPos = ConeObject_[i]->worldTransform_.translation_;
 			Vector3 floorSize = ConeObject_[i]->worldTransform_.scale_;
 			std::string label = "JSONmodel" + std::to_string(i);
-
+#ifdef _DEBUG
+			
 			ImGui::Begin("OnFloorDebug");
 			ImGui::Text(label.c_str());
 			ImGui::Text("floor : %f %f %f", floorPos.x, floorPos.y, floorPos.z);
@@ -264,6 +255,7 @@ void TitleScene::Update()
 			ImGui::Text("isOny : %f %f", playerPos.y, abs(floorPos.y + floorSize.y + 3.0f));
 			ImGui::Text("isOnyy : %f", abs(playerPos.y - (floorPos.y + floorSize.y + 3.0f)));
 			ImGui::End();
+#endif
 			// プレイヤーがオブジェクトの上にいるか判定
 			if (playerPos.x >= floorPos.x - floorSize.x &&
 				playerPos.x <= floorPos.x + floorSize.x &&
@@ -271,17 +263,29 @@ void TitleScene::Update()
 				playerPos.z <= floorPos.z + floorSize.z &&
 				playerPos.y >= floorPos.y + floorSize.y - 1.0f &&
 				playerPos.y <= floorPos.y + floorSize.y + 3.0f) {
-
+				
 				// 床の上昇分を計算
 				float floorHeightChange = floorPos.y + floorSize.y - previousFloorHeight;
 				camera->transform_.translate.y = playerPos.y += floorHeightChange + 3.0f;  // プレイヤーの高さを更新
 				previousFloorHeight = floorPos.y + floorSize.y; // 次フレームのために保存
+
+				// x軸、z軸の移動分を計算してプレイヤーに反映
+				Vector3 floorMovement;
+				floorMovement.x = floorPos.x - previousPos[i].x;
+				floorMovement.z = floorPos.z - previousPos[i].z;
+
+				camera->transform_.translate.x += floorMovement.x;
+				camera->transform_.translate.z += floorMovement.z;
+
+				// 現在のオブジェクト位置を次のフレームで使用するため保存
+				previousPos[i] = floorPos;
 
 				isOnFloor = true;
 				break;  // どれかのオブジェクト上にいる場合は判定を終了
 			}
 			else {
 				isOnFloor = false;
+				previousPos[i] = floorPos;
 			}
 	}
 
@@ -289,6 +293,9 @@ void TitleScene::Update()
 		(*itr)->Update();
 	}
 	for (std::vector<Object3d*>::iterator itr = TitleTextObject_.begin(); itr != TitleTextObject_.end(); itr++) {
+		(*itr)->Update();
+	}
+	for (std::vector<Object3d*>::iterator itr = TitleNumberObject_.begin(); itr != TitleNumberObject_.end(); itr++) {
 		(*itr)->Update();
 	}
 	if (isClear == false) {
@@ -322,35 +329,42 @@ void TitleScene::Update()
 
 	}
 	if (sceneTime1 < 180) {
-		TitleTextObject_[0]->worldTransform_.translation_.y = Lerp(TitleTextObject_[0]->worldTransform_.translation_.y, 25.0f, 0.01f);
-		TitleTextObject_[1]->worldTransform_.translation_.y = Lerp(TitleTextObject_[1]->worldTransform_.translation_.y, 12.5f, 0.01f);
-		TitleTextObject_[2]->worldTransform_.translation_.y = Lerp(TitleTextObject_[2]->worldTransform_.translation_.y, 7.5f, 0.01f);
-		TitleTextObject_[3]->worldTransform_.translation_.y = Lerp(TitleTextObject_[3]->worldTransform_.translation_.y, 7.5f, 0.01f);
-		TitleTextObject_[4]->worldTransform_.translation_.y = Lerp(TitleTextObject_[4]->worldTransform_.translation_.y, 7.5f, 0.01f);
-		TitleTextObject_[5]->worldTransform_.translation_.y = Lerp(TitleTextObject_[5]->worldTransform_.translation_.y, 7.5f, 0.01f);
-
+		ConeObject_[17]->worldTransform_.translation_.y = Lerp(ConeObject_[17]->worldTransform_.translation_.y, 60.0f, 0.03f);
+		ConeObject_[18]->worldTransform_.translation_.x = Lerp(ConeObject_[18]->worldTransform_.translation_.x, 55.0f, 0.03f);
+		for (int i = 0; i < 6; i++) {
+			TitleTextObject_[i]->worldTransform_.translation_.y = Lerp(TitleTextObject_[i]->worldTransform_.translation_.y, Textlerpindices[i], 0.01f);
+		}
+		for (std::vector<Object3d*>::iterator itr = TitleNumberObject_.begin(); itr != TitleNumberObject_.end(); itr++) {
+			(*itr)->worldTransform_.translation_.y = Lerp((*itr)->worldTransform_.translation_.y, 8.5f, 0.01f);
+		}
 	}
 	if (sceneTime1 > 180 && sceneTime1 < 360) {
-		TitleTextObject_[0]->worldTransform_.translation_.y = Lerp(TitleTextObject_[0]->worldTransform_.translation_.y, 20.0f, 0.01f);
-		TitleTextObject_[1]->worldTransform_.translation_.y = Lerp(TitleTextObject_[1]->worldTransform_.translation_.y, 7.5f, 0.01f);
-		TitleTextObject_[2]->worldTransform_.translation_.y = Lerp(TitleTextObject_[2]->worldTransform_.translation_.y, 6.5f, 0.01f);
-		TitleTextObject_[3]->worldTransform_.translation_.y = Lerp(TitleTextObject_[3]->worldTransform_.translation_.y, 6.5f, 0.01f);
-		TitleTextObject_[4]->worldTransform_.translation_.y = Lerp(TitleTextObject_[4]->worldTransform_.translation_.y, 6.5f, 0.01f);
-		TitleTextObject_[5]->worldTransform_.translation_.y = Lerp(TitleTextObject_[5]->worldTransform_.translation_.y, 6.5f, 0.01f);
+		ConeObject_[17]->worldTransform_.translation_.y = Lerp(ConeObject_[17]->worldTransform_.translation_.y, -4.0f, 0.03f);
+		ConeObject_[18]->worldTransform_.translation_.x = Lerp(ConeObject_[18]->worldTransform_.translation_.x, -50.0f, 0.03f);
 
+		for (int i = 0; i < 6; i++) {
+			TitleTextObject_[i]->worldTransform_.translation_.y = Lerp(TitleTextObject_[i]->worldTransform_.translation_.y, textlerpindices[i], 0.01f);
+		}
+		for (std::vector<Object3d*>::iterator itr = TitleNumberObject_.begin(); itr != TitleNumberObject_.end(); itr++) {
+			(*itr)->worldTransform_.translation_.y = Lerp((*itr)->worldTransform_.translation_.y, 7.5f, 0.01f);
+		}
 	}
+
 	if (effectFlag == true) {
 		sceneTime++;
 	}
 	sceneTime1++;
 	///////////////Debug///////////////
+#ifdef _DEBUG
 
 	camera->CameraDebug();
 	// 選択されたインデックスに応じたモデルのデバッグを実行
 	std::string label1 = "JSONConemodel" + std::to_string(selectedIndex1);
 	std::string label2 = "JSONTextmodel" + std::to_string(selectedIndex2);
+	std::string label3 = "JSONNumbermodel" + std::to_string(selectedIndex3);
 	ConeObject_[selectedIndex1]->ModelDebug(label1.c_str());
 	TitleTextObject_[selectedIndex2]->ModelDebug(label2.c_str());
+	TitleNumberObject_[selectedIndex3]->ModelDebug(label3.c_str());
 
 	TenQOBJ->ModelDebug("TenQ");
 
@@ -376,6 +390,7 @@ void TitleScene::Update()
 	ImGui::Begin("isOnFloor");
 	ImGui::SliderInt("Select Model Index1", &selectedIndex1, 0, static_cast<int>(ConeObject_.size()) - 2);
 	ImGui::SliderInt("Select Model Index2", &selectedIndex2, 0, static_cast<int>(TitleTextObject_.size()) - 2);
+	ImGui::SliderInt("Select Model Index3", &selectedIndex3, 0, static_cast<int>(TitleNumberObject_.size()) - 2);
 	ImGui::Text("OnFloor : %d", isOnFloor);
 	ImGui::Text("Player Pos : %f %f %f", playerPos.x, playerPos.y, playerPos.z);
 	ImGui::End();
@@ -406,20 +421,22 @@ void TitleScene::Update()
 	ImGui::Text("Now Scene : %d", sceneNo);
 	ImGui::Text("roop : %d", TitleRoop);
 	ImGui::End();
-	
+#endif
 }
 void TitleScene::Draw()
 {
 	for (std::vector<Object3d*>::iterator itr = ConeObject_.begin(); itr != ConeObject_.end(); itr++) {
 		if ((*itr)->isVisible) {
 			(*itr)->Draw(CONEtextureHandle, camera);
-
 		}
 	}
 	for (std::vector<Object3d*>::iterator itr = TitleTextObject_.begin(); itr != TitleTextObject_.end(); itr++) {
 		(*itr)->Draw(GRIDtextureHandle, camera);
 		TitleTextObject_[0]->Draw(BLUEtextureHandle, camera);
 		TitleTextObject_[1]->Draw(BLUEtextureHandle, camera);
+	}
+	for (std::vector<Object3d*>::iterator itr = TitleNumberObject_.begin(); itr != TitleNumberObject_.end(); itr++) {
+		(*itr)->Draw(GRIDtextureHandle, camera);
 	}
 	TenQOBJ->Draw(TENQtextureHandle, camera);
 

@@ -10,9 +10,9 @@
 #include "PostProcess.h"
 #include "Transform.h"
 #include "Fade.h"
-#include "Skybox.h"
 #include "DirectXMath.h"
 #include "Timer.h"
+#include "Collider.h"
 class DemoScene : public IScene
 {
 public:
@@ -34,10 +34,13 @@ private:
 	int selectedIndex1 = 0;
 	int selectedIndex2 = 0;
 	int selectedIndex3 = 0;
+	Vector3 previousPos[99];
+
 	Camera* camera = nullptr;
 	Input* input = nullptr;
 	Fade *fade = nullptr;
 	Timer timer;
+	Collider* collider = nullptr;
 
 	std::vector<Object3d*> ConeObject_;
 	std::vector<Object3d*> StarObject_;

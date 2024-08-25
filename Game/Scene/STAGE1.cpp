@@ -26,6 +26,9 @@ void STAGE1::Init()
 		Loder::LoadJsonFile2("Resources", "GameStar", StarObject_);
 		GameRoop = true;
 	}
+	for (size_t i = 0; i < ConeObject_.size() - 1; i++) {
+		previousPos[i] = ConeObject_[i]->worldTransform_.translation_;
+	}
 	for (size_t i = 0; i < StarObject_.size() - 1; i++) {
 		StarObject_[i]->isVisible = true;
 	}
@@ -38,14 +41,14 @@ void STAGE1::Init()
 	TextOBJ->Init();
 	Number = new Object3d();
 	Number->Init();
-	starCount = 2;
+	starCount = 3;
 	isFadeInStarted = false;
 
 	worldTransformPa.Initialize();
 	worldTransformPa2.Initialize();
 	TenQTransform.Initialize();
 
-	worldTransformPa.translation_ = { -2.5f,7.5f,82.0f };
+	worldTransformPa.translation_ = { -2.5f,52.5f,265.0f };
 	worldTransformPa2.translation_ = { -20.0f,1.5f,-17.5f };
 
 	TenQTransform.translation_.y = 370.0f;
@@ -59,7 +62,7 @@ void STAGE1::Init()
 	camera->transform_.rotate = { -0.2f, 0.0f, 0.0f };
 
 
-	Number->worldTransform_.translation_ = { 0.0f,13.0f,84.5f };
+	Number->worldTransform_.translation_ = { 0.0f,58.0f,267.5f };
 	Number->worldTransform_.scale_ = { 2.0f,2.0f,2.0f };
 	TenQOBJ->SetModel("world2.obj");
 	TextOBJ->SetModel("text7.obj");
@@ -80,7 +83,8 @@ void STAGE1::Init()
 	fade = new Fade();
 	fade->Init(FADEtextureHandle);
 	fade->StartFadeOut();
-	
+	timer.start();
+
 }
 
 void STAGE1::Update()
@@ -91,31 +95,31 @@ void STAGE1::Update()
 	std::string modelFileName = std::to_string(starCount) + ".obj";
 	Number->SetModel(modelFileName.c_str());
 	Vector3 playerPos = camera->transform_.translate;
-	Vector3 particlePos = worldTransformPa.translation_;
-	Vector3 particlePos2 = worldTransformPa2.translation_;
-	// パーティクルとカメラの距離を計算
-	float dx = (particlePos.x + 2.5f) - playerPos.x;
-	float dy = (particlePos.y + 4.0f) - playerPos.y;
-	float dz = (particlePos.z + 2.5f) - playerPos.z;
 
-	float dx2 = (particlePos2.x + 2.5f) - playerPos.x;
-	float dy2 = (particlePos2.y + 4.0f) - playerPos.y;
-	float dz2 = (particlePos2.z + 2.5f) - playerPos.z;
-
-	float distance = std::sqrt(dx * dx + dy * dy + dz * dz);
-	float distance2 = std::sqrt(dx2 * dx2 + dy2 * dy2 + dz2 * dz2);
-	// 衝突判定
-	float collisionDistance = 2.0f; // 任意の衝突距離 (調整可能)
-
-	if (distance < collisionDistance && starCount == 0) {
+	if (collider->CheckCollision(camera->transform_.translate, worldTransformPa.translation_, 2.5f, 4.0f, 2.5f, 2.0f) && starCount == 0) {
 		// 衝突している
+		if (SCENE1Time[4] == 0) {//最初は0なので一回通す
+			SCENE1Time[0] = timer.elapsedTensOfMinutes();
+			SCENE1Time[1] = timer.elapsedMinutesOnly();
+			SCENE1Time[2] = timer.elapsedTensOfSeconds();
+			SCENE1Time[3] = timer.elapsedSecondsOnly();
+			SCENE1Time[4] = static_cast<int>(timer.elapsedSeconds());
+		}
+		if (static_cast<int>(timer.elapsedSeconds()) < SCENE1Time[4]) {//前回の記録より早かったら記録
+			SCENE1Time[0] = timer.elapsedTensOfMinutes();
+			SCENE1Time[1] = timer.elapsedMinutesOnly();
+			SCENE1Time[2] = timer.elapsedTensOfSeconds();
+			SCENE1Time[3] = timer.elapsedSecondsOnly();
+			SCENE1Time[4] = static_cast<int>(timer.elapsedSeconds());
+		}
+		timer.stop();//タイマー止める
 		isClear = true;
 	}
 	else {
 		isClear = false;
 
 	}
-	if (distance2 < collisionDistance) {
+	if (collider->CheckCollision(camera->transform_.translate, worldTransformPa2.translation_, 2.5f, 4.0f, 2.5f, 2.0f)) {
 		// 衝突している
 		isTitle = true;
 		isClear = true;
@@ -215,6 +219,7 @@ void STAGE1::Update()
 			Vector3 floorPos = ConeObject_[i]->worldTransform_.translation_;
 			Vector3 floorSize = ConeObject_[i]->worldTransform_.scale_;
 			std::string label = "JSONmodel" + std::to_string(i);
+#ifdef _DEBUG
 
 			ImGui::Begin("OnFloorDebug");
 			ImGui::Text(label.c_str());
@@ -227,6 +232,7 @@ void STAGE1::Update()
 			ImGui::Text("isOny : %f %f", playerPos.y, abs(floorPos.y + floorSize.y + 3.0f));
 			ImGui::Text("isOnyy : %f", abs(playerPos.y - (floorPos.y + floorSize.y + 3.0f)));
 			ImGui::End();
+#endif
 			// プレイヤーがオブジェクトの上にいるか判定
 			if (playerPos.x >= floorPos.x - floorSize.x &&
 				playerPos.x <= floorPos.x + floorSize.x &&
@@ -240,11 +246,24 @@ void STAGE1::Update()
 				camera->transform_.translate.y = playerPos.y += floorHeightChange + 3.0f;  // プレイヤーの高さを更新
 				previousFloorHeight = floorPos.y + floorSize.y; // 次フレームのために保存
 
+				// x軸、z軸の移動分を計算してプレイヤーに反映
+				Vector3 floorMovement;
+				floorMovement.x = floorPos.x - previousPos[i].x;
+				floorMovement.z = floorPos.z - previousPos[i].z;
+
+				camera->transform_.translate.x += floorMovement.x;
+				camera->transform_.translate.z += floorMovement.z;
+
+				// 現在のオブジェクト位置を次のフレームで使用するため保存
+				previousPos[i] = floorPos;
+
 				isOnFloor = true;
 				break;  // どれかのオブジェクト上にいる場合は判定を終了
 			}
 			else {
 				isOnFloor = false;
+				previousPos[i] = floorPos;
+
 			}
 	}
 
@@ -307,18 +326,36 @@ void STAGE1::Update()
 	}
 	if (sceneTime1 < 180) {
 		TextOBJ->worldTransform_.translation_.y = Lerp(TextOBJ->worldTransform_.translation_.y, 7.5f, 0.01f);
+		for (int i = 1; i < 8; i++) {
+			ConeObject_[i]->worldTransform_.translation_.z = Lerp(ConeObject_[i]->worldTransform_.translation_.z, Conelerpindices[i - 1], 0.02f);
+		}
+		for (int i = 9; i < 13; i++) {
+			ConeObject_[i]->worldTransform_.rotation_.y = Lerp(ConeObject_[i]->worldTransform_.rotation_.y, Conelerpindices2[i - 9], 0.01f);
+		}
+		ConeObject_[8]->worldTransform_.translation_.y = Lerp(ConeObject_[8]->worldTransform_.translation_.y, 50.0f, 0.02f);
+	
 
 	}
 	if (sceneTime1 > 180 && sceneTime1 < 360) {
 		TextOBJ->worldTransform_.translation_.y = Lerp(TextOBJ->worldTransform_.translation_.y, 6.5f, 0.01f);
+		for (int i = 1; i < 8; i++) {
+			ConeObject_[i]->worldTransform_.translation_.z = Lerp(ConeObject_[i]->worldTransform_.translation_.z, conelerpindices[i - 1], 0.02f);
+		}
+		for (int i = 9; i < 13; i++) {
+			ConeObject_[i]->worldTransform_.rotation_.y = Lerp(ConeObject_[i]->worldTransform_.rotation_.y, conelerpindices2[i - 9], 0.01f);
+		}
+		ConeObject_[8]->worldTransform_.translation_.y = Lerp(ConeObject_[8]->worldTransform_.translation_.y, -6.0f, 0.02f);
+	
+
 
 	}
+	
 	if (effectFlag == true) {
 		sceneTime++;
 	}
 	sceneTime1++;
 	///////////////Debug///////////////
-
+#ifdef _DEBUG
 	camera->CameraDebug();
 	// 選択されたインデックスに応じたモデルのデバッグを実行
 	std::string label1 = "JSONConemodel" + std::to_string(selectedIndex1);
@@ -332,9 +369,24 @@ void STAGE1::Update()
 
 	particle->Particledebug("white", worldTransformPa);
 	particle2->Particledebug("white2", worldTransformPa2);
+	ImGui::Begin("Time");
+	ImGui::Text("Time : %f", timer.elapsedSeconds());
+	ImGui::Text("Time : %d", timer.elapsedSecondsOnly());
+	ImGui::Text("Time : %d", timer.elapsedTensOfSeconds());
+	ImGui::Text("Time : %d", timer.elapsedMinutesOnly());
+	ImGui::Text("Time : %d", timer.elapsedTensOfMinutes());
+
+	if (ImGui::Button("start")) {
+		timer.start();
+	}
+	if (ImGui::Button("stop")) {
+		timer.stop();
+	}
+
+	ImGui::End();
 	ImGui::Begin("isOnFloor");
-	ImGui::SliderInt("Select Model Index", &selectedIndex1, 0, static_cast<int>(ConeObject_.size()) - 2);
-	ImGui::SliderInt("Select Model Index", &selectedIndex2, 0, static_cast<int>(StarObject_.size()) - 2);
+	ImGui::SliderInt("Select Model Index1", &selectedIndex1, 0, static_cast<int>(ConeObject_.size()) - 2);
+	ImGui::SliderInt("Select Model Index2", &selectedIndex2, 0, static_cast<int>(StarObject_.size()) - 2);
 	ImGui::Text("starcount: %d", starCount);
 	ImGui::Text("OnFloor : %d", isOnFloor);
 	ImGui::Text("GetStar : %d", isGetStar);
@@ -367,6 +419,7 @@ void STAGE1::Update()
 	ImGui::Text("Now Scene : %d", sceneNo);
 	ImGui::Text("roop : %d", GameRoop);
 	ImGui::End();
+#endif
 }
 void STAGE1::Draw()
 {

@@ -11,6 +11,8 @@
 #include "PostProcess.h"
 #include "Fade.h"
 #include "GameManager.h"
+#include "Timer.h"
+#include "Collider.h"
 
 class STAGE3 : public IScene
 {
@@ -32,9 +34,14 @@ private:
 	int sceneTime1 = 0;
 	int selectedIndex1 = 0;
 	int selectedIndex2 = 0;
+	Vector3 previousPos[99];
+
 	Camera* camera = nullptr;
 	Input* input = nullptr;
 	Fade* fade = nullptr;
+	Timer timer;
+	Collider* collider = nullptr;
+
 
 	std::vector<Object3d*> ConeObject_;
 	std::vector<Object3d*> StarObject_;

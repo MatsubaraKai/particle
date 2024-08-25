@@ -26,6 +26,8 @@ public:
 	// 衝突マスク（相手）を設定
 	void SetCollisionMask(uint32_t CollisionMask);
 
+	bool CheckCollision(const Vector3& playerPos, const Vector3& objectPos, float offsetX, float offsetY, float offsetZ, float collisionDistance);
+
 private:
 	// 衝突半径
 	int radius_ = 2;

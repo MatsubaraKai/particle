@@ -11,6 +11,8 @@
 #include "PostProcess.h"
 #include "Fade.h"
 #include "DirectXMath.h"
+#include "Timer.h"
+#include "Collider.h"
 
 class STAGE1 :public IScene
 {
@@ -32,9 +34,20 @@ private:
 	int sceneTime1 = 0;
 	int selectedIndex1 = 0;
 	int selectedIndex2 = 0;
+	int indices[4] = { 0, 1, 3, 4 };
+	float Conelerpindices[7] = {4.0f,84.0f,84.0f,164.0f,164.0f,84.0f,164.0f};
+	float conelerpindices[7] = {44.0f,44.0f,124.0f,124.0f,204.0f,44.0f,124.0f};
+	float Conelerpindices2[4] = { 3.0f,-3.0f,-3.0f,-3.0f };
+	float conelerpindices2[4] = { -3.0f,3.0f,3.0f,3.0f, };
+
+	Vector3 previousPos[99];
+
 	Camera* camera = nullptr;
 	Input* input = nullptr;
 	Fade* fade = nullptr;
+	Timer timer;
+	Collider* collider = nullptr;
+
 
 	std::vector<Object3d*> ConeObject_;
 	std::vector<Object3d*> StarObject_;
