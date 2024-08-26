@@ -52,7 +52,7 @@ private:
 	Matrix4x4 viewProjectionMatrix_;
 	float asepectRatio_ = float(WinAPI::kClientWidth_) / float(WinAPI::kClientHeight_);
 	float nearClip_ = 0.1f;
-	float farClip_ = 1000.0f;
+	float farClip_ = 10000.0f;
 	//Move
 	const float Gravity = -0.01f;
 	const float GroundLevel = 3.0f;

@@ -24,6 +24,6 @@ Microsoft::WRL::ComPtr <ID3D12Resource> Mesh::CreateBufferResource(Microsoft::WR
 		&resourceDesc, D3D12_RESOURCE_STATE_GENERIC_READ, nullptr,
 		IID_PPV_ARGS(&resource));
 	assert(SUCCEEDED(hr));
-	resource->SetName(L"aaaaaaa");
+	resource->SetName(L"Resources/game/cone.png");
 	return resource;
 };

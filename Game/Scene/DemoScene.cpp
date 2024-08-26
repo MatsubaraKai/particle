@@ -56,11 +56,11 @@ void DemoScene::Init()
 	worldTransformPa2.translation_ = { -2.5f,7.5f,82.0f };
 	worldTransformPa3.translation_ = { -20.0f,1.5f,-17.5f };
 
-	TenQTransform.translation_.y = 370.0f;
-	TenQTransform.translation_.z = 270.0f;
-	TenQTransform.scale_.x = -2.0f;
-	TenQTransform.scale_.y = 2.0f;
-	TenQTransform.scale_.z = 2.0f;
+	TenQTransform.translation_.y = 2200.0f;
+	TenQTransform.translation_.z = 700.0f;
+	TenQTransform.scale_.x = -10.0f;
+	TenQTransform.scale_.y = 10.0f;
+	TenQTransform.scale_.z = 10.0f;
 	TenQOBJ->SetWorldTransform(TenQTransform);
 
 	camera->transform_.translate = { 0.0f,15.0f,-15.0f };
@@ -168,8 +168,8 @@ void DemoScene::Update()
 	Number->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, Number->worldTransform_.translation_) + 3.14f;
 	TenQOBJ->worldTransform_.rotation_.x += 0.001f;
 	TenQOBJ->worldTransform_.translation_.x = Lerp(TenQOBJ->worldTransform_.translation_.x, camera->transform_.translate.x, 0.005f);
-	TenQOBJ->worldTransform_.translation_.y = Lerp(TenQOBJ->worldTransform_.translation_.y, camera->transform_.translate.y + 370.0f, 0.005f);
-	TenQOBJ->worldTransform_.translation_.z = Lerp(TenQOBJ->worldTransform_.translation_.z, camera->transform_.translate.z + 270.0f, 0.05f);
+	TenQOBJ->worldTransform_.translation_.y = Lerp(TenQOBJ->worldTransform_.translation_.y, camera->transform_.translate.y + 2200.0f, 0.005f);
+	TenQOBJ->worldTransform_.translation_.z = Lerp(TenQOBJ->worldTransform_.translation_.z, camera->transform_.translate.z + 700.0f, 0.05f);
 
 	 // ゲームパッドの状態取得
 	XINPUT_STATE joyState;
