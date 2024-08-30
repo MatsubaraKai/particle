@@ -48,7 +48,7 @@ void STAGE1::Init()
 	worldTransformPa2.Initialize();
 	TenQTransform.Initialize();
 
-	worldTransformPa.translation_ = { -2.5f,52.5f,265.0f };
+	worldTransformPa.translation_ = { -2.5f,55.5f,220.0f };
 	worldTransformPa2.translation_ = { -20.0f,1.5f,-17.5f };
 
 	TenQTransform.translation_.y = 2200.0f;
@@ -62,7 +62,7 @@ void STAGE1::Init()
 	camera->transform_.rotate = { -0.2f, 0.0f, 0.0f };
 
 
-	Number->worldTransform_.translation_ = { 0.0f,58.0f,267.5f };
+	Number->worldTransform_.translation_ = { 0.0f,61.0f,222.5f };
 	Number->worldTransform_.scale_ = { 2.0f,2.0f,2.0f };
 	TenQOBJ->SetModel("world2.obj");
 	TextOBJ->SetModel("text7.obj");
@@ -158,10 +158,7 @@ void STAGE1::Update()
 	Number->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, Number->worldTransform_.translation_) + 3.14f;
 	TextOBJ->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, TextOBJ->worldTransform_.translation_) + 3.14f;
 	TenQOBJ->worldTransform_.rotation_.x += 0.001f;
-	TenQOBJ->worldTransform_.translation_.x = Lerp(TenQOBJ->worldTransform_.translation_.x, camera->transform_.translate.x, 0.005f);
-	TenQOBJ->worldTransform_.translation_.y = Lerp(TenQOBJ->worldTransform_.translation_.y, camera->transform_.translate.y + 2200.0f, 0.005f);
-	TenQOBJ->worldTransform_.translation_.z = Lerp(TenQOBJ->worldTransform_.translation_.z, camera->transform_.translate.z + 700.0f, 0.05f);
-
+	
 	// ゲームパッドの状態取得
 	XINPUT_STATE joyState;
 	if (Input::GetInstance()->GetJoystickState(joyState))
@@ -326,27 +323,17 @@ void STAGE1::Update()
 	}
 	if (sceneTime1 < 180) {
 		TextOBJ->worldTransform_.translation_.y = Lerp(TextOBJ->worldTransform_.translation_.y, 7.5f, 0.01f);
-		for (int i = 1; i < 8; i++) {
-			ConeObject_[i]->worldTransform_.translation_.z = Lerp(ConeObject_[i]->worldTransform_.translation_.z, Conelerpindices[i - 1], 0.02f);
-		}
-		for (int i = 9; i < 13; i++) {
-			ConeObject_[i]->worldTransform_.rotation_.y = Lerp(ConeObject_[i]->worldTransform_.rotation_.y, Conelerpindices2[i - 9], 0.01f);
-		}
-		ConeObject_[8]->worldTransform_.translation_.y = Lerp(ConeObject_[8]->worldTransform_.translation_.y, 50.0f, 0.02f);
-	
-
+		ConeObject_[1]->worldTransform_.translation_.z = Lerp(ConeObject_[1]->worldTransform_.translation_.z, 0.0f, 0.018f);
+		ConeObject_[3]->worldTransform_.translation_.y = Lerp(ConeObject_[3]->worldTransform_.translation_.y, -7.0f, 0.018f);
+		StarObject_[1]->worldTransform_.translation_.y = Lerp(StarObject_[1]->worldTransform_.translation_.y, 1.0f, 0.018f);
 	}
 	if (sceneTime1 > 180 && sceneTime1 < 360) {
 		TextOBJ->worldTransform_.translation_.y = Lerp(TextOBJ->worldTransform_.translation_.y, 6.5f, 0.01f);
-		for (int i = 1; i < 8; i++) {
-			ConeObject_[i]->worldTransform_.translation_.z = Lerp(ConeObject_[i]->worldTransform_.translation_.z, conelerpindices[i - 1], 0.02f);
-		}
-		for (int i = 9; i < 13; i++) {
-			ConeObject_[i]->worldTransform_.rotation_.y = Lerp(ConeObject_[i]->worldTransform_.rotation_.y, conelerpindices2[i - 9], 0.01f);
-		}
-		ConeObject_[8]->worldTransform_.translation_.y = Lerp(ConeObject_[8]->worldTransform_.translation_.y, -6.0f, 0.02f);
-	
+		ConeObject_[1]->worldTransform_.translation_.z = Lerp(ConeObject_[1]->worldTransform_.translation_.z, 100.0f, 0.018f);
+		ConeObject_[3]->worldTransform_.translation_.y = Lerp(ConeObject_[3]->worldTransform_.translation_.y, 55.0f, 0.018f);
+		StarObject_[1]->worldTransform_.translation_.y = Lerp(StarObject_[1]->worldTransform_.translation_.y, 63.0f, 0.018f);
 
+	
 
 	}
 	

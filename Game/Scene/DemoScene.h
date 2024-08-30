@@ -13,6 +13,7 @@
 #include "DirectXMath.h"
 #include "Timer.h"
 #include "Collider.h"
+#include "Audio.h"
 class DemoScene : public IScene
 {
 public:
@@ -34,12 +35,16 @@ private:
 	int selectedIndex1 = 0;
 	int selectedIndex2 = 0;
 	int selectedIndex3 = 0;
+	int indices[6] = { 0, 1, 2, 3, 4, 6};
+	float Textlerpindices[6] = { 8.00f,8.61f,4.5f,4.5f,0.5f,7.5f };
+	float textlerpindices[6] = { 6.00f,7.61f,3.5f,3.5f,-0.5f,6.5f };
 	Vector3 previousPos[99];
 
 	Camera* camera = nullptr;
 	Input* input = nullptr;
 	Fade *fade = nullptr;
 	Timer timer;
+	Audio* audio = nullptr;
 	Collider* collider = nullptr;
 
 	std::vector<Object3d*> ConeObject_;
@@ -55,13 +60,11 @@ private:
 	PostProcess* postProcess_ = nullptr;
 	//変数
 	uint32_t FADEtextureHandle;
-	uint32_t UVtextureHandle;
 	uint32_t WHITEtextureHandle;
 	uint32_t BLUEtextureHandle;
 	uint32_t CONEtextureHandle;
 	uint32_t TENQtextureHandle;
 	uint32_t GRIDtextureHandle;
-	uint32_t SKYtextureHandle;
 	uint32_t STARtextureHandle;
 	
 	Emitter ParticleEmitter_;

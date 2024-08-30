@@ -190,7 +190,7 @@ void Camera::HandleGamepadJump(bool isOnFloor)
     XINPUT_STATE joyState;
     if (Input::GetInstance()->GetJoystickState(joyState))
     {
-        if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A && isOnFloor && !isJumping)
+        if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A && isOnFloor && !isJumping || joyState.Gamepad.wButtons & XINPUT_GAMEPAD_LEFT_SHOULDER && isOnFloor && !isJumping)
         {
             // 地面にいるときのみジャンプを許可
             isJumping = true;

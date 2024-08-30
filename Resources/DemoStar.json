@@ -6,9 +6,9 @@
             "name": "1",
             "transform": {
                 "translation": [
-                    28.0,
+                    0.0,
                     15.0,
-                    6.0
+                    5.0
                 ],
                 "rotation": [
                     -0.0,
@@ -31,7 +31,7 @@
                 "translation": [
                     0.0,
                     60.0,
-                    9.0
+                    5.0
                 ],
                 "rotation": [
                     -0.0,

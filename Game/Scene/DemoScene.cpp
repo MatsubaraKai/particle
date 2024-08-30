@@ -13,7 +13,6 @@ void DemoScene::Init()
 	camera = new Camera;
 	camera->Initialize();
 	input = Input::GetInstance();
-	UVtextureHandle = TextureManager::StoreTexture("Resources/uvChecker.png");
 	WHITEtextureHandle = TextureManager::StoreTexture("Resources/white.png");
 	BLUEtextureHandle = TextureManager::StoreTexture("Resources/blue.png");
 	CONEtextureHandle = TextureManager::StoreTexture("Resources/game/cone.png");
@@ -21,7 +20,6 @@ void DemoScene::Init()
 	FADEtextureHandle = TextureManager::StoreTexture("Resources/black.png");
 	GRIDtextureHandle = TextureManager::StoreTexture("Resources/cian.png");
 	STARtextureHandle = TextureManager::StoreTexture("Resources/game/star.png");
-	SKYtextureHandle = TextureManager::StoreTexture("Resources/game/rostock_laage_airport_4k.dds");
 	
 	if (DemoRoop == false) {
 		Loder::LoadJsonFile2("Resources", "DemoCone", ConeObject_);
@@ -51,9 +49,11 @@ void DemoScene::Init()
 	worldTransformPa2.Initialize();
 	worldTransformPa3.Initialize();
 	TenQTransform.Initialize();
-
+	//demo
 	worldTransformPa.translation_ = { -2.5f,1.5f,-32.35f };
-	worldTransformPa2.translation_ = { -2.5f,7.5f,82.0f };
+	//end
+	worldTransformPa2.translation_ = { -2.5f,2.5f,82.0f };
+	//buck
 	worldTransformPa3.translation_ = { -20.0f,1.5f,-17.5f };
 
 	TenQTransform.translation_.y = 2200.0f;
@@ -66,7 +66,7 @@ void DemoScene::Init()
 	camera->transform_.translate = { 0.0f,15.0f,-15.0f };
 	camera->transform_.rotate = { -0.2f, 0.0f, 0.0f };
 	
-	Number->worldTransform_.translation_ = { 0.0f,13.0f,84.5f };
+	Number->worldTransform_.translation_ = { 0.0f,8.0f,84.5f };
 	Number->worldTransform_.scale_ = { 2.0f,2.0f,2.0f };
 
 	TenQOBJ->SetModel("world2.obj");
@@ -167,10 +167,6 @@ void DemoScene::Update()
 	}
 	Number->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, Number->worldTransform_.translation_) + 3.14f;
 	TenQOBJ->worldTransform_.rotation_.x += 0.001f;
-	TenQOBJ->worldTransform_.translation_.x = Lerp(TenQOBJ->worldTransform_.translation_.x, camera->transform_.translate.x, 0.005f);
-	TenQOBJ->worldTransform_.translation_.y = Lerp(TenQOBJ->worldTransform_.translation_.y, camera->transform_.translate.y + 2200.0f, 0.005f);
-	TenQOBJ->worldTransform_.translation_.z = Lerp(TenQOBJ->worldTransform_.translation_.z, camera->transform_.translate.z + 700.0f, 0.05f);
-
 	 // ゲームパッドの状態取得
 	XINPUT_STATE joyState;
 	if (Input::GetInstance()->GetJoystickState(joyState))
@@ -338,31 +334,21 @@ void DemoScene::Update()
 		ConeObject_[2]->worldTransform_.rotation_.y -= 0.01f;
 		ConeObject_[2]->worldTransform_.rotation_.z -= 0.01f;
 		if (sceneTime1 == 0) {
-			ConeObject_[4]->worldTransform_.scale_.x = 5.00f;
-			ConeObject_[4]->worldTransform_.scale_.z = 5.00f;
+		
 		}
 		if (sceneTime1 < 180) {
-			ConeObject_[4]->worldTransform_.scale_.x += 0.06f;
-			ConeObject_[4]->worldTransform_.scale_.z += 0.02f;
-			ConeObject_[6]->worldTransform_.translation_.y = Lerp(ConeObject_[6]->worldTransform_.translation_.y, 30.0f, 0.1f);
-			TextObject_[0]->worldTransform_.translation_.y = Lerp(TextObject_[0]->worldTransform_.translation_.y, 8.00f, 0.01f);
-			TextObject_[1]->worldTransform_.translation_.y = Lerp(TextObject_[1]->worldTransform_.translation_.y, 8.61f, 0.01f);
-			TextObject_[2]->worldTransform_.translation_.y = Lerp(TextObject_[2]->worldTransform_.translation_.y, 4.5f, 0.01f);
-			TextObject_[3]->worldTransform_.translation_.y = Lerp(TextObject_[3]->worldTransform_.translation_.y, 4.5f, 0.01f);
-			TextObject_[4]->worldTransform_.translation_.y = Lerp(TextObject_[4]->worldTransform_.translation_.y, 0.5f, 0.01f);
-			TextObject_[6]->worldTransform_.translation_.y = Lerp(TextObject_[6]->worldTransform_.translation_.y, 7.5f, 0.01f);
+			for (int i = 0; i < 6; i++) {
+				TextObject_[indices[i]]->worldTransform_.translation_.y = Lerp(TextObject_[indices[i]]->worldTransform_.translation_.y, Textlerpindices[i], 0.01f);
+			}
+	
+
 
 		}
 		if (sceneTime1 > 180 &&sceneTime1 < 360) {
-			ConeObject_[4]->worldTransform_.scale_.x -= 0.06f;
-			ConeObject_[4]->worldTransform_.scale_.z -= 0.02f;
-			ConeObject_[6]->worldTransform_.translation_.y = Lerp(ConeObject_[6]->worldTransform_.translation_.y, 4.0f, 0.1f);
-			TextObject_[0]->worldTransform_.translation_.y = Lerp(TextObject_[0]->worldTransform_.translation_.y, 6.00f, 0.01f);
-			TextObject_[1]->worldTransform_.translation_.y = Lerp(TextObject_[1]->worldTransform_.translation_.y, 7.61f, 0.01f);
-			TextObject_[2]->worldTransform_.translation_.y = Lerp(TextObject_[2]->worldTransform_.translation_.y, 3.5f, 0.01f);
-			TextObject_[3]->worldTransform_.translation_.y = Lerp(TextObject_[3]->worldTransform_.translation_.y, 3.5f, 0.01f);
-			TextObject_[4]->worldTransform_.translation_.y = Lerp(TextObject_[4]->worldTransform_.translation_.y, -0.5f, 0.01f);
-			TextObject_[6]->worldTransform_.translation_.y = Lerp(TextObject_[6]->worldTransform_.translation_.y, 6.5f, 0.01f);
+			for (int i = 0; i < 6; i++) {
+				TextObject_[indices[i]]->worldTransform_.translation_.y = Lerp(TextObject_[indices[i]]->worldTransform_.translation_.y, textlerpindices[i], 0.01f);
+			}
+
 		}
 	
 		if (effectFlag == true) {
@@ -379,7 +365,7 @@ void DemoScene::Update()
 		std::string label3 = "JSONTextmodel" + std::to_string(selectedIndex3);
 		ConeObject_[selectedIndex1]->ModelDebug(label1.c_str());
 		StarObject_[selectedIndex2]->ModelDebug(label2.c_str());
-		TextObject_[selectedIndex3]->ModelDebug(label2.c_str());
+		TextObject_[selectedIndex3]->ModelDebug(label3.c_str());
 
 		TenQOBJ->ModelDebug("TenQ");
 		Number->ModelDebug("num");
@@ -403,9 +389,9 @@ void DemoScene::Update()
 
 		ImGui::End();
 		ImGui::Begin("isOnFloor");
-		ImGui::SliderInt("Select Model Index1", &selectedIndex1, 0, static_cast<int>(ConeObject_.size()) - 2);
-		ImGui::SliderInt("Select Model Index2", &selectedIndex2, 0, static_cast<int>(StarObject_.size()) - 2);
-		ImGui::SliderInt("Select Model Index3", &selectedIndex3, 0, static_cast<int>(TextObject_.size()) - 2);
+		ImGui::SliderInt("Select ModelIndex1", &selectedIndex1, 0, static_cast<int>(ConeObject_.size()) - 2);
+		ImGui::SliderInt("Select ModelIndex2", &selectedIndex2, 0, static_cast<int>(StarObject_.size()) - 2);
+		ImGui::SliderInt("Select ModelIndex3", &selectedIndex3, 0, static_cast<int>(TextObject_.size()) - 2);
 		ImGui::Text("starcount: %d", starCount);
 		ImGui::Text("OnFloor : %d", isOnFloor);
 		ImGui::Text("GetStar : %d", isGetStar);
