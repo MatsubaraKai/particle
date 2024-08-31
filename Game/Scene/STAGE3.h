@@ -60,6 +60,10 @@ private:
 	uint32_t STARtextureHandle;
 	uint32_t AudioStarGetSEhandle_;
 	uint32_t AudioPortalhandle_;
+	int indices[2] = { 2,3 };
+	float Conelerpindices[2] = { -18.0f,18.0f };
+	float conelerpindices[2] = { -100.0f,100.0f };
+
 
 	Emitter ParticleEmitter_;
 	RandRangePro demoRandPro;

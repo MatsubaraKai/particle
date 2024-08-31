@@ -18,7 +18,7 @@
                 "scaling": [
                     20.0,
                     1.0,
-                    10.0
+                    15.0
                 ]
             },
             "file_name": "cone"
@@ -28,19 +28,19 @@
             "name": "1",
             "transform": {
                 "translation": [
-                    -25.0,
-                    70.0,
-                    20.0
+                    0.0,
+                    6.0,
+                    -3.0
                 ],
                 "rotation": [
                     -0.0,
-                    -0.0,
+                    -3.14,
                     -0.0
                 ],
                 "scaling": [
-                    10.0,
-                    10.0,
-                    10.0
+                    5.0,
+                    5.0,
+                    5.0
                 ]
             },
             "file_name": "cone"
@@ -51,19 +51,19 @@
             "name": "2",
             "transform": {
                 "translation": [
-                    25.0,
-                    70.0,
-                    20.0
+                    0.0,
+                    18.0,
+                    -2.0
                 ],
                 "rotation": [
                     -0.0,
-                    -0.0,
+                    -3.14,
                     -0.0
                 ],
                 "scaling": [
-                    10.0,
-                    10.0,
-                    10.0
+                    5.0,
+                    5.0,
+                    5.0
                 ]
             },
             "file_name": "cone"
@@ -75,8 +75,8 @@
             "transform": {
                 "translation": [
                     0.0,
-                    0.0,
-                    1.0
+                    30.0,
+                    -1.0
                 ],
                 "rotation": [
                     -0.0,
@@ -85,7 +85,7 @@
                 ],
                 "scaling": [
                     5.0,
-                    1.0,
+                    5.0,
                     5.0
                 ]
             },
@@ -98,8 +98,8 @@
             "transform": {
                 "translation": [
                     0.0,
-                    15.0,
-                    2.0
+                    42.0,
+                    0.0
                 ],
                 "rotation": [
                     -0.0,
@@ -108,7 +108,7 @@
                 ],
                 "scaling": [
                     5.0,
-                    1.0,
+                    5.0,
                     5.0
                 ]
             },
@@ -121,8 +121,8 @@
             "transform": {
                 "translation": [
                     0.0,
-                    30.0,
-                    3.0
+                    54.0,
+                    1.0
                 ],
                 "rotation": [
                     -0.0,
@@ -131,7 +131,7 @@
                 ],
                 "scaling": [
                     5.0,
-                    1.0,
+                    5.0,
                     5.0
                 ]
             },
@@ -144,8 +144,8 @@
             "transform": {
                 "translation": [
                     0.0,
-                    45.0,
-                    4.0
+                    66.0,
+                    2.0
                 ],
                 "rotation": [
                     -0.0,
@@ -154,7 +154,7 @@
                 ],
                 "scaling": [
                     5.0,
-                    1.0,
+                    5.0,
                     5.0
                 ]
             },
@@ -167,8 +167,8 @@
             "transform": {
                 "translation": [
                     0.0,
-                    60.0,
-                    5.0
+                    78.0,
+                    3.0
                 ],
                 "rotation": [
                     -0.0,
@@ -177,7 +177,7 @@
                 ],
                 "scaling": [
                     5.0,
-                    1.0,
+                    5.0,
                     5.0
                 ]
             },
@@ -189,9 +189,9 @@
             "name": "8",
             "transform": {
                 "translation": [
-                    28.0,
-                    15.0,
-                    2.0
+                    0.0,
+                    90.0,
+                    4.0
                 ],
                 "rotation": [
                     -0.0,
@@ -200,7 +200,7 @@
                 ],
                 "scaling": [
                     5.0,
-                    1.0,
+                    5.0,
                     5.0
                 ]
             },
@@ -213,8 +213,8 @@
             "transform": {
                 "translation": [
                     0.0,
-                    85.0,
-                    6.0
+                    102.0,
+                    5.0
                 ],
                 "rotation": [
                     -0.0,
@@ -222,14 +222,447 @@
                     -0.0
                 ],
                 "scaling": [
-                    15.0,
-                    1.0,
-                    15.0
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "cone"
+        },
+
+
+
+
+
+
+
+
+        
+
+        {
+            "type": "MESH",
+            "name": "1",
+            "transform": {
+                "translation": [
+                    -11.0,
+                    6.0,
+                    -3.0
+                ],
+                "rotation": [
+                    -0.0,
+                    -3.14,
+                    -0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
                 ]
             },
             "file_name": "cone"
         },
         
+        {
+            "type": "MESH",
+            "name": "2",
+            "transform": {
+                "translation": [
+                    -11.0,
+                    18.0,
+                    -2.0
+                ],
+                "rotation": [
+                    -0.0,
+                    -3.14,
+                    -0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "cone"
+        },
+
+        {
+            "type": "MESH",
+            "name": "3",
+            "transform": {
+                "translation": [
+                    -11.0,
+                    30.0,
+                    -1.0
+                ],
+                "rotation": [
+                    -0.0,
+                    -3.14,
+                    -0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "cone"
+        },
+
+        {
+            "type": "MESH",
+            "name": "4",
+            "transform": {
+                "translation": [
+                    -11.0,
+                    42.0,
+                    0.0
+                ],
+                "rotation": [
+                    -0.0,
+                    -3.14,
+                    -0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "cone"
+        },
+
+        {
+            "type": "MESH",
+            "name": "5",
+            "transform": {
+                "translation": [
+                    -11.0,
+                    54.0,
+                    1.0
+                ],
+                "rotation": [
+                    -0.0,
+                    -3.14,
+                    -0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "cone"
+        },
+
+        {
+            "type": "MESH",
+            "name": "6",
+            "transform": {
+                "translation": [
+                    -11.0,
+                    66.0,
+                    2.0
+                ],
+                "rotation": [
+                    -0.0,
+                    -3.14,
+                    -0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "cone"
+        },
+
+        {
+            "type": "MESH",
+            "name": "7",
+            "transform": {
+                "translation": [
+                    -11.0,
+                    78.0,
+                    3.0
+                ],
+                "rotation": [
+                    -0.0,
+                    -3.14,
+                    -0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "cone"
+        },
+
+        {
+            "type": "MESH",
+            "name": "8",
+            "transform": {
+                "translation": [
+                    -11.0,
+                    90.0,
+                    4.0
+                ],
+                "rotation": [
+                    -0.0,
+                    -3.14,
+                    -0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "cone"
+        },
+
+        {
+            "type": "MESH",
+            "name": "9",
+            "transform": {
+                "translation": [
+                    -11.0,
+                    102.0,
+                    5.0
+                ],
+                "rotation": [
+                    -0.0,
+                    -3.14,
+                    -0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "cone"
+        },
+        
+
+
+
+
+
+
+
+
+
+
+
+        {
+            "type": "MESH",
+            "name": "1",
+            "transform": {
+                "translation": [
+                    11.0,
+                    6.0,
+                    -3.0
+                ],
+                "rotation": [
+                    -0.0,
+                    -3.14,
+                    -0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "cone"
+        },
+        
+        {
+            "type": "MESH",
+            "name": "2",
+            "transform": {
+                "translation": [
+                    11.0,
+                    18.0,
+                    -2.0
+                ],
+                "rotation": [
+                    -0.0,
+                    -3.14,
+                    -0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "cone"
+        },
+
+        {
+            "type": "MESH",
+            "name": "3",
+            "transform": {
+                "translation": [
+                    11.0,
+                    30.0,
+                    -1.0
+                ],
+                "rotation": [
+                    -0.0,
+                    -3.14,
+                    -0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "cone"
+        },
+
+        {
+            "type": "MESH",
+            "name": "4",
+            "transform": {
+                "translation": [
+                    11.0,
+                    42.0,
+                    0.0
+                ],
+                "rotation": [
+                    -0.0,
+                    -3.14,
+                    -0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "cone"
+        },
+
+        {
+            "type": "MESH",
+            "name": "5",
+            "transform": {
+                "translation": [
+                    11.0,
+                    54.0,
+                    1.0
+                ],
+                "rotation": [
+                    -0.0,
+                    -3.14,
+                    -0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "cone"
+        },
+
+        {
+            "type": "MESH",
+            "name": "6",
+            "transform": {
+                "translation": [
+                    11.0,
+                    66.0,
+                    2.0
+                ],
+                "rotation": [
+                    -0.0,
+                    -3.14,
+                    -0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "cone"
+        },
+
+        {
+            "type": "MESH",
+            "name": "7",
+            "transform": {
+                "translation": [
+                    11.0,
+                    78.0,
+                    3.0
+                ],
+                "rotation": [
+                    -0.0,
+                    -3.14,
+                    -0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "cone"
+        },
+
+        {
+            "type": "MESH",
+            "name": "8",
+            "transform": {
+                "translation": [
+                    11.0,
+                    90.0,
+                    4.0
+                ],
+                "rotation": [
+                    -0.0,
+                    -3.14,
+                    -0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "cone"
+        },
+
+        {
+            "type": "MESH",
+            "name": "9",
+            "transform": {
+                "translation": [
+                    11.0,
+                    102.0,
+                    5.0
+                ],
+                "rotation": [
+                    -0.0,
+                    -3.14,
+                    -0.0
+                ],
+                "scaling": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "cone"
+        },
      
 
 

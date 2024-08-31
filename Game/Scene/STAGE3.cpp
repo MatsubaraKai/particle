@@ -44,7 +44,7 @@ void STAGE3::Init()
 	TextOBJ->Init();
 	Number = new Object3d();
 	Number->Init();
-	starCount = 2;
+	starCount = 5;
 	portal = 0;
 	isFadeInStarted = false;
 
@@ -52,7 +52,10 @@ void STAGE3::Init()
 	worldTransformPa2.Initialize();
 	TenQTransform.Initialize();
 
-	worldTransformPa.translation_ = { -2.5f,7.5f,82.0f };
+	worldTransformPa.translation_ =        { -2.5f,1.5f,122.0f };
+	Number->worldTransform_.translation_ = { 0.0f,7.0f,124.5f };//ポータルからx+2.5f,y+5.5f,z+2.5fする
+	Number->worldTransform_.scale_ = { 2.0f,2.0f,2.0f };
+
 	worldTransformPa2.translation_ = { -20.0f,1.5f,-17.5f };
 
 	TenQTransform.translation_.y = 2200.0f;
@@ -66,8 +69,6 @@ void STAGE3::Init()
 	camera->transform_.rotate = { -0.2f, 0.0f, 0.0f };
 
 
-	Number->worldTransform_.translation_ = { 0.0f,13.0f,84.5f };
-	Number->worldTransform_.scale_ = { 2.0f,2.0f,2.0f };
 	TenQOBJ->SetModel("world2.obj");
 	TextOBJ->SetModel("text7.obj");
 	particle = new Particle();
@@ -332,10 +333,31 @@ void STAGE3::Update()
 	}
 	if (sceneTime1 < 180) {
 		TextOBJ->worldTransform_.translation_.y = Lerp(TextOBJ->worldTransform_.translation_.y, 7.5f, 0.01f);
-
+		ConeObject_[1]->worldTransform_.translation_.y = Lerp(ConeObject_[1]->worldTransform_.translation_.y, -4.0f, 0.04f);
+		for (int i = 0; i < 2; i++) {
+			ConeObject_[indices[i]]->worldTransform_.translation_.x = Lerp(ConeObject_[indices[i]]->worldTransform_.translation_.x, conelerpindices[i], 0.02f);
+		}
+		ConeObject_[14]->worldTransform_.translation_.x = Lerp(ConeObject_[14]->worldTransform_.translation_.x, 90.0f, 0.02f);
+		ConeObject_[14]->worldTransform_.translation_.y = Lerp(ConeObject_[14]->worldTransform_.translation_.y, 51.0f, 0.02f);
+	
+		ConeObject_[15]->worldTransform_.translation_.z = Lerp(ConeObject_[15]->worldTransform_.translation_.z, 182.0f, 0.02f);
+		ConeObject_[15]->worldTransform_.translation_.y = Lerp(ConeObject_[15]->worldTransform_.translation_.y, 96.0f, 0.02f);
 	}
 	if (sceneTime1 > 180 && sceneTime1 < 360) {
 		TextOBJ->worldTransform_.translation_.y = Lerp(TextOBJ->worldTransform_.translation_.y, 6.5f, 0.01f);
+		ConeObject_[1]->worldTransform_.translation_.y = Lerp(ConeObject_[1]->worldTransform_.translation_.y, 50.0f, 0.04f);
+		
+		for (int i = 0; i < 2; i++) {
+			ConeObject_[indices[i]]->worldTransform_.translation_.x = Lerp(ConeObject_[indices[i]]->worldTransform_.translation_.x, Conelerpindices[i], 0.02f);
+		}
+		ConeObject_[14]->worldTransform_.translation_.x = Lerp(ConeObject_[14]->worldTransform_.translation_.x, 110.0f, 0.02f);
+		ConeObject_[14]->worldTransform_.translation_.y = Lerp(ConeObject_[14]->worldTransform_.translation_.y, 71.0f, 0.02f);
+
+		ConeObject_[15]->worldTransform_.translation_.z = Lerp(ConeObject_[15]->worldTransform_.translation_.z, 157.0f, 0.02f);
+		ConeObject_[15]->worldTransform_.translation_.y = Lerp(ConeObject_[15]->worldTransform_.translation_.y, 71.0f, 0.02f);
+	
+
+
 
 	}
 	if (effectFlag == true) {

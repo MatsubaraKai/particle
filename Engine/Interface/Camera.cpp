@@ -150,9 +150,6 @@ void Camera::HandleRightStick(const XINPUT_STATE& joyState)
 
 void Camera::Jump(bool isOnFloor)
 {
-    ImGui::Begin("aaa");
-    ImGui::Text("aa %d", SE);
-    ImGui::End();
     if (isJumping) {
         // ジャンプ中の処理
         transform_.translate.y += jumpVelocity;
@@ -200,7 +197,7 @@ void Camera::HandleGamepadJump(bool isOnFloor)
             isJumping = true;
             jumpVelocity = JumpSpeed;
             if (SE == 1) {
-                Audio::SoundPlayWave(Audio::GetInstance()->GetIXAudio().Get(), AudioJumphandle_, false, 0.50f);
+                Audio::SoundPlayWave(Audio::GetInstance()->GetIXAudio().Get(), AudioJumphandle_, false, 0.30f);
             }
             if (SE == 2) {
                 SE = 0;

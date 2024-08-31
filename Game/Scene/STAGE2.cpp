@@ -44,7 +44,7 @@ void STAGE2::Init()
 	TextOBJ->Init();
 	Number = new Object3d();
 	Number->Init();
-	starCount = 2;
+	starCount = 4;
 	portal = 0;
 	isFadeInStarted = false;
 
@@ -52,7 +52,7 @@ void STAGE2::Init()
 	worldTransformPa2.Initialize();
 	TenQTransform.Initialize();
 
-	worldTransformPa.translation_ = { -2.5f,7.5f,82.0f };
+	worldTransformPa.translation_ = { -2.5f,7.5f,75.0f };
 	worldTransformPa2.translation_ = { -20.0f,1.5f,-17.5f };
 
 	TenQTransform.translation_.y = 2200.0f;
@@ -66,7 +66,7 @@ void STAGE2::Init()
 	camera->transform_.rotate = { -0.2f, 0.0f, 0.0f };
 
 
-	Number->worldTransform_.translation_ = { 0.0f,13.0f,84.5f };
+	Number->worldTransform_.translation_ = { 0.0f,13.0f,77.5 };
 	Number->worldTransform_.scale_ = { 2.0f,2.0f,2.0f };
 	TenQOBJ->SetModel("world2.obj");
 	TextOBJ->SetModel("text7.obj");
@@ -218,6 +218,7 @@ void STAGE2::Update()
 		}
 	}
 	for (size_t i = 0; i < ConeObject_.size() - 1; i++) {
+		if (ConeObject_[i]->isVisible) {
 			float previousFloorHeight = playerPos.y; // 初期化しておく
 			// オブジェクトの座標とサイズを取得
 			Vector3 floorPos = ConeObject_[i]->worldTransform_.translation_;
@@ -270,6 +271,7 @@ void STAGE2::Update()
 				previousPos[i] = floorPos;
 
 			}
+		}
 	}
 
 	for (size_t i = 0; i < StarObject_.size() - 1; i++) {
@@ -303,7 +305,9 @@ void STAGE2::Update()
 
 	}
 	for (std::vector<Object3d*>::iterator itr1 = ConeObject_.begin(); itr1 != ConeObject_.end(); itr1++) {
+		if ((*itr1)->isVisible) {
 			(*itr1)->Update();
+		}
 	}
 	for (std::vector<Object3d*>::iterator itr2 = StarObject_.begin(); itr2 != StarObject_.end(); itr2++) {
 		if ((*itr2)->isVisible) {
@@ -332,11 +336,21 @@ void STAGE2::Update()
 	}
 	if (sceneTime1 < 180) {
 		TextOBJ->worldTransform_.translation_.y = Lerp(TextOBJ->worldTransform_.translation_.y, 7.5f, 0.01f);
-
+		for (int i = 0; i < 14; i++) {
+			ConeObject_[indices[i]]->isVisible = false;
+		}
+		for (int i = 0; i < 13; i++) {
+			ConeObject_[indices2[i]]->isVisible = true;
+		}
 	}
 	if (sceneTime1 > 180 && sceneTime1 < 360) {
 		TextOBJ->worldTransform_.translation_.y = Lerp(TextOBJ->worldTransform_.translation_.y, 6.5f, 0.01f);
-
+		for (int i = 0; i < 13; i++) {
+			ConeObject_[indices2[i]]->isVisible = false;
+		}
+		for (int i = 0; i < 14; i++) {
+			ConeObject_[indices[i]]->isVisible = true;
+		}
 	}
 	if (effectFlag == true) {
 		sceneTime++;
@@ -414,7 +428,9 @@ void STAGE2::Update()
 void STAGE2::Draw()
 {
 	for (std::vector<Object3d*>::iterator itr1 = ConeObject_.begin(); itr1 != ConeObject_.end(); itr1++) {
+		if ((*itr1)->isVisible) {
 		(*itr1)->Draw(CONEtextureHandle, camera);
+		}
 	}
 	for (std::vector<Object3d*>::iterator itr2 = StarObject_.begin(); itr2 != StarObject_.end(); itr2++) {
 		if ((*itr2)->isVisible) {

@@ -175,17 +175,19 @@ void TitleScene::Update()
 	if (input->TriggerKey(DIK_SPACE)) {
 		fade->StartFadeIn();
 	}
-	if (fade->IsFadeOutComplete() && isDemo) {
-		sceneNo = 1;
-	}
-	if (fade->IsFadeOutComplete() && isGame) {
-		sceneNo = 2;
-	}
-	if (fade->IsFadeOutComplete() && isGame2) {
-		sceneNo = 3;
-	}
-	if (fade->IsFadeOutComplete() && isGame3) {
-		sceneNo = 4;
+	if (fade->IsFadeOutComplete()) {
+		if (isDemo) {
+			sceneNo = 1;
+		}
+		else if (isGame) {
+			sceneNo = 2;
+		}
+		else if (isGame2) {
+			sceneNo = 3;
+		}
+		else if (isGame3) {
+			sceneNo = 4;
+		}
 	}
 
 	TenQOBJ->worldTransform_.rotation_.y += 0.0005f;

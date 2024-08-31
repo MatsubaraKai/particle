@@ -33,6 +33,8 @@ private:
 	int sceneTime1 = 0;
 	int selectedIndex1 = 0;
 	int selectedIndex2 = 0;
+	int indices[14] = { 2, 4, 6, 8,10,12,14,16,18,19,21,23,25,27 };
+	int indices2[13] = { 1,3,5,7,9,11,13,15,17,20,22,24,26 };
 	Vector3 previousPos[99];
 
 	Camera* camera = nullptr;
@@ -71,7 +73,7 @@ private:
 	bool isClear = false;
 	bool isTitle = false;
 	bool isFadeInStarted = false;
-	int starCount = 5;
+	int starCount = 4;
 	int portal = 0;
 };
 
