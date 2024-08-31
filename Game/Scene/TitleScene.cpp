@@ -172,9 +172,6 @@ void TitleScene::Update()
 		sceneTime = 0;
 		sceneTime1 = 0;
 	}
-	if (input->TriggerKey(DIK_SPACE)) {
-		fade->StartFadeIn();
-	}
 	if (fade->IsFadeOutComplete()) {
 		if (isDemo) {
 			sceneNo = 1;
@@ -425,10 +422,7 @@ void TitleScene::Update()
 		ImGui::EndMenuBar();
 	}
 	ImGui::End();
-	ImGui::Begin("Space:FadeIn");
-	if (ImGui::Button("FadeIn ")) {
-		fade->StartFadeIn();
-	}
+	ImGui::Begin("Imgui");
 	ImGui::Checkbox("EffectFlag", &effectFlag);
 	ImGui::Text("Now Scene : %d", sceneNo);
 	ImGui::Text("roop : %d", TitleRoop);

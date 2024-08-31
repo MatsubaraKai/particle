@@ -45,36 +45,6 @@ void Camera::CameraDebug()
 
 void Camera::Move()
 {
-    // キーボードによる移動
-    Vector3 move = { 0.0f, 0.0f, 0.0f };
-    if (Input::GetInstance()->PushKey(DIK_W))
-    {
-        move.z = PlayerSpeed;
-    }
-    if (Input::GetInstance()->PushKey(DIK_S))
-    {
-        move.z = -PlayerSpeed;
-    }
-    if (Input::GetInstance()->PushKey(DIK_A))
-    {
-        move.x = -PlayerSpeed;
-    }
-    if (Input::GetInstance()->PushKey(DIK_D))
-    {
-        move.x = PlayerSpeed;
-    }
-
-    // 目標角度の算出
-    if (move.x != 0.0f || move.z != 0.0f)
-    {
-        angle_ = std::atan2(move.x, move.z);
-        transform_.rotate.y = LerpShortAngle(transform_.rotate.y, angle_, 0.1f);
-    }
-   
-    // キーボードによる移動量の更新
-    transform_.translate.x += move.x;
-    transform_.translate.z += move.z;
-
     // ゲームパッドの処理
     HandleGamepadMovement();
 }

@@ -425,10 +425,7 @@ void DemoScene::Update()
 			ImGui::EndMenuBar();
 		}
 		ImGui::End();
-		ImGui::Begin("Space:FadeIn");
-		if (ImGui::Button("FadeIn ")) {
-			fade->StartFadeIn();
-		}
+		ImGui::Begin("Imgui");
 		ImGui::Checkbox("EffectFlag", &effectFlag);
 		ImGui::Text("Now Scene : %d", sceneNo);
 		ImGui::Text("roop : %d", DemoRoop);

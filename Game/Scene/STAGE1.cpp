@@ -158,9 +158,6 @@ void STAGE1::Update()
 		sceneTime = 0;
 		sceneTime1 = 0;
 	}
-	if (input->TriggerKey(DIK_SPACE)) {
-		fade->StartFadeIn();
-	}
 	if (fade->IsFadeOutComplete()) {
 		sceneNo = 0;
 	}
@@ -408,10 +405,7 @@ void STAGE1::Update()
 		ImGui::EndMenuBar();
 	}
 	ImGui::End();
-	ImGui::Begin("Space:FadeIn");
-	if (ImGui::Button("FadeIn ")) {
-		fade->StartFadeIn();
-	}
+	ImGui::Begin("Imgui");
 	ImGui::Checkbox("EffectFlag", &effectFlag);
 	ImGui::Text("Now Scene : %d", sceneNo);
 	ImGui::Text("roop : %d", GameRoop);
