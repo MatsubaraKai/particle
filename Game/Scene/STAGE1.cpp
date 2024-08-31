@@ -4,6 +4,7 @@
 #include "ModelManager.h"
 #include "Loder.h"
 #include "PSOPostEffect.h"
+#include "Audio.h"
 
 #include <DirectXMath.h>
 #include "Vector3.h"
@@ -20,6 +21,8 @@ void STAGE1::Init()
 	FADEtextureHandle = TextureManager::StoreTexture("Resources/black.png");
 	GRIDtextureHandle = TextureManager::StoreTexture("Resources/cian.png");
 	STARtextureHandle = TextureManager::StoreTexture("Resources/game/star.png");
+	AudioStarGetSEhandle_ = Audio::SoundLoadWave("Resources/game/Audio/GetSE.wav");
+	AudioPortalhandle_ = Audio::SoundLoadWave("Resources/game/Audio/portal.wav");
 
 	if (GameRoop == false) {
 		Loder::LoadJsonFile2("Resources", "GameCone", ConeObject_);
@@ -42,6 +45,7 @@ void STAGE1::Init()
 	Number = new Object3d();
 	Number->Init();
 	starCount = 3;
+	portal = 0;
 	isFadeInStarted = false;
 
 	worldTransformPa.Initialize();
@@ -112,6 +116,7 @@ void STAGE1::Update()
 			SCENE1Time[3] = timer.elapsedSecondsOnly();
 			SCENE1Time[4] = static_cast<int>(timer.elapsedSeconds());
 		}
+		portal++;
 		timer.stop();//タイマー止める
 		isClear = true;
 	}
@@ -121,11 +126,15 @@ void STAGE1::Update()
 	}
 	if (collider->CheckCollision(camera->transform_.translate, worldTransformPa2.translation_, 2.5f, 4.0f, 2.5f, 2.0f)) {
 		// 衝突している
+		portal++;
 		isTitle = true;
 		isClear = true;
 	}
 	else {
 		isTitle = false;
+	}
+	if (portal == 1) {
+		Audio::SoundPlayWave(Audio::GetInstance()->GetIXAudio().Get(), AudioPortalhandle_, false, 0.1f);
 	}
 	if (sceneTime == 180) {
 		effect = true;
@@ -290,6 +299,7 @@ void STAGE1::Update()
 		}
 	}
 	if (isGetStar) {
+		Audio::SoundPlayWave(Audio::GetInstance()->GetIXAudio().Get(), AudioStarGetSEhandle_, false, 1.0f);
 		starCount--;
 
 	}

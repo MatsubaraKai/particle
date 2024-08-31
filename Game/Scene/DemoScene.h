@@ -13,7 +13,6 @@
 #include "DirectXMath.h"
 #include "Timer.h"
 #include "Collider.h"
-#include "Audio.h"
 class DemoScene : public IScene
 {
 public:
@@ -44,7 +43,6 @@ private:
 	Input* input = nullptr;
 	Fade *fade = nullptr;
 	Timer timer;
-	Audio* audio = nullptr;
 	Collider* collider = nullptr;
 
 	std::vector<Object3d*> ConeObject_;
@@ -66,6 +64,8 @@ private:
 	uint32_t TENQtextureHandle;
 	uint32_t GRIDtextureHandle;
 	uint32_t STARtextureHandle;
+	uint32_t AudioStarGetSEhandle_;
+	uint32_t AudioPortalhandle_;
 	
 	Emitter ParticleEmitter_;
 	RandRangePro demoRandPro;
@@ -79,6 +79,7 @@ private:
 	bool isTitle = false;
 	bool isFadeInStarted = false;
 	int starCount = 2;
+	int portal = 0;
 };
 
 

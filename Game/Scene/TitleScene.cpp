@@ -8,7 +8,7 @@
 #include "PSOPostEffect.h"
 #include "Loder.h"
 #include "PSOPostEffect.h"
-
+#include "Audio.h"
 #include <DirectXMath.h>
 #include "Vector3.h"
 
@@ -38,11 +38,14 @@ void TitleScene::Init()
 	ModelManager::GetInstance()->LoadModel("Resources/game/Number", "8.obj");
 	ModelManager::GetInstance()->LoadModel("Resources/game/Number", "9.obj");
 	ModelManager::GetInstance()->LoadModel("Resources/game/Number", "colon.obj");
+	AudioBGMhandle_ = Audio::SoundLoadWave("Resources/game/Audio/BGM.wav");
+	AudioPortalhandle_ = Audio::SoundLoadWave("Resources/game/Audio/portal.wav");
 
 	if (TitleRoop == false) {
 		Loder::LoadJsonFile2("Resources", "TitleCone", ConeObject_);
 		Loder::LoadJsonFileText("Resources", "TitleText", TitleTextObject_);
 		Loder::LoadJsonFileNumber("Resources", "TitleNumber", TitleNumberObject_);
+		Audio::SoundPlayWave(Audio::GetInstance()->GetIXAudio().Get(), AudioBGMhandle_, true, 0.05f);
 		TitleRoop = true;
 	}	
 	for (size_t i = 0; i < ConeObject_.size() - 1; i++) {
@@ -56,7 +59,7 @@ void TitleScene::Init()
 	TenQOBJ->Init();
 
 	isFadeInStarted = false;
-
+	portal = 0;
 	TenQTransform.Initialize();
 
 	TenQTransform.scale_.x = -100.0f;
@@ -112,6 +115,7 @@ void TitleScene::Update()
 
 	if (collider->CheckCollision(camera->transform_.translate, worldTransformPa.translation_, 2.5f, 4.0f, 2.5f, 2.0f)) {
 		// 衝突している
+		portal++;
 		isDemo = true;
 		isClear = true;
 	}
@@ -120,6 +124,7 @@ void TitleScene::Update()
 	}
 	if (collider->CheckCollision(camera->transform_.translate, worldTransformPa1.translation_, 2.5f, 4.0f, 2.5f, 2.0f)) {
 		// 衝突している
+		portal++;
 		isGame = true;
 		isClear = true;
 	}
@@ -128,6 +133,7 @@ void TitleScene::Update()
 	}
 	if (collider->CheckCollision(camera->transform_.translate, worldTransformPa2.translation_, 2.5f, 4.0f, 2.5f, 2.0f)) {
 		// 衝突している
+		portal++;
 		isGame2 = true;
 		isClear = true;
 	}
@@ -136,11 +142,15 @@ void TitleScene::Update()
 	}
 	if (collider->CheckCollision(camera->transform_.translate, worldTransformPa3.translation_, 2.5f, 4.0f, 2.5f, 2.0f)) {
 		// 衝突している
+		portal++;
 		isGame3 = true;
 		isClear = true;
 	}
 	else {
 		isGame3 = false;
+	}
+	if (portal == 1) {
+		Audio::SoundPlayWave(Audio::GetInstance()->GetIXAudio().Get(), AudioPortalhandle_, false, 0.1f);
 	}
 	if (sceneTime == 180) {
 		effect = true;
@@ -453,7 +463,8 @@ void TitleScene::PostDraw()
 }
 
 void TitleScene::Release() {
-
+	Audio::SoundStopWave(Audio::GetInstance()->GetIXAudio().Get(), AudioBGMhandle_);
+	Audio::SoundUnload(AudioBGMhandle_);
 }
 
 // ゲームを終了

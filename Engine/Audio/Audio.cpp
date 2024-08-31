@@ -70,7 +70,7 @@ uint32_t Audio::SoundLoadWave(const char* filename)
 		file.read((char*)&data, sizeof(data));
 	}
 
-	if (strncmp(data.id, "data", 4) != 0) {
+	if (strncmp(data.id, "data",4) != 0) {
 		assert(0);
 	}
 
@@ -103,13 +103,17 @@ void Audio::SoundUnload(uint32_t audioHandle) {
 	soundData[audioHandle].wfek = {};
 }
 
-void Audio::SoundPlayWave(IXAudio2* xAudio2, uint32_t audioHandle, bool loopFlag)
+void Audio::SoundPlayWave(IXAudio2* xAudio2, uint32_t audioHandle, bool loopFlag, float volume)
 {
 	HRESULT result;
 
-	// 波形フォーマットを元にSorceVoiceの生成
+	// 波形フォーマットを元にSourceVoiceの生成
 	pSourceVoice[audioHandle] = nullptr;
 	result = xAudio2->CreateSourceVoice(&pSourceVoice[audioHandle], &soundData[audioHandle].wfek);
+	assert(SUCCEEDED(result));
+
+	// ボリュームを設定 (ここで初期ボリュームを設定する)
+	result = pSourceVoice[audioHandle]->SetVolume(volume);
 	assert(SUCCEEDED(result));
 
 	// 再生する波形データの設定
@@ -124,7 +128,9 @@ void Audio::SoundPlayWave(IXAudio2* xAudio2, uint32_t audioHandle, bool loopFlag
 
 	// 波形データの再生
 	result = pSourceVoice[audioHandle]->SubmitSourceBuffer(&buf);
+	assert(SUCCEEDED(result));
 	result = pSourceVoice[audioHandle]->Start();
+	assert(SUCCEEDED(result));
 }
 
 void Audio::SoundStopWave(IXAudio2* xAudio2, uint32_t audioHandle)
@@ -151,4 +157,13 @@ void Audio::SoundLoopWave(IXAudio2* xAudio2, const SoundData& soundData)
 
 
 
+}
+
+void Audio::SetVolume(uint32_t audioHandle, float volume)
+{
+	assert(pSourceVoice[audioHandle] != nullptr); // ソースボイスが有効か確認
+
+	// ボリュームを設定 (0.0f から 1.0f の範囲)
+	HRESULT result = pSourceVoice[audioHandle]->SetVolume(volume);
+	assert(SUCCEEDED(result));
 }

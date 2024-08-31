@@ -7,6 +7,7 @@
 #include "mathFunction.h"
 #include <numbers>
 #include "Input.h"
+#include "Audio.h"
 class Camera
 {
 public:
@@ -64,4 +65,6 @@ private:
 	bool isJumping = false;
 	bool isFalling = false;
 	float jumpVelocity = 0.0f;
+	uint32_t AudioJumphandle_ = Audio::SoundLoadWave("Resources/game/Audio/Jump.wav");
+	int SE = 0;
 };

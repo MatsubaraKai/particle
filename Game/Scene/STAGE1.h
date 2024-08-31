@@ -64,6 +64,8 @@ private:
 	uint32_t TENQtextureHandle;
 	uint32_t GRIDtextureHandle;
 	uint32_t STARtextureHandle;
+	uint32_t AudioStarGetSEhandle_;
+	uint32_t AudioPortalhandle_;
 
 	Emitter ParticleEmitter_;
 	RandRangePro demoRandPro;
@@ -77,5 +79,6 @@ private:
 	bool isTitle = false;
 	bool isFadeInStarted = false;
 	int starCount = 5;
+	int portal = 0;
 };
 

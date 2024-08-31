@@ -38,6 +38,7 @@ private:
 	int indices[4] = { 0, 1, 3, 4 };
 	float Textlerpindices[6] = { 25.0f, 12.5f, 7.5f, 7.5f, 7.5f, 7.5f };
 	float textlerpindices[6] = { 20.0f, 7.5f, 6.5f, 6.5f, 6.5f, 6.5f };
+	int portal = 0;
 	Vector3 previousPos[99];
 
 	Camera* camera = nullptr;
@@ -64,6 +65,8 @@ private:
 	uint32_t CONEtextureHandle;
 	uint32_t GRIDtextureHandle;
 	uint32_t TENQtextureHandle;
+	uint32_t AudioBGMhandle_;
+	uint32_t AudioPortalhandle_;
 
 	Emitter ParticleEmitter_;
 	RandRangePro demoRandPro;

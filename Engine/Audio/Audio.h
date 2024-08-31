@@ -53,12 +53,13 @@ public:
 	static void SoundUnload(uint32_t audioHandle);
 
 	// 音声再生
-	static void SoundPlayWave(IXAudio2* xAudio2, uint32_t audioHandle, bool loopFlag);
+	static void SoundPlayWave(IXAudio2* xAudio2, uint32_t audioHandle, bool loopFlag, float volume);
 
 	// 音声再生
 	static void SoundStopWave(IXAudio2* xAudio2, uint32_t audioHandle);
 	static void SoundLoopWave(IXAudio2* xAudio2, const SoundData& soundData);
-
+	static void SetVolume(uint32_t audioHandle, float volume);
+	
 	static Microsoft::WRL::ComPtr<IXAudio2> GetIXAudio() { return xAudio2_; };
 
 private:
