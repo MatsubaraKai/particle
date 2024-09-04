@@ -191,7 +191,7 @@ void STAGE3::Update()
 		float desiredFOV = camera->fovY_;  // 現在のFOVを基準にする
 
 		if (moveLeftStick.z > 0.00001f) {  // スティックがある程度前に倒されたとき
-			desiredFOV = 1.4f;  // 前進時のFOV
+			desiredFOV = 1.0f;  // 前進時のFOV
 		}
 		else {
 			desiredFOV = 0.8f;  // デフォルトのFOV
