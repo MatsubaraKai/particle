@@ -60,6 +60,9 @@ private:
 	uint32_t STARtextureHandle;
 	uint32_t AudioStarGetSEhandle_;
 	uint32_t AudioPortalhandle_;
+	uint32_t AudioTimeCounthandle_;
+	uint32_t AudioTimeCount2handle_;
+
 	int indices[2] = { 2,3 };
 	float Conelerpindices[2] = { -18.0f,18.0f };
 	float conelerpindices[2] = { -100.0f,100.0f };

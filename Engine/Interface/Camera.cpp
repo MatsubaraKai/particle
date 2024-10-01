@@ -172,7 +172,7 @@ void Camera::HandleGamepadJump(bool isOnFloor)
             if (SE == 2) {
                 SE = 0;
             }
-           
+
         }
         
 #ifdef _DEBUG

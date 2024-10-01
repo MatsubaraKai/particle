@@ -23,6 +23,8 @@ void STAGE2::Init()
 	STARtextureHandle = TextureManager::StoreTexture("Resources/game/star.png");
 	AudioStarGetSEhandle_ = Audio::SoundLoadWave("Resources/game/Audio/GetSE.wav");
 	AudioPortalhandle_ = Audio::SoundLoadWave("Resources/game/Audio/portal.wav");
+	AudioTimeCounthandle_ = Audio::SoundLoadWave("Resources/game/Audio/timecount.wav");
+	AudioTimeCount2handle_ = Audio::SoundLoadWave("Resources/game/Audio/timecount2.wav");
 
 	if (Game2Roop == false) {
 		Loder::LoadJsonFile2("Resources", "GameCone2", ConeObject_);
@@ -135,14 +137,21 @@ void STAGE2::Update()
 	if (portal == 1) {
 		Audio::SoundPlayWave(Audio::GetInstance()->GetIXAudio().Get(), AudioPortalhandle_, false, 0.1f);
 	}
+	if (sceneTime == 60 || sceneTime == 120 || sceneTime == 240 || sceneTime == 300) {
+		Audio::SoundPlayWave(Audio::GetInstance()->GetIXAudio().Get(), AudioTimeCounthandle_, false, 1.0f);
+	}
 	if (sceneTime == 180) {
 		effect = true;
+		Audio::SoundPlayWave(Audio::GetInstance()->GetIXAudio().Get(), AudioTimeCount2handle_, false, 1.0f);
+
 	}
 	else {
 		effect = false;
 	}
 	if (sceneTime == 360) {
 		effect2 = true;
+		Audio::SoundPlayWave(Audio::GetInstance()->GetIXAudio().Get(), AudioTimeCount2handle_, false, 1.0f);
+
 	}
 	else {
 		effect2 = false;

@@ -61,6 +61,8 @@ private:
 	uint32_t STARtextureHandle;
 	uint32_t AudioStarGetSEhandle_;
 	uint32_t AudioPortalhandle_;
+	uint32_t AudioTimeCounthandle_;
+	uint32_t AudioTimeCount2handle_;
 
 	Emitter ParticleEmitter_;
 	RandRangePro demoRandPro;

@@ -40,6 +40,8 @@ void TitleScene::Init()
 	ModelManager::GetInstance()->LoadModel("Resources/game/Number", "colon.obj");
 	AudioBGMhandle_ = Audio::SoundLoadWave("Resources/game/Audio/BGM.wav");
 	AudioPortalhandle_ = Audio::SoundLoadWave("Resources/game/Audio/portal.wav");
+	AudioTimeCounthandle_ = Audio::SoundLoadWave("Resources/game/Audio/timecount.wav");
+	AudioTimeCount2handle_ = Audio::SoundLoadWave("Resources/game/Audio/timecount2.wav");
 
 	if (TitleRoop == false) {
 		Loder::LoadJsonFile2("Resources", "TitleCone", ConeObject_);
