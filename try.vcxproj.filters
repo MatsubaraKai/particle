@@ -223,6 +223,7 @@
     <ClCompile Include="Engine\2d\PostEffect\Effect\ChromaticAberration.cpp" />
     <ClCompile Include="Game\Scene\STAGE3.cpp" />
     <ClCompile Include="Game\Utilty\Timer.cpp" />
+    <ClCompile Include="Game\Utilty\Menu.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Interface\DirectXCommon.h">
@@ -437,6 +438,7 @@
     <ClInclude Include="Engine\2d\PostEffect\Effect\ChromaticAberration.h" />
     <ClInclude Include="Game\Scene\STAGE3.h" />
     <ClInclude Include="Game\Utilty\Timer.h" />
+    <ClInclude Include="Game\Utilty\Menu.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui\imgui.ini">

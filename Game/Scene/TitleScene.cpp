@@ -20,6 +20,9 @@ void TitleScene::Init()
 	WHITEtextureHandle = TextureManager::StoreTexture("Resources/white.png");
 	BLUEtextureHandle = TextureManager::StoreTexture("Resources/blue.png");
 	FADEtextureHandle = TextureManager::StoreTexture("Resources/black.png");
+	MENUMEDItextureHandle = TextureManager::StoreTexture("Resources/game/menumedi.png");
+	MENUHIGHtextureHandle = TextureManager::StoreTexture("Resources/game/menuhigh.png");
+	MENULOWtextureHandle = TextureManager::StoreTexture("Resources/game/menulow.png");
 	GRIDtextureHandle = TextureManager::StoreTexture("Resources/cian.png");
 	CONEtextureHandle = TextureManager::StoreTexture("Resources/game/cone.png");
 	TENQtextureHandle = TextureManager::StoreTexture("Resources/game/world.png");
@@ -102,6 +105,8 @@ void TitleScene::Init()
 	particle1->Initialize(ParticleEmitter_);
 	particle2->Initialize(ParticleEmitter_);
 	particle3->Initialize(ParticleEmitter_);
+	menu = new Menu();
+	menu->Init(MENUMEDItextureHandle);
 	fade = new Fade();
 	fade->Init(FADEtextureHandle);
 	fade->StartFadeOut();
@@ -213,6 +218,18 @@ void TitleScene::Update()
 	XINPUT_STATE joyState;
 	if (Input::GetInstance()->GetJoystickState(joyState))
 	{
+			// START ボタンが押された場合
+			if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_START) {
+				// ボタンが押された状態で、前回押されていなかった場合のみトグル
+				if (!startButtonPressed) {
+					isMenu = !isMenu;           // isMenu の値を反転させる
+					startButtonPressed = true;   // ボタンが押された状態にする
+				}
+			}
+			else {
+				// ボタンが離されたらフラグをリセット
+				startButtonPressed = false;
+			}
 		// 左スティックによる移動
 		Vector3 moveLeftStick = { 0, 0, 0 };
 		Vector3 move = { 0.0f, 0.0f, 0.0f };
@@ -309,7 +326,7 @@ void TitleScene::Update()
 	for (std::vector<Object3d*>::iterator itr = TitleNumberObject_.begin(); itr != TitleNumberObject_.end(); itr++) {
 		(*itr)->Update();
 	}
-	if (isClear == false) {
+	if (isClear == false && isMenu == false) {
 		camera->Jump(isOnFloor);
 		camera->Move();
 	}else {
@@ -452,6 +469,9 @@ void TitleScene::Draw()
 	particle1->Draw(ParticleEmitter_, { worldTransformPa1.translation_.x,worldTransformPa1.translation_.y,worldTransformPa1.translation_.z }, WHITEtextureHandle, camera, demoRandPro, false);
 	particle2->Draw(ParticleEmitter_, { worldTransformPa2.translation_.x,worldTransformPa2.translation_.y,worldTransformPa2.translation_.z }, WHITEtextureHandle, camera, demoRandPro, false);
 	particle3->Draw(ParticleEmitter_, { worldTransformPa3.translation_.x,worldTransformPa3.translation_.y,worldTransformPa3.translation_.z }, WHITEtextureHandle, camera, demoRandPro, false);
+	if (isMenu) {
+		menu->Draw();
+	}
 	fade->Draw();
 }
 

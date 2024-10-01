@@ -66,6 +66,14 @@ private:
 	bool isFalling = false;
 	float jumpVelocity = 0.0f;
 	float previousJumpVelocity = 0.0f;
+
+
+	float lookSensitivity = 0.03f;
+	const float lookSensitivityLow = 0.02f;
+	const float lookSensitivityMed = 0.03f;
+	const float lookSensitivityHigh = 0.06f;
+
+	
 	uint32_t AudioJumphandle_ = Audio::SoundLoadWave("Resources/game/Audio/Jump.wav");
 	int SE = 0;
 };

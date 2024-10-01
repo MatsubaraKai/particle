@@ -13,6 +13,7 @@
 #include "DirectXMath.h"
 #include "Timer.h"
 #include "Collider.h"
+#include "Menu.h"
 
 class TitleScene : public IScene
 {
@@ -44,6 +45,7 @@ private:
 	Camera* camera = nullptr;
 	Input* input = nullptr;
 	Fade* fade = nullptr;
+	Menu* menu = nullptr;
 	Timer timer;
 	Collider* collider = nullptr;
 	Object3d* TenQOBJ = nullptr;
@@ -60,6 +62,9 @@ private:
 	PostProcess* postProcess_ = nullptr;
 	//変数
 	uint32_t FADEtextureHandle;
+	uint32_t MENUMEDItextureHandle;
+	uint32_t MENUHIGHtextureHandle;
+	uint32_t MENULOWtextureHandle;
 	uint32_t WHITEtextureHandle;
 	uint32_t BLUEtextureHandle;
 	uint32_t CONEtextureHandle;
@@ -83,8 +88,8 @@ private:
 	bool isGame3 = false;//4
 	bool isClear = false;
 	bool isFadeInStarted = false;
-
-
+	bool isMenu = false;
+	bool startButtonPressed = false;
 };
 
 

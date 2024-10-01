@@ -102,7 +102,6 @@ void Camera::SetFOV(float fovY) {
 
 void Camera::HandleRightStick(const XINPUT_STATE& joyState)
 {
-    const float lookSensitivity = 0.03f;
     const float rightStickDeadZone = 0.1f;
     if (std::abs(joyState.Gamepad.sThumbRX) > rightStickDeadZone * SHRT_MAX ||
         std::abs(joyState.Gamepad.sThumbRY) > rightStickDeadZone * SHRT_MAX)
