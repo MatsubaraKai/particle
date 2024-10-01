@@ -33,6 +33,8 @@ void Camera::CameraDebug()
     ImGui::DragFloat3("rotate", rotate, 0.01f);
     float scale[3] = { transform_.scale.x, transform_.scale.y, transform_.scale.z };
     ImGui::DragFloat3("scale", scale, 0.01f);
+    ImGui::Text("jumpspeed : %f", jumpVelocity);
+
 
     transform_.translate = { translate[0],translate[1],translate[2] };
     transform_.rotate = { rotate[0],rotate[1],rotate[2] };
@@ -145,36 +147,42 @@ void Camera::Jump(bool isOnFloor)
             isJumping = false;
         }
     }
-    if(isOnFloor) {
+    if (isOnFloor) {
         // 地面にいる場合
+         // 前フレームと同じ jumpVelocity であれば 0 に設定
+        if (jumpVelocity == previousJumpVelocity) {
+            jumpVelocity = 0.0f;
+        }
         isJumping = false;
-        jumpVelocity = 0.0f;
     }
-
+    // 前フレームの jumpVelocity を保存
+    previousJumpVelocity = jumpVelocity;
     // ゲームパッドでジャンプ
     HandleGamepadJump(isOnFloor);
 }
 
 void Camera::HandleGamepadJump(bool isOnFloor)
 {
+    static WORD previousButtonState = 0; // 前フレームのボタン状態を保持する変数
     XINPUT_STATE joyState;
     if (Input::GetInstance()->GetJoystickState(joyState))
     {
-        if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A && isOnFloor && !isJumping || joyState.Gamepad.wButtons & XINPUT_GAMEPAD_LEFT_SHOULDER && isOnFloor && !isJumping)
+        // 現在のボタン状態を取得
+        WORD currentButtonState = joyState.Gamepad.wButtons;
+
+        // ボタンの押された瞬間を検出
+        bool buttonPressed = (currentButtonState & XINPUT_GAMEPAD_A && !(previousButtonState & XINPUT_GAMEPAD_A)) ||
+            (currentButtonState & XINPUT_GAMEPAD_LEFT_SHOULDER && !(previousButtonState & XINPUT_GAMEPAD_LEFT_SHOULDER));
+
+        // ボタンが押された瞬間のみジャンプを許可
+        if (buttonPressed && isOnFloor && !isJumping)
         {
-            SE++;
             // 地面にいるときのみジャンプを許可
             isJumping = true;
             jumpVelocity = JumpSpeed;
-            if (SE == 1) {
-                Audio::SoundPlayWave(Audio::GetInstance()->GetIXAudio().Get(), AudioJumphandle_, false, 0.30f);
-            }
-            if (SE == 2) {
-                SE = 0;
-            }
-
+            Audio::SoundPlayWave(Audio::GetInstance()->GetIXAudio().Get(), AudioJumphandle_, false, 0.30f);
         }
-        
+
 #ifdef _DEBUG
         if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_LEFT_SHOULDER)
         {
@@ -191,6 +199,9 @@ void Camera::HandleGamepadJump(bool isOnFloor)
             isJumping = false;
         }
 #endif
+
+        // 現在のボタン状態を次のフレームのために保持しておく
+        previousButtonState = currentButtonState;
     }
 }
 
