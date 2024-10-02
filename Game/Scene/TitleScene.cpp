@@ -96,7 +96,8 @@ void TitleScene::Init()
 		{1.0f,4.0f}
 	};
 	isClear = false;
-	
+	isMenu = false;
+
 	ParticleEmitter_.count = 6;
 	ParticleEmitter_.frequency = 0.02f;
 	ParticleEmitter_.frequencyTime = 0.0f;
@@ -230,6 +231,38 @@ void TitleScene::Update()
 				// ボタンが離されたらフラグをリセット
 				startButtonPressed = false;
 			}
+			if (isMenu) {
+				// 前回のボタンの状態を保持する変数を用意
+				static WORD previousButtons = 0;
+
+				// 現在のボタンの状態を取得
+				WORD currentButtons = joyState.Gamepad.wButtons;
+
+				// 左肩ボタンが「押された瞬間」を検出
+				if ((currentButtons & XINPUT_GAMEPAD_LEFT_SHOULDER) && !(previousButtons & XINPUT_GAMEPAD_LEFT_SHOULDER)) {
+					if (menucount > 0) {
+						menucount--;
+						menu->SE();
+					}
+				}
+				if ((currentButtons & XINPUT_GAMEPAD_RIGHT_SHOULDER) && !(previousButtons & XINPUT_GAMEPAD_RIGHT_SHOULDER)) {
+					if (menucount < 2) {
+						menucount++;
+						menu->SE();
+					}
+				}
+				// 前回のボタンの状態を更新
+				previousButtons = currentButtons;
+				if (menucount == 0) {
+					menu->ChangeTex(MENULOWtextureHandle);
+				}
+				if (menucount == 1) {
+					menu->ChangeTex(MENUMEDItextureHandle);
+				}
+				if (menucount == 2) {
+					menu->ChangeTex(MENUHIGHtextureHandle);
+				}
+			}
 		// 左スティックによる移動
 		Vector3 moveLeftStick = { 0, 0, 0 };
 		Vector3 move = { 0.0f, 0.0f, 0.0f };
@@ -328,12 +361,11 @@ void TitleScene::Update()
 	}
 	if (isClear == false && isMenu == false) {
 		camera->Jump(isOnFloor);
-		camera->Move();
-	}else {
-		if (!isFadeInStarted) {
-			fade->StartFadeIn();    // FadeInを開始
-			isFadeInStarted = true; // フラグを立てて一度だけ実行されるようにする
-		}
+		camera->Move(menucount);
+	}
+	if (!isFadeInStarted && isClear == true) {
+		fade->StartFadeIn();    // FadeInを開始
+		isFadeInStarted = true; // フラグを立てて一度だけ実行されるようにする
 	}
 	camera->Update();
 	TenQOBJ->Update();

@@ -1,7 +1,6 @@
 ﻿#include "Camera.h"
 #include <algorithm>
 
-
 void Camera::Initialize() {
     transform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,-80.0f} };
     //WinAPI* sWinAPI = WinAPI::GetInstance();
@@ -45,17 +44,18 @@ void Camera::CameraDebug()
     ImGui::PopStyleColor();
 }
 
-void Camera::Move()
+void Camera::Move(int menucount)
 {
     // ゲームパッドの処理
-    HandleGamepadMovement();
+    HandleGamepadMovement(menucount);
 }
 
-void Camera::HandleGamepadMovement()
+void Camera::HandleGamepadMovement(int menucount)
 {
     XINPUT_STATE joyState;
     if (Input::GetInstance()->GetJoystickState(joyState))
     {
+        
         // 左スティックによる移動
         Vector3 moveLeftStick = { 0, 0, 0 };
         const float leftStickDeadZone = 0.2f;
@@ -92,7 +92,7 @@ void Camera::HandleGamepadMovement()
         }
 
         // 右スティックによる視野の移動
-        HandleRightStick(joyState);
+        HandleRightStick(joyState,menucount);
     }
 }
 
@@ -100,7 +100,7 @@ void Camera::SetFOV(float fovY) {
     fovY_ = fovY;
 }
 
-void Camera::HandleRightStick(const XINPUT_STATE& joyState)
+void Camera::HandleRightStick(const XINPUT_STATE& joyState, int menucount)
 {
     const float rightStickDeadZone = 0.1f;
     if (std::abs(joyState.Gamepad.sThumbRX) > rightStickDeadZone * SHRT_MAX ||
@@ -116,6 +116,15 @@ void Camera::HandleRightStick(const XINPUT_STATE& joyState)
         const float maxPitch = 45.0f * (float)std::numbers::pi / 180.0f;
         const float minPitch = -45.0f * (float)std::numbers::pi / 180.0f;
         transform_.rotate.x = std::clamp(transform_.rotate.x, minPitch, maxPitch);
+    }
+    if (menucount == 0) {
+        lookSensitivity = 0.02f;
+    }
+    if (menucount == 1) {
+        lookSensitivity = 0.03f;
+    }
+    if (menucount == 2) {
+        lookSensitivity = 0.06f;
     }
 }
 

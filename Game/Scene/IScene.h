@@ -17,6 +17,7 @@ protected:
 	static int SCENE2Time[5];
 	static int SCENE3Time[5];
 	static int SCENE4Time[5];
+	static int menucount;
 public:
 	// 継承先で実装される関数
 	/// 抽象クラスなので純粋仮想関数とする

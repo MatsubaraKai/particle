@@ -29,7 +29,6 @@ void STAGE1::Init()
 	if (GameRoop == false) {
 		Loder::LoadJsonFile2("Resources", "GameCone", ConeObject_);
 		Loder::LoadJsonFile2("Resources", "GameStar", StarObject_);
-		GameRoop = true;
 	}
 	for (size_t i = 0; i < ConeObject_.size() - 1; i++) {
 		previousPos[i] = ConeObject_[i]->worldTransform_.translation_;
@@ -320,7 +319,7 @@ void STAGE1::Update()
 	}
 	if (isClear == false) {
 		camera->Jump(isOnFloor);
-		camera->Move();
+		camera->Move(menucount);
 	}
 	else {
 		if (!isFadeInStarted) {

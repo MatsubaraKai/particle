@@ -332,7 +332,7 @@ void DemoScene::Update()
 	}
 	if (isClear == false) {
 		camera->Jump(isOnFloor);
-		camera->Move();
+		camera->Move(menucount);
 	}
 	else {
 		if (!isFadeInStarted) {

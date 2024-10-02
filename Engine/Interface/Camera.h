@@ -8,14 +8,16 @@
 #include <numbers>
 #include "Input.h"
 #include "Audio.h"
+#include "IScene.h"
+
 class Camera
 {
 public:
 	void Initialize();
 	void Update();
-	void Move();
-	void HandleGamepadMovement();
-	void HandleRightStick(const XINPUT_STATE& joyState);
+	void Move(int menucount);
+	void HandleGamepadMovement(int menucount);
+	void HandleRightStick(const XINPUT_STATE& joyState, int menucount);
 	void HandleGamepadJump(bool isOnFloor);
 	void Jump(bool isOnFloor);
 	float Face2Face(const Vector3& playerPosition, const Vector3 objectPosition);
@@ -45,6 +47,8 @@ public: //Setter
 	void CameraDebug();
 	Transform transform_;
 	float fovY_ = 0.8f;
+	float lookSensitivity;
+
 private:
 	Matrix4x4 worldmatrix_;
 	Matrix4x4 cameraMatrix_;
@@ -66,14 +70,6 @@ private:
 	bool isFalling = false;
 	float jumpVelocity = 0.0f;
 	float previousJumpVelocity = 0.0f;
-
-
-	float lookSensitivity = 0.03f;
-	const float lookSensitivityLow = 0.02f;
-	const float lookSensitivityMed = 0.03f;
-	const float lookSensitivityHigh = 0.06f;
-
-	
 	uint32_t AudioJumphandle_ = Audio::SoundLoadWave("Resources/game/Audio/Jump.wav");
 	int SE = 0;
 };
