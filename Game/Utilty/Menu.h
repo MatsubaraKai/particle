@@ -7,10 +7,11 @@ public:
     void ChangeTex(uint32_t Texture);
     void SE();
     void Draw();
-    int sen = 1;
 private:
     Sprite* menuSprite = nullptr;
+    Sprite* menuSprite2 = nullptr;
     uint32_t MENUMEDItextureHandle;
+    uint32_t MENUPOSITIONtextureHandle;
     uint32_t Audiomenuhandle_;
     Material material;
 

@@ -28,6 +28,7 @@ void STAGE3::Init()
 	AudioPortalhandle_ = Audio::SoundLoadWave("Resources/game/Audio/portal.wav");
 	AudioTimeCounthandle_ = Audio::SoundLoadWave("Resources/game/Audio/timecount.wav");
 	AudioTimeCount2handle_ = Audio::SoundLoadWave("Resources/game/Audio/timecount2.wav");
+	POSITIONtextureHandle = TextureManager::StoreTexture("Resources/game/position.png");
 
 	if (Game3Roop == false) {
 		Loder::LoadJsonFile2("Resources", "GameCone3", ConeObject_);
@@ -45,6 +46,8 @@ void STAGE3::Init()
 	postProcess_->Init();
 	TenQOBJ = new Object3d();
 	TenQOBJ->Init();
+	PositionOBJ = new Object3d();
+	PositionOBJ->Init();
 	TextOBJ = new Object3d();
 	TextOBJ->Init();
 	Number = new Object3d();
@@ -75,6 +78,7 @@ void STAGE3::Init()
 
 
 	TenQOBJ->SetModel("world2.obj");
+	PositionOBJ->SetModel("position.obj");
 	TextOBJ->SetModel("text7.obj");
 	particle = new Particle();
 	particle2 = new Particle();
@@ -108,6 +112,9 @@ void STAGE3::Update()
 	std::string modelFileName = std::to_string(starCount) + ".obj";
 	Number->SetModel(modelFileName.c_str());
 	Vector3 playerPos = camera->transform_.translate;
+	PositionOBJ->worldTransform_.translation_ = playerPos;
+	PositionOBJ->worldTransform_.translation_.y = camera->transform_.translate.y - 2.99f;
+
 	
 	if (collider->CheckCollision(camera->transform_.translate, worldTransformPa.translation_, 2.5f, 4.0f, 2.5f, 2.0f) && starCount == 0) {
 		// 衝突している
@@ -145,10 +152,10 @@ void STAGE3::Update()
 	if (portal == 1) {
 		Audio::SoundPlayWave(Audio::GetInstance()->GetIXAudio().Get(), AudioPortalhandle_, false, 0.1f);
 	}
-	if (sceneTime == 60 || sceneTime == 120 || sceneTime == 240 || sceneTime == 300) {
+	if ((sceneTime == 60 || sceneTime == 120 || sceneTime == 240 || sceneTime == 300) && isMenu == false) {
 		Audio::SoundPlayWave(Audio::GetInstance()->GetIXAudio().Get(), AudioTimeCounthandle_, false, 1.0f);
 	}
-	if (sceneTime == 180) {
+	if (sceneTime == 180 && isMenu == false) {
 		effect = true;
 		Audio::SoundPlayWave(Audio::GetInstance()->GetIXAudio().Get(), AudioTimeCount2handle_, false, 1.0f);
 
@@ -156,10 +163,9 @@ void STAGE3::Update()
 	else {
 		effect = false;
 	}
-	if (sceneTime == 360) {
+	if (sceneTime == 360 && isMenu == false) {
 		effect2 = true;
 		Audio::SoundPlayWave(Audio::GetInstance()->GetIXAudio().Get(), AudioTimeCount2handle_, false, 1.0f);
-
 	}
 	else {
 		effect2 = false;
@@ -215,6 +221,10 @@ void STAGE3::Update()
 					menucount++;
 					menu->SE();
 				}
+			}
+			if ((currentButtons & XINPUT_GAMEPAD_Y) && !(previousButtons & XINPUT_GAMEPAD_Y)) {
+				menuposition = !menuposition;
+				menu->SE();
 			}
 			// 前回のボタンの状態を更新
 			previousButtons = currentButtons;
@@ -379,6 +389,7 @@ void STAGE3::Update()
 	}
 	camera->Update();
 	TenQOBJ->Update();
+	PositionOBJ->Update();
 	Number->Update();
 	TextOBJ->Update();
 
@@ -386,7 +397,7 @@ void STAGE3::Update()
 	if (sceneTime1 == 0) {
 
 	}
-	if (sceneTime1 < 180) {
+	if (sceneTime1 < 180 && isMenu == false) {
 		TextOBJ->worldTransform_.translation_.y = Lerp(TextOBJ->worldTransform_.translation_.y, 7.5f, 0.01f);
 		ConeObject_[1]->worldTransform_.translation_.y = Lerp(ConeObject_[1]->worldTransform_.translation_.y, -4.0f, 0.04f);
 		for (int i = 0; i < 2; i++) {
@@ -398,7 +409,7 @@ void STAGE3::Update()
 		ConeObject_[15]->worldTransform_.translation_.z = Lerp(ConeObject_[15]->worldTransform_.translation_.z, 182.0f, 0.02f);
 		ConeObject_[15]->worldTransform_.translation_.y = Lerp(ConeObject_[15]->worldTransform_.translation_.y, 96.0f, 0.02f);
 	}
-	if (sceneTime1 > 180 && sceneTime1 < 360) {
+	if (sceneTime1 > 180 && sceneTime1 < 360 && isMenu == false) {
 		TextOBJ->worldTransform_.translation_.y = Lerp(TextOBJ->worldTransform_.translation_.y, 6.5f, 0.01f);
 		ConeObject_[1]->worldTransform_.translation_.y = Lerp(ConeObject_[1]->worldTransform_.translation_.y, 50.0f, 0.04f);
 		
@@ -415,10 +426,12 @@ void STAGE3::Update()
 
 
 	}
-	if (effectFlag == true) {
+	if (effectFlag == true && isMenu == false) {
 		sceneTime++;
 	}
-	sceneTime1++;
+	if (isMenu == false) {
+		sceneTime1++;
+	}
 	///////////////Debug///////////////
 #ifdef _DEBUG
 
@@ -430,6 +443,7 @@ void STAGE3::Update()
 	StarObject_[selectedIndex2]->ModelDebug(label2.c_str());
 
 	TenQOBJ->ModelDebug("TenQ");
+	PositionOBJ->ModelDebug("positionOBJ");
 	Number->ModelDebug("num");
 	TextOBJ->ModelDebug("text7");
 
@@ -495,6 +509,9 @@ void STAGE3::Draw()
 		}
 	}
 	TenQOBJ->Draw(TENQtextureHandle, camera);
+	if (menuposition == true) {
+		PositionOBJ->Draw(POSITIONtextureHandle, camera);
+	}
 	particle->Draw(ParticleEmitter_, { worldTransformPa.translation_.x,worldTransformPa.translation_.y,worldTransformPa.translation_.z }, WHITEtextureHandle, camera, demoRandPro, false);
 	particle2->Draw(ParticleEmitter_, { worldTransformPa2.translation_.x,worldTransformPa2.translation_.y,worldTransformPa2.translation_.z }, WHITEtextureHandle, camera, demoRandPro, false);
 	Number->Draw(GRIDtextureHandle, camera);

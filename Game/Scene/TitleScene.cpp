@@ -26,9 +26,11 @@ void TitleScene::Init()
 	GRIDtextureHandle = TextureManager::StoreTexture("Resources/cian.png");
 	CONEtextureHandle = TextureManager::StoreTexture("Resources/game/cone.png");
 	TENQtextureHandle = TextureManager::StoreTexture("Resources/game/world.png");
+	POSITIONtextureHandle = TextureManager::StoreTexture("Resources/game/position.png");
 
 	ModelManager::GetInstance()->LoadModel("Resources/game", "world.obj");
 	ModelManager::GetInstance()->LoadModel("Resources/game", "world2.obj");
+	ModelManager::GetInstance()->LoadModel("Resources/game", "position.obj");
 	ModelManager::GetInstance()->LoadModel("Resources/game/Text", "text7.obj");
 	ModelManager::GetInstance()->LoadModel("Resources/game/Number", "0.obj");
 	ModelManager::GetInstance()->LoadModel("Resources/game/Number", "1.obj");
@@ -62,6 +64,8 @@ void TitleScene::Init()
 
 	TenQOBJ = new Object3d();
 	TenQOBJ->Init();
+	PositionOBJ = new Object3d();
+	PositionOBJ->Init();
 
 	isFadeInStarted = false;
 	portal = 0;
@@ -71,6 +75,7 @@ void TitleScene::Init()
 	TenQTransform.scale_.y = 100.0f;
 	TenQTransform.scale_.z = 100.0f;
 	TenQOBJ->SetWorldTransform(TenQTransform);
+
 
 	worldTransformPa.Initialize();
 	worldTransformPa.translation_ = { -25.0f,1.5f,12.5f };//チュートリアルポータル
@@ -85,6 +90,7 @@ void TitleScene::Init()
 	camera->transform_.rotate = { -0.2f, 0.0f, 0.0f };
 
 	TenQOBJ->SetModel("world.obj");
+	PositionOBJ->SetModel("position.obj");
 
 	particle = new Particle();
 	particle1 = new Particle();
@@ -120,6 +126,9 @@ void TitleScene::Update()
 
 	// プレイヤーの座標
 	Vector3 playerPos = camera->transform_.translate;
+
+	PositionOBJ->worldTransform_.translation_ = playerPos;
+	PositionOBJ->worldTransform_.translation_.y = camera->transform_.translate.y - 2.99f;
 
 	if (collider->CheckCollision(camera->transform_.translate, worldTransformPa.translation_, 2.5f, 4.0f, 2.5f, 2.0f)) {
 		// 衝突している
@@ -251,6 +260,10 @@ void TitleScene::Update()
 					menu->SE();
 				}
 			}
+			if ((currentButtons & XINPUT_GAMEPAD_Y) && !(previousButtons & XINPUT_GAMEPAD_Y)) {
+				menuposition = !menuposition;
+				menu->SE();
+			}
 			// 前回のボタンの状態を更新
 			previousButtons = currentButtons;
 			if (menucount == 0) {
@@ -369,6 +382,7 @@ void TitleScene::Update()
 	}
 	camera->Update();
 	TenQOBJ->Update();
+	PositionOBJ->Update();
 
 	if (playerPos.x >= -20.0f &&
 		playerPos.x <= 20.0f &&
@@ -410,10 +424,12 @@ void TitleScene::Update()
 		}
 	}
 
-	if (effectFlag == true) {
+	if (effectFlag == true && isMenu == false) {
 		sceneTime++;
 	}
-	sceneTime1++;
+	if (isMenu == false) {
+		sceneTime1++;
+	}
 	///////////////Debug///////////////
 #ifdef _DEBUG
 
@@ -427,6 +443,7 @@ void TitleScene::Update()
 	TitleNumberObject_[selectedIndex3]->ModelDebug(label3.c_str());
 
 	TenQOBJ->ModelDebug("TenQ");
+	PositionOBJ->ModelDebug("positionOBJ");
 
 	particle->Particledebug("white", worldTransformPa);
 	particle1->Particledebug("white1", worldTransformPa1);
@@ -496,7 +513,9 @@ void TitleScene::Draw()
 		(*itr)->Draw(GRIDtextureHandle, camera);
 	}
 	TenQOBJ->Draw(TENQtextureHandle, camera);
-
+	if (menuposition == true) {
+		PositionOBJ->Draw(POSITIONtextureHandle, camera);
+	}
 	particle->Draw(ParticleEmitter_, { worldTransformPa.translation_.x,worldTransformPa.translation_.y,worldTransformPa.translation_.z }, WHITEtextureHandle, camera, demoRandPro, false);
 	particle1->Draw(ParticleEmitter_, { worldTransformPa1.translation_.x,worldTransformPa1.translation_.y,worldTransformPa1.translation_.z }, WHITEtextureHandle, camera, demoRandPro, false);
 	particle2->Draw(ParticleEmitter_, { worldTransformPa2.translation_.x,worldTransformPa2.translation_.y,worldTransformPa2.translation_.z }, WHITEtextureHandle, camera, demoRandPro, false);

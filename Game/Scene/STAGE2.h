@@ -30,6 +30,8 @@ public:
 	WorldTransform TenQTransform;
 	Object3d* TenQOBJ = nullptr;
 	Object3d* TextOBJ = nullptr;
+	Object3d* PositionOBJ = nullptr;
+
 private:
 	int sceneTime = 0;
 	int sceneTime1 = 0;
@@ -65,6 +67,7 @@ private:
 	uint32_t TENQtextureHandle;
 	uint32_t GRIDtextureHandle;
 	uint32_t STARtextureHandle;
+	uint32_t POSITIONtextureHandle;
 	uint32_t AudioStarGetSEhandle_;
 	uint32_t AudioPortalhandle_;
 	uint32_t AudioTimeCounthandle_;

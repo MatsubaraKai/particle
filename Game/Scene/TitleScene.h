@@ -49,6 +49,7 @@ private:
 	Timer timer;
 	Collider* collider = nullptr;
 	Object3d* TenQOBJ = nullptr;
+	Object3d* PositionOBJ = nullptr;
 	std::vector<Object3d*> ConeObject_;
 	std::vector<Object3d*> TitleObject_;
 	std::vector<Object3d*> TitleTextObject_;
@@ -70,6 +71,7 @@ private:
 	uint32_t CONEtextureHandle;
 	uint32_t GRIDtextureHandle;
 	uint32_t TENQtextureHandle;
+	uint32_t POSITIONtextureHandle;
 	uint32_t AudioBGMhandle_;
 	uint32_t AudioPortalhandle_;
 	uint32_t AudioTimeCounthandle_;

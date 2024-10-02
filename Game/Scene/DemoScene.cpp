@@ -28,7 +28,7 @@ void DemoScene::Init()
 	AudioPortalhandle_ = Audio::SoundLoadWave("Resources/game/Audio/portal.wav");
 	AudioTimeCounthandle_ = Audio::SoundLoadWave("Resources/game/Audio/timecount.wav");
 	AudioTimeCount2handle_ = Audio::SoundLoadWave("Resources/game/Audio/timecount2.wav");
-
+	POSITIONtextureHandle = TextureManager::StoreTexture("Resources/game/position.png");
 
 	if (DemoRoop == false) {
 		Loder::LoadJsonFile2("Resources", "DemoCone", ConeObject_);
@@ -48,6 +48,9 @@ void DemoScene::Init()
 	
 	TenQOBJ = new Object3d();
 	TenQOBJ->Init();
+	PositionOBJ = new Object3d();
+	PositionOBJ->Init();
+
 	
 	Number = new Object3d();
 	Number->Init();
@@ -80,6 +83,8 @@ void DemoScene::Init()
 	Number->worldTransform_.scale_ = { 2.0f,2.0f,2.0f };
 
 	TenQOBJ->SetModel("world2.obj");
+	PositionOBJ->SetModel("position.obj");
+
 
 	particle = new Particle();
 	particle2 = new Particle();
@@ -114,6 +119,9 @@ void DemoScene::Update()
 	std::string modelFileName = std::to_string(starCount) + ".obj";
 	Number->SetModel(modelFileName.c_str());
 	Vector3 playerPos = camera->transform_.translate;
+	PositionOBJ->worldTransform_.translation_ = playerPos;
+	PositionOBJ->worldTransform_.translation_.y = camera->transform_.translate.y - 2.99f;
+
 
 	if (collider->CheckCollision(camera->transform_.translate, worldTransformPa2.translation_, 2.5f, 4.0f, 2.5f, 2.0f) && starCount == 0) {
 		// 衝突している
@@ -150,10 +158,10 @@ void DemoScene::Update()
 	if (portal == 1) {
 		Audio::SoundPlayWave(Audio::GetInstance()->GetIXAudio().Get(), AudioPortalhandle_, false, 0.1f);
 	}
-	if (sceneTime == 60 || sceneTime == 120 || sceneTime == 240 || sceneTime == 300) {
+	if ((sceneTime == 60 || sceneTime == 120 || sceneTime == 240 || sceneTime == 300) && isMenu == false) {
 		Audio::SoundPlayWave(Audio::GetInstance()->GetIXAudio().Get(), AudioTimeCounthandle_, false, 1.0f);
 	}
-	if (sceneTime == 180) {
+	if (sceneTime == 180 && isMenu == false) {
 		effect = true;
 		Audio::SoundPlayWave(Audio::GetInstance()->GetIXAudio().Get(), AudioTimeCount2handle_, false, 1.0f);
 
@@ -161,7 +169,7 @@ void DemoScene::Update()
 	else {
 		effect = false;
 	}
-	if (sceneTime == 360) {
+	if (sceneTime == 360 && isMenu == false) {
 		effect2 = true;
 		Audio::SoundPlayWave(Audio::GetInstance()->GetIXAudio().Get(), AudioTimeCount2handle_, false, 1.0f);
 	}
@@ -224,6 +232,10 @@ void DemoScene::Update()
 					menucount++;
 					menu->SE();
 				}
+			}
+			if ((currentButtons & XINPUT_GAMEPAD_Y) && !(previousButtons & XINPUT_GAMEPAD_Y)) {
+				menuposition = !menuposition;
+				menu->SE();
 			}
 			// 前回のボタンの状態を更新
 			previousButtons = currentButtons;
@@ -390,6 +402,7 @@ void DemoScene::Update()
 	}
 		camera->Update();
 		TenQOBJ->Update();
+		PositionOBJ->Update();
 		Number->Update();
 
 		ConeObject_[1]->worldTransform_.rotation_.x += 0.01f;
@@ -398,28 +411,26 @@ void DemoScene::Update()
 		ConeObject_[2]->worldTransform_.rotation_.x += 0.01f;
 		ConeObject_[2]->worldTransform_.rotation_.y -= 0.01f;
 		ConeObject_[2]->worldTransform_.rotation_.z -= 0.01f;
+
 		if (sceneTime1 == 0) {
-		
 		}
-		if (sceneTime1 < 180) {
+		if (sceneTime1 < 180 && isMenu == false) {
 			for (int i = 0; i < 6; i++) {
 				TextObject_[indices[i]]->worldTransform_.translation_.y = Lerp(TextObject_[indices[i]]->worldTransform_.translation_.y, Textlerpindices[i], 0.01f);
 			}
-	
-
-
 		}
-		if (sceneTime1 > 180 &&sceneTime1 < 360) {
+		if (sceneTime1 > 180 &&sceneTime1 < 360 && isMenu == false) {
 			for (int i = 0; i < 6; i++) {
 				TextObject_[indices[i]]->worldTransform_.translation_.y = Lerp(TextObject_[indices[i]]->worldTransform_.translation_.y, textlerpindices[i], 0.01f);
 			}
-
 		}
 	
-		if (effectFlag == true) {
+		if (effectFlag == true && isMenu == false) {
 			sceneTime++;
 		}
-		sceneTime1++;
+		if (isMenu == false) {
+			sceneTime1++;
+		}
 		///////////////Debug///////////////
 #ifdef _DEBUG
 
@@ -433,6 +444,7 @@ void DemoScene::Update()
 		TextObject_[selectedIndex3]->ModelDebug(label3.c_str());
 
 		TenQOBJ->ModelDebug("TenQ");
+		PositionOBJ->ModelDebug("positionOBJ");
 		Number->ModelDebug("num");
 
 		particle->Particledebug("white", worldTransformPa);
@@ -504,6 +516,9 @@ void DemoScene::Draw()
 		(*itr)->Draw(GRIDtextureHandle, camera);
 	}
 	TenQOBJ->Draw(TENQtextureHandle, camera);
+	if (menuposition == true) {
+		PositionOBJ->Draw(POSITIONtextureHandle, camera);
+	}
 	Number->Draw(GRIDtextureHandle, camera);
 	particle->Draw(ParticleEmitter_, { worldTransformPa.translation_.x,worldTransformPa.translation_.y,worldTransformPa.translation_.z }, WHITEtextureHandle, camera, demoRandPro, false);
 	particle2->Draw(ParticleEmitter_, { worldTransformPa2.translation_.x,worldTransformPa2.translation_.y,worldTransformPa2.translation_.z }, WHITEtextureHandle, camera, demoRandPro, false);
