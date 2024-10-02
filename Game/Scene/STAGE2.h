@@ -13,6 +13,8 @@
 #include "GameManager.h"
 #include "Timer.h"
 #include "Collider.h"
+#include "Menu.h"
+
 class STAGE2 : public IScene
 {
 public:
@@ -40,6 +42,7 @@ private:
 	Camera* camera = nullptr;
 	Input* input = nullptr;
 	Fade* fade = nullptr;
+	Menu* menu = nullptr;
 	Timer timer;
 	Collider* collider = nullptr;
 
@@ -55,6 +58,9 @@ private:
 	uint32_t FADEtextureHandle;
 	uint32_t WHITEtextureHandle;
 	uint32_t BLUEtextureHandle;
+	uint32_t MENUMEDItextureHandle;
+	uint32_t MENUHIGHtextureHandle;
+	uint32_t MENULOWtextureHandle;
 	uint32_t CONEtextureHandle;
 	uint32_t TENQtextureHandle;
 	uint32_t GRIDtextureHandle;
@@ -75,6 +81,8 @@ private:
 	bool isClear = false;
 	bool isTitle = false;
 	bool isFadeInStarted = false;
+	bool isMenu = false;
+	bool startButtonPressed = false;
 	int starCount = 4;
 	int portal = 0;
 };

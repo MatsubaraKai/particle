@@ -16,6 +16,9 @@ void DemoScene::Init()
 	input = Input::GetInstance();
 	WHITEtextureHandle = TextureManager::StoreTexture("Resources/white.png");
 	BLUEtextureHandle = TextureManager::StoreTexture("Resources/blue.png");
+	MENUMEDItextureHandle = TextureManager::StoreTexture("Resources/game/menumedi.png");
+	MENUHIGHtextureHandle = TextureManager::StoreTexture("Resources/game/menuhigh.png");
+	MENULOWtextureHandle = TextureManager::StoreTexture("Resources/game/menulow.png");
 	CONEtextureHandle = TextureManager::StoreTexture("Resources/game/cone.png");
 	TENQtextureHandle = TextureManager::StoreTexture("Resources/game/world2.png");
 	FADEtextureHandle = TextureManager::StoreTexture("Resources/black.png");
@@ -50,6 +53,7 @@ void DemoScene::Init()
 	Number->Init();
 	starCount = 2;
 	isFadeInStarted = false;
+	isMenu = false;
 	portal = 0;
 	worldTransformPa.Initialize();
 	worldTransformPa2.Initialize();
@@ -94,6 +98,8 @@ void DemoScene::Init()
 	particle->Initialize(ParticleEmitter_);
 	particle2->Initialize(ParticleEmitter_);
 	particle3->Initialize(ParticleEmitter_);
+	menu = new Menu();
+	menu->Init(MENUMEDItextureHandle);
 	fade = new Fade();
 	fade->Init(FADEtextureHandle);
 	fade->StartFadeOut();
@@ -187,6 +193,50 @@ void DemoScene::Update()
 	XINPUT_STATE joyState;
 	if (Input::GetInstance()->GetJoystickState(joyState))
 	{
+		// START ボタンが押された場合
+		if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_START) {
+			// ボタンが押された状態で、前回押されていなかった場合のみトグル
+			if (!startButtonPressed) {
+				isMenu = !isMenu;           // isMenu の値を反転させる
+				startButtonPressed = true;   // ボタンが押された状態にする
+			}
+		}
+		else {
+			// ボタンが離されたらフラグをリセット
+			startButtonPressed = false;
+		}
+		if (isMenu) {
+			// 前回のボタンの状態を保持する変数を用意
+			static WORD previousButtons = 0;
+
+			// 現在のボタンの状態を取得
+			WORD currentButtons = joyState.Gamepad.wButtons;
+
+			// 左肩ボタンが「押された瞬間」を検出
+			if ((currentButtons & XINPUT_GAMEPAD_LEFT_SHOULDER) && !(previousButtons & XINPUT_GAMEPAD_LEFT_SHOULDER)) {
+				if (menucount > 0) {
+					menucount--;
+					menu->SE();
+				}
+			}
+			if ((currentButtons & XINPUT_GAMEPAD_RIGHT_SHOULDER) && !(previousButtons & XINPUT_GAMEPAD_RIGHT_SHOULDER)) {
+				if (menucount < 2) {
+					menucount++;
+					menu->SE();
+				}
+			}
+			// 前回のボタンの状態を更新
+			previousButtons = currentButtons;
+			if (menucount == 0) {
+				menu->ChangeTex(MENULOWtextureHandle);
+			}
+			if (menucount == 1) {
+				menu->ChangeTex(MENUMEDItextureHandle);
+			}
+			if (menucount == 2) {
+				menu->ChangeTex(MENUHIGHtextureHandle);
+			}
+		}
 		// 左スティックによる移動
 		Vector3 moveLeftStick = { 0, 0, 0 };
 		Vector3 move = { 0.0f, 0.0f, 0.0f };
@@ -330,15 +380,13 @@ void DemoScene::Update()
 			(*itr)->worldTransform_.rotation_.y += 0.02f;
 		}
 	}
-	if (isClear == false) {
+	if (isClear == false && isMenu == false) {
 		camera->Jump(isOnFloor);
 		camera->Move(menucount);
 	}
-	else {
-		if (!isFadeInStarted) {
-			fade->StartFadeIn();    // FadeInを開始
-			isFadeInStarted = true; // フラグを立てて一度だけ実行されるようにする
-		}
+	if (!isFadeInStarted && isClear == true) {
+		fade->StartFadeIn();    // FadeInを開始
+		isFadeInStarted = true; // フラグを立てて一度だけ実行されるようにする
 	}
 		camera->Update();
 		TenQOBJ->Update();
@@ -460,6 +508,9 @@ void DemoScene::Draw()
 	particle->Draw(ParticleEmitter_, { worldTransformPa.translation_.x,worldTransformPa.translation_.y,worldTransformPa.translation_.z }, WHITEtextureHandle, camera, demoRandPro, false);
 	particle2->Draw(ParticleEmitter_, { worldTransformPa2.translation_.x,worldTransformPa2.translation_.y,worldTransformPa2.translation_.z }, WHITEtextureHandle, camera, demoRandPro, false);
 	particle3->Draw(ParticleEmitter_, { worldTransformPa3.translation_.x,worldTransformPa3.translation_.y,worldTransformPa3.translation_.z }, WHITEtextureHandle, camera, demoRandPro, false);
+	if (isMenu) {
+		menu->Draw();
+	}
 	fade->Draw();
 }
 
