@@ -50,11 +50,47 @@
     <Filter Include="Engine\Utility">
       <UniqueIdentifier>{20ab3dc9-8402-4133-9b0a-ba2bdcac759f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Interface\input">
-      <UniqueIdentifier>{2765eb3a-6c92-4120-b677-06e0dbbcbbca}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Interface\PSO">
       <UniqueIdentifier>{e88a0a03-fbdd-4617-9a14-ede6079a6151}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\Utility">
+      <UniqueIdentifier>{8d597383-39ad-472a-bfd7-78e2b44562eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\RailCamera">
+      <UniqueIdentifier>{3251b3c0-fc8d-44b6-b562-020bd6e97768}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\3d\Animatrion">
+      <UniqueIdentifier>{c377143e-372c-478a-b40d-df5db06db035}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\3d\Skeleton">
+      <UniqueIdentifier>{5e86d0ed-3c5b-4161-850a-c2fa6df363b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\3d\Skybox">
+      <UniqueIdentifier>{f2e8acdd-3dfa-4f81-9dba-a86b817cd3cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\3d\Sphere">
+      <UniqueIdentifier>{f3a70774-ebf2-4dfd-8dec-2f3240f8e267}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\3d\Triangle">
+      <UniqueIdentifier>{3844cc01-73ed-44c9-b2e3-cf48eccea0df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Audio">
+      <UniqueIdentifier>{b899b71f-ba1a-4479-ac9c-132bf8d79760}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Audio\Adapter">
+      <UniqueIdentifier>{a8fcb504-9d11-4773-9f49-4cfe227cc83d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\input">
+      <UniqueIdentifier>{2765eb3a-6c92-4120-b677-06e0dbbcbbca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Interface\Heap">
+      <UniqueIdentifier>{04e5b469-c237-4e29-82c7-498443441a13}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\2d\PostEffect">
+      <UniqueIdentifier>{67fff7f8-9841-4358-a1bd-15852f84b76e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\2d\PostEffect\Effect">
+      <UniqueIdentifier>{03debd37-c164-453e-be6e-3d2ada5f562b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -64,12 +100,6 @@
     <ClCompile Include="Engine\Interface\WinAPI.cpp">
       <Filter>Engine\Interface</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Audio\Audio.cpp">
-      <Filter>Engine\Interface</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Audio\Adapter\Engine.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\2d\Sprite.cpp">
       <Filter>Engine\2d</Filter>
     </ClCompile>
@@ -78,9 +108,6 @@
     </ClCompile>
     <ClCompile Include="Engine\2d\ImGuiCommon.cpp">
       <Filter>Engine\2d</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Scene\GameManager.cpp">
-      <Filter>Application</Filter>
     </ClCompile>
     <ClCompile Include="Game\Scene\STAGE2.cpp">
       <Filter>Application\scene</Filter>
@@ -124,9 +151,6 @@
     <ClCompile Include="imgui\imgui_widgets.cpp">
       <Filter>Externals\Imgui</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Utilty\TimedCall.cpp">
-      <Filter>Engine\Utility</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\3d\Model\Model.cpp">
       <Filter>Engine\3d\Model</Filter>
     </ClCompile>
@@ -152,10 +176,10 @@
       <Filter>Engine\Utility</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Input\Input.cpp">
-      <Filter>Engine\Interface\input</Filter>
+      <Filter>Engine\input</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Input\InputManager.cpp">
-      <Filter>Engine\Interface\input</Filter>
+      <Filter>Engine\input</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Interface\PSO\PSOModel.cpp">
       <Filter>Engine\Interface\PSO</Filter>
@@ -172,58 +196,130 @@
     <ClCompile Include="Engine\Interface\Mesh.cpp">
       <Filter>Engine\Interface</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Interface\Heap\SRVManager.cpp">
-      <Filter>Engine\Interface</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\3d\Skeleton\Skeleton.cpp" />
-    <ClCompile Include="Engine\3d\Triangle\Triangle.cpp">
-      <Filter>Engine\3d</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\3d\Sphere\Sphere.cpp">
-      <Filter>Engine\3d</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Interface\WorldTransform.cpp">
-      <Filter>Engine\3d</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Interface\Camera.cpp">
-      <Filter>Engine\3d</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\2d\PostProcess.cpp" />
-    <ClCompile Include="Engine\2d\PostEffect\PSOPostEffect.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Engine\3d\Animation\Animation.cpp" />
-    <ClCompile Include="Engine\3d\Model\AnimationModel.cpp" />
-    <ClCompile Include="Game\Utilty\Loder.cpp" />
     <ClCompile Include="Engine\Interface\PSO\PSOAnimationModel.cpp">
       <Filter>Engine\Interface\PSO</Filter>
     </ClCompile>
     <ClCompile Include="Engine\2d\Fade.cpp">
       <Filter>Engine\2d</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\2d\PostEffect\Effect\Bloom.cpp" />
-    <ClCompile Include="Engine\2d\PostEffect\Effect\DepthOutline.cpp" />
-    <ClCompile Include="Engine\2d\PostEffect\Effect\Dissolve.cpp" />
-    <ClCompile Include="Engine\2d\PostEffect\Effect\FullScreen.cpp" />
-    <ClCompile Include="Engine\2d\PostEffect\Effect\GaussianBlur.cpp" />
-    <ClCompile Include="Engine\2d\PostEffect\Effect\GrayScale.cpp" />
-    <ClCompile Include="Engine\2d\PostEffect\Effect\RadialBlur.cpp" />
-    <ClCompile Include="Engine\2d\PostEffect\Effect\Random.cpp" />
-    <ClCompile Include="Engine\2d\PostEffect\Effect\Vignette.cpp" />
-    <ClCompile Include="Engine\2d\PostEffect\IPostEffectState.cpp" />
-    <ClCompile Include="Engine\3d\Skybox\Skybox.cpp" />
-    <ClCompile Include="Game\RailCamera\RailCamera.cpp" />
-    <ClCompile Include="Engine\Interface\PSO\PSOSkybox.cpp" />
-    <ClCompile Include="Engine\2d\PostEffect\Effect\Fog.cpp" />
-    <ClCompile Include="Engine\2d\PostEffect\Effect\HSVFilter.cpp" />
-    <ClCompile Include="Engine\2d\PostEffect\Effect\LuminanceBasedOutline.cpp" />
-    <ClCompile Include="Engine\2d\PostEffect\Effect\OutlineBlack.cpp" />
-    <ClCompile Include="Engine\2d\PostEffect\Effect\OutlineBlue.cpp" />
-    <ClCompile Include="Engine\2d\PostEffect\Effect\TVEffect.cpp" />
-    <ClCompile Include="Engine\2d\PostEffect\Effect\OutlinePurple.cpp" />
-    <ClCompile Include="Engine\2d\PostEffect\Effect\ChromaticAberration.cpp" />
-    <ClCompile Include="Game\Scene\STAGE3.cpp" />
-    <ClCompile Include="Game\Utilty\Timer.cpp" />
-    <ClCompile Include="Game\Utilty\Menu.cpp" />
+    <ClCompile Include="Game\Scene\GameManager.cpp">
+      <Filter>Application\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\RailCamera\RailCamera.cpp">
+      <Filter>Application\RailCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Utilty\Loder.cpp">
+      <Filter>Application\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Utilty\Menu.cpp">
+      <Filter>Application\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Utilty\Timer.cpp">
+      <Filter>Application\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Utilty\TimedCall.cpp">
+      <Filter>Application\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\2d\PostProcess.cpp">
+      <Filter>Engine\2d</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\3d\Animation\Animation.cpp">
+      <Filter>Engine\3d\Animatrion</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\3d\Model\AnimationModel.cpp">
+      <Filter>Engine\3d\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\3d\Skeleton\Skeleton.cpp">
+      <Filter>Engine\3d\Skeleton</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\3d\Skybox\Skybox.cpp">
+      <Filter>Engine\3d\Skybox</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Scene\STAGE3.cpp">
+      <Filter>Application\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\3d\Sphere\Sphere.cpp">
+      <Filter>Engine\3d\Sphere</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\3d\Triangle\Triangle.cpp">
+      <Filter>Engine\3d\Triangle</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Audio\Adapter\Engine.cpp">
+      <Filter>Engine\Audio\Adapter</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Audio\Audio.cpp">
+      <Filter>Engine\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Interface\Camera.cpp">
+      <Filter>Engine\Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Interface\WorldTransform.cpp">
+      <Filter>Engine\Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Interface\Heap\SRVManager.cpp">
+      <Filter>Engine\Interface\Heap</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Interface\PSO\PSOSkybox.cpp">
+      <Filter>Engine\Interface\PSO</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\2d\PostEffect\IPostEffectState.cpp">
+      <Filter>Engine\2d\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\2d\PostEffect\PSOPostEffect.cpp">
+      <Filter>Engine\2d\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\2d\PostEffect\Effect\Bloom.cpp">
+      <Filter>Engine\2d\PostEffect\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\2d\PostEffect\Effect\ChromaticAberration.cpp">
+      <Filter>Engine\2d\PostEffect\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\2d\PostEffect\Effect\DepthOutline.cpp">
+      <Filter>Engine\2d\PostEffect\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\2d\PostEffect\Effect\Dissolve.cpp">
+      <Filter>Engine\2d\PostEffect\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\2d\PostEffect\Effect\Fog.cpp">
+      <Filter>Engine\2d\PostEffect\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\2d\PostEffect\Effect\FullScreen.cpp">
+      <Filter>Engine\2d\PostEffect\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\2d\PostEffect\Effect\GaussianBlur.cpp">
+      <Filter>Engine\2d\PostEffect\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\2d\PostEffect\Effect\GrayScale.cpp">
+      <Filter>Engine\2d\PostEffect\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\2d\PostEffect\Effect\HSVFilter.cpp">
+      <Filter>Engine\2d\PostEffect\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\2d\PostEffect\Effect\LuminanceBasedOutline.cpp">
+      <Filter>Engine\2d\PostEffect\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\2d\PostEffect\Effect\OutlineBlack.cpp">
+      <Filter>Engine\2d\PostEffect\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\2d\PostEffect\Effect\OutlineBlue.cpp">
+      <Filter>Engine\2d\PostEffect\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\2d\PostEffect\Effect\OutlinePurple.cpp">
+      <Filter>Engine\2d\PostEffect\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\2d\PostEffect\Effect\RadialBlur.cpp">
+      <Filter>Engine\2d\PostEffect\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\2d\PostEffect\Effect\Random.cpp">
+      <Filter>Engine\2d\PostEffect\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\2d\PostEffect\Effect\TVEffect.cpp">
+      <Filter>Engine\2d\PostEffect\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\2d\PostEffect\Effect\Vignette.cpp">
+      <Filter>Engine\2d\PostEffect\Effect</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Interface\DirectXCommon.h">
@@ -244,12 +340,6 @@
     <ClInclude Include="Lib\math\Matrix4x4.h">
       <Filter>Engine\Math</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Audio\Audio.h">
-      <Filter>Engine\Interface</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Audio\Adapter\Engine.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
     <ClInclude Include="Lib\math\Matrix3x3.h">
       <Filter>Engine\Math</Filter>
     </ClInclude>
@@ -267,9 +357,6 @@
     </ClInclude>
     <ClInclude Include="Engine\2d\ImGuiCommon.h">
       <Filter>Engine\2d</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Scene\GameManager.h">
-      <Filter>Application</Filter>
     </ClInclude>
     <ClInclude Include="Game\Scene\TitleScene.h">
       <Filter>Application\scene</Filter>
@@ -319,9 +406,6 @@
     <ClInclude Include="imgui\imstb_truetype.h">
       <Filter>Externals\Imgui</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Utilty\TimedCall.h">
-      <Filter>Engine\Utility</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\3d\DirectionLight.h">
       <Filter>Engine\Utility</Filter>
     </ClInclude>
@@ -362,10 +446,10 @@
       <Filter>Engine\Utility</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Input\Input.h">
-      <Filter>Engine\Interface\input</Filter>
+      <Filter>Engine\input</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Input\InputManager.h">
-      <Filter>Engine\Interface\input</Filter>
+      <Filter>Engine\input</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Interface\PSO\PSOModel.h">
       <Filter>Engine\Interface\PSO</Filter>
@@ -382,63 +466,139 @@
     <ClInclude Include="Engine\Interface\Mesh.h">
       <Filter>Engine\Interface</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Interface\Heap\SRVManager.h">
-      <Filter>Engine\Interface</Filter>
-    </ClInclude>
     <ClInclude Include="imconfig.h" />
-    <ClInclude Include="Engine\3d\Skeleton\Skeleton.h" />
-    <ClInclude Include="Engine\3d\Triangle\Triangle.h">
-      <Filter>Engine\3d</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\3d\Sphere\Sphere.h">
-      <Filter>Engine\3d</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Interface\WorldTransform.h">
-      <Filter>Engine\3d</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Interface\Camera.h">
-      <Filter>Engine\3d</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\3d\Model\ModelManager.h">
-      <Filter>Engine\3d</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\2d\PostProcess.h" />
-    <ClInclude Include="Engine\2d\PostEffect\PSOPostEffect.h" />
-    <ClInclude Include="Lib\math\Quaternion.h" />
-    <ClInclude Include="Engine\3d\Animation\Animation.h" />
-    <ClInclude Include="Engine\Externals\json.hpp" />
-    <ClInclude Include="Engine\3d\Model\AnimationModel.h" />
-    <ClInclude Include="Game\Utilty\Loder.h" />
     <ClInclude Include="Engine\Interface\PSO\PSOAnimationModel.h">
       <Filter>Engine\Interface\PSO</Filter>
     </ClInclude>
     <ClInclude Include="Engine\2d\Fade.h">
       <Filter>Engine\2d</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\2d\PostEffect\Effect\Bloom.h" />
-    <ClInclude Include="Engine\2d\PostEffect\Effect\DepthOutline.h" />
-    <ClInclude Include="Engine\2d\PostEffect\Effect\Dissolve.h" />
-    <ClInclude Include="Engine\2d\PostEffect\Effect\FullScreen.h" />
-    <ClInclude Include="Engine\2d\PostEffect\Effect\GaussianBlur.h" />
-    <ClInclude Include="Engine\2d\PostEffect\Effect\GrayScale.h" />
-    <ClInclude Include="Engine\2d\PostEffect\Effect\RadialBlur.h" />
-    <ClInclude Include="Engine\2d\PostEffect\Effect\Random.h" />
-    <ClInclude Include="Engine\2d\PostEffect\Effect\Vignette.h" />
-    <ClInclude Include="Engine\2d\PostEffect\IPostEffectState.h" />
-    <ClInclude Include="Engine\3d\Skybox\Skybox.h" />
-    <ClInclude Include="Game\RailCamera\RailCamera.h" />
-    <ClInclude Include="Engine\Interface\PSO\PSOSkybox.h" />
-    <ClInclude Include="Engine\2d\PostEffect\Effect\Fog.h" />
-    <ClInclude Include="Engine\2d\PostEffect\Effect\HSVFilter.h" />
-    <ClInclude Include="Engine\2d\PostEffect\Effect\LuminanceBasedOutline.h" />
-    <ClInclude Include="Engine\2d\PostEffect\Effect\OutlineBlack.h" />
-    <ClInclude Include="Engine\2d\PostEffect\Effect\OutlineBlue.h" />
-    <ClInclude Include="Engine\2d\PostEffect\Effect\TVEffect.h" />
-    <ClInclude Include="Engine\2d\PostEffect\Effect\OutlinePurple.h" />
-    <ClInclude Include="Engine\2d\PostEffect\Effect\ChromaticAberration.h" />
-    <ClInclude Include="Game\Scene\STAGE3.h" />
-    <ClInclude Include="Game\Utilty\Timer.h" />
-    <ClInclude Include="Game\Utilty\Menu.h" />
+    <ClInclude Include="Game\Scene\GameManager.h">
+      <Filter>Application\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\RailCamera\RailCamera.h">
+      <Filter>Application\RailCamera</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Utilty\Loder.h">
+      <Filter>Application\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Utilty\Menu.h">
+      <Filter>Application\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Utilty\Timer.h">
+      <Filter>Application\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Utilty\TimedCall.h">
+      <Filter>Application\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\2d\PostProcess.h">
+      <Filter>Engine\2d</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\3d\Animation\Animation.h">
+      <Filter>Engine\3d\Animatrion</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\3d\Model\AnimationModel.h">
+      <Filter>Engine\3d\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\3d\Skeleton\Skeleton.h">
+      <Filter>Engine\3d\Skeleton</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\3d\Skybox\Skybox.h">
+      <Filter>Engine\3d\Skybox</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Scene\STAGE3.h">
+      <Filter>Application\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\3d\Sphere\Sphere.h">
+      <Filter>Engine\3d\Sphere</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\3d\Triangle\Triangle.h">
+      <Filter>Engine\3d\Triangle</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\3d\Model\ModelManager.h">
+      <Filter>Engine\3d\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Audio\Adapter\Engine.h">
+      <Filter>Engine\Audio\Adapter</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Audio\Audio.h">
+      <Filter>Engine\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Interface\Camera.h">
+      <Filter>Engine\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Interface\WorldTransform.h">
+      <Filter>Engine\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Interface\Heap\SRVManager.h">
+      <Filter>Engine\Interface\Heap</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Interface\PSO\PSOSkybox.h">
+      <Filter>Engine\Interface\PSO</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\2d\PostEffect\IPostEffectState.h">
+      <Filter>Engine\2d\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\2d\PostEffect\PSOPostEffect.h">
+      <Filter>Engine\2d\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\2d\PostEffect\Effect\Bloom.h">
+      <Filter>Engine\2d\PostEffect\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\2d\PostEffect\Effect\ChromaticAberration.h">
+      <Filter>Engine\2d\PostEffect\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\2d\PostEffect\Effect\DepthOutline.h">
+      <Filter>Engine\2d\PostEffect\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\2d\PostEffect\Effect\Dissolve.h">
+      <Filter>Engine\2d\PostEffect\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\2d\PostEffect\Effect\Fog.h">
+      <Filter>Engine\2d\PostEffect\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\2d\PostEffect\Effect\FullScreen.h">
+      <Filter>Engine\2d\PostEffect\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\2d\PostEffect\Effect\GaussianBlur.h">
+      <Filter>Engine\2d\PostEffect\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\2d\PostEffect\Effect\GrayScale.h">
+      <Filter>Engine\2d\PostEffect\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\2d\PostEffect\Effect\HSVFilter.h">
+      <Filter>Engine\2d\PostEffect\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\2d\PostEffect\Effect\LuminanceBasedOutline.h">
+      <Filter>Engine\2d\PostEffect\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\2d\PostEffect\Effect\OutlineBlack.h">
+      <Filter>Engine\2d\PostEffect\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\2d\PostEffect\Effect\OutlineBlue.h">
+      <Filter>Engine\2d\PostEffect\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\2d\PostEffect\Effect\OutlinePurple.h">
+      <Filter>Engine\2d\PostEffect\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\math\Quaternion.h">
+      <Filter>Engine\2d\PostEffect\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\2d\PostEffect\Effect\RadialBlur.h">
+      <Filter>Engine\2d\PostEffect\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\2d\PostEffect\Effect\Random.h">
+      <Filter>Engine\2d\PostEffect\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\2d\PostEffect\Effect\TVEffect.h">
+      <Filter>Engine\2d\PostEffect\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\2d\PostEffect\Effect\Vignette.h">
+      <Filter>Engine\2d\PostEffect\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Externals\json.hpp">
+      <Filter>Externals</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui\imgui.ini">
@@ -459,8 +619,12 @@
     <None Include="Resources\shader\Sprite.hlsli">
       <Filter>Resource\Shader</Filter>
     </None>
-    <None Include="Resources\shader\Fullscreen.hlsli" />
-    <None Include="Resources\shader\Skybox.hlsli" />
+    <None Include="Resources\shader\Fullscreen.hlsli">
+      <Filter>Resource\Shader</Filter>
+    </None>
+    <None Include="Resources\shader\Skybox.hlsli">
+      <Filter>Resource\Shader</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Text Include="imgui\LICENSE.txt" />
@@ -484,31 +648,83 @@
     <FxCompile Include="Resources\shader\Sprite.VS.hlsl">
       <Filter>Resource\Shader</Filter>
     </FxCompile>
-    <FxCompile Include="Resources\shader\BoxFilter.PS.hlsl" />
-    <FxCompile Include="Resources\shader\DepthBasedOutline.PS.hlsl" />
-    <FxCompile Include="Resources\shader\Fullscreen.PS.hlsl" />
-    <FxCompile Include="Resources\shader\Fullscreen.VS.hlsl" />
-    <FxCompile Include="Resources\shader\GaussianFilter.PS.hlsl" />
-    <FxCompile Include="Resources\shader\Grayscale.PS.hlsl" />
-    <FxCompile Include="Resources\shader\LuminanceBasedOutline.PS.hlsl" />
-    <FxCompile Include="Resources\shader\Vignetting.PS.hlsl" />
-    <FxCompile Include="Resources\shader\SkinningObject3d.VS.hlsl" />
-    <FxCompile Include="Resources\shader\Dissololve.PS.hlsl" />
-    <FxCompile Include="Resources\shader\Fog.PS.hlsl" />
-    <FxCompile Include="Resources\shader\RadialBlur.PS.hlsl" />
-    <FxCompile Include="Resources\shader\Random.PS.hlsl" />
-    <FxCompile Include="Resources\shader\OutlineBlack.PS.hlsl" />
-    <FxCompile Include="Resources\shader\TVEffect.PS.hlsl" />
-    <FxCompile Include="Resources\shader\OutlineBlue.PS.hlsl" />
-    <FxCompile Include="Resources\shader\OutlineTest.PS.hlsl" />
-    <FxCompile Include="Resources\shader\Test8.PS.hlsl" />
-    <FxCompile Include="Resources\shader\ChromaticAberration.PS.hlsl" />
-    <FxCompile Include="Resources\shader\HSVFilter.PS.hlsl" />
-    <FxCompile Include="Resources\shader\OutlinePurple.PS.hlsl" />
-    <FxCompile Include="Resources\shader\Test9.PS.hlsl" />
-    <FxCompile Include="Resources\shader\Test10.PS.hlsl" />
-    <FxCompile Include="Resources\shader\Bloom.PS.hlsl" />
-    <FxCompile Include="Resources\shader\Skybox.VS.hlsl" />
-    <FxCompile Include="Resources\shader\Skybox.PS.hlsl" />
+    <FxCompile Include="Resources\shader\Bloom.PS.hlsl">
+      <Filter>Resource\Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shader\BoxFilter.PS.hlsl">
+      <Filter>Resource\Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shader\ChromaticAberration.PS.hlsl">
+      <Filter>Resource\Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shader\DepthBasedOutline.PS.hlsl">
+      <Filter>Resource\Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shader\Dissololve.PS.hlsl">
+      <Filter>Resource\Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shader\Fog.PS.hlsl">
+      <Filter>Resource\Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shader\Fullscreen.PS.hlsl">
+      <Filter>Resource\Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shader\Fullscreen.VS.hlsl">
+      <Filter>Resource\Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shader\GaussianFilter.PS.hlsl">
+      <Filter>Resource\Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shader\Grayscale.PS.hlsl">
+      <Filter>Resource\Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shader\HSVFilter.PS.hlsl">
+      <Filter>Resource\Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shader\LuminanceBasedOutline.PS.hlsl">
+      <Filter>Resource\Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shader\OutlineBlack.PS.hlsl">
+      <Filter>Resource\Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shader\OutlineBlue.PS.hlsl">
+      <Filter>Resource\Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shader\OutlinePurple.PS.hlsl">
+      <Filter>Resource\Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shader\OutlineTest.PS.hlsl">
+      <Filter>Resource\Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shader\RadialBlur.PS.hlsl">
+      <Filter>Resource\Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shader\Random.PS.hlsl">
+      <Filter>Resource\Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shader\SkinningObject3d.VS.hlsl">
+      <Filter>Resource\Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shader\Skybox.VS.hlsl">
+      <Filter>Resource\Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shader\Skybox.PS.hlsl">
+      <Filter>Resource\Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shader\Test9.PS.hlsl">
+      <Filter>Resource\Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shader\Test10.PS.hlsl">
+      <Filter>Resource\Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shader\Test8.PS.hlsl">
+      <Filter>Resource\Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shader\TVEffect.PS.hlsl">
+      <Filter>Resource\Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shader\Vignetting.PS.hlsl">
+      <Filter>Resource\Shader</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>
