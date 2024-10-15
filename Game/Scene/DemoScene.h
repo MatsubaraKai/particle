@@ -42,6 +42,11 @@ private:
 	float Textlerpindices[6] = { 8.00f,8.61f,4.5f,4.5f,0.5f,7.5f };
 	float textlerpindices[6] = { 6.00f,7.61f,3.5f,3.5f,-0.5f,6.5f };
 	Vector3 previousPos[99];
+	Vector3 stageCenter = { 0.0f, 50.0f, 0.0f };  // ステージの中心
+	float angleZ = 0.2f;
+	float stageRadius = 200.0f;                 // 円の半径
+	float rotationSpeed = 0.01f;               // カメラの回転速度
+
 
 	Camera* camera = nullptr;
 	Input* input = nullptr;

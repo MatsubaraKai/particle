@@ -392,9 +392,10 @@ void DemoScene::Update()
 			(*itr)->worldTransform_.rotation_.y += 0.02f;
 		}
 	}
+	camera->StagePreview(stageCenter, stageRadius, rotationSpeed, angleZ);
 	if (isClear == false && isMenu == false) {
-		camera->Jump(isOnFloor);
-		camera->Move(menucount);
+		//camera->Jump(isOnFloor);
+		//camera->Move(menucount);
 	}
 	if (!isFadeInStarted && isClear == true) {
 		fade->StartFadeIn();    // FadeInを開始

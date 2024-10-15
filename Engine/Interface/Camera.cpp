@@ -17,8 +17,6 @@ void Camera::Update() {
     viewMatrix_ = Inverse(cameraMatrix_);
     projectionMatrix_ = MakePerspectiveFovMatrix(fovY_, asepectRatio_, nearClip_, farClip_);
     viewProjectionMatrix_ = Multiply(viewMatrix_, projectionMatrix_);
-
-
 }
 void Camera::CameraDebug()
 {
@@ -55,7 +53,7 @@ void Camera::HandleGamepadMovement(int menucount)
     XINPUT_STATE joyState;
     if (Input::GetInstance()->GetJoystickState(joyState))
     {
-        
+
         // 左スティックによる移動
         Vector3 moveLeftStick = { 0, 0, 0 };
         const float leftStickDeadZone = 0.2f;
@@ -74,7 +72,7 @@ void Camera::HandleGamepadMovement(int menucount)
                 moveLeftStick.x *= PlayerSpeed;
                 moveLeftStick.z *= PlayerSpeed;
             }
-            
+
         }
 
         // カメラの向きに基づく移動方向の調整
@@ -92,7 +90,7 @@ void Camera::HandleGamepadMovement(int menucount)
         }
 
         // 右スティックによる視野の移動
-        HandleRightStick(joyState,menucount);
+        HandleRightStick(joyState, menucount);
     }
 }
 
@@ -222,11 +220,11 @@ float Camera::Face2Face(const Vector3& playerPosition, const Vector3 objectPosit
 }
 
 float Camera::Lerp(const float& a, const float& b, float t) {
-	float result{};
+    float result{};
 
-	result = a + b * t;
+    result = a + b * t;
 
-	return result;
+    return result;
 }
 
 // 最短角度補間
@@ -238,10 +236,34 @@ float Camera::LerpShortAngle(float a, float b, float t)
 }
 
 float Camera::LerpShortTranslate(float a, float b, float t) {
-	return a + t * (b - a);
+    return a + t * (b - a);
 }
 
 // 長さ(ノルム)
 float Camera::Length(const Vector3& v) {
     return std::sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
 };
+
+void Camera::StagePreview(const Vector3& center, float radius, float speed, float angleY)
+{
+    // 時間に基づいて角度を更新する
+    static float angle = 0.0f;
+    angle += speed;
+
+    // カメラを円周上に配置する
+    transform_.translate.x = center.x + radius * cosf(angle);
+    transform_.translate.z = center.z + radius * sinf(angle);
+
+    // 高さを固定する（必要なら高さも動的に変更可能）
+    transform_.translate.y = center.y + 10.0f;  // 例として固定高さ10.0f
+
+    // カメラの向きをステージの中心に向ける
+    transform_.rotate.y = Face2Face(center, transform_.translate);
+    transform_.rotate.x = angleY;
+
+    // ビュー行列などを更新
+    cameraMatrix_ = MakeAffineMatrix(transform_.scale, transform_.rotate, transform_.translate);
+    viewMatrix_ = Inverse(cameraMatrix_);
+    projectionMatrix_ = MakePerspectiveFovMatrix(fovY_, asepectRatio_, nearClip_, farClip_);
+    viewProjectionMatrix_ = Multiply(viewMatrix_, projectionMatrix_);
+}

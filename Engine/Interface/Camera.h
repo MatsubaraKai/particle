@@ -15,6 +15,7 @@ class Camera
 public:
 	void Initialize();
 	void Update();
+	void StagePreview(const Vector3& center, float radius, float speed,float angleY);
 	void Move(int menucount);
 	void HandleGamepadMovement(int menucount);
 	void HandleRightStick(const XINPUT_STATE& joyState, int menucount);
