@@ -23,5 +23,4 @@ public:
 	~GameManager();
 
 	int Run();
-
 };

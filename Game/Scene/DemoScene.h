@@ -45,8 +45,7 @@ private:
 	Vector3 stageCenter = { 0.0f, 50.0f, 0.0f };  // ステージの中心
 	float angleZ = 0.2f;
 	float stageRadius = 200.0f;                 // 円の半径
-	float rotationSpeed = 0.01f;               // カメラの回転速度
-
+	float rotationSpeed = 0.02f;               // カメラの回転速度
 
 	Camera* camera = nullptr;
 	Input* input = nullptr;
@@ -89,6 +88,7 @@ private:
 	bool effectFlag = true;
 	bool effect = false;
 	bool effect2 = false;
+
 	bool isOnFloor = false;
 	bool isGetStar = false;
 	bool isClear = false;
@@ -96,6 +96,10 @@ private:
 	bool isFadeInStarted = false;
 	bool isMenu = false;
 	bool startButtonPressed = false;
+	//stageprevie
+	bool isPreview = true;
+	bool previousIsPreview = isPreview;
+
 	int starCount = 2;
 	int portal = 0;
 };

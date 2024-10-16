@@ -244,26 +244,62 @@ float Camera::Length(const Vector3& v) {
     return std::sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
 };
 
-void Camera::StagePreview(const Vector3& center, float radius, float speed, float angleY)
-{
-    // 時間に基づいて角度を更新する
+void Camera::StagePreview(const Vector3& center, float radius, float speed, float angleX, bool& isPreview) {
     static float angle = 0.0f;
-    angle += speed;
+    static int lapCount = 0;
+    static bool easingBack = false; // イージングで戻るフラグ
+    static float easingProgress = 0.0f;
+    static Vector3 easingStartPosition; // イージング開始時のカメラ位置
+    Vector3 initialPosition = { -1.52f, -45.0f, 184.984f }; // 初期位置
 
-    // カメラを円周上に配置する
-    transform_.translate.x = center.x + radius * cosf(angle);
-    transform_.translate.z = center.z + radius * sinf(angle);
+    if (isPreview) {
+        if (!easingBack) {
+            // 通常の円周移動
+            angle += speed;
 
-    // 高さを固定する（必要なら高さも動的に変更可能）
-    transform_.translate.y = center.y + 10.0f;  // 例として固定高さ10.0f
+            // カメラを円周上に配置
+            transform_.translate.x = center.x + radius * cosf(angle);
+            transform_.translate.z = center.z + radius * sinf(angle);
+            transform_.translate.y = center.y + 10.0f; // 高さは固定
 
-    // カメラの向きをステージの中心に向ける
-    transform_.rotate.y = Face2Face(center, transform_.translate);
-    transform_.rotate.x = angleY;
+            // カメラの向きを中心に向ける
+            transform_.rotate.y = Face2Face(center, transform_.translate);
+            transform_.rotate.x = angleX;
 
-    // ビュー行列などを更新
-    cameraMatrix_ = MakeAffineMatrix(transform_.scale, transform_.rotate, transform_.translate);
-    viewMatrix_ = Inverse(cameraMatrix_);
-    projectionMatrix_ = MakePerspectiveFovMatrix(fovY_, asepectRatio_, nearClip_, farClip_);
-    viewProjectionMatrix_ = Multiply(viewMatrix_, projectionMatrix_);
+            // 1周（2π）を超えた場合
+            if (angle >= 2 * std::numbers::pi) {
+                angle = 0.0f;  // 角度をリセット
+                lapCount++;    // 周回数を増やす
+            }
+
+            // 1周と0.75周したらイージングで初期位置に戻る
+            if (lapCount >= 1 && angle >= 1.5f * std::numbers::pi) {
+                easingBack = true;
+                easingStartPosition = transform_.translate; // イージング開始時の位置を保存
+            }
+        }
+        else {
+            // イージングで初期位置に戻る
+            easingProgress += 0.005f;  // イージング進行度（調整可能）
+
+            transform_.translate.x = Lerp(easingStartPosition.x, initialPosition.x, easingProgress);
+            transform_.translate.y = Lerp(easingStartPosition.y, initialPosition.y, easingProgress);
+            transform_.translate.z = Lerp(easingStartPosition.z, initialPosition.z, easingProgress);
+
+            // イージングが完了したら処理を終了
+            if (easingProgress >= 1.0f) {
+                lapCount = 0;       // 周回カウントをリセット
+                angle = 0.0f;       // 角度をリセット
+                easingBack = false; // イージングフラグをリセット
+                easingProgress = 0.0f;
+                isPreview = false;  // プレビュー終了
+            }
+        }
+
+        // カメラの行列を更新
+        cameraMatrix_ = MakeAffineMatrix(transform_.scale, transform_.rotate, transform_.translate);
+        viewMatrix_ = Inverse(cameraMatrix_);
+        projectionMatrix_ = MakePerspectiveFovMatrix(fovY_, asepectRatio_, nearClip_, farClip_);
+        viewProjectionMatrix_ = Multiply(viewMatrix_, projectionMatrix_);
+    }
 }

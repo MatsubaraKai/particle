@@ -57,6 +57,7 @@ void DemoScene::Init()
 	starCount = 2;
 	isFadeInStarted = false;
 	isMenu = false;
+	isPreview = true;
 	portal = 0;
 	worldTransformPa.Initialize();
 	worldTransformPa2.Initialize();
@@ -78,7 +79,7 @@ void DemoScene::Init()
 
 	camera->transform_.translate = { 0.0f,15.0f,-15.0f };
 	camera->transform_.rotate = { -0.2f, 0.0f, 0.0f };
-	
+
 	Number->worldTransform_.translation_ = { 0.0f,8.0f,84.5f };
 	Number->worldTransform_.scale_ = { 2.0f,2.0f,2.0f };
 
@@ -95,7 +96,6 @@ void DemoScene::Init()
 		{1.0f,4.0f},
 		{1.0f,4.0f}
 	};
-
 	ParticleEmitter_.count = 6;
 	ParticleEmitter_.frequency = 0.02f;
 	ParticleEmitter_.frequencyTime = 0.0f;
@@ -108,11 +108,14 @@ void DemoScene::Init()
 	fade = new Fade();
 	fade->Init(FADEtextureHandle);
 	fade->StartFadeOut();
-	timer.start();
 }
 
 void DemoScene::Update()
 {
+	if (previousIsPreview && !isPreview) {
+		timer.start();
+	}
+	previousIsPreview = isPreview;
 	fade->UpdateFade();
 	PSOPostEffect* pSOPostEffect = PSOPostEffect::GatInstance();
 	// プレイヤーの座標
@@ -142,8 +145,7 @@ void DemoScene::Update()
 		portal++;
 		timer.stop();//タイマー止める
 		isClear = true;
-	}
-	else {
+	}	else {
 		isClear = false;
 	}
 	if (collider->CheckCollision(camera->transform_.translate, worldTransformPa3.translation_, 2.5f, 4.0f, 2.5f, 2.0f)) {
@@ -392,10 +394,12 @@ void DemoScene::Update()
 			(*itr)->worldTransform_.rotation_.y += 0.02f;
 		}
 	}
-	camera->StagePreview(stageCenter, stageRadius, rotationSpeed, angleZ);
-	if (isClear == false && isMenu == false) {
-		//camera->Jump(isOnFloor);
-		//camera->Move(menucount);
+	if (isPreview == true) {
+		camera->StagePreview(stageCenter, stageRadius, rotationSpeed, angleZ, isPreview);
+	}
+	if (isClear == false && isMenu == false && isPreview == false) {
+		camera->Jump(isOnFloor);
+		camera->Move(menucount);
 	}
 	if (!isFadeInStarted && isClear == true) {
 		fade->StartFadeIn();    // FadeInを開始
