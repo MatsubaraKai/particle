@@ -23,6 +23,7 @@ public:
 	void Jump(bool isOnFloor);
 	float Face2Face(const Vector3& playerPosition, const Vector3 objectPosition);
 	float Lerp(const float& a, const float& b, float t);
+	float Lerp2(float a, float b, float t);
 	float LerpShortAngle(float a, float b, float t);
 	float LerpShortTranslate(float a, float b, float t);
 	float Length(const Vector3& v);

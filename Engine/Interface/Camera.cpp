@@ -226,6 +226,9 @@ float Camera::Lerp(const float& a, const float& b, float t) {
 
     return result;
 }
+float Camera::Lerp2(float a, float b, float t) {
+    return a + t * (b - a);
+}
 
 // 最短角度補間
 float Camera::LerpShortAngle(float a, float b, float t)
@@ -250,8 +253,7 @@ void Camera::StagePreview(const Vector3& center, float radius, float speed, floa
     static bool easingBack = false; // イージングで戻るフラグ
     static float easingProgress = 0.0f;
     static Vector3 easingStartPosition; // イージング開始時のカメラ位置
-    Vector3 initialPosition = { -1.52f, -45.0f, 184.984f }; // 初期位置
-
+    Vector3 initialPosition = {  0.0f,15.0f,-15.0f }; // 初期位置 
     if (isPreview) {
         if (!easingBack) {
             // 通常の円周移動
@@ -282,12 +284,12 @@ void Camera::StagePreview(const Vector3& center, float radius, float speed, floa
             // イージングで初期位置に戻る
             easingProgress += 0.005f;  // イージング進行度（調整可能）
 
-            transform_.translate.x = Lerp(easingStartPosition.x, initialPosition.x, easingProgress);
-            transform_.translate.y = Lerp(easingStartPosition.y, initialPosition.y, easingProgress);
-            transform_.translate.z = Lerp(easingStartPosition.z, initialPosition.z, easingProgress);
+            transform_.translate.x = Lerp2(easingStartPosition.x, initialPosition.x, easingProgress);
+            transform_.translate.y = Lerp2(easingStartPosition.y, initialPosition.y, easingProgress);
+            transform_.translate.z = Lerp2(easingStartPosition.z, initialPosition.z, easingProgress);
 
             // イージングが完了したら処理を終了
-            if (easingProgress >= 1.0f) {
+            if (easingProgress >= 1.0f) {  // 距離が0.1f以下になったら終了
                 lapCount = 0;       // 周回カウントをリセット
                 angle = 0.0f;       // 角度をリセット
                 easingBack = false; // イージングフラグをリセット

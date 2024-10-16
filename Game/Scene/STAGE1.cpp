@@ -33,6 +33,7 @@ void STAGE1::Init()
 	if (GameRoop == false) {
 		Loder::LoadJsonFile2("Resources", "GameCone", ConeObject_);
 		Loder::LoadJsonFile2("Resources", "GameStar", StarObject_);
+		GameRoop = true;
 	}
 	for (size_t i = 0; i < ConeObject_.size() - 1; i++) {
 		previousPos[i] = ConeObject_[i]->worldTransform_.translation_;
@@ -93,18 +94,21 @@ void STAGE1::Init()
 	particle->Initialize(ParticleEmitter_);
 	particle2->Initialize(ParticleEmitter_);
 	isMenu = false;
+	isPreview = true;
 
 	menu = new Menu();
 	menu->Init(MENUMEDItextureHandle);
 	fade = new Fade();
 	fade->Init(FADEtextureHandle);
 	fade->StartFadeOut();
-	timer.start();
-
 }
 
 void STAGE1::Update()
 {
+	if (previousIsPreview && !isPreview) {
+		timer.start();
+	}
+	previousIsPreview = isPreview;
 	fade->UpdateFade();
 	PSOPostEffect* pSOPostEffect = PSOPostEffect::GatInstance();
 	// プレイヤーの座標
@@ -378,7 +382,10 @@ void STAGE1::Update()
 			(*itr2)->worldTransform_.rotation_.y += 0.02f;
 		}
 	}
-	if (isClear == false && isMenu == false) {
+	if (isPreview == true) {
+		camera->StagePreview(stageCenter, stageRadius, rotationSpeed, angleZ, isPreview);
+	}
+	if (isClear == false && isMenu == false && isPreview == false) {
 		camera->Jump(isOnFloor);
 		camera->Move(menucount);
 	}

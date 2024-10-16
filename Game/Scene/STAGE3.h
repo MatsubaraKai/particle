@@ -40,6 +40,11 @@ private:
 	int selectedIndex2 = 0;
 	Vector3 previousPos[99];
 
+	Vector3 stageCenter = { 0.0f, 80.0f, 100.0f };  // ステージの中心
+	float angleZ = 0.2f;
+	float stageRadius = 350.0f;                 // 円の半径
+	float rotationSpeed = 0.02f;               // カメラの回転速度
+
 	Camera* camera = nullptr;
 	Input* input = nullptr;
 	Fade* fade = nullptr;
@@ -89,6 +94,9 @@ private:
 	bool isTitle = false;
 	bool isFadeInStarted = false;
 	bool isMenu = false;
+	//stageprevie
+	bool isPreview = true;
+	bool previousIsPreview = isPreview;
 	bool startButtonPressed = false;
 	int starCount = 5;
 	int portal = 0;

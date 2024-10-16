@@ -13,7 +13,7 @@ int IScene::SCENE2Time[5] = { 0,0,0,0,0 };
 int IScene::SCENE3Time[5] = { 0,0,0,0,0 };
 int IScene::SCENE4Time[5] = { 0,0,0,0,0 };
 int IScene::menucount = 1;
-bool IScene::menuposition = true;
+bool IScene::menuposition = false;
 // 仮想デストラクタの定義
 // 純粋仮想関数化していないので、ここで定義できる
 IScene::~IScene() {}

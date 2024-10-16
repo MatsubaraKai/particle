@@ -40,6 +40,11 @@ private:
 	int indices[14] = { 2, 4, 6, 8,10,12,14,16,18,19,21,23,25,27 };
 	int indices2[13] = { 1,3,5,7,9,11,13,15,17,20,22,24,26 };
 	Vector3 previousPos[99];
+	//stagepreview
+	Vector3 stageCenter = { 0.0f, 40.0f, 40.0f };  // ステージの中心
+	float angleZ = 0.2f;
+	float stageRadius = 180.0f;                 // 円の半径
+	float rotationSpeed = 0.02f;               // カメラの回転速度
 
 	Camera* camera = nullptr;
 	Input* input = nullptr;
@@ -85,6 +90,10 @@ private:
 	bool isTitle = false;
 	bool isFadeInStarted = false;
 	bool isMenu = false;
+	//stageprevie
+	bool isPreview = true;
+	bool previousIsPreview = isPreview;
+
 	bool startButtonPressed = false;
 	int starCount = 4;
 	int portal = 0;

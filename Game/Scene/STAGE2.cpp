@@ -94,17 +94,21 @@ void STAGE2::Init()
 	particle->Initialize(ParticleEmitter_);
 	particle2->Initialize(ParticleEmitter_);
 	isMenu = false;
+	isPreview = true;
 
 	menu = new Menu();
 	menu->Init(MENUMEDItextureHandle);
 	fade = new Fade();
 	fade->Init(FADEtextureHandle);
 	fade->StartFadeOut();
-	timer.start();
 
 }
 void STAGE2::Update()
 {
+	if (previousIsPreview && !isPreview) {
+		timer.start();
+	}
+	previousIsPreview = isPreview;
 	fade->UpdateFade();
 	PSOPostEffect* pSOPostEffect = PSOPostEffect::GatInstance();
 	// プレイヤーの座標
@@ -336,7 +340,6 @@ void STAGE2::Update()
 			else {
 				isOnFloor = false;
 				previousPos[i] = floorPos;
-
 			}
 		}
 	}
@@ -382,7 +385,10 @@ void STAGE2::Update()
 			(*itr2)->worldTransform_.rotation_.y += 0.02f;
 		}
 	}
-	if (isClear == false && isMenu == false) {
+	if (isPreview == true) {
+		camera->StagePreview(stageCenter, stageRadius, rotationSpeed, angleZ, isPreview);
+	}
+	if (isClear == false && isMenu == false && isPreview == false) {
 		camera->Jump(isOnFloor);
 		camera->Move(menucount);
 	}
@@ -395,7 +401,6 @@ void STAGE2::Update()
 	PositionOBJ->Update();
 	Number->Update();
 	TextOBJ->Update();
-
 
 	if (sceneTime1 == 0) {
 
