@@ -191,16 +191,16 @@ void TitleScene::Update()
 	}
 	if (fade->IsFadeOutComplete()) {
 		if (isDemo) {
-			sceneNo = 1;
+			SetSceneNo(1);
 		}
 		else if (isGame) {
-			sceneNo = 2;
+			SetSceneNo(2);
 		}
 		else if (isGame2) {
-			sceneNo = 3;
+			SetSceneNo(3);
 		}
 		else if (isGame3) {
-			sceneNo = 4;
+			SetSceneNo(4);
 		}
 	}
 

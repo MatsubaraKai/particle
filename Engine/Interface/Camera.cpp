@@ -253,7 +253,30 @@ void Camera::StagePreview(const Vector3& center, float radius, float speed, floa
     static bool easingBack = false; // イージングで戻るフラグ
     static float easingProgress = 0.0f;
     static Vector3 easingStartPosition; // イージング開始時のカメラ位置
-    Vector3 initialPosition = {  0.0f,15.0f,-15.0f }; // 初期位置 
+    Vector3 initialPosition = { 0.0f, 15.0f, -15.0f }; // 初期位置
+
+    // コントローラー入力を取得
+    XINPUT_STATE joyState;
+    static bool buttonPressed = false;  // 前回のボタン状態
+    static bool inputLocked = false;    // ボタン入力をロックするフラグ（イージング中）
+
+    ZeroMemory(&joyState, sizeof(XINPUT_STATE));
+    XInputGetState(0, &joyState);  // コントローラー1の状態を取得
+
+    // ボタンの押下状態を確認
+    bool currentButtonPress = joyState.Gamepad.wButtons != 0;
+
+    // イージング中は新しいボタン入力を無視
+    if (!inputLocked && currentButtonPress && !buttonPressed) {
+        // ボタンが押された瞬間にイージング開始
+        easingBack = true;
+        easingStartPosition = transform_.translate;  // イージング開始位置を保存
+        inputLocked = true;  // ボタン入力をロック
+    }
+
+    // ボタンの状態を更新
+    buttonPressed = currentButtonPress;
+
     if (isPreview) {
         if (!easingBack) {
             // 通常の円周移動
@@ -262,7 +285,7 @@ void Camera::StagePreview(const Vector3& center, float radius, float speed, floa
             // カメラを円周上に配置
             transform_.translate.x = center.x + radius * cosf(angle);
             transform_.translate.z = center.z + radius * sinf(angle);
-            transform_.translate.y = center.y + 10.0f; // 高さは固定
+            transform_.translate.y = center.y + 10.0f;  // 高さは固定
 
             // カメラの向きを中心に向ける
             transform_.rotate.y = Face2Face(center, transform_.translate);
@@ -277,7 +300,7 @@ void Camera::StagePreview(const Vector3& center, float radius, float speed, floa
             // 1周と0.75周したらイージングで初期位置に戻る
             if (lapCount >= 1 && angle >= 1.5f * std::numbers::pi) {
                 easingBack = true;
-                easingStartPosition = transform_.translate; // イージング開始時の位置を保存
+                easingStartPosition = transform_.translate;  // イージング開始時の位置を保存
             }
         }
         else {
@@ -288,13 +311,18 @@ void Camera::StagePreview(const Vector3& center, float radius, float speed, floa
             transform_.translate.y = Lerp2(easingStartPosition.y, initialPosition.y, easingProgress);
             transform_.translate.z = Lerp2(easingStartPosition.z, initialPosition.z, easingProgress);
 
+            // カメラの向きを中心に向ける（Lerp中でも中心を向かせる）
+            transform_.rotate.y = Face2Face(center, transform_.translate);
+            transform_.rotate.x = angleX;
+
             // イージングが完了したら処理を終了
-            if (easingProgress >= 1.0f) {  // 距離が0.1f以下になったら終了
-                lapCount = 0;       // 周回カウントをリセット
-                angle = 0.0f;       // 角度をリセット
-                easingBack = false; // イージングフラグをリセット
+            if (easingProgress >= 1.0f) {
+                lapCount = 0;        // 周回カウントをリセット
+                angle = 0.0f;        // 角度をリセット
+                easingBack = false;  // イージングフラグをリセット
                 easingProgress = 0.0f;
-                isPreview = false;  // プレビュー終了
+                isPreview = false;   // プレビュー終了
+                inputLocked = false; // ボタン入力のロックを解除
             }
         }
 

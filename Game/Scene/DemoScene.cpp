@@ -45,13 +45,13 @@ void DemoScene::Init()
 	postProcess_ = new PostProcess();
 	postProcess_->SetCamera(camera);
 	postProcess_->Init();
-	
+
 	TenQOBJ = new Object3d();
 	TenQOBJ->Init();
 	PositionOBJ = new Object3d();
 	PositionOBJ->Init();
 
-	
+
 	Number = new Object3d();
 	Number->Init();
 	starCount = 2;
@@ -145,7 +145,8 @@ void DemoScene::Update()
 		portal++;
 		timer.stop();//タイマー止める
 		isClear = true;
-	}	else {
+	}
+	else {
 		isClear = false;
 	}
 	if (collider->CheckCollision(camera->transform_.translate, worldTransformPa3.translation_, 2.5f, 4.0f, 2.5f, 2.0f)) {
@@ -188,18 +189,16 @@ void DemoScene::Update()
 		sceneTime = 0;
 		sceneTime1 = 0;
 	}
-	if (fade->IsFadeOutComplete()) {
-		sceneNo = 0;
-	}
+
 	if (fade->IsFadeOutComplete() && isTitle) {
-		sceneNo = 0;
+		SetSceneNo(0);
 	}
 	for (std::vector<Object3d*>::iterator itr = TextObject_.begin(); itr != TextObject_.end(); itr++) {
 		(*itr)->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, (*itr)->worldTransform_.translation_) + 3.14f;
 	}
 	Number->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, Number->worldTransform_.translation_) + 3.14f;
 	TenQOBJ->worldTransform_.rotation_.x += 0.001f;
-	 // ゲームパッドの状態取得
+	// ゲームパッドの状態取得
 	XINPUT_STATE joyState;
 	if (Input::GetInstance()->GetJoystickState(joyState))
 	{
@@ -299,57 +298,57 @@ void DemoScene::Update()
 		}
 	}
 	for (size_t i = 0; i < ConeObject_.size() - 1; i++) {
-			float previousFloorHeight = playerPos.y; // 初期化しておく
-			// オブジェクトの座標とサイズを取得
-			Vector3 floorPos = ConeObject_[i]->worldTransform_.translation_;
-			Vector3 floorSize = ConeObject_[i]->worldTransform_.scale_;
-			std::string label = "JSONmodel" + std::to_string(i);
+		float previousFloorHeight = playerPos.y; // 初期化しておく
+		// オブジェクトの座標とサイズを取得
+		Vector3 floorPos = ConeObject_[i]->worldTransform_.translation_;
+		Vector3 floorSize = ConeObject_[i]->worldTransform_.scale_;
+		std::string label = "JSONmodel" + std::to_string(i);
 #ifdef _DEBUG
 
-			ImGui::Begin("OnFloorDebug");
-			ImGui::Text(label.c_str());
-			ImGui::Text("floor : %f %f %f", floorPos.x, floorPos.y, floorPos.z);
-			ImGui::Text("size : %f %f %f", floorSize.x, floorSize.y, floorSize.z);
-			ImGui::Text("isOnx : %f %f", playerPos.x, floorPos.x - floorSize.x);
-			ImGui::Text("isOnx : %f %f", playerPos.x, floorPos.x + floorSize.x);
-			ImGui::Text("isOnz : %f %f", playerPos.z, floorPos.z - floorSize.z);
-			ImGui::Text("isOnz : %f %f", playerPos.z, floorPos.z + floorSize.z);
-			ImGui::Text("isOny : %f %f", playerPos.y, abs(floorPos.y + floorSize.y + 3.0f));
-			ImGui::Text("isOnyy : %f", abs(playerPos.y - (floorPos.y + floorSize.y + 3.0f)));
-			ImGui::End();
+		ImGui::Begin("OnFloorDebug");
+		ImGui::Text(label.c_str());
+		ImGui::Text("floor : %f %f %f", floorPos.x, floorPos.y, floorPos.z);
+		ImGui::Text("size : %f %f %f", floorSize.x, floorSize.y, floorSize.z);
+		ImGui::Text("isOnx : %f %f", playerPos.x, floorPos.x - floorSize.x);
+		ImGui::Text("isOnx : %f %f", playerPos.x, floorPos.x + floorSize.x);
+		ImGui::Text("isOnz : %f %f", playerPos.z, floorPos.z - floorSize.z);
+		ImGui::Text("isOnz : %f %f", playerPos.z, floorPos.z + floorSize.z);
+		ImGui::Text("isOny : %f %f", playerPos.y, abs(floorPos.y + floorSize.y + 3.0f));
+		ImGui::Text("isOnyy : %f", abs(playerPos.y - (floorPos.y + floorSize.y + 3.0f)));
+		ImGui::End();
 #endif
-			// プレイヤーがオブジェクトの上にいるか判定
-			if (playerPos.x >= floorPos.x - floorSize.x &&
-				playerPos.x <= floorPos.x + floorSize.x &&
-				playerPos.z >= floorPos.z - floorSize.z &&
-				playerPos.z <= floorPos.z + floorSize.z &&
-				playerPos.y >= floorPos.y + floorSize.y - 1.0f &&
-				playerPos.y <= floorPos.y + floorSize.y + 3.0f) {
+		// プレイヤーがオブジェクトの上にいるか判定
+		if (playerPos.x >= floorPos.x - floorSize.x &&
+			playerPos.x <= floorPos.x + floorSize.x &&
+			playerPos.z >= floorPos.z - floorSize.z &&
+			playerPos.z <= floorPos.z + floorSize.z &&
+			playerPos.y >= floorPos.y + floorSize.y - 1.0f &&
+			playerPos.y <= floorPos.y + floorSize.y + 3.0f) {
 
-				// 床の上昇分を計算
-				float floorHeightChange = floorPos.y + floorSize.y - previousFloorHeight;
-				camera->transform_.translate.y = playerPos.y += floorHeightChange + 3.0f;  // プレイヤーの高さを更新
-				previousFloorHeight = floorPos.y + floorSize.y; // 次フレームのために保存
+			// 床の上昇分を計算
+			float floorHeightChange = floorPos.y + floorSize.y - previousFloorHeight;
+			camera->transform_.translate.y = playerPos.y += floorHeightChange + 3.0f;  // プレイヤーの高さを更新
+			previousFloorHeight = floorPos.y + floorSize.y; // 次フレームのために保存
 
-				// x軸、z軸の移動分を計算してプレイヤーに反映
-				Vector3 floorMovement;
-				floorMovement.x = floorPos.x - previousPos[i].x;
-				floorMovement.z = floorPos.z - previousPos[i].z;
+			// x軸、z軸の移動分を計算してプレイヤーに反映
+			Vector3 floorMovement;
+			floorMovement.x = floorPos.x - previousPos[i].x;
+			floorMovement.z = floorPos.z - previousPos[i].z;
 
-				camera->transform_.translate.x += floorMovement.x;
-				camera->transform_.translate.z += floorMovement.z;
+			camera->transform_.translate.x += floorMovement.x;
+			camera->transform_.translate.z += floorMovement.z;
 
-				// 現在のオブジェクト位置を次のフレームで使用するため保存
-				previousPos[i] = floorPos;
+			// 現在のオブジェクト位置を次のフレームで使用するため保存
+			previousPos[i] = floorPos;
 
-				isOnFloor = true;
-				break;  // どれかのオブジェクト上にいる場合は判定を終了
-			}
-			else {
-				isOnFloor = false;
-				previousPos[i] = floorPos;
+			isOnFloor = true;
+			break;  // どれかのオブジェクト上にいる場合は判定を終了
+		}
+		else {
+			isOnFloor = false;
+			previousPos[i] = floorPos;
 
-			}
+		}
 	}
 
 	for (size_t i = 0; i < StarObject_.size() - 1; i++) {
@@ -405,104 +404,104 @@ void DemoScene::Update()
 		fade->StartFadeIn();    // FadeInを開始
 		isFadeInStarted = true; // フラグを立てて一度だけ実行されるようにする
 	}
-		camera->Update();
-		TenQOBJ->Update();
-		PositionOBJ->Update();
-		Number->Update();
+	camera->Update();
+	TenQOBJ->Update();
+	PositionOBJ->Update();
+	Number->Update();
 
-		ConeObject_[1]->worldTransform_.rotation_.x += 0.01f;
-		ConeObject_[1]->worldTransform_.rotation_.y += 0.01f;
-		ConeObject_[1]->worldTransform_.rotation_.z += 0.01f;
-		ConeObject_[2]->worldTransform_.rotation_.x += 0.01f;
-		ConeObject_[2]->worldTransform_.rotation_.y -= 0.01f;
-		ConeObject_[2]->worldTransform_.rotation_.z -= 0.01f;
+	ConeObject_[1]->worldTransform_.rotation_.x += 0.01f;
+	ConeObject_[1]->worldTransform_.rotation_.y += 0.01f;
+	ConeObject_[1]->worldTransform_.rotation_.z += 0.01f;
+	ConeObject_[2]->worldTransform_.rotation_.x += 0.01f;
+	ConeObject_[2]->worldTransform_.rotation_.y -= 0.01f;
+	ConeObject_[2]->worldTransform_.rotation_.z -= 0.01f;
 
-		if (sceneTime1 == 0) {
+	if (sceneTime1 == 0) {
+	}
+	if (sceneTime1 < 180 && isMenu == false) {
+		for (int i = 0; i < 6; i++) {
+			TextObject_[indices[i]]->worldTransform_.translation_.y = Lerp(TextObject_[indices[i]]->worldTransform_.translation_.y, Textlerpindices[i], 0.01f);
 		}
-		if (sceneTime1 < 180 && isMenu == false) {
-			for (int i = 0; i < 6; i++) {
-				TextObject_[indices[i]]->worldTransform_.translation_.y = Lerp(TextObject_[indices[i]]->worldTransform_.translation_.y, Textlerpindices[i], 0.01f);
-			}
+	}
+	if (sceneTime1 > 180 && sceneTime1 < 360 && isMenu == false) {
+		for (int i = 0; i < 6; i++) {
+			TextObject_[indices[i]]->worldTransform_.translation_.y = Lerp(TextObject_[indices[i]]->worldTransform_.translation_.y, textlerpindices[i], 0.01f);
 		}
-		if (sceneTime1 > 180 &&sceneTime1 < 360 && isMenu == false) {
-			for (int i = 0; i < 6; i++) {
-				TextObject_[indices[i]]->worldTransform_.translation_.y = Lerp(TextObject_[indices[i]]->worldTransform_.translation_.y, textlerpindices[i], 0.01f);
-			}
-		}
-	
-		if (effectFlag == true && isMenu == false) {
-			sceneTime++;
-		}
-		if (isMenu == false) {
-			sceneTime1++;
-		}
-		///////////////Debug///////////////
+	}
+
+	if (effectFlag == true && isMenu == false) {
+		sceneTime++;
+	}
+	if (isMenu == false) {
+		sceneTime1++;
+	}
+	///////////////Debug///////////////
 #ifdef _DEBUG
 
-		camera->CameraDebug();
-		// 選択されたインデックスに応じたモデルのデバッグを実行
-		std::string label1 = "JSONConemodel" + std::to_string(selectedIndex1);
-		std::string label2 = "JSONStarmodel" + std::to_string(selectedIndex2);
-		std::string label3 = "JSONTextmodel" + std::to_string(selectedIndex3);
-		ConeObject_[selectedIndex1]->ModelDebug(label1.c_str());
-		StarObject_[selectedIndex2]->ModelDebug(label2.c_str());
-		TextObject_[selectedIndex3]->ModelDebug(label3.c_str());
+	camera->CameraDebug();
+	// 選択されたインデックスに応じたモデルのデバッグを実行
+	std::string label1 = "JSONConemodel" + std::to_string(selectedIndex1);
+	std::string label2 = "JSONStarmodel" + std::to_string(selectedIndex2);
+	std::string label3 = "JSONTextmodel" + std::to_string(selectedIndex3);
+	ConeObject_[selectedIndex1]->ModelDebug(label1.c_str());
+	StarObject_[selectedIndex2]->ModelDebug(label2.c_str());
+	TextObject_[selectedIndex3]->ModelDebug(label3.c_str());
 
-		TenQOBJ->ModelDebug("TenQ");
-		PositionOBJ->ModelDebug("positionOBJ");
-		Number->ModelDebug("num");
+	TenQOBJ->ModelDebug("TenQ");
+	PositionOBJ->ModelDebug("positionOBJ");
+	Number->ModelDebug("num");
 
-		particle->Particledebug("white", worldTransformPa);
-		particle2->Particledebug("white2", worldTransformPa2);
-		particle3->Particledebug("white3", worldTransformPa3);
-		ImGui::Begin("Time");
-		ImGui::Text("Time : %f", timer.elapsedSeconds());
-		ImGui::Text("Time : %d", timer.elapsedSecondsOnly());
-		ImGui::Text("Time : %d", timer.elapsedTensOfSeconds());
-		ImGui::Text("Time : %d", timer.elapsedMinutesOnly());
-		ImGui::Text("Time : %d", timer.elapsedTensOfMinutes());
+	particle->Particledebug("white", worldTransformPa);
+	particle2->Particledebug("white2", worldTransformPa2);
+	particle3->Particledebug("white3", worldTransformPa3);
+	ImGui::Begin("Time");
+	ImGui::Text("Time : %f", timer.elapsedSeconds());
+	ImGui::Text("Time : %d", timer.elapsedSecondsOnly());
+	ImGui::Text("Time : %d", timer.elapsedTensOfSeconds());
+	ImGui::Text("Time : %d", timer.elapsedMinutesOnly());
+	ImGui::Text("Time : %d", timer.elapsedTensOfMinutes());
 
-		if (ImGui::Button("start")) {
-			timer.start();
-		}
-		if (ImGui::Button("stop")) {
-			timer.stop();
-		}
+	if (ImGui::Button("start")) {
+		timer.start();
+	}
+	if (ImGui::Button("stop")) {
+		timer.stop();
+	}
 
-		ImGui::End();
-		ImGui::Begin("isOnFloor");
-		ImGui::SliderInt("Select ModelIndex1", &selectedIndex1, 0, static_cast<int>(ConeObject_.size()) - 2);
-		ImGui::SliderInt("Select ModelIndex2", &selectedIndex2, 0, static_cast<int>(StarObject_.size()) - 2);
-		ImGui::SliderInt("Select ModelIndex3", &selectedIndex3, 0, static_cast<int>(TextObject_.size()) - 2);
-		ImGui::Text("starcount: %d", starCount);
-		ImGui::Text("OnFloor : %d", isOnFloor);
-		ImGui::Text("GetStar : %d", isGetStar);
-		ImGui::Text("Player Pos : %f %f %f", playerPos.x, playerPos.y, playerPos.z);
-		ImGui::End();
-		ImGui::Begin("color",nullptr,ImGuiWindowFlags_MenuBar);
-		float color[4] = { fade->material.color.x,fade->material.color.y,fade->material.color.z,fade->material.color.w };
-		ImGui::DragFloat4("color", color, 0.01f);
-		fade->material.color = { color[0],color[1],color[2],color[3] };
-		//いつか使う用に↓
-		if (ImGui::BeginMenuBar()) {
-			if (ImGui::BeginMenu("File")) {
-				if (ImGui::MenuItem("Save")) {
+	ImGui::End();
+	ImGui::Begin("isOnFloor");
+	ImGui::SliderInt("Select ModelIndex1", &selectedIndex1, 0, static_cast<int>(ConeObject_.size()) - 2);
+	ImGui::SliderInt("Select ModelIndex2", &selectedIndex2, 0, static_cast<int>(StarObject_.size()) - 2);
+	ImGui::SliderInt("Select ModelIndex3", &selectedIndex3, 0, static_cast<int>(TextObject_.size()) - 2);
+	ImGui::Text("starcount: %d", starCount);
+	ImGui::Text("OnFloor : %d", isOnFloor);
+	ImGui::Text("GetStar : %d", isGetStar);
+	ImGui::Text("Player Pos : %f %f %f", playerPos.x, playerPos.y, playerPos.z);
+	ImGui::End();
+	ImGui::Begin("color", nullptr, ImGuiWindowFlags_MenuBar);
+	float color[4] = { fade->material.color.x,fade->material.color.y,fade->material.color.z,fade->material.color.w };
+	ImGui::DragFloat4("color", color, 0.01f);
+	fade->material.color = { color[0],color[1],color[2],color[3] };
+	//いつか使う用に↓
+	if (ImGui::BeginMenuBar()) {
+		if (ImGui::BeginMenu("File")) {
+			if (ImGui::MenuItem("Save")) {
 
-				}
-				if (ImGui::MenuItem("Load")) {
-
-				}
-
-				ImGui::EndMenu();
 			}
-			ImGui::EndMenuBar();
+			if (ImGui::MenuItem("Load")) {
+
+			}
+
+			ImGui::EndMenu();
 		}
-		ImGui::End();
-		ImGui::Begin("Imgui");
-		ImGui::Checkbox("EffectFlag", &effectFlag);
-		ImGui::Text("Now Scene : %d", sceneNo);
-		ImGui::Text("roop : %d", DemoRoop);
-		ImGui::End();
+		ImGui::EndMenuBar();
+	}
+	ImGui::End();
+	ImGui::Begin("Imgui");
+	ImGui::Checkbox("EffectFlag", &effectFlag);
+	ImGui::Text("Now Scene : %d", sceneNo);
+	ImGui::Text("roop : %d", DemoRoop);
+	ImGui::End();
 #endif
 }
 
@@ -540,7 +539,6 @@ void DemoScene::PostDraw()
 }
 
 void DemoScene::Release() {
-	
 }
 
 // ゲームを終了

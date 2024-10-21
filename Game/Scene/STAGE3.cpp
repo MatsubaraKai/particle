@@ -184,7 +184,7 @@ void STAGE3::Update()
 		sceneTime1 = 0;
 	}
 	if (fade->IsFadeOutComplete()) {
-		sceneNo = 0;
+		SetSceneNo(0);
 	}
 	Number->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, Number->worldTransform_.translation_) + 3.14f;
 	TextOBJ->worldTransform_.rotation_.y = camera->Face2Face(camera->transform_.translate, TextOBJ->worldTransform_.translation_) + 3.14f;
