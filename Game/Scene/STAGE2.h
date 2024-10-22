@@ -41,9 +41,9 @@ private:
 	int indices2[13] = { 1,3,5,7,9,11,13,15,17,20,22,24,26 };
 	Vector3 previousPos[99];
 	//stagepreview
-	Vector3 stageCenter = { 0.0f, 40.0f, 40.0f };  // ステージの中心
+	Vector3 stageCenter = { 0.0f, 20.0f, 40.0f };  // ステージの中心
 	float angleZ = 0.2f;
-	float stageRadius = 180.0f;                 // 円の半径
+	float stageRadius = 130.0f;                 // 円の半径
 	float rotationSpeed = 0.02f;               // カメラの回転速度
 
 	Camera* camera = nullptr;
@@ -63,6 +63,7 @@ private:
 	PostProcess* postProcess_ = nullptr;
 	//変数
 	uint32_t FADEtextureHandle;
+	uint32_t FADE2textureHandle;
 	uint32_t WHITEtextureHandle;
 	uint32_t BLUEtextureHandle;
 	uint32_t MENUMEDItextureHandle;

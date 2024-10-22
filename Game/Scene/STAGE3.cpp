@@ -22,6 +22,7 @@ void STAGE3::Init()
 	CONEtextureHandle = TextureManager::StoreTexture("Resources/game/cone.png");
 	TENQtextureHandle = TextureManager::StoreTexture("Resources/game/world2.png");
 	FADEtextureHandle = TextureManager::StoreTexture("Resources/black.png");
+	FADE2textureHandle = TextureManager::StoreTexture("Resources/black2.png");
 	GRIDtextureHandle = TextureManager::StoreTexture("Resources/cian.png");
 	STARtextureHandle = TextureManager::StoreTexture("Resources/game/star.png");
 	AudioStarGetSEhandle_ = Audio::SoundLoadWave("Resources/game/Audio/GetSE.wav");
@@ -100,7 +101,7 @@ void STAGE3::Init()
 	menu = new Menu();
 	menu->Init(MENUMEDItextureHandle);
 	fade = new Fade();
-	fade->Init(FADEtextureHandle);
+	fade->Init(FADE2textureHandle);
 	fade->StartFadeOut();
 }
 void STAGE3::Update()
@@ -384,12 +385,20 @@ void STAGE3::Update()
 	}
 	if (isPreview == true) {
 		camera->StagePreview(stageCenter, stageRadius, rotationSpeed, angleZ, isPreview);
+		if (camera->isEasing == true) {
+			fade->SetAlpha(0.0f);
+		}
+	}
+	else
+	{
+		camera->isEasing = false;
 	}
 	if (isClear == false && isMenu == false && isPreview == false) {
 		camera->Jump(isOnFloor);
 		camera->Move(menucount);
 	}
 	if (!isFadeInStarted && isClear == true) {
+		fade->SetTexture(FADEtextureHandle);
 		fade->StartFadeIn();    // FadeInを開始
 		isFadeInStarted = true; // フラグを立てて一度だけ実行されるようにする
 	}

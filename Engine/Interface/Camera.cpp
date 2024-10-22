@@ -269,6 +269,7 @@ void Camera::StagePreview(const Vector3& center, float radius, float speed, floa
     // イージング中は新しいボタン入力を無視
     if (!inputLocked && currentButtonPress && !buttonPressed) {
         // ボタンが押された瞬間にイージング開始
+        isEasing = true;
         easingBack = true;
         easingStartPosition = transform_.translate;  // イージング開始位置を保存
         inputLocked = true;  // ボタン入力をロック
@@ -299,6 +300,7 @@ void Camera::StagePreview(const Vector3& center, float radius, float speed, floa
 
             // 1周と0.75周したらイージングで初期位置に戻る
             if (lapCount >= 1 && angle >= 1.5f * std::numbers::pi) {
+                isEasing = true;
                 easingBack = true;
                 easingStartPosition = transform_.translate;  // イージング開始時の位置を保存
             }

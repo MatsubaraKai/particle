@@ -4,11 +4,12 @@ class Fade
 {
 public:
 	void Init(uint32_t fadeTexture);
+    void SetTexture(uint32_t fadeTexture);
+    void SetAlpha(float Alpha);
     void Draw();
 	void StartFadeOut();
 	void StartFadeIn();
 	void UpdateFade();
-    void setRainbowColor(float time, float &red, float &green, float &blue);
     bool IsFadeOutComplete() const { return fadeOutComplete; }
 
     Material material;
@@ -16,7 +17,7 @@ private:
     Sprite *fadeSprite = nullptr;
     uint32_t FADEtextureHandle;
     
-    float alpha = 0;
+    float alpha = 0.0f;
 
     bool isFadeIn = false;
     bool isFadingOut = false;

@@ -50,7 +50,7 @@ public: //Setter
 	Transform transform_;
 	float fovY_ = 0.8f;
 	float lookSensitivity;
-
+	bool isEasing = false;
 private:
 	Matrix4x4 worldmatrix_;
 	Matrix4x4 cameraMatrix_;

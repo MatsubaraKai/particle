@@ -10,6 +10,13 @@ void Fade::Init(uint32_t fadeTexture)
 	material.enableLighting = true;
 }
 
+void Fade::SetTexture(uint32_t fadeTexture) {
+    FADEtextureHandle = fadeTexture;
+}
+void Fade::SetAlpha(float Alpha) {
+    alpha = Alpha;
+}
+
 void Fade::Draw() {
 
     fadeSprite->Draw(FADEtextureHandle, material.color);
@@ -33,7 +40,6 @@ void Fade::StartFadeIn()
 void Fade::UpdateFade()
 {
     time += deltaTime; // 時間を進める
-    //setRainbowColor(time,material.color.x,material.color.y,material.color.z);
     if (isFadingOut)
     {
         UpdateFadeOut();
@@ -44,14 +50,13 @@ void Fade::UpdateFade()
     }
 
     material.color = { 1.0f, 1.0f, 1.0f, alpha };
-    //material.color.w = alpha;
 }
 
 void Fade::UpdateFadeOut()
 {
     if (alpha > 0.0f)
     {
-        alpha -= 0.01f; // フェード速度
+        alpha -= 0.0013f; // フェード速度
         if (alpha < 0.0f)
         {
             alpha = 0.0f;
@@ -72,13 +77,4 @@ void Fade::UpdateFadeIn()
             fadeOutComplete = true;
         }
     }
-}
-
-void Fade::setRainbowColor(float time, float &red, float &green, float &blue) {
-    float frequency = 0.5f; // 色の変化の速度を調整するための周波数
-    float amplitude = 0.5f; // 色の振幅を調整する係数
-
-    red = amplitude * std::sin(frequency * time + 0) + 0.5f;
-    green = amplitude * std::sin(frequency * time + 2 * static_cast<float>(M_PI) / 3) + 0.5f;
-    blue = amplitude * std::sin(frequency * time + 4 * static_cast<float>(M_PI) / 3) + 0.5f;
 }

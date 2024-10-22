@@ -116,7 +116,6 @@ void TitleScene::Init()
 	menu->Init(MENUMEDItextureHandle);
 	fade = new Fade();
 	fade->Init(FADEtextureHandle);
-	fade->StartFadeOut();
 }
 
 void TitleScene::Update()
