@@ -307,7 +307,7 @@ void Camera::StagePreview(const Vector3& center, float radius, float speed, floa
         }
         else {
             // イージングで初期位置に戻る
-            easingProgress += 0.005f;  // イージング進行度（調整可能）
+            easingProgress += 0.005f;  // イージング進行度
 
             transform_.translate.x = Lerp2(easingStartPosition.x, initialPosition.x, easingProgress);
             transform_.translate.y = Lerp2(easingStartPosition.y, initialPosition.y, easingProgress);
@@ -315,7 +315,7 @@ void Camera::StagePreview(const Vector3& center, float radius, float speed, floa
 
             // カメラの向きを中心に向ける（Lerp中でも中心を向かせる）
             transform_.rotate.y = Face2Face(center, transform_.translate);
-            transform_.rotate.x = angleX;
+            transform_.rotate.x = Lerp(angleX, -0.2f, easingProgress);
 
             // イージングが完了したら処理を終了
             if (easingProgress >= 1.0f) {

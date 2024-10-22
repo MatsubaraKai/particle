@@ -66,6 +66,9 @@
       <AdditionalIncludeDirectories>$(ProjectDir)Engine\Audio;$(ProjectDir)Engine\Math;$(ProjectDir)Engine\2d;$(ProjectDir)Engine\3d;$(ProjectDir)Engine\3d\Animation;$(ProjectDir)Engine\3d\Skeleton;$(ProjectDir)Engine\3d\Triangle;$(ProjectDir)Engine\3d\Sphere;$(ProjectDir)Engine\3d\Model;$(ProjectDir)Engine\3d\Object3d;$(ProjectDir)Engine\3d\Particle;$(ProjectDir)Engine\Input;$(ProjectDir)Engine\Interface;$(ProjectDir)Engine\Interface\PSO;$(ProjectDir)Engine\Interface\Heap;$(ProjectDir)Engine\Adapter;$(ProjectDir)Engine\Include;$(ProjectDir)Lib\math;$(ProjectDir)Lib\utility;$(ProjectDir)Game\Scene;$(ProjectDir)Game\Collision;$(ProjectDir)\Game\Utilty;$(ProjectDir)Engine\Externals\assimp\include;$(ProjectDir)Resources\shaders;$(ProjectDir)Engine\Externals;$(ProjectDir)Engine\2d\PostEffect;$(ProjectDir)Engine\2d\PostEffect\Effect;$(ProjectDir)Engine\3d\Skybox;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>Disabled</Optimization>
+      <DebugInformationFormat>None</DebugInformationFormat>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -98,6 +101,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <Optimization>MinSpace</Optimization>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <DebugInformationFormat>None</DebugInformationFormat>
+      <BufferSecurityCheck>true</BufferSecurityCheck>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

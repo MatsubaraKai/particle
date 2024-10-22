@@ -47,7 +47,7 @@ private:
 	Vector3 previousPos[99];
 
 	Vector3 stageCenter = { 0.0f, 70.0f, 100.0f };  // ステージの中心
-	float angleZ = 0.2f;
+	float angleX = 0.2f;
 	float stageRadius = 250.0f;                 // 円の半径
 	float rotationSpeed = 0.02f;               // カメラの回転速度
 

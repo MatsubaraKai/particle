@@ -55,7 +55,7 @@ void STAGE1::Init()
 	Number->Init();
 	starCount = 3;
 	portal = 0;
-	isFadeInStarted = false;
+	isFadeInStarted = false;	
 
 	worldTransformPa.Initialize();
 	worldTransformPa2.Initialize();
@@ -80,7 +80,7 @@ void STAGE1::Init()
 	TenQOBJ->SetModel("world2.obj");
 	TextOBJ->SetModel("text7.obj");
 	PositionOBJ->SetModel("position.obj");
-	particle = new Particle();
+	particle = new Particle();				
 	particle2 = new Particle();
 	demoRandPro = {
 		{1.0f,4.0f},
@@ -97,7 +97,7 @@ void STAGE1::Init()
 	isMenu = false;
 	isPreview = true;
 
-	menu = new Menu();
+	menu = new Menu();							 
 	menu->Init(MENUMEDItextureHandle);
 	fade = new Fade();
 	fade->Init(FADE2textureHandle);
@@ -384,7 +384,7 @@ void STAGE1::Update()
 		}
 	}
 	if (isPreview == true) {
-		camera->StagePreview(stageCenter, stageRadius, rotationSpeed, angleZ, isPreview);
+		camera->StagePreview(stageCenter, stageRadius, rotationSpeed, angleX, isPreview);
 		if (camera->isEasing == true) {
 			fade->SetAlpha(0.0f);
 		}
@@ -529,7 +529,16 @@ void STAGE1::PostDraw()
 }
 
 void STAGE1::Release() {
-
+	delete camera;
+	delete postProcess_;
+	delete TenQOBJ;
+	delete PositionOBJ;
+	delete TextOBJ;
+	delete Number;
+	delete particle;
+	delete particle2;
+	delete menu;
+	delete fade;
 }
 // ゲームを終了
 int STAGE1::GameClose()

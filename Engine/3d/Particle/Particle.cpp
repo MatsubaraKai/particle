@@ -11,6 +11,7 @@
 
 
 Particle::Particle() {};
+Particle::~Particle() {};
 void Particle::Initialize(Emitter emitter) {
 	sWinAPI = WinAPI::GetInstance();
 	sDirectXCommon = DirectXCommon::GetInstance();

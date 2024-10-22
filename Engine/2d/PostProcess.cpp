@@ -5,6 +5,8 @@
 PostProcess::PostProcess()
 {
 }
+PostProcess::~PostProcess() {
+}
 void PostProcess::Init()
 {
 	noiseTexture_ = TextureManager::StoreTexture("Resources/noise0.png");

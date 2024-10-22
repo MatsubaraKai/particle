@@ -397,7 +397,7 @@ void DemoScene::Update()
 		}
 	}
 	if (isPreview == true) {
-		camera->StagePreview(stageCenter, stageRadius, rotationSpeed, angleZ, isPreview);
+		camera->StagePreview(stageCenter, stageRadius, rotationSpeed, angleX, isPreview);
 		if (camera->isEasing == true) {
 			fade->SetAlpha(0.0f);
 		}
@@ -550,7 +550,16 @@ void DemoScene::PostDraw()
 }
 
 void DemoScene::Release() {
-	
+	delete camera;
+	delete postProcess_;
+	delete TenQOBJ;
+	delete PositionOBJ;
+	delete Number;
+	delete particle;
+	delete particle2;
+	delete particle3;
+	delete menu;
+	delete fade;
 }
 
 // ゲームを終了

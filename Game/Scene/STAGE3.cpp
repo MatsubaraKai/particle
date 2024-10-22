@@ -384,7 +384,7 @@ void STAGE3::Update()
 		}
 	}
 	if (isPreview == true) {
-		camera->StagePreview(stageCenter, stageRadius, rotationSpeed, angleZ, isPreview);
+		camera->StagePreview(stageCenter, stageRadius, rotationSpeed, angleX, isPreview);
 		if (camera->isEasing == true) {
 			fade->SetAlpha(0.0f);
 		}
@@ -543,7 +543,16 @@ void STAGE3::PostDraw()
 }
 
 void STAGE3::Release() {
-
+	delete camera;
+	delete postProcess_;
+	delete TenQOBJ;
+	delete PositionOBJ;
+	delete TextOBJ;
+	delete Number;
+	delete particle;
+	delete particle2;
+	delete menu;
+	delete fade;
 }
 
 // ゲームを終了
