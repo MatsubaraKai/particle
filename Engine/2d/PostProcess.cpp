@@ -19,7 +19,7 @@ void PostProcess::Update()
 
 void PostProcess::Draw() {
 	//materialData->projectionInverse = Inverse(camera_->GetProjectionMatrix());
-	PSOPostEffect* pso_ = PSOPostEffect::GatInstance();
+	PSOPostEffect* pso_ = PSOPostEffect::GetInstance();
 	pso_->EffectChangeCheck();
 	DirectXCommon* sDirectXCommon = DirectXCommon::GetInstance();
 	sDirectXCommon->GetCommandList()->SetGraphicsRootSignature(pso_->GetProperty().rootSignature.Get());

@@ -45,7 +45,7 @@ void Object3d::Draw(uint32_t texture, Camera* camera)
 {
 	DirectXCommon* directXCommon = DirectXCommon::GetInstance();
 	if (animationModel_) {
-		PSOAnimationModel* pso = PSOAnimationModel::GatInstance();
+		PSOAnimationModel* pso = PSOAnimationModel::GetInstance();
 		directXCommon->GetCommandList()->SetGraphicsRootSignature(pso->GetProperty().rootSignature.Get());
 		directXCommon->GetCommandList()->SetPipelineState(pso->GetProperty().graphicsPipelineState.Get());    //PSOを設定
 	}

@@ -388,7 +388,7 @@ void AnimationModel::Update() {
 
 void AnimationModel::Draw(uint32_t texture, const Material& material, const DirectionalLight& dire, uint32_t mapTexture) {
 
-	PSOAnimationModel* pso_ = PSOAnimationModel::GatInstance();
+	PSOAnimationModel* pso_ = PSOAnimationModel::GetProperty();
 	vbvs[0] = vertexBufferView_;
 	vbvs[1] = skinCluster_.influenceBufferView;
 	//NodeAnimation& rootNodeAnimation = animation_.nodeAnimations[modelData_.rootNode.name]; // rootNodeのAnimationを取得
