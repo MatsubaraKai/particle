@@ -1,5 +1,8 @@
-#include "Object3dCommon.h"
-
+﻿#include "Object3dCommon.h"
+/**
+* @file Object3dCommon.cpp
+* @brief 3Dオブジェクトに共通する処理を管理するクラス
+*/
 void Object3dCommon::Init()
 {
 }

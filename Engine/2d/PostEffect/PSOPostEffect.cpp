@@ -17,7 +17,10 @@
 #include "OutlinePurple.h"
 #include "ChromaticAberration.h"
 #include <d3dx12.h>
-
+/**
+* @file PSOPostEffect.cpp
+* @brief PSOPostEffect
+*/
 void PSOPostEffect::Init()
 {
 	currentEffectNo_ = IPostEffectState::GetEffectNo();
@@ -61,7 +64,7 @@ void PSOPostEffect::SetCommand(PostProcess* postProcess)
 }
 
 
-PSOPostEffect* PSOPostEffect::GatInstance() {
+PSOPostEffect* PSOPostEffect::GetInstance() {
 	static PSOPostEffect instance;
 	return &instance;
 }

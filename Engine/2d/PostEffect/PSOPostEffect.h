@@ -14,25 +14,63 @@
 #include <cassert>
 #include <vector>
 
-
+/**
+* @file PSOPostEffect.h
+* @brief PSOPostEffect
+*/
 class PSOPostEffect : public PSOProperty
 {
 public:
-	static PSOPostEffect* GatInstance();
+    /// <summary>
+      /// インスタンスを取得する
+      /// </summary>
+      /// <returns>PSOPostEffectのインスタンス</returns>
+    static PSOPostEffect* GetInstance();
 
-	PSOPostEffect() = default;
-	~PSOPostEffect() = default;
-	const PSOPostEffect& operator=(const PSOPostEffect&) = delete;
+    /// <summary>
+    /// デフォルトコンストラクタ
+    /// </summary>
+    PSOPostEffect() = default;
 
-	
+    /// <summary>
+    /// デフォルトデストラクタ
+    /// </summary>
+    ~PSOPostEffect() = default;
 
-	void Init();
+    /// <summary>
+    /// 代入演算子を禁止
+    /// </summary>
+    /// <param name="other">コピー元のPSOPostEffect</param>
+    /// <returns>代入不可</returns>
+    const PSOPostEffect& operator=(const PSOPostEffect&) = delete;
 
-	void EffectChangeCheck();
-	void SetCommand(PostProcess* postProcess);
-	void SetEffect(int num);
+    /// <summary>
+    /// 初期化処理
+    /// </summary>
+    void Init();
 
-	PSOProperty GetProperty() { return property; }
+    /// <summary>
+    /// エフェクトの変更をチェックする
+    /// </summary>
+    void EffectChangeCheck();
+
+    /// <summary>
+    /// コマンドを設定する
+    /// </summary>
+    /// <param name="postProcess">ポストプロセスのポインタ</param>
+    void SetCommand(PostProcess* postProcess);
+
+    /// <summary>
+    /// エフェクトを設定する
+    /// </summary>
+    /// <param name="num">エフェクトの番号</param>
+    void SetEffect(int num);
+
+    /// <summary>
+    /// PSOプロパティを取得する
+    /// </summary>
+    /// <returns>PSOプロパティ</returns>
+    PSOProperty GetProperty() { return property; }
 
 private:
 	HRESULT hr_;

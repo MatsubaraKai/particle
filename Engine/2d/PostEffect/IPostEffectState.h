@@ -2,6 +2,10 @@
 #include <vector>
 #include <d3d12.h>
 #include <PSOProperty.h>
+/**
+* @file IPostEffectState.h
+* @brief IPostEffectState PostEffectを追加できる
+*/
 
 enum PostEffectMode {
 	kFullScreen,
@@ -77,7 +81,7 @@ public:
 	/// <summary>
 	/// ラスタライザーに関する設定の関数
 	/// </summary>
-	virtual D3D12_RASTERIZER_DESC SetRasterrizerState() = 0;
+	virtual D3D12_RASTERIZER_DESC SetRasterizerState() = 0;
 
 	/// <summary>
 	/// DepthBufferの生成

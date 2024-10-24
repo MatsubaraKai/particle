@@ -1,5 +1,8 @@
 ﻿#include "IPostEffectState.h"
-
+/**
+* @file IPostEffectState.cpp
+* @brief IPostEffectState
+*/
 // タイトルシーンで初期化
 int IPostEffectState::effectNo_ = kOutlineBlue;
 

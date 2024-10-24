@@ -3,7 +3,10 @@
 #include "IPostEffectState.h"
 #include "PSOProperty.h"
 #include "Matrix4x4.h"
-
+/**
+* @file Dissolve.h
+* @brief Dissolve
+*/
 struct DissolveInfo {
 	float threshold;
 };
@@ -59,7 +62,7 @@ public:
 	/// <summary>
 	/// ラスタライザーに関する設定の関数
 	/// </summary>
-	D3D12_RASTERIZER_DESC SetRasterrizerState() override;
+	D3D12_RASTERIZER_DESC SetRasterizerState() override;
 
 	/// <summary>
 	/// DepthBufferの生成

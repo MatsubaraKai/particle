@@ -1,5 +1,8 @@
-#include "ParticleManager.h"
-
+﻿#include "ParticleManager.h"
+/**
+* @file ParticleManager.cpp
+* @brief パーティクルの管理を行うクラス
+*/
 ParticleManager* ParticleManager::GetInstance() {
 	static ParticleManager instance;
 	return &instance;

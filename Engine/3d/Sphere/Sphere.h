@@ -1,16 +1,15 @@
 #pragma once
-#include<Windows.h>
-#include<d3d12.h>
-#include<dxgi1_6.h>
-#include<cassert>
+#include <Windows.h>
+#include <d3d12.h>
+#include <dxgi1_6.h>
+#include <cassert>
 #include <dxcapi.h>
 
-//#include"DirectXCommon.h"
 #include "VertexData.h"
 #include "Vector4.h"
-#include"Vector3.h"
-#include"Vector2.h"
-#include"Matrix4x4.h"
+#include "Vector3.h"
+#include "Vector2.h"
+#include "Matrix4x4.h"
 #include "Transform.h"
 #include "Material.h"
 #include "TransformationMatrix.h"
@@ -18,82 +17,180 @@
 #include "Mesh.h"
 #include "PSOModel.h"
 
-#pragma comment(lib,"d3d12.lib")
-#pragma comment(lib,"dxgi.lib")
-#pragma comment(lib,"dxcompiler.lib")
+#pragma comment(lib, "d3d12.lib")
+#pragma comment(lib, "dxgi.lib")
+#pragma comment(lib, "dxcompiler.lib")
+
+/**
+* @file Sphere.h
+* @brief 球体モデルを描画するクラス
+*/
 
 class DirectXCommon;
 class WinAPI;
 class TextureManager;
 class Camera;
+
 class Sphere
 {
 public:
-	Sphere();
-	~Sphere();
-	void Initialize(Camera* camera);
-	void Update();
-	void Draw(Transform transform, uint32_t texture);
-	void SetTextureManager(TextureManager* textureManager) {
-		textureManager_ = textureManager;
-	}
-	void DrawSphere(const Sphere& sphere, const Matrix4x4& viewProjectionMatrix, const Matrix4x4& viewportmatrix, int color);
-	// データを書き込む
-	DirectionalLight* directionalLightData;
-	Transform transformUv;
-	D3D12_VERTEX_BUFFER_VIEW  CreateBufferView();
+    /// <summary>
+    /// コンストラクタ
+    /// </summary>
+    Sphere();
+
+    /// <summary>
+    /// デストラクタ
+    /// </summary>
+    ~Sphere();
+
+    /// <summary>
+    /// 初期化処理を行う
+    /// </summary>
+    /// <param name="camera">カメラオブジェクトへのポインタ</param>
+    void Initialize(Camera* camera);
+
+    /// <summary>
+    /// 更新処理を行う
+    /// </summary>
+    void Update();
+
+    /// <summary>
+    /// 描画処理を行う
+    /// </summary>
+    /// <param name="transform">トランスフォームデータ</param>
+    /// <param name="texture">テクスチャハンドル</param>
+    void Draw(Transform transform, uint32_t texture);
+
+    /// <summary>
+    /// テクスチャマネージャーを設定する
+    /// </summary>
+    /// <param name="textureManager">テクスチャマネージャーのポインタ</param>
+    void SetTextureManager(TextureManager* textureManager) {
+        textureManager_ = textureManager;
+    }
+
+    /// <summary>
+    /// 球体を描画する
+    /// </summary>
+    /// <param name="sphere">描画する球体の情報</param>
+    /// <param name="viewProjectionMatrix">ビュー・プロジェクション行列</param>
+    /// <param name="viewportMatrix">ビューポート行列</param>
+    /// <param name="color">描画色</param>
+    void DrawSphere(const Sphere& sphere, const Matrix4x4& viewProjectionMatrix, const Matrix4x4& viewportMatrix, int color);
+
+    /// <summary>
+    /// 頂点バッファビューを作成する
+    /// </summary>
+    /// <returns>作成された頂点バッファビュー</returns>
+    D3D12_VERTEX_BUFFER_VIEW CreateBufferView();
+
+    /// <summary>
+    /// 平行光源のデータへのポインタ
+    /// </summary>
+    DirectionalLight* directionalLightData;
+
+    /// <summary>
+    /// UV変換用のトランスフォーム
+    /// </summary>
+    Transform transformUv;
+
 private:
-	PSO* pso_ = nullptr;
-	WinAPI* sWinAPI = nullptr;
-	DirectXCommon* sDirectXCommon_ = nullptr;
+    /// <summary>
+    /// パイプラインステートオブジェクト
+    /// </summary>
+    PSO* pso_ = nullptr;
 
-	TextureManager* textureManager_ = nullptr;
+    /// <summary>
+    /// WinAPIオブジェクトへのポインタ
+    /// </summary>
+    WinAPI* sWinAPI = nullptr;
 
-	/*頂点用*/
-	// 実際に頂点リソースを作る
-	Microsoft::WRL::ComPtr < ID3D12Resource> vertexResource;
-	// 頂点バッファビューを作成する
-	D3D12_VERTEX_BUFFER_VIEW vertexBufferView{};
-	// 頂点リソースにデータを書き込む
-	VertexData* vertexData_;
+    /// <summary>
+    /// DirectX共通オブジェクトへのポインタ
+    /// </summary>
+    DirectXCommon* sDirectXCommon_ = nullptr;
 
+    /// <summary>
+    /// テクスチャマネージャー
+    /// </summary>
+    TextureManager* textureManager_ = nullptr;
 
-	/*色用*/
-	//頂点リソースの設定
-	// 実際に頂点リソースを作る
-	Microsoft::WRL::ComPtr < ID3D12Resource> materialResource;
-	// 頂点バッファビューを作成する
-	D3D12_VERTEX_BUFFER_VIEW materialBufferView{};
-	// 頂点リソースにデータを書き込む
-	Material* materialData;
+    /* 頂点用 */
+    /// <summary>
+    /// 頂点リソース（GPUメモリ上の頂点バッファ）
+    /// </summary>
+    Microsoft::WRL::ComPtr<ID3D12Resource> vertexResource;
 
-	// 平行光源用
-	Microsoft::WRL::ComPtr < ID3D12Resource> directionalLightResource;
+    /// <summary>
+    /// 頂点バッファビュー（描画時に使用するビュー）
+    /// </summary>
+    D3D12_VERTEX_BUFFER_VIEW vertexBufferView{};
 
+    /// <summary>
+    /// 頂点データへのポインタ
+    /// </summary>
+    VertexData* vertexData_;
 
-	/*移動用*/
-	// WVP用のリソースを作る。Matrix4x4 1つ分のサイズを用意する
-	Microsoft::WRL::ComPtr < ID3D12Resource> wvpResource;
-	// データを書き込む
-	TransformationMatrix* wvpData;
+    /* 色用 */
+    /// <summary>
+    /// マテリアルリソース（GPUメモリ上のマテリアルデータ）
+    /// </summary>
+    Microsoft::WRL::ComPtr<ID3D12Resource> materialResource;
 
-	// 頂点バッファビューを作成する
-	D3D12_VERTEX_BUFFER_VIEW wvpBufferView{};
-	D3D12_STATIC_SAMPLER_DESC staticSamplers[1] = {};
-	D3D12_DESCRIPTOR_RANGE descriptorRange_[1] = {};
-	//ビューポート
-	D3D12_VIEWPORT viewport{};
-	// シザー矩形
-	D3D12_RECT scissorRect{};
+    /// <summary>
+    /// マテリアルバッファビュー
+    /// </summary>
+    D3D12_VERTEX_BUFFER_VIEW materialBufferView{};
 
+    /// <summary>
+    /// マテリアルデータへのポインタ
+    /// </summary>
+    Material* materialData;
 
+    /// <summary>
+    /// 平行光源用のリソース
+    /// </summary>
+    Microsoft::WRL::ComPtr<ID3D12Resource> directionalLightResource;
 
+    /* 移動用 */
+    /// <summary>
+    /// WVP（ワールド・ビュー・プロジェクション）用のリソース
+    /// </summary>
+    Microsoft::WRL::ComPtr<ID3D12Resource> wvpResource;
 
-	Camera* camera_ = nullptr;
+    /// <summary>
+    /// WVPデータへのポインタ
+    /// </summary>
+    TransformationMatrix* wvpData;
 
+    /// <summary>
+    /// WVPの頂点バッファビュー
+    /// </summary>
+    D3D12_VERTEX_BUFFER_VIEW wvpBufferView{};
 
+    /// <summary>
+    /// スタティックサンプラーディスクリプタ
+    /// </summary>
+    D3D12_STATIC_SAMPLER_DESC staticSamplers[1] = {};
 
+    /// <summary>
+    /// ディスクリプタレンジ
+    /// </summary>
+    D3D12_DESCRIPTOR_RANGE descriptorRange_[1] = {};
 
+    /// <summary>
+    /// ビューポート設定
+    /// </summary>
+    D3D12_VIEWPORT viewport{};
 
+    /// <summary>
+    /// シザー矩形
+    /// </summary>
+    D3D12_RECT scissorRect{};
 
+    /// <summary>
+    /// カメラオブジェクトへのポインタ
+    /// </summary>
+    Camera* camera_ = nullptr;
 };

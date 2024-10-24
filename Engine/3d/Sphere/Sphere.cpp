@@ -4,6 +4,10 @@
 #include "mathFunction.h"
 #include "Camera.h"
 #include "SRVManager.h"
+/**
+* @file Sphere.cpp
+* @brief 球体モデルを描画するクラス
+*/
 Sphere::Sphere() {
 
 }
@@ -238,7 +242,7 @@ void Sphere::Update() {
 }
 
 void Sphere::Draw(Transform transform, uint32_t texture) {
-	pso_ = PSO::GatInstance();
+	pso_ = PSO::GetInstance();
 	Matrix4x4 uvTransformMatrix = MakeScaleMatrix(transformUv.scale);
 	uvTransformMatrix = Multiply(uvTransformMatrix, MakeRotateZMatrix(transformUv.rotate.z));
 	uvTransformMatrix = Multiply(uvTransformMatrix, MakeTranslateMatrix(transformUv.translate));

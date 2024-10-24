@@ -1,5 +1,9 @@
 ﻿#include "Fade.h"
 #define M_PI 3.141592
+/**
+* @file Fade.cpp
+* @brief Fade
+*/
 void Fade::Init(uint32_t fadeTexture)
 {
 	FADEtextureHandle = fadeTexture;

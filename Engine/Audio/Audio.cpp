@@ -1,6 +1,9 @@
 #include "Audio.h"
 #include <cassert>
-
+/**
+* @file Audio.cpp
+* @brief オーディオ管理クラス
+*/
 Audio::ComPtr<IXAudio2> Audio::xAudio2_;
 
 IXAudio2SourceVoice* Audio::pSourceVoice[soundDataMaxSize];

@@ -1,6 +1,10 @@
 ﻿#include "Object3d.h"
 #include "Modelmanager.h"
 #include "Object3dCommon.h"
+/**
+* @file Object3d.cpp
+* @brief 3Dオブジェクトを管理するクラス
+*/
 void Object3d::Init()
 {
 
@@ -50,7 +54,7 @@ void Object3d::Draw(uint32_t texture, Camera* camera)
 		directXCommon->GetCommandList()->SetPipelineState(pso->GetProperty().graphicsPipelineState.Get());    //PSOを設定
 	}
 	else if (model_) {
-		PSO* pso = PSO::GatInstance();
+		PSO* pso = PSO::GetInstance();
 
 		directXCommon->GetCommandList()->SetGraphicsRootSignature(pso->GetProperty().rootSignature.Get());
 		directXCommon->GetCommandList()->SetPipelineState(pso->GetProperty().graphicsPipelineState.Get());    //PSOを設定

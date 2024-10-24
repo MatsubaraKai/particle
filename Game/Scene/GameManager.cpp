@@ -69,7 +69,7 @@ int GameManager::Run() {
 	TextureManager* sTextureManager = TextureManager::GetInstance();
 	sTextureManager->Init();
 
-	PSO* pso = PSO::GatInstance();
+	PSO* pso = PSO::GetInstance();
 	pso->CreatePipelineStateObject();
 
 	PSOSprite* psoSprite = PSOSprite::GatInstance();
@@ -81,7 +81,7 @@ int GameManager::Run() {
 	PSOSkybox* psoSkybox = PSOSkybox::GatInstance();
 	psoSkybox->CreatePipelineStateObject();
 
-	PSOPostEffect* pSOPostEffect = PSOPostEffect::GatInstance();
+	PSOPostEffect* pSOPostEffect = PSOPostEffect::GetInstance();
 	pSOPostEffect->Init();
 
 	sceneArr_[currentSceneNo_]->Init();

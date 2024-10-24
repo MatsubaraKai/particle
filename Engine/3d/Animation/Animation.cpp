@@ -1,5 +1,9 @@
 ﻿#include "Animation.h"
 #include <cassert>
+/**
+* @file Animation.cpp
+* @brief 3Dモデルのアニメーションデータを管理・処理するクラス
+*/
 AnimationData Animation::LoadAnimationFile(const std::string& directoryPath, const std::string& filePath)
 {
 	AnimationData animation;// 今回作るアニメーション

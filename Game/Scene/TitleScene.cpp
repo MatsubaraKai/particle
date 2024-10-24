@@ -121,7 +121,7 @@ void TitleScene::Init()
 void TitleScene::Update()
 {
 	fade->UpdateFade();
-	PSOPostEffect* pSOPostEffect = PSOPostEffect::GatInstance();
+	PSOPostEffect* pSOPostEffect = PSOPostEffect::GetInstance();
 
 	// プレイヤーの座標
 	Vector3 playerPos = camera->transform_.translate;
@@ -471,9 +471,9 @@ void TitleScene::Update()
 	ImGui::Text("Player Pos : %f %f %f", playerPos.x, playerPos.y, playerPos.z);
 	ImGui::End();
 	ImGui::Begin("color", nullptr, ImGuiWindowFlags_MenuBar);
-	float color[4] = { fade->material.color.x,fade->material.color.y,fade->material.color.z,fade->material.color.w };
-	ImGui::DragFloat4("color", color, 0.01f);
-	fade->material.color = { color[0],color[1],color[2],color[3] };
+	//float color[4] = { fade->material.color.x,fade->material.color.y,fade->material.color.z,fade->material.color.w };
+	//ImGui::DragFloat4("color", color, 0.01f);
+	//fade->material.color = { color[0],color[1],color[2],color[3] };
 	//いつか使う用に↓
 	if (ImGui::BeginMenuBar()) {
 		if (ImGui::BeginMenu("File")) {

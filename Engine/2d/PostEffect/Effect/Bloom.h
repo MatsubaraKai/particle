@@ -2,7 +2,10 @@
 #include "IPostEffectState.h"
 #include "PSOProperty.h"
 #include "Matrix4x4.h"
-
+/**
+* @file Bloom.h
+* @brief bloom
+*/
 struct BloomInfo {
 	float deviation;
 	float luminance;
@@ -15,7 +18,9 @@ class Bloom : public IPostEffectState
 public:
 
 
-
+	/// <summary>
+    /// 初期化
+    /// </summary>
 	void Init() override;
 	/// <summary>
 	/// 描画に関する設定をまとめる関数
@@ -61,7 +66,7 @@ public:
 	/// <summary>
 	/// ラスタライザーに関する設定の関数
 	/// </summary>
-	D3D12_RASTERIZER_DESC SetRasterrizerState() override;
+	D3D12_RASTERIZER_DESC SetRasterizerState() override;
 
 	/// <summary>
 	/// DepthBufferの生成

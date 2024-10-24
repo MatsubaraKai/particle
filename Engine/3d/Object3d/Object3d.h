@@ -23,50 +23,131 @@
 #pragma comment(lib,"d3d12.lib")
 #pragma comment(lib,"dxgi.lib")
 #pragma comment(lib,"dxcompiler.lib")
+
+/**
+* @file Object3d.h
+* @brief 3Dオブジェクトを管理するクラス
+*/
 class Object3d
 {
 public:
-	void Init();
-	void Update();
-	void Draw(uint32_t texture, Camera* camera);
-	void Release();
+    /// <summary>
+    /// 初期化処理を行う
+    /// </summary>
+    void Init();
 
-	void ModelDebug(const char* name);
-	void SetModel(Model* model) { model_ = model; }
-	void SetModel(const std::string& filePath);
-	void SetAnimationModel(const std::string& filePath);
-	void SetSkybox(Skybox* skybox) { skybox_ = skybox; }
-	void SetWorldTransform(const WorldTransform& worldtransform) { worldTransform_ = worldtransform; };
-	void SetTransform(Transform transform);
-	void SetMapTexture(uint32_t maptexture) { mapTexture_ = maptexture; };
+    /// <summary>
+    /// 更新処理を行う
+    /// </summary>
+    void Update();
+
+    /// <summary>
+    /// 描画処理を行う
+    /// </summary>
+    /// <param name="texture">使用するテクスチャのハンドル</param>
+    /// <param name="camera">カメラオブジェクトへのポインタ</param>
+    void Draw(uint32_t texture, Camera* camera);
+
+    /// <summary>
+    /// リソースを解放する
+    /// </summary>
+    void Release();
+
+    /// <summary>
+    /// モデルのデバッグ情報を表示する
+    /// </summary>
+    /// <param name="name">デバッグ情報の名前</param>
+    void ModelDebug(const char* name);
+
+    /// <summary>
+    /// モデルを設定する
+    /// </summary>
+    /// <param name="model">モデルオブジェクトへのポインタ</param>
+    void SetModel(Model* model) { model_ = model; }
+
+    /// <summary>
+    /// ファイルパスからモデルを設定する
+    /// </summary>
+    /// <param name="filePath">モデルファイルのパス</param>
+    void SetModel(const std::string& filePath);
+
+    /// <summary>
+    /// アニメーションモデルを設定する
+    /// </summary>
+    /// <param name="filePath">アニメーションモデルファイルのパス</param>
+    void SetAnimationModel(const std::string& filePath);
+
+    /// <summary>
+    /// スカイボックスを設定する
+    /// </summary>
+    /// <param name="skybox">スカイボックスオブジェクトへのポインタ</param>
+    void SetSkybox(Skybox* skybox) { skybox_ = skybox; }
+
+    /// <summary>
+    /// ワールド変換を設定する
+    /// </summary>
+    /// <param name="worldtransform">ワールド変換データ</param>
+    void SetWorldTransform(const WorldTransform& worldtransform) { worldTransform_ = worldtransform; };
+
+    /// <summary>
+    /// トランスフォームを設定する
+    /// </summary>
+    /// <param name="transform">トランスフォームデータ</param>
+    void SetTransform(Transform transform);
+
+    /// <summary>
+    /// 環境マップ用テクスチャを設定する
+    /// </summary>
+    /// <param name="maptexture">テクスチャのハンドル</param>
+    void SetMapTexture(uint32_t maptexture) { mapTexture_ = maptexture; };
+
 public: // Getter
-	WorldTransform GetWorldTransform() { return worldTransform_; }
-	ModelData LoadObjFile(const std::string& directoryPath, const std::string& filename);
-	MaterialData LoadMaterialTemplateFile(const std::string& directoryPath, const std::string& filename);
-	WorldTransform worldTransform_;
-	bool isVisible = true;  // デフォルトで描画する
+    /// <summary>
+    /// ワールド変換を取得する
+    /// </summary>
+    /// <returns>ワールド変換データ</returns>
+    WorldTransform GetWorldTransform() { return worldTransform_; }
+
+    /// <summary>
+    /// OBJファイルを読み込む
+    /// </summary>
+    /// <param name="directoryPath">ディレクトリパス</param>
+    /// <param name="filename">ファイル名</param>
+    /// <returns>モデルデータ</returns>
+    ModelData LoadObjFile(const std::string& directoryPath, const std::string& filename);
+
+    /// <summary>
+    /// マテリアルテンプレートファイルを読み込む
+    /// </summary>
+    /// <param name="directoryPath">ディレクトリパス</param>
+    /// <param name="filename">ファイル名</param>
+    /// <returns>マテリアルデータ</returns>
+    MaterialData LoadMaterialTemplateFile(const std::string& directoryPath, const std::string& filename);
+
+    WorldTransform worldTransform_;
+    bool isVisible = true;  // デフォルトで描画する
+
 private:
-	Object3dCommon* objectCommon_ = nullptr;
-	DirectionalLight* directionalLightData;
-	HRESULT hr;
-	// RootSignature作成
-	Model* model_ = nullptr;
-	AnimationModel* animationModel_ = nullptr;
-	Skybox* skybox_ = nullptr;
-	// データを書き込む
-	/*移動用*/
-	// WVP用のリソースを作る。Matrix4x4 1つ分のサイズを用意する
-	TransformationMatrix* wvpData;
-	Microsoft::WRL::ComPtr < ID3D12Resource> wvpResource;
-	// 頂点バッファビューを作成する
-	D3D12_VERTEX_BUFFER_VIEW wvpBufferView{};
-	Transform transformUv;
+    Object3dCommon* objectCommon_ = nullptr;
+    DirectionalLight* directionalLightData;
+    HRESULT hr;
+    // RootSignature作成
+    Model* model_ = nullptr;
+    AnimationModel* animationModel_ = nullptr;
+    Skybox* skybox_ = nullptr;
+    // データを書き込む
+    /*移動用*/
+    // WVP用のリソースを作る。Matrix4x4 1つ分のサイズを用意する
+    TransformationMatrix* wvpData;
+    Microsoft::WRL::ComPtr<ID3D12Resource> wvpResource;
+    // 頂点バッファビューを作成する
+    D3D12_VERTEX_BUFFER_VIEW wvpBufferView{};
+    Transform transformUv;
 
-	/*カメラ用*/
-	Microsoft::WRL::ComPtr < ID3D12Resource> cameraForGPUResource_;
-	CameraForGPU* cameraForGPUData_;
+    /*カメラ用*/
+    Microsoft::WRL::ComPtr<ID3D12Resource> cameraForGPUResource_;
+    CameraForGPU* cameraForGPUData_;
 
-	// 環境マップ用Texture
-	uint32_t mapTexture_;
+    // 環境マップ用Texture
+    uint32_t mapTexture_;
 };
-

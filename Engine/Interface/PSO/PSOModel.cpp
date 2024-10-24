@@ -8,7 +8,7 @@ void PSO::CreatePipelineStateObject() {
 	PSO::CreateRootSignature();
 	PSO::SetInputLayout();
 	PSO::SetBlendState();
-	PSO::SetRasterrizerState();
+	PSO::SetRasterizerState();
 	PSO::CreateDepth();
 	// Shaderをコンパイルする
 	property.vertexShaderBlob = CompileShader(L"Resources/shader/Object3d.VS.hlsl",
@@ -59,40 +59,40 @@ void PSO::CreateRootSignature() {
 	property.signatureBlob = nullptr;
 
 	// RootParmeter作成。複数でっていできるので配列。今回は結果１つだけなので長さ1の配列
-	rootParamerters[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;  // CBVを使う
-	rootParamerters[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;  // PixelShaderで使う
-	rootParamerters[0].Descriptor.ShaderRegister = 0; //レジスタ番号0とバインド
+	rootParameters[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;  // CBVを使う
+	rootParameters[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;  // PixelShaderで使う
+	rootParameters[0].Descriptor.ShaderRegister = 0; //レジスタ番号0とバインド
 
-	rootParamerters[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;  // CBVを使う
-	rootParamerters[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;  // vertexShaderで使う
-	rootParamerters[1].Descriptor.ShaderRegister = 0; //レジスタ番号0とバインド
+	rootParameters[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;  // CBVを使う
+	rootParameters[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;  // vertexShaderで使う
+	rootParameters[1].Descriptor.ShaderRegister = 0; //レジスタ番号0とバインド
 
 	descriptorRange_[0].BaseShaderRegister = 0; // 0から始まる
 	descriptorRange_[0].NumDescriptors = 1; // 数は1つ
 	descriptorRange_[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV; // SRVを使う
 	descriptorRange_[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND; // Offsetを自動計算
 
-	rootParamerters[2].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE; // DescripterTableを使う
-	rootParamerters[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL; // PixelShaderで使う
-	rootParamerters[2].DescriptorTable.pDescriptorRanges = &descriptorRange_[0]; // Tableの中身の配列を指定
-	rootParamerters[2].DescriptorTable.NumDescriptorRanges = 1; // Tableで利用する数
+	rootParameters[2].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE; // DescripterTableを使う
+	rootParameters[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL; // PixelShaderで使う
+	rootParameters[2].DescriptorTable.pDescriptorRanges = &descriptorRange_[0]; // Tableの中身の配列を指定
+	rootParameters[2].DescriptorTable.NumDescriptorRanges = 1; // Tableで利用する数
 
-	rootParamerters[3].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
-	rootParamerters[3].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
-	rootParamerters[3].Descriptor.ShaderRegister = 1;
+	rootParameters[3].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
+	rootParameters[3].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+	rootParameters[3].Descriptor.ShaderRegister = 1;
 
-	rootParamerters[4].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
-	rootParamerters[4].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
-	rootParamerters[4].Descriptor.ShaderRegister = 2;
+	rootParameters[4].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
+	rootParameters[4].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+	rootParameters[4].Descriptor.ShaderRegister = 2;
 	descriptorRange_[1].BaseShaderRegister = 1; // 0から始まる
 	descriptorRange_[1].NumDescriptors = 1; // 数は1つ
 	descriptorRange_[1].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV; // SRVを使う
 	descriptorRange_[1].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND; // Offsetを自動計算
 
-	rootParamerters[5].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE; // DescripterTableを使う
-	rootParamerters[5].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL; // PixelShaderで使う
-	rootParamerters[5].DescriptorTable.pDescriptorRanges = &descriptorRange_[1]; // Tableの中身の配列を指定
-	rootParamerters[5].DescriptorTable.NumDescriptorRanges = 1; // Tableで利用する数
+	rootParameters[5].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE; // DescripterTableを使う
+	rootParameters[5].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL; // PixelShaderで使う
+	rootParameters[5].DescriptorTable.pDescriptorRanges = &descriptorRange_[1]; // Tableの中身の配列を指定
+	rootParameters[5].DescriptorTable.NumDescriptorRanges = 1; // Tableで利用する数
 
 	staticSamplers[0].Filter = D3D12_FILTER_MIN_MAG_MIP_LINEAR; // バイナリフィルタ
 	staticSamplers[0].AddressU = D3D12_TEXTURE_ADDRESS_MODE_WRAP; // 0~1の範囲外をリピート
@@ -103,8 +103,8 @@ void PSO::CreateRootSignature() {
 	staticSamplers[0].ShaderRegister = 0; // レジスタ番号0を使う
 	staticSamplers[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL; // PixelShaderで使う
 
-	descriptionRootSignature.pParameters = rootParamerters; // ルートパラメータ配列へのポインタ
-	descriptionRootSignature.NumParameters = _countof(rootParamerters); // 配列の長さ
+	descriptionRootSignature.pParameters = rootParameters; // ルートパラメータ配列へのポインタ
+	descriptionRootSignature.NumParameters = _countof(rootParameters); // 配列の長さ
 	descriptionRootSignature.pStaticSamplers = staticSamplers;
 	descriptionRootSignature.NumStaticSamplers = _countof(staticSamplers);
 
@@ -156,7 +156,7 @@ void PSO::SetBlendState() {
 	blendDesc.RenderTarget[0].DestBlendAlpha = D3D12_BLEND_ZERO;
 }
 
-void PSO::SetRasterrizerState() {
+void PSO::SetRasterizerState() {
 	//裏面（時計回り）を表示しない
 	rasterizerDesc.CullMode = D3D12_CULL_MODE_BACK;
 	// 三角形の中を塗りつぶす
@@ -173,8 +173,7 @@ void PSO::CreateDepth()
 	depthStencilDesc_.DepthFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;
 }
 
-
-PSO* PSO::GatInstance() {
+PSO* PSO::GetInstance() {
 	static PSO instance;
 	return &instance;
 }

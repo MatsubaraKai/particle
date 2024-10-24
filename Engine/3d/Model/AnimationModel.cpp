@@ -2,7 +2,10 @@
 #include "SRVManager.h"
 #include <PSOAnimationModel.h>
 
-
+/**
+* @file AnimationModel.cpp
+* @brief 3Dモデルのアニメーション管理を行うクラス
+*/
 AnimationModel::AnimationModel() {}
 AnimationModel::~AnimationModel()
 {
@@ -143,7 +146,7 @@ ModelData AnimationModel::LoadGLTFFile(const std::string& directoryPath, const s
 				{ scale.x , scale.y, scale.z },
 				{ rotate.x, -rotate.y,-rotate.z,rotate.w },
 				{ -translate.x,translate.y,translate.z });
-			jointWeightData.inverseBindPposeMatrix = Inverse(bindMatrix);
+			jointWeightData.inverseBindPoseMatrix = Inverse(bindMatrix);
 			for (uint32_t weightIndex = 0; weightIndex < bone->mNumWeights; ++weightIndex) {
 				jointWeightData.vertexWeights.push_back({ bone->mWeights[weightIndex].mWeight,bone->mWeights[weightIndex].mVertexId });
 			}
@@ -377,10 +380,10 @@ void AnimationModel::Update() {
 	}
 
 	for (size_t jointIndex = 0; jointIndex < skeleton_.joints.size(); ++jointIndex) {
-		assert(jointIndex < skinCluster_.inverseBindposeMatrices.size());
+		assert(jointIndex < skinCluster_.inverseBindPoseMatrices.size());
 		skinCluster_.mappedPalette[jointIndex].skeletonSpaceMatrix =
-			Multiply(skinCluster_.inverseBindposeMatrices[jointIndex], skeleton_.joints[jointIndex].skeletonSpaceMatrix);
-		skinCluster_.mappedPalette[jointIndex].skeletonSpaceinverseTransposeMatrix =
+			Multiply(skinCluster_.inverseBindPoseMatrices[jointIndex], skeleton_.joints[jointIndex].skeletonSpaceMatrix);
+		skinCluster_.mappedPalette[jointIndex].skeletonSpaceInverseTransposeMatrix =
 			Transpose(Inverse(skinCluster_.mappedPalette[jointIndex].skeletonSpaceMatrix));
 	}
 };
@@ -388,7 +391,7 @@ void AnimationModel::Update() {
 
 void AnimationModel::Draw(uint32_t texture, const Material& material, const DirectionalLight& dire, uint32_t mapTexture) {
 
-	PSOAnimationModel* pso_ = PSOAnimationModel::GetProperty();
+	PSOAnimationModel* pso_ = PSOAnimationModel::GetInstance();
 	vbvs[0] = vertexBufferView_;
 	vbvs[1] = skinCluster_.influenceBufferView;
 	//NodeAnimation& rootNodeAnimation = animation_.nodeAnimations[modelData_.rootNode.name]; // rootNodeのAnimationを取得

@@ -1,10 +1,20 @@
-#pragma once
+﻿#pragma once
 #include "Input.h"
-class InputManager  
+
+/**
+* @file InputManager.cpp
+* @brief 入力管理を行うクラス
+*/
+class InputManager
 {
 public:
-	InputManager();
-	~InputManager();
-	
-};
+    /// <summary>
+    /// コンストラクタ。入力管理クラスの初期化を行う。
+    /// </summary>
+    InputManager();
 
+    /// <summary>
+    /// デストラクタ。入力管理クラスの終了処理を行う。
+    /// </summary>
+    ~InputManager();
+};

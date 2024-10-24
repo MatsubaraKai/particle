@@ -1,7 +1,10 @@
 ﻿#include "Skeleton.h"
 #include "Model.h"
 #include "SRVManager.h"
-
+/**
+* @file Skeleton.cpp
+* @brief スケルトンやアニメーションデータを管理するクラスおよび構造体
+*/
 void Skeleton::Update(SkeletonData& skeleton)
 {
 
@@ -20,7 +23,7 @@ int32_t Skeleton::CreateJoint(const Node& node, const std::optional<int32_t>& pa
 	for (const Node& child : node.children) {
 		// 子Indexを作成し、そのIndexを尊く
 		int32_t childIndex = CreateJoint(child, joint.index, joints);
-		joints[joint.index].chaidren.push_back(childIndex);
+		joints[joint.index].children.push_back(childIndex);
 	}
 	// 自身のIndexを返す
 	return joint.index;
@@ -81,8 +84,8 @@ SkinCluster Skeleton::CreateSkinCluster(const Microsoft::WRL::ComPtr<ID3D12Devic
 
 
 	// InverseBindPoseMatrixを格納する場所を作成して、単位行列で埋める
-	skinCluster.inverseBindposeMatrices.resize(skeleton.joints.size());
-	std::generate(skinCluster.inverseBindposeMatrices.begin(), skinCluster.inverseBindposeMatrices.end(), MakeIdentity4x4);
+	skinCluster.inverseBindPoseMatrices.resize(skeleton.joints.size());
+	std::generate(skinCluster.inverseBindPoseMatrices.begin(), skinCluster.inverseBindPoseMatrices.end(), MakeIdentity4x4);
 
 	for (const auto& jointWeight : modelData.skinClusterData) { // ModelのSkinClusterの除法を解析
 		auto it = skeleton.jointMap.find(jointWeight.first); // joitweight.firstはjoint名なので、skeletonに対象となるjointが含まれているか判断
@@ -90,7 +93,7 @@ SkinCluster Skeleton::CreateSkinCluster(const Microsoft::WRL::ComPtr<ID3D12Devic
 			continue;
 		}
 		// (*itr).secondにはindexが入っているので、該当のindexのinversePoseMatrixを代入
-		skinCluster.inverseBindposeMatrices[(*it).second] = jointWeight.second.inverseBindPposeMatrix;
+		skinCluster.inverseBindPoseMatrices[(*it).second] = jointWeight.second.inverseBindPoseMatrix;
 		for (const auto& vertexWeight : jointWeight.second.vertexWeights) {
 			auto& currentInfluence = skinCluster.mappedInfluence[vertexWeight.vertexIndex];// 該当のvertexIndexのinfluence情報を参照しておく
 			for (uint32_t index = 0; index < kNumMaxInfluence; ++index) { // 空いているところに入れる

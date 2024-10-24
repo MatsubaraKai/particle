@@ -1,7 +1,10 @@
 #include "Model.h"
 #include "SRVManager.h"
 
-
+/**
+* @file Model.cpp
+* @brief 3Dモデルの管理および描画を行うクラス
+*/
 Model::Model() {}
 Model::~Model()
 {
@@ -188,7 +191,7 @@ ModelData Model::LoadGLTFFile(const std::string& directoryPath, const std::strin
 				{ scale.x , scale.y, scale.z },
 				{ rotate.x, -rotate.y,-rotate.z,rotate.w },
 				{ -translate.x,translate.y,translate.z });
-			jointWeightData.inverseBindPposeMatrix = Inverse(bindMatrix);
+			jointWeightData.inverseBindPoseMatrix = Inverse(bindMatrix);
 			for (uint32_t weightIndex = 0; weightIndex < bone->mNumWeights; ++weightIndex) {
 				jointWeightData.vertexWeights.push_back({ bone->mWeights[weightIndex].mWeight,bone->mWeights[weightIndex].mVertexId });
 			}
@@ -399,7 +402,7 @@ void Model::Update() {
 
 void Model::Draw(uint32_t texture, const Material& material, const DirectionalLight& dire, uint32_t mapTexture) {
 
-	pso_ = PSO::GatInstance();
+	pso_ = PSO::GetInstance();
 	vbvs[0] = vertexBufferView_;
 	vbvs[1] = skinCluster_.influenceBufferView;
 	//NodeAnimation& rootNodeAnimation = animation_.nodeAnimations[modelData_.rootNode.name]; // rootNodeのAnimationを取得

@@ -1,12 +1,9 @@
 ﻿#pragma once
-#pragma once
 #include "WinAPI.h"
 #include "DirectXCommon.h"
 #include "PSOModel.h"
 #include "Mesh.h"
 #include "TextureManager.h"
-//#include "ModelManager.h"
-
 #include "Transform.h"
 #include "WorldTransform.h"
 #include "Camera.h"
@@ -19,107 +16,156 @@
 #include "mathFunction.h"
 #include "Material.h"
 #include "TransformationMatrix.h"
-
 #include "Animation.h"
-#include<Windows.h>
-#include<d3d12.h>
-#include<dxgi1_6.h>
+
+#include <Windows.h>
+#include <d3d12.h>
+#include <dxgi1_6.h>
 #include <dxcapi.h>
 #include <fstream>
 #include <sstream>
 #include <cassert>
-
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 
-#pragma comment(lib,"d3d12.lib")
-#pragma comment(lib,"dxgi.lib")
-#pragma comment(lib,"dxcompiler.lib")
+#pragma comment(lib, "d3d12.lib")
+#pragma comment(lib, "dxgi.lib")
+#pragma comment(lib, "dxcompiler.lib")
 
+/**
+* @file AnimationModel.h
+* @brief 3Dモデルのアニメーション管理を行うクラス
+*/
 class AnimationModel
 {
 public:
+    /// <summary>
+    /// コンストラクタ
+    /// </summary>
+    AnimationModel();
 
-	ModelData GetModelData() { return modelData_; }
-	AnimationModel();
-	~AnimationModel();
-	void Initialize(const std::string& directoryPath, const std::string& filePath, const Material& material);
-	void Update();
-	void Draw(uint32_t texture, const Material& material, const DirectionalLight& dire, uint32_t mapTexture);
+    /// <summary>
+    /// デストラクタ
+    /// </summary>
+    ~AnimationModel();
 
+    /// <summary>
+    /// モデルデータを初期化する関数
+    /// </summary>
+    /// <param name="directoryPath">モデルファイルのディレクトリパス</param>
+    /// <param name="filePath">モデルファイルのファイルパス</param>
+    /// <param name="material">マテリアルデータ</param>
+    void Initialize(const std::string& directoryPath, const std::string& filePath, const Material& material);
 
-	void SetTextureManager(TextureManager* textureManager) {
-		textureManager_ = textureManager;
-	}
-	ModelData LoadObjFile(const std::string& directoryPath, const std::string& filePath);
-	ModelData LoadGLTFFile(const std::string& directoryPath, const std::string& filePath);
-	MaterialData LoadMaterialTemplateFile(const std::string& directoryPath, const std::string& filename);
+    /// <summary>
+    /// 更新処理を行う関数
+    /// </summary>
+    void Update();
 
-	Matrix4x4 GetAniMatrix() { return aniMatrix_; }
-	Matrix4x4 GetSkeMatrix() { return skeMatrix_; }
-	// アニメーション読み込み
-	AnimationData LoadAnimationFile(const std::string& directoryPath, const std::string& filePath);
+    /// <summary>
+    /// 描画を行う関数
+    /// </summary>
+    /// <param name="texture">テクスチャハンドル</param>
+    /// <param name="material">マテリアル</param>
+    /// <param name="dire">平行光源データ</param>
+    /// <param name="mapTexture">マップテクスチャ</param>
+    void Draw(uint32_t texture, const Material& material, const DirectionalLight& dire, uint32_t mapTexture);
 
-	Node ReadNode(aiNode* node);
-	void ApplyAnimation(SkeletonData& skeleton, const AnimationData& animation, float animationTime);
+    /// <summary>
+    /// テクスチャマネージャーをセットする
+    /// </summary>
+    void SetTextureManager(TextureManager* textureManager) {
+        textureManager_ = textureManager;
+    }
+
+    /// <summary>
+    /// OBJファイルを読み込む関数
+    /// </summary>
+    ModelData LoadObjFile(const std::string& directoryPath, const std::string& filePath);
+
+    /// <summary>
+    /// GLTFファイルを読み込む関数
+    /// </summary>
+    ModelData LoadGLTFFile(const std::string& directoryPath, const std::string& filePath);
+
+    /// <summary>
+    /// マテリアルテンプレートを読み込む関数
+    /// </summary>
+    MaterialData LoadMaterialTemplateFile(const std::string& directoryPath, const std::string& filename);
+
+    /// <summary>
+    /// アニメーションファイルを読み込む関数
+    /// </summary>
+    AnimationData LoadAnimationFile(const std::string& directoryPath, const std::string& filePath);
+
+    /// <summary>
+    /// ノードデータを読み取る関数
+    /// </summary>
+    /// <param name="node">Assimpのノード</param>
+    /// <returns>読み取ったノードデータ</returns>
+    Node ReadNode(aiNode* node);
+
+    /// <summary>
+    /// アニメーションを適用する関数
+    /// </summary>
+    /// <param name="skeleton">スケルトンデータ</param>
+    /// <param name="animation">アニメーションデータ</param>
+    /// <param name="animationTime">アニメーションの再生時間</param>
+    void ApplyAnimation(SkeletonData& skeleton, const AnimationData& animation, float animationTime);
+
+    /// <summary>
+    /// モデルデータを取得する
+    /// </summary>
+    /// <returns>モデルデータ</returns>
+    ModelData GetModelData() { return modelData_; }
+
+    /// <summary>
+    /// アニメーション行列を取得する
+    /// </summary>
+    /// <returns>アニメーション行列</returns>
+    Matrix4x4 GetAniMatrix() { return aniMatrix_; }
+
+    /// <summary>
+    /// スケルトン行列を取得する
+    /// </summary>
+    /// <returns>スケルトン行列</returns>
+    Matrix4x4 GetSkeMatrix() { return skeMatrix_; }
 
 private:
+    HRESULT hr;  ///< 処理結果確認用変数
 
+    Material* materialData;  ///< マテリアルデータ
 
+    VertexData* vertexData_;  ///< 頂点データ
+    ModelData modelData_;  ///< モデルデータ
+    AnimationData animation_;  ///< アニメーションデータ
+    SkeletonData skeleton_;  ///< スケルトンデータ
+    SkinCluster skinCluster_;  ///< スキンクラスターデータ
 
-	HRESULT hr;
-	// RootSignature作成
-	//ModelManager* modelManager = nullptr;
+    DirectXCommon* directXCommon_;  ///< DirectXの共通処理
+    WinAPI* sWinAPI_;  ///< Windows API
+    TextureManager* textureManager_ = nullptr;  ///< テクスチャマネージャー
 
-	// 頂点リソースにデータを書き込む
-	Material* materialData;
+    Microsoft::WRL::ComPtr<ID3D12Resource> vertexResource_;  ///< 頂点リソース
+    D3D12_VERTEX_BUFFER_VIEW vertexBufferView_;  ///< 頂点バッファビュー
+    D3D12_VERTEX_BUFFER_VIEW vbvs[2]{};  ///< 複数頂点バッファビュー
 
-	VertexData* vertexData_;
-	ModelData modelData_;
-	AnimationData animation_;
-	SkeletonData skeleton_;
-	SkinCluster skinCluster_;
+    Microsoft::WRL::ComPtr<ID3D12Resource> materialResource;  ///< マテリアルリソース
+    D3D12_VERTEX_BUFFER_VIEW materialBufferView{};  ///< マテリアルバッファビュー
 
+    Microsoft::WRL::ComPtr<ID3D12Resource> directionalLightResource;  ///< 平行光源リソース
+    Microsoft::WRL::ComPtr<ID3D12Resource> indexResource_;  ///< インデックスリソース
+    D3D12_INDEX_BUFFER_VIEW indexBufferView_{};  ///< インデックスバッファビュー
 
-	DirectXCommon* directXCommon_;
-	WinAPI* sWinAPI_;
-	TextureManager* textureManager_ = nullptr;
+    DirectionalLight* directionalLightData;  ///< 平行光源データ
+    Transform transformUv;  ///< UV座標の変換情報
+    D3D12_VERTEX_BUFFER_VIEW wvpBufferView{};  ///< ワールド・ビュー・プロジェクションバッファビュー
 
-	Microsoft::WRL::ComPtr < ID3D12Resource> vertexResource_;
-	D3D12_VERTEX_BUFFER_VIEW vertexBufferView_;
-	D3D12_VERTEX_BUFFER_VIEW vbvs[2]{};
+    Camera* camera_ = nullptr;  ///< カメラデータ
 
-	/*色用*/
-//頂点リソースの設定
-// 実際に頂点リソースを作る
-	Microsoft::WRL::ComPtr < ID3D12Resource> materialResource;
-	// 頂点バッファビューを作成する
-	D3D12_VERTEX_BUFFER_VIEW materialBufferView{};
-
-
-
-
-	// 平行光源用
-	Microsoft::WRL::ComPtr < ID3D12Resource> directionalLightResource;
-
-	// IndexBuffer用リソース
-
-	Microsoft::WRL::ComPtr < ID3D12Resource> indexResource_;
-	D3D12_INDEX_BUFFER_VIEW	indexBufferView_{};
-	// データを書き込む
-	DirectionalLight* directionalLightData;
-
-
-
-	Transform transformUv;
-	// 頂点バッファビューを作成する
-	D3D12_VERTEX_BUFFER_VIEW wvpBufferView{};
-	Camera* camera_ = nullptr;
-
-	Matrix4x4 aniMatrix_;
-	Matrix4x4 skeMatrix_;
-	uint32_t mapTexture_;
-	float animationTime = 0.0f;
+    Matrix4x4 aniMatrix_;  ///< アニメーション行列
+    Matrix4x4 skeMatrix_;  ///< スケルトン行列
+    uint32_t mapTexture_;  ///< マップテクスチャ
+    float animationTime = 0.0f;  ///< アニメーション時間
 };
-

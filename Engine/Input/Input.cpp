@@ -1,6 +1,9 @@
 #include "Input.h"
 #include "WinAPI.h"
-//Xinput.lib; Xinput9_1_0.lib
+/**
+* @file Input.cpp
+* @brief 入力デバイスの管理を行うクラス
+*/
 
 
 void Input::Initialize() {

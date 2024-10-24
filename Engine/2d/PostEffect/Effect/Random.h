@@ -3,6 +3,10 @@
 #include "PSOProperty.h"
 #include "Matrix4x4.h"
 #include "Vector2.h"
+/**
+* @file Random.h
+* @brief Random
+*/
 struct RandomInfo {
 	Vector2 random;
 };
@@ -58,7 +62,7 @@ public:
 	/// <summary>
 	/// ラスタライザーに関する設定の関数
 	/// </summary>
-	D3D12_RASTERIZER_DESC SetRasterrizerState() override;
+	D3D12_RASTERIZER_DESC SetRasterizerState() override;
 
 	/// <summary>
 	/// DepthBufferの生成

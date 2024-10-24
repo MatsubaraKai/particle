@@ -6,7 +6,10 @@
 #include "Mesh.h"
 #include "SRVManager.h"
 #include "TextureManager.h"
-
+/**
+* @file Sprite.cpp
+* @brief Sprite
+*/
 
 Sprite::Sprite() {};
 Sprite::~Sprite() {};

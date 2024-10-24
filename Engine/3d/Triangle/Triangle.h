@@ -25,60 +25,136 @@
 #pragma comment(lib,"dxgi.lib")
 #pragma comment(lib,"dxcompiler.lib")
 
-
+/**
+* @file Triangle.h
+* @brief 三角形を描画するためのクラス
+*/
 
 class Triangle
 {
-
 public:
+    /// <summary>
+    /// 初期化処理を行う
+    /// </summary>
+    /// <param name="camera">カメラオブジェクトへのポインタ</param>
+    /// <param name="DrawColor">描画色</param>
+    void Initialize(Camera* camera, Vector4 DrawColor);
 
-	void Initialize(Camera* camera, Vector4 DrawColor);
-	void Update(Camera camera, Vector4 DrawColor);
-	void Draw(WorldTransform worlsTransform, Camera* camera, uint32_t texture, Vector4 DrawColor);
-	void Release();
-	D3D12_VERTEX_BUFFER_VIEW  CreateBufferView();
-	D3D12_RESOURCE_DESC  CreateBufferResourceDesc(size_t sizeInBytes);
+    /// <summary>
+    /// 更新処理を行う
+    /// </summary>
+    /// <param name="camera">カメラオブジェクト</param>
+    /// <param name="DrawColor">描画色</param>
+    void Update(Camera camera, Vector4 DrawColor);
 
+    /// <summary>
+    /// 描画処理を行う
+    /// </summary>
+    /// <param name="worldTransform">ワールド変換</param>
+    /// <param name="camera">カメラオブジェクトへのポインタ</param>
+    /// <param name="texture">テクスチャハンドル</param>
+    /// <param name="DrawColor">描画色</param>
+    void Draw(WorldTransform worldTransform, Camera* camera, uint32_t texture, Vector4 DrawColor);
 
-	HRESULT hr;
-	/*頂点用*/
-	// 実際に頂点リソースを作る
-	Microsoft::WRL::ComPtr < ID3D12Resource> vertexResource;
-	// 頂点バッファビューを作成する
-	D3D12_VERTEX_BUFFER_VIEW vertexBufferView{};
-	// 頂点リソースにデータを書き込む
-	VertexData* vertexData_;
+    /// <summary>
+    /// リソースの解放を行う
+    /// </summary>
+    void Release();
 
+    /// <summary>
+    /// 頂点バッファビューを作成する
+    /// </summary>
+    /// <returns>頂点バッファビュー</returns>
+    D3D12_VERTEX_BUFFER_VIEW CreateBufferView();
 
-	/*色用*/
-	//頂点リソースの設定
-	// 実際に頂点リソースを作る
-	Microsoft::WRL::ComPtr < ID3D12Resource> materialResource;
-	// 頂点バッファビューを作成する
-	D3D12_VERTEX_BUFFER_VIEW materialBufferView{};
-	// 頂点リソースにデータを書き込む
-	Material* materialData;
+    /// <summary>
+    /// バッファリソースのディスクリプタを作成する
+    /// </summary>
+    /// <param name="sizeInBytes">バッファサイズ（バイト単位）</param>
+    /// <returns>バッファリソースディスクリプタ</returns>
+    D3D12_RESOURCE_DESC CreateBufferResourceDesc(size_t sizeInBytes);
 
-	/*移動用*/
-	// WVP用のリソースを作る。Matrix4x4 1つ分のサイズを用意する
-	Microsoft::WRL::ComPtr < ID3D12Resource> wvpResource;
-	// データを書き込む
-	TransformationMatrix* TransformationData;
+    /// <summary>
+    /// 処理結果を格納するHRESULT
+    /// </summary>
+    HRESULT hr;
 
-	// 頂点バッファビューを作成する
-	D3D12_VERTEX_BUFFER_VIEW wvpBufferView{};
+    /* 頂点用 */
+    /// <summary>
+    /// 頂点リソース（GPUメモリ上の頂点バッファ）
+    /// </summary>
+    Microsoft::WRL::ComPtr<ID3D12Resource> vertexResource;
 
-	// 平行光源用
-	Microsoft::WRL::ComPtr < ID3D12Resource> directionalLightResource;
-	// データを書き込む
-	DirectionalLight* directionalLightData;
+    /// <summary>
+    /// 頂点バッファビュー（描画時に使用するビュー）
+    /// </summary>
+    D3D12_VERTEX_BUFFER_VIEW vertexBufferView{};
 
-	DirectXCommon* sDirectXCommon_ = nullptr;
+    /// <summary>
+    /// 頂点データへのポインタ
+    /// </summary>
+    VertexData* vertexData_;
 
-	Camera* camera_ = nullptr;
+    /* 色用 */
+    /// <summary>
+    /// マテリアルリソース（GPUメモリ上のマテリアルデータ）
+    /// </summary>
+    Microsoft::WRL::ComPtr<ID3D12Resource> materialResource;
 
-	//ビューポート
-	D3D12_VIEWPORT viewport{};
-	// シザー矩形
-	D3D12_RECT scissorRect{};
+    /// <summary>
+    /// マテリアルバッファビュー
+    /// </summary>
+    D3D12_VERTEX_BUFFER_VIEW materialBufferView{};
+
+    /// <summary>
+    /// マテリアルデータへのポインタ
+    /// </summary>
+    Material* materialData;
+
+    /* 移動用 */
+    /// <summary>
+    /// WVP（ワールド・ビュー・プロジェクション）用のリソース
+    /// </summary>
+    Microsoft::WRL::ComPtr<ID3D12Resource> wvpResource;
+
+    /// <summary>
+    /// WVPデータへのポインタ
+    /// </summary>
+    TransformationMatrix* TransformationData;
+
+    /// <summary>
+    /// WVPの頂点バッファビュー
+    /// </summary>
+    D3D12_VERTEX_BUFFER_VIEW wvpBufferView{};
+
+    /* 平行光源用 */
+    /// <summary>
+    /// 平行光源用のリソース
+    /// </summary>
+    Microsoft::WRL::ComPtr<ID3D12Resource> directionalLightResource;
+
+    /// <summary>
+    /// 平行光源データへのポインタ
+    /// </summary>
+    DirectionalLight* directionalLightData;
+
+    /// <summary>
+    /// DirectX共通クラスへのポインタ
+    /// </summary>
+    DirectXCommon* sDirectXCommon_ = nullptr;
+
+    /// <summary>
+    /// カメラオブジェクトへのポインタ
+    /// </summary>
+    Camera* camera_ = nullptr;
+
+    /// <summary>
+    /// ビューポート設定
+    /// </summary>
+    D3D12_VIEWPORT viewport{};
+
+    /// <summary>
+    /// シザー矩形（描画範囲の設定）
+    /// </summary>
+    D3D12_RECT scissorRect{};
 };

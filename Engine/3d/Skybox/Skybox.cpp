@@ -5,7 +5,10 @@
 #include <Skeleton.h>
 #include <PSOSkybox.h>
 #include <SRVManager.h>
-
+/**
+* @file Skybox.cpp
+* @brief スカイボックスを描画するためのクラス
+*/
 
 void Skybox::Init(const Material& material)
 {

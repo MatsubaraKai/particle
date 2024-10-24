@@ -1,7 +1,10 @@
 ﻿#pragma once
 #include "IPostEffectState.h"
 #include "PSOProperty.h"
-
+/**
+* @file FullScreen.h
+* @brief FullScreen
+*/
 struct FullScreenInfo {
 	float hue;
 	float saturation;
@@ -53,7 +56,7 @@ public:
 	/// <summary>
 	/// ラスタライザーに関する設定の関数
 	/// </summary>
-	D3D12_RASTERIZER_DESC SetRasterrizerState() override;
+	D3D12_RASTERIZER_DESC SetRasterizerState() override;
 
 	/// <summary>
 	/// DepthBufferの生成

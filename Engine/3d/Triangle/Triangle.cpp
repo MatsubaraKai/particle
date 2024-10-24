@@ -2,6 +2,10 @@
 #include <mathFunction.h>
 #include "SRVManager.h"
 #include "TextureManager.h"
+/**
+* @file Triangle.cpp
+* @brief 三角形を描画するためのクラス
+*/
 void Triangle::Initialize(Camera* camera, Vector4 DrawColor) {
 
 	WinAPI* sWinAPI = WinAPI::GetInstance();
@@ -127,7 +131,7 @@ void Triangle::Initialize(Camera* camera, Vector4 DrawColor) {
 
 
 void Triangle::Draw(WorldTransform worlsTransform, Camera* camera, uint32_t texture, Vector4 DrawColor) {
-	PSO* pso = PSO::GatInstance();
+	PSO* pso = PSO::GetInstance();
 
 	camera_ = camera;
 	Matrix4x4 worldViewProjectionMatrix = Multiply(worlsTransform.matWorld_, camera->GetViewprojectionMatrix());

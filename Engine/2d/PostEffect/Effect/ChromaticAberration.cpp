@@ -4,7 +4,10 @@
 #include "PostProcess.h"
 #include "SRVManager.h"
 #include "Mesh.h"
-
+/**
+* @file ChromaticAberration.cpp
+* @brief ChromaticAberration
+*/
 void ChromaticAberration::Init()
 {
 	// 実際に頂点リソースを作る
@@ -36,7 +39,7 @@ PSOProperty ChromaticAberration::CreatePipelineStateObject()
 	// blendStateの設定
 	D3D12_BLEND_DESC blendDesc = SetBlendState();
 
-	D3D12_RASTERIZER_DESC rasterizerDesc = SetRasterrizerState();
+	D3D12_RASTERIZER_DESC rasterizerDesc = SetRasterizerState();
 
 	D3D12_DEPTH_STENCIL_DESC depthStencilDesc = CreateDepth();
 
@@ -120,27 +123,27 @@ std::vector<D3D12_ROOT_PARAMETER> ChromaticAberration::CreateRootParamerter(std:
 {
 
 
-	std::vector<D3D12_ROOT_PARAMETER> rootParamerters(4);
-	rootParamerters[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE; // DescripterTableを使う
-	rootParamerters[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL; // PixelShaderで使う
-	rootParamerters[0].DescriptorTable.pDescriptorRanges = &descriptorRange[0]; // Tableの中身の配列を指定
-	rootParamerters[0].DescriptorTable.NumDescriptorRanges = 1; // Tableで利用する数
+	std::vector<D3D12_ROOT_PARAMETER> rootParameters(4);
+	rootParameters[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE; // DescripterTableを使う
+	rootParameters[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL; // PixelShaderで使う
+	rootParameters[0].DescriptorTable.pDescriptorRanges = &descriptorRange[0]; // Tableの中身の配列を指定
+	rootParameters[0].DescriptorTable.NumDescriptorRanges = 1; // Tableで利用する数
 
-	rootParamerters[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE; // DescripterTableを使う
-	rootParamerters[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL; // PixelShaderで使う
-	rootParamerters[1].DescriptorTable.pDescriptorRanges = &descriptorRange[1]; // Tableの中身の配列を指定
-	rootParamerters[1].DescriptorTable.NumDescriptorRanges = 1; // Tableで利用する数
+	rootParameters[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE; // DescripterTableを使う
+	rootParameters[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL; // PixelShaderで使う
+	rootParameters[1].DescriptorTable.pDescriptorRanges = &descriptorRange[1]; // Tableの中身の配列を指定
+	rootParameters[1].DescriptorTable.NumDescriptorRanges = 1; // Tableで利用する数
 
-	rootParamerters[2].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE; // DescripterTableを使う
-	rootParamerters[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL; // PixelShaderで使う
-	rootParamerters[2].DescriptorTable.pDescriptorRanges = &descriptorRange[2]; // Tableの中身の配列を指定
-	rootParamerters[2].DescriptorTable.NumDescriptorRanges = 1; // Tableで利用する数
+	rootParameters[2].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE; // DescripterTableを使う
+	rootParameters[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL; // PixelShaderで使う
+	rootParameters[2].DescriptorTable.pDescriptorRanges = &descriptorRange[2]; // Tableの中身の配列を指定
+	rootParameters[2].DescriptorTable.NumDescriptorRanges = 1; // Tableで利用する数
 
 	// ProjectionInverseを送る用　Matria
-	rootParamerters[3].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;  // CBVを使う
-	rootParamerters[3].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;  // PixelShaderで使う
-	rootParamerters[3].Descriptor.ShaderRegister = 0; //レジスタ番号0とバインド
-	return rootParamerters;
+	rootParameters[3].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;  // CBVを使う
+	rootParameters[3].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;  // PixelShaderで使う
+	rootParameters[3].Descriptor.ShaderRegister = 0; //レジスタ番号0とバインド
+	return rootParameters;
 }
 
 std::vector<D3D12_STATIC_SAMPLER_DESC> ChromaticAberration::CreateSampler()
@@ -223,7 +226,7 @@ D3D12_BLEND_DESC ChromaticAberration::SetBlendState()
 	return blendDesc;
 }
 
-D3D12_RASTERIZER_DESC ChromaticAberration::SetRasterrizerState()
+D3D12_RASTERIZER_DESC ChromaticAberration::SetRasterizerState()
 {
 	// RasiterzerStateの設定
 	D3D12_RASTERIZER_DESC rasterizerDesc{};
